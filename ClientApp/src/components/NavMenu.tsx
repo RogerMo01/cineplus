@@ -3,10 +3,14 @@ import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from '
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 
-export class NavMenu extends Component {
-  static displayName = NavMenu.name;
+interface NavMenuState {
+  collapsed: boolean;
+}
 
-  constructor (props) {
+export class NavMenu extends Component<{}, NavMenuState> {
+  static displayName: string = NavMenu.name;
+
+  constructor(props: {}) {
     super(props);
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
@@ -15,10 +19,10 @@ export class NavMenu extends Component {
     };
   }
 
-  toggleNavbar () {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
+  toggleNavbar() {
+    this.setState((prevState) => ({
+      collapsed: !prevState.collapsed
+    }));
   }
 
   render() {
