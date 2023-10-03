@@ -12,7 +12,15 @@ code {
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  background-color: #1b6ec2; /* Color de fondo */
+  color: #fff; /* Color del texto */
+  font-weight: bold; /* Texto en negrita */
+  padding: 0.75rem 1.5rem; /* Relleno vertical y horizontal */
+  border-radius: 0.25rem; /* Bordes redondeados */
+  transition: background-color 0.3s ease; /* Transición al cambiar el color de fondo en hover */
+
+  /* Estilo en hover */
+  &:hover {
+    background-color: #1861ac;
+  }
 }
