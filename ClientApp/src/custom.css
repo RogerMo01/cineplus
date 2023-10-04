@@ -19,8 +19,4 @@ code {
   border-radius: 0.25rem; /* Bordes redondeados */
   transition: background-color 0.3s ease; /* Transición al cambiar el color de fondo en hover */
 
-  /* Estilo en hover */
-  &:hover {
-    background-color: #1861ac;
-  }
 }
