@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 export class Home extends Component {
-  static displayName = Home.name;
+  static displayName: string = Home.name;
 
-  render() {
+  render(): JSX.Element {
     return (
       <div>
         <h1>Hello, world!</h1>
