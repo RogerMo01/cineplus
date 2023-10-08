@@ -1,0 +1,124 @@
+/* Estilos para la etiqueta <h1> */
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para la etiqueta <p> */
+p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #666;
+}
+
+/* Estilos para la etiqueta <a> */
+a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+a:hover {
+  color: #0056b3;
+}
+
+/* Estilos para la etiqueta <ul> */
+ul {
+  list-style-type: disc;
+  margin-left: 2rem;
+}
+
+/* Estilos para la etiqueta <li> dentro de <ul> */
+ul li {
+  margin-bottom: 0.5rem;
+}
+
+/* Estilos para la etiqueta <img> */
+img {
+  max-width: 100%;
+  height: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para la etiqueta <button> */
+button {
+  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos para la etiqueta <input> */
+input[type="text"] {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+input[type="text"]:focus {
+  border-color: #007bff;
+}
+
+/* Estilos para la etiqueta <textarea> */
+textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+textarea:focus {
+  border-color: #007bff;
+}
+
+/* Estilos para la etiqueta <table> */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Estilos para la etiqueta <th> dentro de <table> */
+table th {
+  background-color: #f2f2f2;
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Estilos para la etiqueta <td> dentro de <table> */
+table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ccc;
+}
+
+a {
+  color: #0366d6;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+code {
+  color: #E01A76;
+}
+
+.btn-primary {
+  background-color: #1b6ec2; /* Color de fondo */
+  color: #fff; /* Color del texto */
+  font-weight: bold; /* Texto en negrita */
+  padding: 0.75rem 1.5rem; /* Relleno vertical y horizontal */
+  border-radius: 0.25rem; /* Bordes redondeados */
+  transition: background-color 0.3s ease; /* Transición al cambiar el color de fondo en hover */
+
+}
