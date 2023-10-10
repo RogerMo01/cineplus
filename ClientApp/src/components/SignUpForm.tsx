@@ -1,15 +1,16 @@
 import React, { FormEvent, useState } from "react";
+import axios from 'axios';
 import PasswordInput from "./PasswordInput";
 import "./SignUpForm.css";
 
-const FormInfo = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    DNI: "",
-    creditCard: "",
-  });
-};
+// const FormInfo = () => {
+//   const [formData, setFormData] = useState({
+//     username: "",
+//     password: "",
+//     DNI: "",
+//     creditCard: "",
+//   });
+// };
 
 function SignUpForm() {
   // ~~~~~~~~~~~~~ Main states ~~~~~~~~~~~~~~~~
@@ -82,7 +83,7 @@ function SignUpForm() {
 
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~ Submmit Handler ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     // ~~~~~~ Validate data ~~~~~~~
@@ -117,6 +118,32 @@ function SignUpForm() {
       );
       setCreditCardTag("is-invalid");
     }
+    else {
+      // Handle valid submit
+
+      // 
+      let formData = {
+        username: username,
+        password: passwordValue,
+        dni: dni,
+        creditCard: creditCard,
+      }
+
+      try {
+        const response = await axios.post('/users', formData);
+    
+        if (response.status === 200) {
+
+          // Procesa la respuesta del servidor 
+          console.log('Solicitud enviada con éxito');
+        }
+      } catch (error) {
+
+        // Maneja los errores de red o del servidor aquí
+        console.error('Error al enviar la solicitud:', error);
+      }
+      
+    }
     // ~~~~~~ END Validate data ~~~~~~~
 
 
@@ -139,6 +166,7 @@ function SignUpForm() {
           <label htmlFor="usernameInput">Nombre de Usuario</label>
           <input
             className={`form-control ${usernameTag}`}
+            name="username"
             id="usernameInput"
             placeholder="Elige tu usuario"
             onChange={handleUsernameInputChange}

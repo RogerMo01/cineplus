@@ -25,7 +25,7 @@ const AppRoutes: AppRoute[] = [
     element: <FetchData />
   },
   {
-    path: '/registrarse',
+    path: '/sign-up',
     element: <SignUpPage />
   }
 ];
