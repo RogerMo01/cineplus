@@ -4,8 +4,13 @@ namespace CineplusDB.Models
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<Clients> client { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            string connectionstring = ""; //Cadena de conexión con la BD
+            optionsBuilder.UseMySQL(connectionstring);
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configuración adicional de las entidades y relaciones
