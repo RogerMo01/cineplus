@@ -4,7 +4,7 @@ namespace CineplusDB.Models
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<Clients> client { get; set; }
+        public DbSet<Clients> Client { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

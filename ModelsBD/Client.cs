@@ -1,4 +1,4 @@
-namespace CineplusDB
+namespace CineplusDB.Models
 {
     public class Clients
     {
