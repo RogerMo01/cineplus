@@ -2,15 +2,9 @@ import React, { FormEvent, useState } from "react";
 import axios from 'axios';
 import PasswordInput from "./PasswordInput";
 import "./SignUpForm.css";
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
-// const FormInfo = () => {
-//   const [formData, setFormData] = useState({
-//     username: "",
-//     password: "",
-//     DNI: "",
-//     creditCard: "",
-//   });
-// };
 
 function SignUpForm() {
   // ~~~~~~~~~~~~~ Main states ~~~~~~~~~~~~~~~~
@@ -19,6 +13,7 @@ function SignUpForm() {
   const [passwordConfirmValue, setPasswordConfirmValue] = useState("");
   const [dni, setDni] = useState("");
   const [creditCard, setCreditCard] = useState("");
+
   // ~~~~~~~~~~~~ END Main states ~~~~~~~~~~~~~
 
 
@@ -36,6 +31,7 @@ function SignUpForm() {
   const [creditCardTag, setCreditCardTag] = useState("");
   // ~~~~~~~~~~ END Feedback states ~~~~~~~~~~~~
 
+  
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~ Input Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~
   const handleUsernameInputChange = (e: React.ChangeEvent) => {
@@ -117,11 +113,10 @@ function SignUpForm() {
           : "Tarjeta de crédito inválida"
       );
       setCreditCardTag("is-invalid");
-    }
+    } // ~~~~~~ END Validate data ~~~~~~~
     else {
-      // Handle valid submit
-
-      // 
+      
+      // ~~~~~~~~~ Handle valid submit ~~~~~~~~
       let formData = {
         username: username,
         password: passwordValue,
@@ -130,27 +125,24 @@ function SignUpForm() {
       }
 
       try {
-        const response = await axios.post('/users', formData);
+        const response = await axios.post('/api/form/register', formData);
     
         if (response.status === 200) {
-
           // Procesa la respuesta del servidor 
           console.log('Solicitud enviada con éxito');
+          toast.success('Solicitud enviada con éxito', {position: 'bottom-right', autoClose: 3000});
+
+          // 🚨🚨🚨🚨🚨🚨🚨🚨 redireccion a algun sitio 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
+
         }
       } catch (error) {
 
         // Maneja los errores de red o del servidor aquí
         console.error('Error al enviar la solicitud:', error);
+        toast.error('Error en el registro', {position: 'bottom-right', autoClose: 3000});
       }
-      
+      // ~~~~~~~ END Handle valid submit ~~~~~~~~
     }
-    // ~~~~~~ END Validate data ~~~~~~~
-
-
-    // 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨 Ahora enviar los datos al servidor 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
-
-
-    
   };
   // ~~~~~~~~~~~~~~~ END Submmit Handler ~~~~~~~~~~~~~~~~~~
   
@@ -159,74 +151,72 @@ function SignUpForm() {
 
 
   return (
-    <div className="form-container border rounded custom-padding">
-      <form onSubmit={handleSubmit}>
-        <h2>Registrarse</h2>
-        <div className="form-group form-element">
-          <label htmlFor="usernameInput">Nombre de Usuario</label>
-          <input
-            className={`form-control ${usernameTag}`}
-            name="username"
-            id="usernameInput"
-            placeholder="Elige tu usuario"
-            onChange={handleUsernameInputChange}
-          />
-          <div className="invalid-feedback">{usernameInvalidFeedback}</div>
-        </div>
-
-        <div className="form-element">
-          <div className="mb-2">
-            <PasswordInput
-              id="passInput"
-              placeholder="Elige tu contraseña"
-              showHeader={true}
-              onPasswordChange={onPasswordChange}
+    <div>
+      <div className="form-container border rounded custom-padding">
+        <form onSubmit={handleSubmit}>
+          <h2>Registrarse</h2>
+          <div className="form-group form-element">
+            <label htmlFor="usernameInput">Nombre de Usuario</label>
+            <input
+              className={`form-control ${usernameTag}`}
+              name="username"
+              id="usernameInput"
+              placeholder="Elige tu usuario"
+              onChange={handleUsernameInputChange}
             />
+            <div className="invalid-feedback">{usernameInvalidFeedback}</div>
           </div>
-          <div>
-            <PasswordInput
-              id="passInput2"
-              placeholder="Confirma tu contraseña"
-              showHeader={false}
-              onPasswordChange={onConfirmPasswordChange}
+          <div className="form-element">
+            <div className="mb-2">
+              <PasswordInput
+                id="passInput"
+                placeholder="Elige tu contraseña"
+                showHeader={true}
+                onPasswordChange={onPasswordChange}
+              />
+            </div>
+            <div>
+              <PasswordInput
+                id="passInput2"
+                placeholder="Confirma tu contraseña"
+                showHeader={false}
+                onPasswordChange={onConfirmPasswordChange}
+              />
+            </div>
+          </div>
+          <div className="form-group form-element">
+            <label htmlFor="idCard">DNI</label>
+            <input
+              className={`form-control ${dniTag}`}
+              id="idCard"
+              placeholder="Introduce tu DNI"
+              onChange={handleDniInputChange}
             />
+            <div className="invalid-feedback">{dniInvalidFeedback}</div>
           </div>
-        </div>
-
-        <div className="form-group form-element">
-          <label htmlFor="idCard">DNI</label>
-          <input
-            className={`form-control ${dniTag}`}
-            id="idCard"
-            placeholder="Introduce tu DNI"
-            onChange={handleDniInputChange}
-          />
-          <div className="invalid-feedback">{dniInvalidFeedback}</div>
-        </div>
-
-        <div className="form-group form-element">
-          <label htmlFor="creditCardInput">Tarjeta de crédito</label>
-          <input
-            className={`form-control ${creditCardTag}`}
-            id="creditCardInput"
-            placeholder="Introduce tu número de tarjeta"
-            onChange={handleCreditCardChange}
-          />
-          <div className="invalid-feedback">{creditCardInvalidFeedback}</div>
-        </div>
-
-        <div className="form-group form-element">
-          {isInvalidPasswordFeedback && (
-            <label className="text-danger">
-              {"*" + invalidPasswordFeedback}
-            </label>
-          )}
-        </div>
-
-        <button type="submit" className="btn btn-primary align-right">
-          Register
-        </button>
-      </form>
+          <div className="form-group form-element">
+            <label htmlFor="creditCardInput">Tarjeta de crédito</label>
+            <input
+              className={`form-control ${creditCardTag}`}
+              id="creditCardInput"
+              placeholder="Introduce tu número de tarjeta"
+              onChange={handleCreditCardChange}
+            />
+            <div className="invalid-feedback">{creditCardInvalidFeedback}</div>
+          </div>
+          <div className="form-group form-element">
+            {isInvalidPasswordFeedback && (
+              <label className="text-danger">
+                {"*" + invalidPasswordFeedback}
+              </label>
+            )}
+          </div>
+          <button type="submit" className="btn btn-primary align-right">
+            Register
+          </button>
+        </form>
+      </div>
+      <ToastContainer />
     </div>
   );
 }
