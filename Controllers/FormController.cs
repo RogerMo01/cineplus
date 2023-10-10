@@ -14,7 +14,7 @@ public class FormController : ControllerBase
         _context = context;
     }
     [HttpPost]
-    [Route("Register")]
+    [Route("register")]
     public async Task<IActionResult> Save_Client([FromBody] Clients front_client)
     {
         if (front_client == null)
