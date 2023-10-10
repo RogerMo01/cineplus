@@ -6,40 +6,39 @@ function SignUpForm() {
   return (
     <div className="form-container border rounded custom-padding">
       <form>
-        <h2>Sign Up</h2>
+        <h2>Registrarse</h2>
         <div className="form-group form-element">
-          <label htmlFor="usernameInput">Username</label>
+          <label htmlFor="usernameInput">Nombre de Usuario</label>
           <input
             className="form-control"
             id="usernameInput"
-            placeholder="Choose username"
+            placeholder="Elige tu usuario"
           />
         </div>
         <div className="form-element">
           <div className="mb-2">
-            <PasswordInput id="passInput" placeholder="Choose your password" showHeader={true} />
-            
+            <PasswordInput id="passInput" placeholder="Elige tu contraseña" showHeader={true} />
           </div>
           <div>
-            <PasswordInput id="passInput2" placeholder="Confirm your password" showHeader={false} />
+            <PasswordInput id="passInput2" placeholder="Confirma tu contraseña" showHeader={false} />
           </div>
         </div>
 
         <div className="form-group form-element">
-          <label htmlFor="idCard">Identification Card</label>
+          <label htmlFor="idCard">DNI</label>
           <input
             className="form-control"
             id="idCard"
-            placeholder="Enter your Identification Card number"
+            placeholder="Introduce tu DNI"
           />
         </div>
 
         <div className="form-group form-element">
-          <label htmlFor="creditCardInput">Credit Card</label>
+          <label htmlFor="creditCardInput">Tarjeta de crédito</label>
           <input
             className="form-control"
             id="creditCardInput"
-            placeholder="Enter your credit card number"
+            placeholder="Introduce tu número de tarjeta"
           />
         </div>
 

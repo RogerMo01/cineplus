@@ -50,7 +50,7 @@ export class NavMenu extends Component<{}, NavMenuState> {
                 <NavLink tag={Link} className="text-dark" to="/fetch-data" onClick={this.closeNavbar}>Fetch data</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/sign-up" onClick={this.closeNavbar}>Sign Up</NavLink>
+                <NavLink tag={Link} className="text-dark" to="/registrarse" onClick={this.closeNavbar}>Registrarse</NavLink>
               </NavItem>
             </ul>
           </Collapse>

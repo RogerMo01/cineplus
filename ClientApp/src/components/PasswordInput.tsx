@@ -21,7 +21,7 @@ function PasswordInput(props: Props) {
 
   return (
     <>
-      {props.showHeader && <label htmlFor={props.id}>Password</label>}
+      {props.showHeader && <label htmlFor={props.id}>Contraseña</label>}
       <input
         type="password"
         className="form-control"
@@ -31,7 +31,7 @@ function PasswordInput(props: Props) {
       />
       {props.showHeader && (
         <small id="passwordHelp" className="form-text text-muted">
-          Password must be between 6-20 characters
+          La contraseña debe tener entre 6-20 caracteres
         </small>
       )}
     </>
