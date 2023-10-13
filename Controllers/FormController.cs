@@ -15,18 +15,18 @@ public class FormController : ControllerBase
     }
     [HttpPost]
     [Route("register")]
-    public async Task<IActionResult> Save_Client([FromBody] Clients front_client)
+    public async Task<IActionResult> Save_Client([FromBody] Clients new_client)
     {
-        if (front_client == null)
+        if (new_client == null)
         {
             return BadRequest("Datos no Validos");
         }
-        if (_context.Client.Any(c => c.Nick == front_client.Nick))
+        if (_context.Client.Any(c => c.Nick == new_client.Nick))
         {
             return BadRequest("Ya existe usuario con ese nick");
         }
 
-        _context.Client.Add(front_client);
+        _context.Client.Add(new_client);
         await _context.SaveChangesAsync();
         return Ok(new { Message = "Cliente Registrado con éxito" });
     }
