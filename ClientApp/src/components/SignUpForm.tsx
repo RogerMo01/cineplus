@@ -5,6 +5,15 @@ import "./SignUpForm.css";
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 
+interface ClientState {
+  data: {
+    Idc: number;
+    Password: string;
+    Nick: string;
+    CreditCard: string;
+    DNI: string;
+  };
+}
 
 function SignUpForm() {
   // ~~~~~~~~~~~~~ Main states ~~~~~~~~~~~~~~~~
@@ -117,15 +126,15 @@ function SignUpForm() {
     else {
       
       // ~~~~~~~~~ Handle valid submit ~~~~~~~~
-      let formData = {
-        username: username,
-        password: passwordValue,
-        dni: dni,
-        creditCard: creditCard,
+      const formData = {
+        Password: passwordValue,
+        Nick: username,
+        CreditCard: creditCard,
+        DNI: dni,
       }
 
       try {
-        const response = await axios.post('/api/form/register', formData);
+        const response = await axios.post('https://localhost:44492/api/form/register', formData);
     
         if (response.status === 200) {
           // Procesa la respuesta del servidor 
