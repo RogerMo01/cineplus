@@ -1,0 +1,19 @@
+/* Estilos CSS en tu hoja de estilos global o en línea en tu componente */
+.form-container {
+    max-width: 500px; /* Puedes ajustar este valor según tus necesidades */
+    margin: 0 auto; /* Centra el formulario horizontalmente */
+    margin-top: 60;
+    margin-bottom: 60px;
+}
+
+.form-element {
+    margin-bottom: 20px;
+}
+  
+.custom-padding {
+    padding: 70px; /* Personaliza el relleno según tus necesidades */
+}  
+
+.align-right {
+    float: right;
+  }

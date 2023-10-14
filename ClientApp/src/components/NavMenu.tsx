@@ -14,6 +14,7 @@ export class NavMenu extends Component<{}, NavMenuState> {
     super(props);
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
+    this.closeNavbar = this.closeNavbar.bind(this);
     this.state = {
       collapsed: true
     };
@@ -25,22 +26,31 @@ export class NavMenu extends Component<{}, NavMenuState> {
     }));
   }
 
+  closeNavbar() {
+    this.setState({
+      collapsed: true
+    });
+  }
+
   render() {
     return (
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
-          <NavbarBrand tag={Link} to="/">cineplus</NavbarBrand>
+          <NavbarBrand tag={Link} to="/" onClick={this.closeNavbar}>Cine+</NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
           <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
             <ul className="navbar-nav flex-grow">
               <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
+                <NavLink tag={Link} className="text-dark" to="/" onClick={this.closeNavbar}>Home</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink>
+                <NavLink tag={Link} className="text-dark" to="/counter" onClick={this.closeNavbar}>Counter</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
+                <NavLink tag={Link} className="text-dark" to="/fetch-data" onClick={this.closeNavbar}>Fetch data</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={Link} className="text-dark" to="/sign-up" onClick={this.closeNavbar}>Registrarse</NavLink>
               </NavItem>
             </ul>
           </Collapse>
