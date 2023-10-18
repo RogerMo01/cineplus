@@ -16,15 +16,23 @@ namespace CineplusDB.Models
             modelBuilder.Entity<Clients>()
             .HasKey(c => c.Idc)
             .HasAnnotation("MySql:AutoIncrement", true);
+
+            modelBuilder.Entity<Clients>()
+            .Property(c => c.Idc)
+            .ValueGeneratedOnAdd();
+
             modelBuilder.Entity<Clients>()
             .Property(p => p.Nick)
             .IsRequired();
+
             modelBuilder.Entity<Clients>()
             .Property(p => p.CreditCard)
             .IsRequired();
+
             modelBuilder.Entity<Clients>()
             .Property(p => p.DNI)
             .IsRequired();
+
             modelBuilder.Entity<Clients>()
             .Property(p => p.Password)
             .IsRequired();
