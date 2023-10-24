@@ -147,6 +147,7 @@ function SignUpForm() {
       } catch (error) {
 
         // Maneja los errores de red o del servidor aquí
+        // manejar que el nick ya exista 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨 error 409 conflict
         console.error('Error al enviar la solicitud:', error);
         toast.error('Error en el registro', {position: 'bottom-right', autoClose: 3000});
       }

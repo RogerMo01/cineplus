@@ -8,6 +8,9 @@
 *.sln.docstates
 *.vscode
 
+# Migrations
+Migrations/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -231,3 +234,4 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+appsettings.json

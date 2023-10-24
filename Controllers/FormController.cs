@@ -1,33 +1,55 @@
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using CineplusDB.Models;
-
 namespace cineplus.FormController;
 
 [Route("api/form")]
 [ApiController]
 public class FormController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
-    public FormController(ApplicationDbContext context)
+    private readonly DataContext _context;
+    public FormController(DataContext context)
     {
         _context = context;
     }
+
     [HttpPost]
     [Route("register")]
-    public async Task<IActionResult> Save_Client([FromBody] Clients new_client)
+    public async Task<IActionResult> Save_Client([FromBody] Client input)
     {
-        if (new_client == null)
+        // Exclude Idc makes it auto-incremental
+        var newClient = new Client
         {
-            return BadRequest("Datos no Validos");
+            Nick = input.Nick,
+            Password = input.Password,
+            DNI = input.DNI,
+            CreditCard = input.CreditCard
+        };
+
+
+        // para ver mientras se debuguea, en esta variable deben estar todos los clientes de la BD
+        // var clientes = _context.Clients.ToList(); // Consulta todos los clientes
+
+
+        // Eliminar el cliente con Idc=3
+        // var clienteABorrar = _context.Clients.FirstOrDefault(c => c.Idc == 3);
+        // if (clienteABorrar != null)
+        // {
+        //     // Borra el cliente
+        //     _context.Clients.Remove(clienteABorrar);
+        //     // Guarda los cambios en la base de datos
+        //     _context.SaveChanges();
+        // }
+
+
+        if (input == null)
+        {
+            return BadRequest("Invalid Data");
         }
-        if (_context.Client.Any(c => c.Nick == new_client.Nick))
+        if (_context.Clients.Any(c => c.Nick == newClient.Nick))
         {
-            return BadRequest("Ya existe usuario con ese nick");
+            return Conflict(new { Message = "El nombre de usuario ya está en uso" });
         }
 
-        _context.Client.Add(new_client);
+        _context.Clients.Add(newClient);
         await _context.SaveChangesAsync();
-        return Ok(new { Message = "Cliente Registrado con éxito" });
+        return Content("Valid Response.");
     }
 }
