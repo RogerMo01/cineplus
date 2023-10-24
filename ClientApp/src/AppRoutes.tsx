@@ -3,6 +3,7 @@ import { ReactElement } from 'react'; // Importa ReactElement para las anotacion
 import { Counter } from './components/Counter';
 import { FetchData } from './components/FetchData';
 import { Home } from './components/Home';
+import SignUpPage from './components/SignUpPage';
 
 interface AppRoute {
   index?: boolean;
@@ -22,6 +23,10 @@ const AppRoutes: AppRoute[] = [
   {
     path: '/fetch-data',
     element: <FetchData />
+  },
+  {
+    path: '/sign-up',
+    element: <SignUpPage />
   }
 ];
 
