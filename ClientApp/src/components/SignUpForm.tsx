@@ -1,19 +1,10 @@
 import React, { FormEvent, useState } from "react";
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import PasswordInput from "./PasswordInput";
 import "./SignUpForm.css";
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 
-interface ClientState {
-  data: {
-    Idc: number;
-    Password: string;
-    Nick: string;
-    CreditCard: string;
-    DNI: string;
-  };
-}
 
 function SignUpForm() {
   // ~~~~~~~~~~~~~ Main states ~~~~~~~~~~~~~~~~
@@ -24,7 +15,6 @@ function SignUpForm() {
   const [creditCard, setCreditCard] = useState("");
 
   // ~~~~~~~~~~~~ END Main states ~~~~~~~~~~~~~
-
 
   // ~~~~~~~~~~~ Feedback states ~~~~~~~~~~~~~
   const [usernameInvalidFeedback, setUsernameInvalidFeedback] = useState("");
@@ -134,22 +124,43 @@ function SignUpForm() {
       }
 
       try {
-        const response = await axios.post('https://localhost:44492/api/form/register', formData);
-    
+        const networkIp = process.env.REACT_APP_NETWORK_IP;
+        
+        const response = await axios.post(`https://localhost:44492/api/form/register`, formData);
+        // const response = await axios.post(`https://${networkIp}:44492/api/form/register`, formData);
+        
         if (response.status === 200) {
           // Procesa la respuesta del servidor 
           console.log('Solicitud enviada con éxito');
-          toast.success('Solicitud enviada con éxito', {position: 'bottom-right', autoClose: 3000});
-
-          // 🚨🚨🚨🚨🚨🚨🚨🚨 redireccion a algun sitio 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
-
+          toast.success('Registro completado!', {position: 'bottom-right', autoClose: 3000});
+          
+          // 🚨🚨🚨🚨🚨🚨🚨🚨 redireccion a algun sitio 🚨🚨🚨🚨🚨🚨🚨🚨
         }
+        
       } catch (error) {
+        if(axios.isAxiosError(error)){
+          const axiosError = error as AxiosError<any>
 
-        // Maneja los errores de red o del servidor aquí
-        // manejar que el nick ya exista 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨 error 409 conflict
-        console.error('Error al enviar la solicitud:', error);
-        toast.error('Error en el registro', {position: 'bottom-right', autoClose: 3000});
+          if (axiosError.response) {
+            const status = axiosError.response.status;
+            const message = axiosError.response.data.message;
+            
+            // Nick already exists
+            if(status === 409) {
+              console.log('Nick already exists');
+              toast.error(message, {position: 'bottom-right', autoClose: 3000});
+            } 
+            else {
+              toast.error(`Error en el registro (${status})`, {position: 'bottom-right', autoClose: 3000});
+              console.error('Error al enviar la solicitud', axiosError);
+            }
+            
+          } else {
+            // Si no hay una respuesta HTTP en el error, maneja otros tipos de errores
+            console.error('Error al enviar la solicitud', error);
+            toast.error(`Error en el registro (${error})`, { position: 'bottom-right', autoClose: 3000 });
+          }
+        }
       }
       // ~~~~~~~ END Handle valid submit ~~~~~~~~
     }
