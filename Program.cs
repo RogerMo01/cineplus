@@ -5,6 +5,15 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DataContext>();
 var app = builder.Build();
 
+string ip_env_var_name = "REACT_APP_NETWORK_IP";
+string? ip_env_var = IpFinder.IpFinder.GetIp();
+try{
+    // Stablish enviroment variable
+    Environment.SetEnvironmentVariable(ip_env_var_name, ip_env_var);
+}
+catch (Exception ex){
+    Console.WriteLine($"Error configuring enviroment variable: {ex.Message}");
+}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
