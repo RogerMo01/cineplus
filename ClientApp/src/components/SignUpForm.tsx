@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, isValidElement, useState } from "react";
 import axios, { AxiosError } from 'axios';
 import PasswordInput from "./PasswordInput";
 import UsernameInput from "./UsernameInput";
@@ -125,10 +125,17 @@ function SignUpForm() {
       }
 
       try {
-        const networkIp = process.env.REACT_APP_NETWORK_IP;
+        const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
+        const port = process.env.REACT_APP_PORT;
         
-        const response = await axios.post(`https://localhost:44492/api/form/register`, formData);
-        // const response = await axios.post(`https://${networkIp}:44492/api/form/register`, formData);
+        var response;
+        if(isLocalTesting === 'true'){
+          response = await axios.post(`https://localhost:${port}/api/form/register`, formData);
+        } else{
+          const networkIp = process.env.REACT_APP_NETWORK_IP;
+          response = await axios.post(`https://${networkIp}:${port}/api/form/register`, formData);
+        }
+        
         
         if (response.status === 200) {
           console.log('post success');

@@ -49,16 +49,21 @@ function LogInForm() {
     };
 
     try {
-      const networkIp = process.env.REACT_APP_NETWORK_IP;
+      const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
+      const port = process.env.REACT_APP_PORT;
 
-      const response = await axios.post("endpoint", formData);
+      //🚨🚨🚨Fix endpoints
+      var response;
+      if (isLocalTesting === "true") {
+        response = await axios.post(`https://localhost:${port}/api/endpoint`, formData);
+      } else {
+        const networkIp = process.env.REACT_APP_NETWORK_IP;
+        response = await axios.post(`https://${networkIp}:${port}/api/endpoint`, formData);
+      }
 
       if (response.status === 200) {
         console.log("post success");
-        toast.success("Sesión iniciada!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
+        toast.success("Sesión iniciada!", { position: "bottom-right", autoClose: 3000 });
 
         // 🚨🚨🚨🚨🚨 Redireccionar a algun sitio 🚨🚨🚨🚨🚨
       }
@@ -74,19 +79,13 @@ function LogInForm() {
             console.log("Invalid credentials");
             toast.error(message, { position: "bottom-right", autoClose: 3000 });
           } else {
-            toast.error(`Error en el registro (${status})`, {
-              position: "bottom-right",
-              autoClose: 3000,
-            });
+            toast.error(`Error en el registro (${status})`, { position: "bottom-right", autoClose: 3000 });
             console.error("Error al enviar la solicitud", axiosError);
           }
         } else {
           // Handle errors with no HTTP response
           console.error("Error al enviar la solicitud", error);
-          toast.error(`Error en el registro (${error})`, {
-            position: "bottom-right",
-            autoClose: 3000,
-          });
+          toast.error(`Error en el registro (${error})`, { position: "bottom-right", autoClose: 3000 });
         }
       }
     }
