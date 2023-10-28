@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import axios, { AxiosError } from 'axios';
 import PasswordInput from "./PasswordInput";
+import UsernameInput from "./UsernameInput";
 import "./SignUpForm.css";
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
@@ -177,15 +178,7 @@ function SignUpForm() {
         <form onSubmit={handleSubmit}>
           <h2>Registrarse</h2>
           <div className="form-group form-element">
-            <label htmlFor="usernameInput">Nombre de Usuario</label>
-            <input
-              className={`form-control ${usernameTag}`}
-              name="username"
-              id="usernameInput"
-              placeholder="Elige tu usuario"
-              onChange={handleUsernameInputChange}
-            />
-            <div className="invalid-feedback">{usernameInvalidFeedback}</div>
+            <UsernameInput usernameTag={usernameTag} changeHandler={handleUsernameInputChange} invalidFeedback={usernameInvalidFeedback}/>
           </div>
           <div className="form-element">
             <div className="mb-2">
