@@ -1,4 +1,4 @@
-import React, { FormEvent, isValidElement, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import axios, { AxiosError } from 'axios';
 import PasswordInput from "./PasswordInput";
 import UsernameInput from "./UsernameInput";
@@ -131,16 +131,19 @@ function SignUpForm() {
         
         const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
         const endpoint = '/api/form/register';
-        
+
         const response = await axios.post(home + endpoint, formData);
         
         
         if (response.status === 200) {
           console.log('post success');
-          toast.success('Registro completado!', {position: 'bottom-right', autoClose: 3000});
+          toast.success('Registro completado!', {position: 'bottom-right', autoClose: 2000});
           
           // 🚨🚨🚨🚨🚨🚨🚨🚨 redireccion a algun sitio 🚨🚨🚨🚨🚨🚨🚨🚨
-          window.location.href = `ttps://localhost:${port}`;
+          
+          setTimeout(() => {
+            window.location.href = home + '/log-in';
+          }, 2000);
         }
         
       } catch (error) {
