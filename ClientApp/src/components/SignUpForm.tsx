@@ -131,8 +131,7 @@ function SignUpForm() {
         // const response = await axios.post(`https://${networkIp}:44492/api/form/register`, formData);
         
         if (response.status === 200) {
-          // Procesa la respuesta del servidor 
-          console.log('Solicitud enviada con éxito');
+          console.log('post success');
           toast.success('Registro completado!', {position: 'bottom-right', autoClose: 3000});
           
           // 🚨🚨🚨🚨🚨🚨🚨🚨 redireccion a algun sitio 🚨🚨🚨🚨🚨🚨🚨🚨
@@ -157,7 +156,7 @@ function SignUpForm() {
             }
             
           } else {
-            // Si no hay una respuesta HTTP en el error, maneja otros tipos de errores
+            // Handle errors with no HTTP response
             console.error('Error al enviar la solicitud', error);
             toast.error(`Error en el registro (${error})`, { position: 'bottom-right', autoClose: 3000 });
           }
@@ -186,6 +185,7 @@ function SignUpForm() {
                 id="passInput"
                 placeholder="Elige tu contraseña"
                 showHeader={true}
+                showSmall={true}
                 onPasswordChange={onPasswordChange}
               />
             </div>
@@ -194,6 +194,7 @@ function SignUpForm() {
                 id="passInput2"
                 placeholder="Confirma tu contraseña"
                 showHeader={false}
+                showSmall={false}
                 onPasswordChange={onConfirmPasswordChange}
               />
             </div>
@@ -226,7 +227,7 @@ function SignUpForm() {
             )}
           </div>
           <button type="submit" className="btn btn-primary align-right">
-            Register
+            Registrarse
           </button>
         </form>
       </div>
