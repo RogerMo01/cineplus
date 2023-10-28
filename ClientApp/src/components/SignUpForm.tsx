@@ -127,14 +127,12 @@ function SignUpForm() {
       try {
         const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
         const port = process.env.REACT_APP_PORT;
+        const networkIp = process.env.REACT_APP_NETWORK_IP;
         
-        var response;
-        if(isLocalTesting === 'true'){
-          response = await axios.post(`https://localhost:${port}/api/form/register`, formData);
-        } else{
-          const networkIp = process.env.REACT_APP_NETWORK_IP;
-          response = await axios.post(`https://${networkIp}:${port}/api/form/register`, formData);
-        }
+        const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
+        const endpoint = '/api/form/register';
+        
+        const response = await axios.post(home + endpoint, formData);
         
         
         if (response.status === 200) {
@@ -142,6 +140,7 @@ function SignUpForm() {
           toast.success('Registro completado!', {position: 'bottom-right', autoClose: 3000});
           
           // 🚨🚨🚨🚨🚨🚨🚨🚨 redireccion a algun sitio 🚨🚨🚨🚨🚨🚨🚨🚨
+          window.location.href = `ttps://localhost:${port}`;
         }
         
       } catch (error) {

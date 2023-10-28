@@ -51,15 +51,14 @@ function LogInForm() {
     try {
       const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
       const port = process.env.REACT_APP_PORT;
+      const networkIp = process.env.REACT_APP_NETWORK_IP;
 
+      const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
       //🚨🚨🚨Fix endpoints
-      var response;
-      if (isLocalTesting === "true") {
-        response = await axios.post(`https://localhost:${port}/api/endpoint`, formData);
-      } else {
-        const networkIp = process.env.REACT_APP_NETWORK_IP;
-        response = await axios.post(`https://${networkIp}:${port}/api/endpoint`, formData);
-      }
+      const endpoint = '/api/endpoint';
+      
+      const response = await axios.post(home + endpoint, formData);
+
 
       if (response.status === 200) {
         console.log("post success");
