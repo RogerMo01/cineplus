@@ -3,6 +3,7 @@ import UsernameInput from "./UsernameInput";
 import PasswordInput from "./PasswordInput";
 import { ToastContainer, toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
+import { NavLink } from "react-router-dom";
 
 function LogInForm() {
   const [username, setUsername] = useState("");
@@ -63,7 +64,7 @@ function LogInForm() {
       if (response.status === 200) {
         console.log("post success");
         toast.success("Sesión iniciada!", { position: "bottom-right", autoClose: 3000 });
-
+        
         // 🚨🚨🚨🚨🚨 Redireccionar a algun sitio 🚨🚨🚨🚨🚨
       }
     } catch (error) {
@@ -115,6 +116,7 @@ function LogInForm() {
             Iniciar sesión
           </button>
         </form>
+        <NavLink className="text-primary" to="/sign-up">¿Ya estás registrado?</NavLink>
       </div>
       <ToastContainer />
     </div>

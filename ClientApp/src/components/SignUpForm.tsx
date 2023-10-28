@@ -139,8 +139,6 @@ function SignUpForm() {
           console.log('post success');
           toast.success('Registro completado!', {position: 'bottom-right', autoClose: 2000});
           
-          // 🚨🚨🚨🚨🚨🚨🚨🚨 redireccion a algun sitio 🚨🚨🚨🚨🚨🚨🚨🚨
-          
           setTimeout(() => {
             window.location.href = home + '/log-in';
           }, 2000);
