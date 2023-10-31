@@ -1,3 +1,4 @@
+using BCryptNet = BCrypt.Net.BCrypt;
 namespace cineplus.FormController;
 
 [Route("api/form")]
@@ -47,7 +48,9 @@ public class FormController : ControllerBase
         {
             return Conflict(new { Message = "El nombre de usuario ya está en uso" });
         }
-
+        string salt = BCryptNet.GenerateSalt();
+        string hashed_pass = BCryptNet.HashPassword(newClient.Password, salt);
+        newClient.Password = hashed_pass;
         _context.Clients.Add(newClient);
         await _context.SaveChangesAsync();
         return Content("Valid Response.");
