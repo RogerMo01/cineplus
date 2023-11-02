@@ -5,16 +5,6 @@ import "./SignUpForm.css";
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 
-interface ClientState {
-  data: {
-    Idc: number;
-    Password: string;
-    Nick: string;
-    CreditCard: string;
-    DNI: string;
-  };
-}
-
 function SignUpForm() {
   // ~~~~~~~~~~~~~ Main states ~~~~~~~~~~~~~~~~
   const [username, setUsername] = useState("");
