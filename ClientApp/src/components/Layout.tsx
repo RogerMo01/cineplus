@@ -1,5 +1,4 @@
 import React, { Component, ReactNode } from 'react';
-import { Container } from 'reactstrap';
 import { NavMenu } from './NavMenu';
 
 interface LayoutProps {
@@ -13,9 +12,12 @@ export class Layout extends Component<LayoutProps> {
     return (
       <div>
         <NavMenu />
-        <Container tag="main">
+        <div className='content'>
           {this.props.children}
-        </Container>
+        </div>
+        {/* <Container tag="main">
+          
+        </Container> */}
       </div>
     );
   }

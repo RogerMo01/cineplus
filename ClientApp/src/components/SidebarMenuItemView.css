@@ -1,0 +1,45 @@
+.SidebarMenuItemView {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  margin: 0 5px;
+  background-color: transparent;
+
+  &:hover{
+    background-color: rgb(53, 114, 255);
+    border-radius: 10px;
+  }
+}
+
+.SidebarMenuItemView a {
+  text-decoration: none;
+  color: black;
+  display: block;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.SidebarMenuItemView .ItemContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.SidebarMenuItemView .ItemContent .collapsed {
+  width: 35px;
+}
+
+.SidebarMenuItemView .ItemContent .icon {
+  width: 32px;
+  height: 32px;
+}
+
+.SidebarMenuItemView .ItemContent .label {
+  font-weight: 500;
+  margin-left: 10px;
+  overflow: hidden;
+}
