@@ -1,0 +1,29 @@
+.table-container {
+  width: 100%;
+}
+
+.header{
+    text-align: center;
+    margin: 20px 0px;
+}
+
+.toolButtons{
+    margin-right: 5%;
+    padding-bottom: 50px;
+}
+
+.editButton{
+    margin: 2px;
+    padding: 3px 5px;
+}
+
+.editButtons{
+    margin: 2px;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.editColumn{
+    border-left: solid gray;
+}

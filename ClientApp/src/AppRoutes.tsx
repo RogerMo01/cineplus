@@ -30,7 +30,7 @@ const AppRoutes: AppRoute[] = [
     element: <SignUpPage />
   },
   {
-    path: '/manage',
+    path: '/manage-movies',
     element: <ManagerPage />
   }
 ];

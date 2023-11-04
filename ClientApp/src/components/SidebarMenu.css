@@ -1,14 +1,14 @@
 .SidebarMenu {
-  position: absolute;
-  height: 100%;
+  height: calc(100vh);
   display: flex;
   flex-direction: column;
   background-color: rgb(228, 228, 228);
   color: #ffffff;
+  border-right: 1px solid gray;
 }
 
 .SidebarMenu.expanded {
-  width: 260px;
+  width: 180px;
 }
 
 .SidebarMenu.collapsed {
@@ -23,10 +23,12 @@
   padding: 10px;
   width: 68px;
   margin: 5px;
+  /* border: 1px solid gray; */
+  border-radius: 5px;
+
 
   &:hover {
-    border-radius: 5px;
-    background-color: #545454;
+    background-color: gray;
   }
 }
 
@@ -34,3 +36,4 @@
   display: flex;
   justify-content: left;
 }
+

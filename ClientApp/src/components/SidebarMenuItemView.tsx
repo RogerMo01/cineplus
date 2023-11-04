@@ -10,7 +10,7 @@ interface Props {
 function SidebarMenuItemView(props: Props) {
   return (
     <div className="SidebarMenuItemView">
-      <a href={props.item.url}>
+      <a href={props.item.url} data-toggle="tooltip" data-placement="right" title={props.item.label}>
         <div className={`ItemContent ${props.isOpen ? "" : "collapsed"}`}>
           <div className="icon">
             <props.item.icon size="32" />

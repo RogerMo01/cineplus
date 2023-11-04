@@ -14,3 +14,12 @@ export interface SidebarMenuCard {
   title: string;
   url: string;
 }
+
+export interface Movie {
+  id: number;
+  title: string;
+  year: number;
+  country: string;
+  director: string;
+  duration: number;
+}
