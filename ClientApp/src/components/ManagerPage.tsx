@@ -48,13 +48,24 @@ function ManagerPage() {
     }
   ];
 
+  const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
+  const port = process.env.REACT_APP_PORT;
+  const networkIp = process.env.REACT_APP_NETWORK_IP;
+  
+  const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
+  
+  // 🚨🚨🚨🚨🚨🚨🚨 Fix endpoints 🚨🚨🚨🚨🚨🚨🚨🚨🚨
+  const deleteEndpoint = '/api/endpoint';
+  const addEndpoint = '/api/endpoint';
+  const editEndpoint = '/api/endpoint';
+
 
   return (
     <div className="ManagerPage">
       <div className="item">
         <SidebarMenu items={items} />
       </div>
-      <MovieManager name="Películas" movies={movies} />
+      <MovieManager name="Películas" movies={movies} deletePath={home + deleteEndpoint} addPath={home + addEndpoint} editPath={home + editEndpoint} />
     </div>
   );
 }

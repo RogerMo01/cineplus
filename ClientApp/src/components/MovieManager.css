@@ -1,5 +1,12 @@
 .table-container {
   width: 100%;
+  overflow-x: auto;
+  padding: 2%;
+}
+
+.full-container{
+  width: 100%;
+  overflow-x: auto;
 }
 
 .header{
@@ -7,17 +14,13 @@
     margin: 20px 0px;
 }
 
-.toolButtons{
-    margin-right: 5%;
-    padding-bottom: 50px;
-}
 
-.editButton{
+.modifyButton{
     margin: 2px;
     padding: 3px 5px;
 }
 
-.editButtons{
+.modifyButtons{
     margin: 2px;
     display: flex;
     flex-direction: row;
