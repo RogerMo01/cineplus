@@ -1,4 +1,3 @@
-
 namespace CineplusDB.Models
 {
     public class User

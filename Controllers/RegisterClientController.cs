@@ -1,5 +1,6 @@
 using BCryptNet = BCrypt.Net.BCrypt;
-namespace cineplus.FormController;
+
+namespace cineplus.RegisterClientContoller;
 
 public class FormInput
 {
@@ -9,20 +10,20 @@ public class FormInput
     public string CreditCard { get; set; }
 }
 
-[Route("api/form")]
+[Route("api/registration")]
 [ApiController]
-public class FormController : ControllerBase
+public class RegisterClient : ControllerBase
 {
     private readonly DataContext _context;
 
-    public FormController(DataContext context)
+    public RegisterClient(DataContext context)
     {
         _context = context;
     }
 
     [HttpPost]
     [Route("register")]
-    public async Task<IActionResult> Save_Client([FromBody] FormInput input)
+    public async Task<IActionResult> Register([FromBody] FormInput input)
     {
         if (input == null)
         {
@@ -33,12 +34,16 @@ public class FormController : ControllerBase
         {
             return Conflict(new { Message = "El nombre de usuario ya está en uso" });
         }
+
+        if (_context.Clients.Any(c => c.DNI == input.DNI))
+        {
+            return Conflict(new { Message = "El DNI ya está asociado a otra cuenta" });
+        }
         
         // Hashe password
         string salt = BCryptNet.GenerateSalt();
         string hashed_pass = BCryptNet.HashPassword(input.Password, salt);
 
-        // Exclude Idc makes it auto-incremental
         var newUser = new User 
         {
             Nick = input.Nick,
@@ -56,10 +61,6 @@ public class FormController : ControllerBase
         };
         _context.Clients.Add(newClient);
         await _context.SaveChangesAsync();
-
-        // para ver mientras se debuguea, en esta variable deben estar todos los clientes de la BD
-        // var clientes = _context.Clients.ToList(); // Consulta todos los clientes
-        // var users = _context.Users.ToList();
 
         return Content("Valid Response.");
     }
