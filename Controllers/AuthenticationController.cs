@@ -26,7 +26,6 @@ public class Authentication : ControllerBase
     }
 
     [HttpPost]
-    [Route("login")]
     public async Task<IActionResult> Login([FromBody] LoginModel input)
     {
         // Verifica si el usuario existe en la base de datos.

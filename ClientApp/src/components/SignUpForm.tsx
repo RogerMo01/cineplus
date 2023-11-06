@@ -130,10 +130,9 @@ function SignUpForm() {
         const networkIp = process.env.REACT_APP_NETWORK_IP;
         
         const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
-        const endpoint = '/api/registration/register';
-
-        const response = await axios.post(home + endpoint, formData);
+        const endpoint = '/api/registration';
         
+        const response = await axios.post(home + endpoint, formData);
         
         if (response.status === 200) {
           console.log('post success');

@@ -56,7 +56,7 @@ function LogInForm() {
 
       const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
       //🚨🚨🚨Fix endpoints
-      const endpoint = '/api/authentication/login';
+      const endpoint = '/api/authentication';
       
       const response = await axios.post(home + endpoint, formData);
 

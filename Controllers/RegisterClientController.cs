@@ -22,7 +22,6 @@ public class RegisterClient : ControllerBase
     }
 
     [HttpPost]
-    [Route("register")]
     public async Task<IActionResult> Register([FromBody] FormInput input)
     {
         if (input == null)
