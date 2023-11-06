@@ -8,6 +8,7 @@ import { FcCalendar } from "react-icons/fc";
 import MovieManager from "./MovieManager";
 
 function ManagerPage() {
+  
   const items: SidebarMenuItem[] = [
     {
       id: "1",
@@ -48,6 +49,8 @@ function ManagerPage() {
     }
   ];
 
+
+  // ~~~~~~~~~~~~~~~~~~~~~~ Configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~~~
   const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
   const port = process.env.REACT_APP_PORT;
   const networkIp = process.env.REACT_APP_NETWORK_IP;
@@ -58,6 +61,7 @@ function ManagerPage() {
   const deleteEndpoint = '/api/endpoint';
   const addEndpoint = '/api/endpoint';
   const editEndpoint = '/api/endpoint';
+  // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
 
 
   return (

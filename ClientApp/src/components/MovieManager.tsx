@@ -16,6 +16,8 @@ interface Props {
 }
 
 function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
+
+  // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
   async function handleAddMovie(
     id: number,
     title: string,
@@ -54,15 +56,12 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
     }
   }
 
+  // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
   const handleDeleteMovie = (id: number) => async (e: React.MouseEvent) => {
     alert("Try to delete movie with id=" + id);
 
-    const request = {
-      id: id,
-    };
-
     try {
-      const response = await axios.post(deletePath, request);
+      const response = await axios.delete(deletePath + `/${id}`);
 
       if (response.status === 200) {
         console.log("post success");
@@ -81,6 +80,7 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
     }
   };
 
+  // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
   async function handleEditMovie(
     id: number,
     title: string,
@@ -92,7 +92,6 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
     alert("Try to edit movie: " + title);
 
     const request = {
-      Id: id,
       Title: title,
       Year: year,
       Country: country,
@@ -101,7 +100,7 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
     };
 
     try {
-      const response = await axios.post(editPath, request);
+      const response = await axios.put(editPath + `/${id}`, request);
 
       if (response.status === 200) {
         console.log("post success");
