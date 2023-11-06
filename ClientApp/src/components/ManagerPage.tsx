@@ -1,35 +1,41 @@
 import React from "react";
-import SidebarMenu from "./SidebarMenu";
+import { Route, Routes } from 'react-router-dom';
 import { Movie, SidebarMenuItem } from "../types/types";
 import "./ManagerPage.css";
 import { FcFilmReel } from "react-icons/fc";
 import { FcDoughnutChart } from "react-icons/fc";
 import { FcCalendar } from "react-icons/fc";
+import SidebarMenu from "./SidebarMenu";
 import MovieManager from "./MovieManager";
+import StatsManager from "./StatsManager";
+import ScheduleManager from "./ScheduleManager";
 
-function ManagerPage() {
-  
+interface Props{
+  pathHead: string
+}
+
+function ManagerPage({pathHead}: Props) {
+
   const items: SidebarMenuItem[] = [
     {
       id: "1",
       label: "Estadísticas",
       icon: FcDoughnutChart,
-      url: "/",
+      url: `${pathHead}/stats`,
     },
     {
       id: "2",
       label: "Películas",
       icon: FcFilmReel,
-      url: "/manage-movies",
+      url: `${pathHead}/movies`,
     },
     {
       id: "3",
       label: "Programación",
       icon: FcCalendar,
-      url: "/",
+      url: `${pathHead}/schedule`,
     },
   ];
-
   const movies: Movie[] = [
     {
       id: 1,
@@ -69,7 +75,12 @@ function ManagerPage() {
       <div className="item">
         <SidebarMenu items={items} />
       </div>
-      <MovieManager name="Películas" movies={movies} deletePath={home + deleteEndpoint} addPath={home + addEndpoint} editPath={home + editEndpoint} />
+      <Routes>
+        <Route path="/movies" element={<MovieManager name="Películas" movies={movies} deletePath={home + deleteEndpoint} addPath={home + addEndpoint} editPath={home + editEndpoint} />} />
+        <Route path="/stats" element={<StatsManager/>}/>
+        <Route path="/schedule" element={<ScheduleManager/>}/>
+      </Routes>
+      
     </div>
   );
 }
