@@ -40,9 +40,15 @@ public class Authentication : ControllerBase
                 
                 role = "client";
             }
-            else{
+            else if(_context.Managers.Any(m => m.UserId == user.UserId)){
 
+                role = "manager";
             }
+            else if (_context.Sellers.Any(s => s.UserId == user.UserId)){
+
+                role = "seller";
+            }
+            else{ role = "admin"; }
 
             // Generar un token JWT
             string token = GenerateJwtToken(user, role);

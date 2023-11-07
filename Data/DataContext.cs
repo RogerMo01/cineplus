@@ -25,8 +25,8 @@ namespace CineplusDB.Models
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Client)  // Relación opcional: un usuario puede estar asociado con un cliente o no.
                 .WithOne(c => c.User)  // Configura la relación inversa en la clase Client.
-                .HasForeignKey<Client>(c => c.UserId); // Clave foránea en la clase Client
-                .IsRequired(false)
+                .HasForeignKey<Client>(c => c.UserId) // Clave foránea en la clase Client
+                .IsRequired(false);
 
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Manager)
