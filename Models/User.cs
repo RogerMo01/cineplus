@@ -8,5 +8,7 @@ namespace CineplusDB.Models
         public string Salt { get; set; }
 
         public virtual Client Client { get; set; }
+        public virtual Manager Manager { get; set; }
+        public virtual TicketSeller TicketSeller { get; set; }
     }
 }

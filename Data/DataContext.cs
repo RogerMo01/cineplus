@@ -5,6 +5,8 @@ namespace CineplusDB.Models
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Manager> Managers { get; set; }
+        public DbSet<TicketSeller> Sellers { get; set; }
         protected readonly IConfiguration Configuration;
 
         public DataContext(IConfiguration configuration)
@@ -21,16 +23,38 @@ namespace CineplusDB.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
-            .HasOne(u => u.Client)  // Relación opcional: un usuario puede estar asociado con un cliente o no.
-            .WithOne(c => c.User)  // Configura la relación inversa en la clase Client.
-            .IsRequired(false)
-            .HasForeignKey<Client>(c => c.UserId); // Clave foránea en la clase Client
+                .HasOne(u => u.Client)  // Relación opcional: un usuario puede estar asociado con un cliente o no.
+                .WithOne(c => c.User)  // Configura la relación inversa en la clase Client.
+                .HasForeignKey<Client>(c => c.UserId); // Clave foránea en la clase Client
+                .IsRequired(false)
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Manager)
+                .WithOne(m => m.User)
+                .HasForeignKey<Manager>(m => m.UserId)
+                .IsRequired(false);
+            
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.TicketSeller)
+                .WithOne(s => s.User)
+                .HasForeignKey<TicketSeller>(s => s.UserId)
+                .IsRequired(false);
         
             modelBuilder.Entity<Client>()
                 .HasOne(c => c.User)
                 .WithOne(u => u.Client)
                 .IsRequired();
+
+            modelBuilder.Entity<Manager>()
+                .HasOne(m => m.User)
+                .WithOne(u => u.Manager)
+                .IsRequired();
           
+            modelBuilder.Entity<TicketSeller>()
+                .HasOne(s => s.User)
+                .WithOne(u => u.TicketSeller)
+                .IsRequired();
+
             base.OnModelCreating(modelBuilder);
 
             // Seed🌱
