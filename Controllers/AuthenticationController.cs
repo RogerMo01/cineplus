@@ -4,6 +4,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
 
+using Microsoft.AspNetCore.Http;
+
 namespace cineplus.AuthenticationController;
 
 [Route("api/authentication")]
@@ -43,7 +45,7 @@ public class Authentication : ControllerBase
             }
 
             // Generar un token JWT
-            var token = GenerateJwtToken(user, role);
+            string token = GenerateJwtToken(user, role);
 
             // Devolver el token en la respuesta
             return Ok(new { Token = token });
@@ -68,7 +70,7 @@ public class Authentication : ControllerBase
         // Crear una clave de seguridad basada en una cadena
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.jwtSettings.securitykey));
         // Crear credenciales de firma
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha384);
 
         // Definir informacion sobre el usuario autenticado
         var claims = new[]
@@ -78,16 +80,12 @@ public class Authentication : ControllerBase
         };
 
         var token = new JwtSecurityToken(
-            issuer: "Cineplus", // emisor del token  
-            audience: "Cineplus", // destinataio del token
             claims: claims,
             expires: DateTime.UtcNow.AddHours(2), // Define la expiración del token
             signingCredentials: credentials
         );
 
-        var tokenHandler = new JwtSecurityTokenHandler();
-        return tokenHandler.WriteToken(token);
-
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
 
