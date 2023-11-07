@@ -59,7 +59,7 @@ public class Authentication : ControllerBase
         else
         {
             // Las credenciales son incorrectas, devuelve un mensaje de error.
-            return BadRequest("Credenciales incorrectas");
+            return Conflict("Credenciales incorrectas");
         }
     }
 
