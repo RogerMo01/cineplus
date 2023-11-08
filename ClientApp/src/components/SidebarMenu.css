@@ -1,0 +1,39 @@
+.SidebarMenu {
+  height: calc(100vh);
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(228, 228, 228);
+  color: #ffffff;
+  border-right: 1px solid gray;
+}
+
+.SidebarMenu.expanded {
+  width: 180px;
+}
+
+.SidebarMenu.collapsed {
+  width: 64px;
+}
+
+.menuButton .hamburguerButton {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: black;
+  padding: 10px;
+  width: 68px;
+  margin: 5px;
+  /* border: 1px solid gray; */
+  border-radius: 5px;
+
+
+  &:hover {
+    background-color: gray;
+  }
+}
+
+.menuButton {
+  display: flex;
+  justify-content: left;
+}
+
