@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes } from 'react-router-dom';
-import { Movie, SidebarMenuItem } from "../types/types";
+import { Movie, Room, SidebarMenuItem } from "../types/types";
 import "./ManagerPage.css";
-import { FcFilmReel } from "react-icons/fc";
+import { FcClapperboard } from "react-icons/fc";
 import { FcDoughnutChart } from "react-icons/fc";
 import { FcCalendar } from "react-icons/fc";
+import { FcConferenceCall } from "react-icons/fc";
 import SidebarMenu from "./SidebarMenu";
 import MovieManager from "./MovieManager";
 import StatsManager from "./StatsManager";
 import ScheduleManager from "./ScheduleManager";
 import axios from "axios";
+import RoomManager from "./RoomManager";
 
 interface Props{
   pathHead: string
@@ -26,9 +28,14 @@ function ManagerPage({pathHead}: Props) {
   
   // 🚨🚨🚨🚨🚨🚨🚨 Fix endpoints 🚨🚨🚨🚨🚨🚨🚨🚨🚨
   const getMoviesEndpoint = '/api/endpoint';
-  const deleteEndpoint = '/api/endpoint';
-  const addEndpoint = '/api/endpoint';
-  const editEndpoint = '/api/endpoint';
+  const deleteMovieEndpoint = '/api/endpoint';
+  const addMovieEndpoint = '/api/endpoint';
+  const editMovieEndpoint = '/api/endpoint';
+
+  const getRoomsEndpoint = '/api/endpoint';
+  const deleteRoomEndpoint = '/api/endpoint';
+  const addRoomEndpoint = '/api/endpoint';
+  const editRoomEndpoint = '/api/endpoint';
   // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
 
   
@@ -133,7 +140,30 @@ function ManagerPage({pathHead}: Props) {
     },
   ];
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+  //  ~~~~~~~~~~~ TEMPORAL rooms array ~~~~~~~~~~~~~
+  const rooms: Room[] = [
+    {
+      id: 1,
+      name: "Sala Covadonga",
+      seats: 140
+    },
+    {
+      id: 2,
+      name: "Sala Alicia Alonso",
+      seats: 120
+    },
+    {
+      id: 3,
+      name: "Sala Cobarrubia",
+      seats: 200
+    },
+    {
+      id: 4,
+      name: "Sala K",
+      seats: 45
+    }
+  ];
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   const items: SidebarMenuItem[] = [
     {
@@ -145,7 +175,7 @@ function ManagerPage({pathHead}: Props) {
     {
       id: "2",
       label: "Películas",
-      icon: FcFilmReel,
+      icon: FcClapperboard,
       url: `${pathHead}/movies`,
     },
     {
@@ -154,13 +184,15 @@ function ManagerPage({pathHead}: Props) {
       icon: FcCalendar,
       url: `${pathHead}/schedule`,
     },
+    {
+      id: "4",
+      label: "Salas",
+      icon: FcConferenceCall,
+      url: `${pathHead}/rooms`,
+    },
   ];
 
   
-
-
-
-
 
   return (
     <div className="ManagerPage">
@@ -168,9 +200,10 @@ function ManagerPage({pathHead}: Props) {
         <SidebarMenu items={items} />
       </div>
       <Routes>
-        <Route path="/movies" element={<MovieManager name="Películas" movies={movies} deletePath={home + deleteEndpoint} addPath={home + addEndpoint} editPath={home + editEndpoint} />} />
+        <Route path="/movies" element={<MovieManager name="Películas" movies={movies} deletePath={home + deleteMovieEndpoint} addPath={home + addMovieEndpoint} editPath={home + editMovieEndpoint} />} />
         <Route path="/stats" element={<StatsManager/>}/>
         <Route path="/schedule" element={<ScheduleManager/>}/>
+        <Route path="/rooms" element={<RoomManager name="Salas" rooms={rooms} deletePath={home + deleteRoomEndpoint} addPath={home + addRoomEndpoint} editPath={home + editRoomEndpoint} />}/>
       </Routes>
       
     </div>

@@ -3,6 +3,7 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import "./MovieModalForm.css";
 import TextInput from "./TextInput";
 import { BiErrorCircle } from "react-icons/bi";
+import { ButtonConfig } from "../types/types";
 
 interface Props {
   type: string; // {new, edit}
@@ -23,11 +24,6 @@ interface Props {
   modifyId: number;
 }
 
-interface ButtonConfig {
-  className: string;
-  color: string;
-  content: JSX.Element;
-}
 
 function MovieModalForm(props: Props) {
   const [show, setShow] = useState(false);

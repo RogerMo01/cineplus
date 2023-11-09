@@ -1,39 +1,27 @@
 import React from "react";
 import "./MovieManager.css";
-import { Movie } from "../types/types";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { FiEdit2 } from "react-icons/fi";
 import axios from "axios";
 import { toast } from "react-toastify";
-import MovieModalForm from "./MovieModalForm";
+import { Room } from "../types/types";
+import RoomModalForm from "./RoomModalForm";
 
 interface Props {
   name: string;
-  movies: Movie[];
+  rooms: Room[];
   deletePath: string;
   addPath: string;
   editPath: string;
 }
 
-function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
-
-  // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
-  async function handleAddMovie(
-    id: number,
-    title: string,
-    year: number,
-    country: string,
-    director: string,
-    duration: number
-  ) {
-    alert("Try to add new movie: " + title);
+function RoomManager({ name, rooms, deletePath, addPath, editPath }: Props) {
+  async function handleAddRoom(id: number, name: string, seats: number) {
+    alert("Try to add new room: " + name);
 
     const request = {
-      Title: title,
-      Year: year,
-      Country: country,
-      Director: director,
-      Duration: duration,
+      Name: name,
+      Seats: seats
     };
 
     try {
@@ -56,9 +44,8 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
     }
   }
 
-  // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
-  const handleDeleteMovie = (id: number) => async (e: React.MouseEvent) => {
-    alert("Try to delete movie with id=" + id);
+  const handleDeleteRoom = (id: number) => async (e: React.MouseEvent) => {
+    alert("Try to delete room with id=" + id);
 
     try {
       const response = await axios.delete(deletePath + `/${id}`);
@@ -80,23 +67,11 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
     }
   };
 
-  // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
-  async function handleEditMovie(
-    id: number,
-    title: string,
-    year: number,
-    country: string,
-    director: string,
-    duration: number
-  ) {
-    alert("Try to edit movie: " + title);
+  async function handleEditRoom(id: number, name: string) {
+    alert("Try to edit room: " + name);
 
     const request = {
-      Title: title,
-      Year: year,
-      Country: country,
-      Director: director,
-      Duration: duration,
+      Name: name,
     };
 
     try {
@@ -124,14 +99,11 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
       <h2 className="header">{name}</h2>
 
       <div className="toolButtons">
-        <MovieModalForm
+        <RoomModalForm
           type="new"
-          clickHandler={handleAddMovie}
-          titlePh="Insertar título"
-          yearPh={new Date().getFullYear()}
-          countryPh="Insertar país"
-          directorPh="Insertar director"
-          durationPh={0}
+          clickHandler={handleAddRoom}
+          namePh="Insertar nombre"
+          seatsPh={0}
           buttonConfig={{
             className: "align-right",
             color: "primary",
@@ -146,44 +118,35 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
           <thead>
             <tr>
               <th>Id</th>
-              <th>Título</th>
-              <th>Año</th>
-              <th>País</th>
-              <th>Director</th>
-              <th>Duración</th>
+              <th>Nombre</th>
+              <th>Butacas</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {movies.map((movie) => (
-              <tr key={movie.id}>
-                <td>{movie.id}</td>
-                <td>{movie.title}</td>
-                <td>{movie.year}</td>
-                <td>{movie.country}</td>
-                <td>{movie.director}</td>
-                <td>{movie.duration} min</td>
+            {rooms.map((room) => (
+              <tr key={room.id}>
+                <td>{room.id}</td>
+                <td>{room.name}</td>
+                <td>{room.seats}</td>
                 <td className="editColumn">
                   <div className="modifyButtons">
-                    <MovieModalForm
+                    <RoomModalForm
                       type="edit"
-                      clickHandler={handleEditMovie}
-                      titlePh={movie.title}
-                      yearPh={movie.year}
-                      countryPh={movie.country}
-                      directorPh={movie.director}
-                      durationPh={movie.duration}
+                      clickHandler={handleEditRoom}
+                      namePh={room.name}
+                      seatsPh={room.seats}
                       buttonConfig={{
                         className: "modifyButton",
                         color: "secondary",
                         content: <FiEdit2 />,
                       }}
-                      modifyId={movie.id}
+                      modifyId={room.id}
                     />
 
                     <button
                       className="btn btn-danger modifyButton"
-                      onClick={handleDeleteMovie(movie.id)}
+                      onClick={handleDeleteRoom(room.id)}
                     >
                       <RiDeleteBin2Line />
                     </button>
@@ -198,4 +161,4 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
   );
 }
 
-export default MovieManager;
+export default RoomManager;
