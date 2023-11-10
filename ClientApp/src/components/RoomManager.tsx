@@ -10,22 +10,20 @@ import RoomModalForm from "./RoomModalForm";
 interface Props {
   name: string;
   rooms: Room[];
-  deletePath: string;
-  addPath: string;
-  editPath: string;
+  path: string;
 }
 
-function RoomManager({ name, rooms, deletePath, addPath, editPath }: Props) {
+function RoomManager({ name, rooms, path }: Props) {
   async function handleAddRoom(id: number, name: string, seats: number) {
     alert("Try to add new room: " + name);
 
     const request = {
       Name: name,
-      Seats: seats
+      SeatsCount: seats
     };
 
     try {
-      const response = await axios.post(addPath, request);
+      const response = await axios.post(path, request);
 
       if (response.status === 200) {
         console.log("post success");
@@ -36,7 +34,7 @@ function RoomManager({ name, rooms, deletePath, addPath, editPath }: Props) {
       }
     } catch (error) {
       console.log(`Error de inserción (${error})`);
-      console.log(`addPath: (${addPath})`);
+      console.log(`addPath: (${path})`);
       toast.error(`Error de inserción (${error})`, {
         position: "bottom-right",
         autoClose: 3000,
@@ -48,7 +46,7 @@ function RoomManager({ name, rooms, deletePath, addPath, editPath }: Props) {
     alert("Try to delete room with id=" + id);
 
     try {
-      const response = await axios.delete(deletePath + `/${id}`);
+      const response = await axios.delete(path + `/${id}`);
 
       if (response.status === 200) {
         console.log("post success");
@@ -59,7 +57,7 @@ function RoomManager({ name, rooms, deletePath, addPath, editPath }: Props) {
       }
     } catch (error) {
       console.log(`Error de eliminación (${error})`);
-      console.log(`deletePath: (${deletePath})`);
+      console.log(`deletePath: (${path})`);
       toast.error(`Error de eliminación (${error})`, {
         position: "bottom-right",
         autoClose: 3000,
@@ -67,15 +65,16 @@ function RoomManager({ name, rooms, deletePath, addPath, editPath }: Props) {
     }
   };
 
-  async function handleEditRoom(id: number, name: string) {
+  async function handleEditRoom(id: number, name: string, seats: number) {
     alert("Try to edit room: " + name);
 
     const request = {
       Name: name,
+      SeatsCount: seats
     };
 
     try {
-      const response = await axios.put(editPath + `/${id}`, request);
+      const response = await axios.put(path + `/${id}`, request);
 
       if (response.status === 200) {
         console.log("post success");
@@ -86,7 +85,7 @@ function RoomManager({ name, rooms, deletePath, addPath, editPath }: Props) {
       }
     } catch (error) {
       console.log(`Error de edición (${error})`);
-      console.log(`editPath: (${editPath})`);
+      console.log(`editPath: (${path})`);
       toast.error(`Error de edición (${error})`, {
         position: "bottom-right",
         autoClose: 3000,

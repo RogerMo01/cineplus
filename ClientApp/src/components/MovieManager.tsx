@@ -10,12 +10,10 @@ import MovieModalForm from "./MovieModalForm";
 interface Props {
   name: string;
   movies: Movie[];
-  deletePath: string;
-  addPath: string;
-  editPath: string;
+  path: string;
 }
 
-function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
+function MovieManager({ name, movies, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
   async function handleAddMovie(
@@ -37,7 +35,7 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
     };
 
     try {
-      const response = await axios.post(addPath, request);
+      const response = await axios.post(path, request);
 
       if (response.status === 200) {
         console.log("post success");
@@ -48,7 +46,7 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
       }
     } catch (error) {
       console.log(`Error de inserción (${error})`);
-      console.log(`addPath: (${addPath})`);
+      console.log(`addPath: (${path})`);
       toast.error(`Error de inserción (${error})`, {
         position: "bottom-right",
         autoClose: 3000,
@@ -61,7 +59,7 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
     alert("Try to delete movie with id=" + id);
 
     try {
-      const response = await axios.delete(deletePath + `/${id}`);
+      const response = await axios.delete(path + `/${id}`);
 
       if (response.status === 200) {
         console.log("post success");
@@ -72,7 +70,7 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
       }
     } catch (error) {
       console.log(`Error de eliminación (${error})`);
-      console.log(`deletePath: (${deletePath})`);
+      console.log(`deletePath: (${path})`);
       toast.error(`Error de eliminación (${error})`, {
         position: "bottom-right",
         autoClose: 3000,
@@ -100,7 +98,7 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
     };
 
     try {
-      const response = await axios.put(editPath + `/${id}`, request);
+      const response = await axios.put(path + `/${id}`, request);
 
       if (response.status === 200) {
         console.log("post success");
@@ -111,7 +109,7 @@ function MovieManager({ name, movies, deletePath, addPath, editPath }: Props) {
       }
     } catch (error) {
       console.log(`Error de edición (${error})`);
-      console.log(`editPath: (${editPath})`);
+      console.log(`editPath: (${path})`);
       toast.error(`Error de edición (${error})`, {
         position: "bottom-right",
         autoClose: 3000,
