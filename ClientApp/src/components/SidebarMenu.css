@@ -8,7 +8,7 @@
 }
 
 .SidebarMenu.expanded {
-  width: 180px;
+  max-width: 200px;
 }
 
 .SidebarMenu.collapsed {

@@ -180,7 +180,7 @@ function ManagerPage({pathHead}: Props) {
     },
     {
       id: "3",
-      label: "Programación",
+      label: "Programaciones",
       icon: FcCalendar,
       url: `${pathHead}/schedule`,
     },
