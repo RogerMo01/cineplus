@@ -23,3 +23,14 @@ export interface Movie {
   director: string;
   duration: number;
 }
+
+export interface Room {
+  id: number;
+  name: string;
+  seats: number;
+}
+export interface ButtonConfig {
+  className: string;
+  color: string;
+  content: JSX.Element;
+}
