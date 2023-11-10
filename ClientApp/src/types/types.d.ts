@@ -34,3 +34,11 @@ export interface ButtonConfig {
   color: string;
   content: JSX.Element;
 }
+export interface Schedule {
+  id: number;
+  movie: string;
+  room: string;
+  date: Date;
+  price: number;
+  points: number;
+}
