@@ -51,7 +51,7 @@ function MovieManager({ name, movies, path }: Props) {
       const response = await axios.delete(path + `/${id}`);
 
       if (response.status === 200) {
-        console.log("post success");
+        console.log("delete success");
         toast.success("Eliminación exitosa!", {
           position: "bottom-right",
           autoClose: 3000,
@@ -81,7 +81,7 @@ function MovieManager({ name, movies, path }: Props) {
       const response = await axios.put(path + `/${id}`, request);
 
       if (response.status === 200) {
-        console.log("post success");
+        console.log("put success");
         toast.success("Edición exitosa!", {
           position: "bottom-right",
           autoClose: 3000,

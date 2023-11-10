@@ -27,6 +27,7 @@ function ManagerPage({pathHead}: Props) {
   const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
   const moviesEndpoint = '/api/movie';
   const roomsEndpoint = '/api/room';
+  const scheduleEndpoint = '/api/schedule';
   // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
 
   
@@ -55,6 +56,22 @@ function ManagerPage({pathHead}: Props) {
       if (response.status === 200) {
         console.log('Solicitud GET con éxito');
         setRooms(response.data);
+      }
+    }).catch((error) => {
+      console.error('Error al enviar la solicitud:', error);
+    })
+  }, []);
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  // ~~~~~~~~~~~~~~~~ GET schedule ~~~~~~~~~~~~~~~~~~~~
+  const [schedule, setSchedule] = useState([]);
+
+  useEffect(() => {
+    axios.get(scheduleEndpoint)
+    .then((response) => {
+      if (response.status === 200) {
+        console.log('Solicitud GET con éxito');
+        setSchedule(response.data);
       }
     }).catch((error) => {
       console.error('Error al enviar la solicitud:', error);
@@ -170,7 +187,54 @@ function ManagerPage({pathHead}: Props) {
   //     seats: 45
   //   }
   // ];
+  // // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // //  ~~~~~~~~~~~ TEMPORAL schedule array ~~~~~~~~~~~~~
+  // const schedule: Schedule[] = [
+  //   {
+  //     id: 1,
+  //     movie: "Lord of Rings",
+  //     room: "Sala Alicia Alonso",
+  //     date: new Date('2023-12-01T18:30:00'),
+  //     price: 10,
+  //     points: 120
+  //   },
+  //   {
+  //     id: 2,
+  //     movie: "The Matrix",
+  //     room: "Sala K",
+  //     date: new Date('2023-12-01T18:30:00'),
+  //     price: 12,
+  //     points: 150
+  //   },
+  //   {
+  //     id: 3,
+  //     movie: "Inception",
+  //     room: "Sala Covadonga",
+  //     date: new Date('2023-12-02T20:00:00'),
+  //     price: 11,
+  //     points: 130
+  //   },
+  //   {
+  //     id: 4,
+  //     movie: "Pulp Fiction",
+  //     room: "Sala Covadonga",
+  //     date: new Date('2023-12-03T16:45:00'),
+  //     price: 9,
+  //     points: 110
+  //   },
+  //   {
+  //     id: 5,
+  //     movie: "The Shawshank Redemption",
+  //     room: "Sala Cobarrubia",
+  //     date: new Date('2023-12-04T22:15:00'),
+  //     price: 13,
+  //     points: 160
+  //   },
+  // ];
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
 
   const items: SidebarMenuItem[] = [
     {
@@ -198,7 +262,6 @@ function ManagerPage({pathHead}: Props) {
       url: `${pathHead}/rooms`,
     },
   ];
-
   
 
   return (
@@ -209,7 +272,7 @@ function ManagerPage({pathHead}: Props) {
       <Routes>
         <Route path="/movies" element={<MovieManager name="Películas" movies={movies} path={home + moviesEndpoint} />} />
         <Route path="/stats" element={<StatsManager/>}/>
-        <Route path="/schedule" element={<ScheduleManager/>}/>
+        <Route path="/schedule" element={<ScheduleManager name="Programaciones" schedule={schedule} movies={movies} rooms={rooms} path={home + scheduleEndpoint}/>}/>
         <Route path="/rooms" element={<RoomManager name="Salas" rooms={rooms} path={home + roomsEndpoint} />}/>
       </Routes>
       
