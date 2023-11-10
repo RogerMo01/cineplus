@@ -1,19 +1,11 @@
 import React, { FormEvent, useState } from "react";
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import PasswordInput from "./PasswordInput";
+import UsernameInput from "./UsernameInput";
 import "./SignUpForm.css";
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 
-interface ClientState {
-  data: {
-    Idc: number;
-    Password: string;
-    Nick: string;
-    CreditCard: string;
-    DNI: string;
-  };
-}
 
 function SignUpForm() {
   // ~~~~~~~~~~~~~ Main states ~~~~~~~~~~~~~~~~
@@ -24,7 +16,6 @@ function SignUpForm() {
   const [creditCard, setCreditCard] = useState("");
 
   // ~~~~~~~~~~~~ END Main states ~~~~~~~~~~~~~
-
 
   // ~~~~~~~~~~~ Feedback states ~~~~~~~~~~~~~
   const [usernameInvalidFeedback, setUsernameInvalidFeedback] = useState("");
@@ -134,22 +125,48 @@ function SignUpForm() {
       }
 
       try {
-        const response = await axios.post('https://localhost:44492/api/form/register', formData);
-    
+        const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
+        const port = process.env.REACT_APP_PORT;
+        const networkIp = process.env.REACT_APP_NETWORK_IP;
+        
+        const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
+        const endpoint = '/api/registration';
+        
+        const response = await axios.post(home + endpoint, formData);
+        
         if (response.status === 200) {
-          // Procesa la respuesta del servidor 
-          console.log('Solicitud enviada con éxito');
-          toast.success('Solicitud enviada con éxito', {position: 'bottom-right', autoClose: 3000});
-
-          // 🚨🚨🚨🚨🚨🚨🚨🚨 redireccion a algun sitio 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
-
+          console.log('post success');
+          toast.success('Registro completado!', {position: 'bottom-right', autoClose: 2000});
+          
+          setTimeout(() => {
+            window.location.href = home + '/log-in';
+          }, 2000);
         }
+        
       } catch (error) {
+        if(axios.isAxiosError(error)){
+          const axiosError = error as AxiosError<any>
 
-        // Maneja los errores de red o del servidor aquí
-        // manejar que el nick ya exista 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨 error 409 conflict
-        console.error('Error al enviar la solicitud:', error);
-        toast.error('Error en el registro', {position: 'bottom-right', autoClose: 3000});
+          if (axiosError.response) {
+            const status = axiosError.response.status;
+            const message = axiosError.response.data.message;
+            
+            // Nick already exists
+            if(status === 409) {
+              console.log('Nick already exists');
+              toast.error(message, {position: 'bottom-right', autoClose: 3000});
+            } 
+            else {
+              toast.error(`Error en el registro (${status})`, {position: 'bottom-right', autoClose: 3000});
+              console.error('Error al enviar la solicitud', axiosError);
+            }
+            
+          } else {
+            // Handle errors with no HTTP response
+            console.error('Error al enviar la solicitud', error);
+            toast.error(`Error en el registro (${error})`, { position: 'bottom-right', autoClose: 3000 });
+          }
+        }
       }
       // ~~~~~~~ END Handle valid submit ~~~~~~~~
     }
@@ -166,15 +183,7 @@ function SignUpForm() {
         <form onSubmit={handleSubmit}>
           <h2>Registrarse</h2>
           <div className="form-group form-element">
-            <label htmlFor="usernameInput">Nombre de Usuario</label>
-            <input
-              className={`form-control ${usernameTag}`}
-              name="username"
-              id="usernameInput"
-              placeholder="Elige tu usuario"
-              onChange={handleUsernameInputChange}
-            />
-            <div className="invalid-feedback">{usernameInvalidFeedback}</div>
+            <UsernameInput usernameTag={usernameTag} changeHandler={handleUsernameInputChange} invalidFeedback={usernameInvalidFeedback}/>
           </div>
           <div className="form-element">
             <div className="mb-2">
@@ -182,6 +191,7 @@ function SignUpForm() {
                 id="passInput"
                 placeholder="Elige tu contraseña"
                 showHeader={true}
+                showSmall={true}
                 onPasswordChange={onPasswordChange}
               />
             </div>
@@ -190,6 +200,7 @@ function SignUpForm() {
                 id="passInput2"
                 placeholder="Confirma tu contraseña"
                 showHeader={false}
+                showSmall={false}
                 onPasswordChange={onConfirmPasswordChange}
               />
             </div>
@@ -222,7 +233,7 @@ function SignUpForm() {
             )}
           </div>
           <button type="submit" className="btn btn-primary align-right">
-            Register
+            Registrarse
           </button>
         </form>
       </div>

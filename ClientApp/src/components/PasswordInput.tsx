@@ -4,6 +4,7 @@ interface Props {
   id: string;
   placeholder: string;
   showHeader: boolean;
+  showSmall: boolean;
   onPasswordChange: (value: string) => void;
 }
 
@@ -12,7 +13,6 @@ function PasswordInput(props: Props) {
 
   const [passwordInvalidFeedback, setPasswordInvalidFeedback] = useState("");
   const [passwordTag, setPasswordTag] = useState("");
-
 
   const handleInputChange = (event: React.FormEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value;
@@ -45,7 +45,7 @@ function PasswordInput(props: Props) {
         onChange={handleInputChange}
       />
       <div className="invalid-feedback">{passwordInvalidFeedback}</div>
-      {props.showHeader && (
+      {props.showSmall && (
         <small id="passwordHelp" className="form-text text-muted">
           La contraseña debe tener entre 6-20 caracteres
         </small>
