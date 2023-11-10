@@ -4,6 +4,7 @@ namespace CineplusDB.Models
     {
         public DbSet<Client> Clients { get; set; }
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<Room> Rooms { get; set; }
         protected readonly IConfiguration Configuration;
 
         public DataContext(IConfiguration configuration)
