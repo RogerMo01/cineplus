@@ -4,7 +4,7 @@ import { Movie } from "../types/types";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { FiEdit2 } from "react-icons/fi";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import MovieModalForm from "./MovieModalForm";
 
 interface Props {
@@ -16,16 +16,7 @@ interface Props {
 function MovieManager({ name, movies, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
-  async function handleAddMovie(
-    id: number,
-    title: string,
-    year: number,
-    country: string,
-    director: string,
-    duration: number
-  ) {
-    alert("Try to add new movie: " + title);
-
+  async function handleAddMovie( id: number, title: string, year: number, country: string, director: string, duration: number) {
     const request = {
       Title: title,
       Year: year,
@@ -56,8 +47,6 @@ function MovieManager({ name, movies, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
   const handleDeleteMovie = (id: number) => async (e: React.MouseEvent) => {
-    alert("Try to delete movie with id=" + id);
-
     try {
       const response = await axios.delete(path + `/${id}`);
 
@@ -79,16 +68,7 @@ function MovieManager({ name, movies, path }: Props) {
   };
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
-  async function handleEditMovie(
-    id: number,
-    title: string,
-    year: number,
-    country: string,
-    director: string,
-    duration: number
-  ) {
-    alert("Try to edit movie: " + title);
-
+  async function handleEditMovie(id: number, title: string, year: number, country: string, director: string, duration: number) {
     const request = {
       Title: title,
       Year: year,
@@ -102,7 +82,7 @@ function MovieManager({ name, movies, path }: Props) {
 
       if (response.status === 200) {
         console.log("post success");
-        toast.success("Inserción exitosa!", {
+        toast.success("Edición exitosa!", {
           position: "bottom-right",
           autoClose: 3000,
         });
@@ -192,6 +172,7 @@ function MovieManager({ name, movies, path }: Props) {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   );
 }

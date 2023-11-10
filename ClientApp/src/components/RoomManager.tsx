@@ -3,7 +3,7 @@ import "./MovieManager.css";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { FiEdit2 } from "react-icons/fi";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { Room } from "../types/types";
 import RoomModalForm from "./RoomModalForm";
 
@@ -14,9 +14,8 @@ interface Props {
 }
 
 function RoomManager({ name, rooms, path }: Props) {
-  async function handleAddRoom(id: number, name: string, seats: number) {
-    alert("Try to add new room: " + name);
 
+  async function handleAddRoom(id: number, name: string, seats: number) {
     const request = {
       Name: name,
       SeatsCount: seats
@@ -43,8 +42,6 @@ function RoomManager({ name, rooms, path }: Props) {
   }
 
   const handleDeleteRoom = (id: number) => async (e: React.MouseEvent) => {
-    alert("Try to delete room with id=" + id);
-
     try {
       const response = await axios.delete(path + `/${id}`);
 
@@ -66,8 +63,6 @@ function RoomManager({ name, rooms, path }: Props) {
   };
 
   async function handleEditRoom(id: number, name: string, seats: number) {
-    alert("Try to edit room: " + name);
-
     const request = {
       Name: name,
       SeatsCount: seats
@@ -78,7 +73,7 @@ function RoomManager({ name, rooms, path }: Props) {
 
       if (response.status === 200) {
         console.log("post success");
-        toast.success("Inserción exitosa!", {
+        toast.success("Edición exitosa!", {
           position: "bottom-right",
           autoClose: 3000,
         });
@@ -156,6 +151,7 @@ function RoomManager({ name, rooms, path }: Props) {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   );
 }
