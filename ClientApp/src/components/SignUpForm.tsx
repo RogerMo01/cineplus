@@ -6,7 +6,6 @@ import "./SignUpForm.css";
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 
-
 function SignUpForm() {
   // ~~~~~~~~~~~~~ Main states ~~~~~~~~~~~~~~~~
   const [username, setUsername] = useState("");

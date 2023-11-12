@@ -5,6 +5,8 @@ namespace CineplusDB.Models
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Room> Rooms { get; set; }
         public DbSet<Manager> Managers { get; set; }
         public DbSet<TicketSeller> Sellers { get; set; }
         protected readonly IConfiguration Configuration;

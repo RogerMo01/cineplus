@@ -4,6 +4,7 @@ import { Counter } from './components/Counter';
 import { FetchData } from './components/FetchData';
 import { Home } from './components/Home';
 import SignUpPage from './components/SignUpPage';
+import ManagerPage from './components/ManagerPage';
 import LogInPage from './components/LogInPage';
 
 interface AppRoute {
@@ -28,6 +29,10 @@ const AppRoutes: AppRoute[] = [
   {
     path: '/sign-up',
     element: <SignUpPage />
+  },
+  {
+    path: '/manage/*',
+    element: <ManagerPage pathHead='/manage' />
   },
   {
     path: '/log-in',
