@@ -55,7 +55,6 @@ function LogInForm() {
       const networkIp = process.env.REACT_APP_NETWORK_IP;
 
       const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
-      //🚨🚨🚨Fix endpoints
       const endpoint = '/api/authentication';
       
       const response = await axios.post(home + endpoint, formData);
@@ -65,7 +64,17 @@ function LogInForm() {
         console.log("post success");
         toast.success("Sesión iniciada!", { position: "bottom-right", autoClose: 3000 });
         
-        // 🚨🚨🚨🚨🚨 Redireccionar a algun sitio 🚨🚨🚨🚨🚨
+        const token = response.data.Token;
+
+        // Save token in local storage
+        localStorage.setItem('token', token);
+
+        // Add token to header in axios requests
+        if (token) {
+          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        } else {
+          delete axios.defaults.headers.common["Authorization"];
+        }
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
