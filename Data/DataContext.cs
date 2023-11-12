@@ -1,10 +1,14 @@
+using BCryptNet = BCrypt.Net.BCrypt;
 namespace CineplusDB.Models
 {
     public class DataContext : DbContext
     {
+        public DbSet<User> Users { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<Manager> Managers { get; set; }
+        public DbSet<TicketSeller> Sellers { get; set; }
         protected readonly IConfiguration Configuration;
 
         public DataContext(IConfiguration configuration)
@@ -20,34 +24,79 @@ namespace CineplusDB.Models
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Client>(entity =>
-            {
-                entity.HasKey(k => k.Idc);
-                entity.Property(e => e.Nick).IsRequired();
-                entity.Property(e => e.Password).IsRequired();
-                entity.Property(e => e.DNI).IsRequired();
-                entity.Property(e => e.CreditCard).IsRequired();
-            });
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Client)  // Relación opcional: un usuario puede estar asociado con un cliente o no.
+                .WithOne(c => c.User)  // Configura la relación inversa en la clase Client.
+                .HasForeignKey<Client>(c => c.UserId) // Clave foránea en la clase Client
+                .IsRequired(false);
 
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Manager)
+                .WithOne(m => m.User)
+                .HasForeignKey<Manager>(m => m.UserId)
+                .IsRequired(false);
+            
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.TicketSeller)
+                .WithOne(s => s.User)
+                .HasForeignKey<TicketSeller>(s => s.UserId)
+                .IsRequired(false);
+        
+            modelBuilder.Entity<Client>()
+                .HasOne(c => c.User)
+                .WithOne(u => u.Client)
+                .IsRequired();
+
+            modelBuilder.Entity<Manager>()
+                .HasOne(m => m.User)
+                .WithOne(u => u.Manager)
+                .IsRequired();
+          
+            modelBuilder.Entity<TicketSeller>()
+                .HasOne(s => s.User)
+                .WithOne(u => u.TicketSeller)
+                .IsRequired();
+
+            base.OnModelCreating(modelBuilder);
 
             // Seed🌱
+            string salt1 = BCryptNet.GenerateSalt();
+            string salt2 = BCryptNet.GenerateSalt();
+
+            modelBuilder.Entity<User>().HasData(
+
+                new User
+                {
+                    UserId = 1,
+                    Nick = "John Doe",
+                    Password = BCryptNet.HashPassword("secretpass", salt1),
+                    Salt = salt1
+                 
+                },
+                new User
+                {
+                    UserId = 2,
+                    Nick = "Jane Doe",
+                    Password = BCryptNet.HashPassword("secretpass2", salt2),
+                    Salt = salt2
+                }
+            );
+
             modelBuilder.Entity<Client>().HasData(
                 new Client
                 {
-                    Idc = 1,
-                    Nick = "John Doe",
-                    Password = "secretpass",
+                    ClientId = 1,
                     DNI = "00000000000",
-                    CreditCard = "0000000000000000"
+                    CreditCard = "0000000000000000",
+                    UserId = 1
                 },
                 new Client
                 {
-                    Idc = 2,
-                    Nick = "Jane Doe",
-                    Password = "secretpass2",
+                    ClientId = 2,
                     DNI = "00000000001",
-                    CreditCard = "0000000000000001"
+                    CreditCard = "0000000000000001", 
+                    UserId = 2
+                 
                 }
             );
         }
