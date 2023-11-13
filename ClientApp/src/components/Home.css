@@ -1,0 +1,29 @@
+  .bg-image {
+    background-image: url('./pexels-pavel-danilyuk-7234389.jpg');
+    background-size:cover;
+    background-position:center;
+    
+    /* filter:blur(4px); */
+    width: 100%;
+    height: 200vh;
+    
+    position:absolute;
+  }
+  
+  .slogan{
+    position: absolute;
+    top: 8vmax;
+    font-size:4.5vmax;
+    font-weight: bolder; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .parrafo{
+    font-size: 1.9vmax;
+    position:absolute;
+    
+  }
+
+  .parrafo1{
+    top: 19vmax;;
+  }
