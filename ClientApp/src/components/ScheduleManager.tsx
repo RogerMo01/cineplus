@@ -106,6 +106,23 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
     }
   };
 
+  function parseDate(inputDate: string): string{
+    const fecha = new Date(inputDate);
+
+    const año = inputDate.substring(0, 4);
+    const mes = inputDate.substring(5, 7);
+    const dia = inputDate.substring(8, 10);
+    const horas = padZero(String(fecha.getHours() % 12 || 12));
+    const minutos = padZero(inputDate.substring(14, 16));
+    const ampm = fecha.getHours() >= 12 ? 'PM' : 'AM';
+
+    return `${año}-${mes}-${dia} / ${horas}:${minutos} ${ampm}`;
+  }
+  
+  function padZero(num: string): string {
+    return num.padStart(2, '0');
+  }
+  
   return (
     <div className="full-container">
       <h2 className="header">{name}</h2>
@@ -149,7 +166,7 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
                 <td>{s.id}</td>
                 <td>{s.movie}</td>
                 <td>{s.room}</td>
-                <td>{s.date.toDateString()}</td>
+                <td>{parseDate(s.date.toString())}</td>
                 <td>$ {s.price}</td>
                 <td>{s.points} ptos</td>
                 <td className="editColumn">

@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace CineplusDB.Models
 {
     public class DataContext : DbContext
@@ -5,6 +8,8 @@ namespace CineplusDB.Models
         public DbSet<Client> Clients { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<MovieProgramming> ScheduledMovies { get; set; }
         protected readonly IConfiguration Configuration;
 
         public DataContext(IConfiguration configuration)
@@ -29,6 +34,9 @@ namespace CineplusDB.Models
                 entity.Property(e => e.DNI).IsRequired();
                 entity.Property(e => e.CreditCard).IsRequired();
             });
+            
+             modelBuilder.Entity<MovieProgramming>()
+                .HasKey(mp => new { mp.RoomId, mp.MovieId, mp.DateTimeId });
 
 
             // Seed🌱

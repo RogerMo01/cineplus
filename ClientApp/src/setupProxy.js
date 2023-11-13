@@ -9,6 +9,7 @@ const context = [
   "/api/form",
   "/api/movie",
   "/api/room",
+  "/api/movieprogramming",
 ];
 
 const onError = (err, req, resp, target) => {
