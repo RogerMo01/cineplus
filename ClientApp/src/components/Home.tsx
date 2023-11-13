@@ -1,25 +1,50 @@
 import React, { Component } from 'react';
+import './Home.css';
 
 export class Home extends Component {
   static displayName: string = Home.name;
 
   render(): JSX.Element {
     return (
-      <div className='container'>
-        <h1>Hello, worl!</h1>
-        <p>Welcome to your new single-page application, built with:</p>
-        <ul>
-          <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
-          <li><a href='https://facebook.github.io/react/'>React</a> for client-side code</li>
-          <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
-        </ul>
-        <p>To help you get started, we have also set up:</p>
-        <ul>
-          <li><strong>Client-side navigation</strong>. For example, click <em>Counter</em> then <em>Back</em> to return here.</li>
-          <li><strong>Development server integration</strong>. In development mode, the development server from <code>create-react-app</code> runs in the background automatically, so your client-side resources are dynamically built on demand and the page refreshes when you modify any file.</li>
-          <li><strong>Efficient production builds</strong>. In production mode, development-time features are disabled, and your <code>dotnet publish</code> configuration produces minified, efficiently bundled JavaScript files.</li>
-        </ul>
-        <p>The <code>ClientApp</code> subdirectory is a standard React application based on the <code>create-react-app</code> template. If you open a command prompt in that directory, you can run <code>npm</code> commands such as <code>npm test</code> or <code>npm install</code>.</p>
+
+      <div className="container">
+        <h1 className='slogan slogan1'>
+          Tu historia, <br/>
+          nuestro escenario
+        </h1>
+        <p className='parrafo parrafo1'>
+        Encuentra tu escape en las obras cinematográficas<br/>
+         que te ofrecemos. 
+        </p>
+        <div className='imagen imagen1'></div>
+        <div className='imagen imagen2'></div>
+        <div className='imagen imagen3'></div>
+        <div className='imagen imagen4'></div>
+        <div className='imagen imagen5'></div>
+        <div className='imagen imagen6'></div>
+        <h1 className='slogan slogan2'>
+          Explora el séptimo arte <br/>
+          y sumérgete en el mundo<br/>
+          de emociones de nuestro cine
+        </h1>
+        <p className='parrafo parrafo2'>
+        Prepárate para una experiencia inolvidable en nuestra plataforma<br/>
+        dedicada al séptimo arte. Aquí podrás explorar y reservar tus entradas<br/>
+        para las películas más emocionantes y esperadas. <br/>
+        ¡No te pierdas la oportunidad de vivir una experiencia de cine <br/>
+        como nunca antes! 
+        </p>
+        <h1 className='slogan slogan3'>
+          Ya es tiempo de reservar <br/>
+          tu asiento<br/>
+        </h1>
+        <p className='parrafo parrafo3'>
+        Planifica tu noche de cine con anticipación reservando tu asiento <br/>
+        a través de nuestra página web fácil de usar. <br/>
+        Evita las largas filas y asegúrate la mejor vista en la sala. <br/>
+        ¡Reserva tu asiento ahora y prepárate para quedar cautivado <br/>
+        por la magia del cine!
+        </p>
       </div>
     );
   }

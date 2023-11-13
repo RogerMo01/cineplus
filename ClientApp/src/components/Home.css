@@ -1,29 +1,106 @@
-  .bg-image {
+  .imagen1 {
     background-image: url('./pexels-pavel-danilyuk-7234389.jpg');
+    width: 250px; ;/* Adjust the width as needed */
+    height: 170px;
+    top: 380px;
+    left: 720px;
+  }
+
+  .imagen2 {
+    background-image: url('pexels-markus-spiske-2672097.jpg');
+    width: 250px; ;/* Adjust the width as needed */
+    height: 410px;
+    top: 110px;
+    left: 990px;
+  }
+
+  .imagen3{
+    background-image: url('pexels-lisa-fotios-2923675.jpg');
+    width: 250px; ;/* Adjust the width as needed */
+    height: 200px;
+    top: 160px;
+    left: 720px;
+  }
+
+  .imagen4{
+    background-image: url('pexels-cottonbro-studio-8261568.jpg');
+    width: 280px; ;/* Adjust the width as needed */
+    height: 240px;
+    top: 285px;
+    left: 420px;
+  }
+
+  .imagen5 {
+    background-image: url('pexels-angello-13111754.jpg');
+    width: 370px; ;/* Adjust the width as needed */
+    height: 560px;
+    top: 580px;
+    left: 180px;
+  }
+
+  .imagen6 {
+    background-image: url('pexels-linda-gschwentner-11718584.jpg');
+    width: 400px; ;/* Adjust the width as needed */
+    height: 470px;
+    top: 1180px;
+    left: 780px;
+  }
+
+  .imagen{
     background-size:cover;
-    background-position:center;
-    
-    /* filter:blur(4px); */
-    width: 100%;
-    height: 200vh;
-    
-    position:absolute;
+    position: absolute;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+  }
+  
+  @media (max-width: 767px) {
+    .imagen1 {
+      left:20px;
+    }
+    .imagen2{
+      left:20px;
+    }
   }
   
   .slogan{
     position: absolute;
-    top: 8vmax;
-    font-size:4.5vmax;
     font-weight: bolder; 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
+  
+  .slogan1{
+    font-size:60px;
+    top: 70px;
+  }
+
+  .slogan2{
+    font-size: 40px;
+    top: 660px;
+    left: 600px;
+  }
+
+  .slogan3{
+    font-size: 40px;
+    top: 1245px;
+    left: 150px;
+  }
 
   .parrafo{
-    font-size: 1.9vmax;
+    font-size: 20px;
     position:absolute;
     
   }
 
   .parrafo1{
-    top: 19vmax;;
+    top: 212px;;
+  }
+
+  .parrafo2{
+    top: 860px;
+    left: 600px;
+  }
+
+  .parrafo3{
+    top: 1400px;
+    left: 150px;
   }
