@@ -1,9 +1,18 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace CineplusDB.Models;
 
 public class MovieProgramming
 {
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Identifier { get; set; }
+
+    [Key]
     public int RoomId { get; set; }
+    [Key]
     public int MovieId { get; set; }
+    [Key]
     public DateTime DateTimeId { get; set; }
 
     public decimal Price { get; set; }
