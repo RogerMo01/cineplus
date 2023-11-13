@@ -7,6 +7,7 @@ import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import { format } from 'date-fns';
 
 interface Props {
   name: string;
@@ -25,7 +26,7 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
     const request = {
       Movie: movie,
       Room: room,
-      Date: date,
+      Date: format(date, 'dd/MM/yyyy HH:mm:ss'),
       Price: price,
       Points: points,
     };
@@ -57,7 +58,7 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
     const request = {
         Movie: movie,
         Room: room,
-        Date: date,
+        Date: format(date, 'dd/MM/yyyy HH:mm:ss'),
         Price: price,
         Points: points,
     };
