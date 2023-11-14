@@ -5,6 +5,7 @@
   background-color: rgb(228, 228, 228);
   color: #ffffff;
   border-right: 1px solid gray;
+  transition: max-width 0.3s ease;
 }
 
 .SidebarMenu.expanded {
@@ -12,7 +13,7 @@
 }
 
 .SidebarMenu.collapsed {
-  width: 64px;
+  max-width: 64px;
 }
 
 .menuButton .hamburguerButton {

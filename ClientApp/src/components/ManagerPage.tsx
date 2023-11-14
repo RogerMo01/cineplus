@@ -27,7 +27,7 @@ function ManagerPage({pathHead}: Props) {
   const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
   const moviesEndpoint = '/api/movie';
   const roomsEndpoint = '/api/room';
-  const scheduleEndpoint = '/api/schedule';
+  const scheduleEndpoint = '/api/movieprogramming';
   // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
 
   

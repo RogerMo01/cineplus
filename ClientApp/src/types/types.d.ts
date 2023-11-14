@@ -35,7 +35,7 @@ export interface ButtonConfig {
   content: JSX.Element;
 }
 export interface Schedule {
-  id: number;
+  id: string;
   movie: string;
   room: string;
   date: Date;

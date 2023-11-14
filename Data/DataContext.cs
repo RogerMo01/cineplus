@@ -1,14 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using BCryptNet = BCrypt.Net.BCrypt;
+
 namespace CineplusDB.Models
 {
     public class DataContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Client> Clients { get; set; }
-        public DbSet<Movie> Movies { get; set; }
-        public DbSet<Room> Rooms { get; set; }
         public DbSet<Manager> Managers { get; set; }
         public DbSet<TicketSeller> Sellers { get; set; }
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<MovieProgramming> ScheduledMovies { get; set; }
+        
         protected readonly IConfiguration Configuration;
 
         public DataContext(IConfiguration configuration)
@@ -56,6 +62,9 @@ namespace CineplusDB.Models
                 .HasOne(s => s.User)
                 .WithOne(u => u.TicketSeller)
                 .IsRequired();
+                
+            modelBuilder.Entity<MovieProgramming>()
+                .HasKey(mp => new { mp.RoomId, mp.MovieId, mp.DateTimeId });
 
             base.OnModelCreating(modelBuilder);
 
