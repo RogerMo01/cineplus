@@ -161,8 +161,8 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
         <ScheduleModalForm
           type="new"
           clickHandler={handleAddSchedule}
-          moviePh="Seleccionar Película"
-          roomPh="Seleccionar Sala"
+          moviePh={movies.length > 0 ? movies[0].title : ""}
+          roomPh={rooms.length > 0 ? rooms[0].name : ""}
           datePh={new Date()}
           pricePh={0}
           pointsPricePh={0}
