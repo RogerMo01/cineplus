@@ -35,11 +35,16 @@ function RoomModalForm(props: Props) {
 
   const handleSeatsChange = (e: React.ChangeEvent) => {
     const newCount = (e.target as HTMLInputElement).value;
-    setSeats(parseInt(newCount));
+    if(newCount === ''){
+      setSeats(props.seatsPh);
+    }
+    else{
+      setSeats(parseInt(newCount));
+    }
   };
 
   const validateInput = () => {
-    if (name.length === 0 || seats === 0 || isNaN(seats)) {
+    if (name.length === 0 || seats === 0 || seats < 0 || isNaN(seats)) {
       setInvalidInput(true);
       return false;
     } else {
@@ -86,7 +91,7 @@ function RoomModalForm(props: Props) {
                 id="seatsCount"
                 onChange={handleSeatsChange}
                 placeholder={`${props.seatsPh}`}
-                defaultValue={props.seatsPh}
+                defaultValue={props.type === 'edit' ? props.seatsPh : undefined}
                 step="1"
                 min="1"
                 required

@@ -51,9 +51,9 @@ function ScheduleModalForm(props: Props) {
     if (
       movie.length === 0 ||
       room.length === 0 ||
-      price === 0 ||
+      price <= 0 ||
       isNaN(price) ||
-      pointsPrice === 0 ||
+      pointsPrice <= 0 ||
       isNaN(pointsPrice)
     ) {
       setInvalidInput(true);
@@ -157,7 +157,7 @@ function ScheduleModalForm(props: Props) {
                 id="priceInput"
                 onChange={handlePriceChange}
                 placeholder={`${props.pricePh}`}
-                defaultValue={props.pricePh}
+                defaultValue={props.type === 'edit' ? props.pricePh : undefined}
                 step="1"
                 min="1"
                 required
@@ -172,7 +172,7 @@ function ScheduleModalForm(props: Props) {
                 id="pointsPriceInput"
                 onChange={handlePointsPriceChange}
                 placeholder={`${props.pointsPricePh}`}
-                defaultValue={props.pointsPricePh}
+                defaultValue={props.type === 'edit' ? props.pointsPricePh : undefined}
                 step="1"
                 min="1"
                 required
