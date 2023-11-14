@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import AppRoutes from "./AppRoutes";
 import ManagerRoutes from "./ManagerRoutes";
 import { Layout } from "./components/Layout";
-import { NavLinkRoute } from "./types/types";
 import ManagerNavLinks from "./ManagerNavLinks";
 import UnknownNavLinks from "./UnknownNavLinks";
+import { UserData } from "./types/types";
 
 
 function Switch() {
@@ -13,6 +13,13 @@ function Switch() {
 
   // 🚨🚨🚨🚨🚨 Logic of token authorization 🚨🚨🚨🚨🚨
   var role = "admin";
+
+
+  // 🛑🛑🛑 GET request of manager info 🛑🛑🛑
+  const managerData: UserData = {
+    nick: 'Administrator'
+  }
+
 
 
   return (
@@ -28,7 +35,7 @@ function Switch() {
         </Layout>
       )}
       {role === "admin" && (
-        <Layout navLinks={ManagerNavLinks}>
+        <Layout navLinks={ManagerNavLinks} userData={managerData}>
           <Routes>
             {ManagerRoutes.map((route, index) => {
               const { element, ...rest } = route;

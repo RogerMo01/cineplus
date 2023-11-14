@@ -46,3 +46,6 @@ export interface NavLinkRoute {
   name: string;
   route: string;
 }
+export interface UserData {
+  nick: string;
+}
