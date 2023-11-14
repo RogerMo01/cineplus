@@ -67,34 +67,36 @@ export class NavMenu extends Component<Props, NavMenuState> {
                     </NavItem>);
                 })
               }
-                <NavItem>
-                  <div className='user-box'>
 
-                    <div className='user-icon-container'>
-                      <BiUserCircle className='user-icon' id='Popover' />
-                    </div>
-                    
+              {this.props.userLogued && <NavItem>
+                <div className='user-box'>
 
-                    <UncontrolledPopover
-                      placement="bottom"
-                      target="Popover"
-                      trigger="legacy"
-                    >
-                      <PopoverHeader>
-                        {"👋Hola, " + this.props.userData?.nick}
-                      </PopoverHeader>
-                      <PopoverBody>
-                        <div className='vertical-container'>
-                          ¿Qué deseas hacer?
-                          <Button className='btn mt-2 btn-danger btn-sm' onClick={this.handleLogoutClick}>
-                            Cerrar sesión
-                          </Button>
-                        </div>
-                      </PopoverBody>
-                    </UncontrolledPopover>
-
+                  <div className='user-icon-container'>
+                    <BiUserCircle className='user-icon' id='Popover' />
                   </div>
-                </NavItem>
+                  
+
+                  <UncontrolledPopover
+                    placement="bottom"
+                    target="Popover"
+                    trigger="legacy"
+                  >
+                    <PopoverHeader>
+                      {"👋Hola, " + this.props.userData?.nick}
+                    </PopoverHeader>
+                    <PopoverBody>
+                      <div className='vertical-container'>
+                        ¿Qué deseas hacer?
+                        <Button className='btn mt-2 btn-danger btn-sm' onClick={this.handleLogoutClick}>
+                          Cerrar sesión
+                        </Button>
+                      </div>
+                    </PopoverBody>
+                  </UncontrolledPopover>
+
+                </div>
+              </NavItem>}
+
             </ul>
           </Collapse>
         </Navbar>

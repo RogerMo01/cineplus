@@ -21,7 +21,6 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
   async function handleAddSchedule(id: string, movie: string, room: string, date: Date, price: number, points: number) {
-    alert("Try to add to schedule");
 
     const request = {
       Movie: movie,
@@ -65,7 +64,6 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
   async function handleEditSchedule(id: string, movie: string, room: string, date: Date, price: number, points: number) {
-    alert("Try to edit schedule");
 
     const request = {
         Movie: movie,
@@ -114,7 +112,6 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
   const handleDeleteSchedule = (id: string) => async (e: React.MouseEvent) => {
-    alert("Try to delete from schedule");
 
     try {
       const response = await axios.delete(path + `/${id}`);
