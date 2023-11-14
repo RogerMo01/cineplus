@@ -109,7 +109,7 @@ function ScheduleModalForm(props: Props) {
         <ModalBody>
           <form>
 
-            <div className="form-group formgroup">
+            {/* <div className="form-group formgroup">
                 <label>Película</label>
                 <Form.Select aria-label="Película" onChange={handleMovieChange} defaultValue={props.moviePh}>
                     {props.movies.map((m) => (
@@ -118,9 +118,9 @@ function ScheduleModalForm(props: Props) {
                       </option>
                     ))}
                 </Form.Select>
-            </div>
+            </div> */}
 
-            <div className="form-group formgroup">
+            {/* <div className="form-group formgroup">
                 <label>Sala</label>
                 <Form.Select aria-label="Sala" onChange={handleRoomChange} defaultValue={props.roomPh}>
                     {props.rooms.map((s) => (
@@ -129,10 +129,10 @@ function ScheduleModalForm(props: Props) {
                       </option>
                     ))}
                 </Form.Select>
-            </div>
+            </div> */}
 
 
-            <div className="form-group formgroup">
+            {/* <div className="form-group formgroup">
               <label>Horario</label>
               <div>
                   <DatePicker
@@ -146,7 +146,7 @@ function ScheduleModalForm(props: Props) {
                     dateFormat="MMMM d, h:mm aa"
                   />
               </div>
-            </div>
+            </div> */}
 
 
             <div className="form-group formgroup">

@@ -181,7 +181,6 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th>Id</th>
               <th>Película</th>
               <th>Sala</th>
               <th>Horario</th>
@@ -193,7 +192,6 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
           <tbody>
             {schedule.map((s) => (
               <tr key={s.id}>
-                <td>{s.id}</td>
                 <td>{s.movie}</td>
                 <td>{s.room}</td>
                 <td>{parseDate(s.date.toString())}</td>

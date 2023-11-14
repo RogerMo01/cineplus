@@ -123,7 +123,6 @@ function MovieManager({ name, movies, path }: Props) {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th>Id</th>
               <th>Título</th>
               <th>Año</th>
               <th>País</th>
@@ -135,7 +134,6 @@ function MovieManager({ name, movies, path }: Props) {
           <tbody>
             {movies.map((movie) => (
               <tr key={movie.id}>
-                <td>{movie.id}</td>
                 <td>{movie.title}</td>
                 <td>{movie.year}</td>
                 <td>{movie.country}</td>
