@@ -5,8 +5,7 @@ namespace CineplusDB.Models;
 
 public class MovieProgramming
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Identifier { get; set; }
+    public Guid Identifier { get; set; }
 
     [Key]
     public int RoomId { get; set; }

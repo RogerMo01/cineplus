@@ -2,7 +2,7 @@ namespace cineplus.MovieProgrammingController;
 
 public class ProgrammingData
 {
-    public int Id { get; set; }
+    public string Id { get; set; } = "";
     public string Movie { get; set; }
     public string Room { get; set; }
     public DateTime Date { get; set; }
@@ -29,7 +29,7 @@ public class MovieProgrammingController : ControllerBase
         .Where(p => p.DateTimeId > time)
         .Select(p => new ProgrammingData
         {
-            Id = p.Identifier,
+            Id = p.Identifier.ToString(),
             Movie =  _context.Movies.FirstOrDefault(m => m.MovieId == p.MovieId).Title,
             Room =  _context.Rooms.FirstOrDefault(r => r.RoomId == p.RoomId).Name,
             Date = p.DateTimeId,
@@ -38,7 +38,6 @@ public class MovieProgrammingController : ControllerBase
         }).ToListAsync();
         
         return Ok(programming);
-        
     }
 
     
@@ -74,25 +73,12 @@ public class MovieProgrammingController : ControllerBase
         var movie_toSchedule = _context.Movies.FirstOrDefault(m => m.Title == data.Movie);
 
         // Hora valida para que comience la proxima pelicula segun la pelicula que queremos programar 
-        var next_time = data.Date.TimeOfDay + new TimeSpan(0, movie_toSchedule.Duration, 0) + new TimeSpan(0, 30, 0);
+        var next_time = cubaDate.TimeOfDay + new TimeSpan(0, movie_toSchedule.Duration, 0) + new TimeSpan(0, 30, 0);
 
-        // Obtener todas las películas programadas para esa sala y fecha
-        var scheduleMovies = _context.ScheduledMovies
-            .Where(sm => sm.RoomId == room.RoomId && sm.DateTimeId.Date == data.Date.Date)
-            .ToList();
-
-        foreach (var item in scheduleMovies)
-        {
-            var movie = _context.Movies.FirstOrDefault(m => m.MovieId == item.MovieId);
-
-            // Hora valida para que comience la proxima pelicula dada la pelicula ya programada
-            var next_validateTime = item.DateTimeId.TimeOfDay + new TimeSpan(0, movie.Duration, 0) + new TimeSpan(0, 30, 0);
-
-            bool overlap = (data.Date.TimeOfDay > item.DateTimeId.TimeOfDay && data.Date.TimeOfDay < next_validateTime) 
-                || (item.DateTimeId.TimeOfDay > data.Date.TimeOfDay && item.DateTimeId.TimeOfDay < next_time);
-            if(overlap) { return Conflict(new { Message = "No es posible programar la pelicula en ese horario"});}
-        }
-
+        bool overlap = ValidateDate(cubaDate, room.RoomId, next_time);
+        
+        if(overlap) { return Conflict(new { Message = "No es posible programar la pelicula en ese horario"});}
+        
         if (!_context.Schedules.Any(dt => dt.DateTime == new_Date))
         {   
             var schedule = new Schedule{ DateTime = new_Date};
@@ -101,6 +87,7 @@ public class MovieProgrammingController : ControllerBase
 
         var new_movieProgramming = new MovieProgramming{
          
+            Identifier = Guid.NewGuid(),
             RoomId = room.RoomId,
             MovieId = movie_toSchedule.MovieId,
             DateTimeId = new_Date,
@@ -116,9 +103,10 @@ public class MovieProgrammingController : ControllerBase
 
     
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteProgramming(int id)
+    public async Task<IActionResult> DeleteProgramming(string id)
     {
-        var toDelete = _context.ScheduledMovies.FirstOrDefault(p => p.Identifier == id);
+        Guid guidIdentifer = new Guid(id);
+        var toDelete = _context.ScheduledMovies.FirstOrDefault(p => p.Identifier == guidIdentifer);
         if(toDelete == null) {return NotFound(); }
 
         _context.ScheduledMovies.Remove(toDelete);
@@ -127,23 +115,60 @@ public class MovieProgrammingController : ControllerBase
         return Ok();
     }
 
+
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProgramming(int id, [FromBody] ProgrammingData data)
+    public async Task<IActionResult> UpdateProgramming(string id, [FromBody] ProgrammingData data)
     {
-        var programming = await _context.ScheduledMovies.FindAsync(id);
-        if(programming == null){ return NotFound(); }
+        Guid guidIdentifer = new Guid(id);
+
+        TimeZoneInfo cubaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Cuba Standard Time");
+
+        // Convertir la fecha a la zona horaria de Cuba
+        DateTime cubaDate = TimeZoneInfo.ConvertTimeFromUtc(data.Date, cubaTimeZone);
+
+        var toUpdate = _context.ScheduledMovies.FirstOrDefault(p => p.Identifier == guidIdentifer);
+        if(toUpdate == null) {return NotFound(); }
 
         var movie = _context.Movies.FirstOrDefault(m => m.Title == data.Movie);
         var room = _context.Rooms.FirstOrDefault(r => r.Name == data.Room);
 
-        programming.RoomId = room.RoomId;
-        programming.MovieId = movie.MovieId;
-        programming.DateTimeId = data.Date;
-        programming.Price = data.Price;
-        programming.PricePoints = data.Points;
+        // Hora valida para que comience la proxima pelicula segun la pelicula que queremos programar 
+        var next_time = cubaDate.TimeOfDay + new TimeSpan(0, movie.Duration, 0) + new TimeSpan(0, 30, 0);
+
+        bool overlap = ValidateDate(cubaDate, room.RoomId, next_time);
+        
+        if(overlap) { return Conflict(new { Message = "No es posible editar la pelicula en ese horario"});}
+
+        toUpdate.RoomId = room.RoomId;
+        toUpdate.MovieId = movie.MovieId;
+        toUpdate.DateTimeId = cubaDate;
+        toUpdate.Price = data.Price;
+        toUpdate.PricePoints = data.Points;
 
         await _context.SaveChangesAsync();
         return Ok();
+    }
+
+    private bool ValidateDate(DateTime cubaDate, int roomId, TimeSpan next_time)
+    {
+        var scheduleMovies = _context.ScheduledMovies
+            .Where(sm => sm.RoomId == roomId && sm.DateTimeId.Date == cubaDate.Date)
+            .ToList();
+
+        foreach (var item in scheduleMovies)
+        {
+            var movie = _context.Movies.FirstOrDefault(m => m.MovieId == item.MovieId);
+
+            // Hora valida para que comience la proxima pelicula dada la pelicula ya programada
+            var next_validateTime = item.DateTimeId.TimeOfDay + new TimeSpan(0, movie.Duration, 0) + new TimeSpan(0, 30, 0);
+
+            bool overlap = (cubaDate.TimeOfDay > item.DateTimeId.TimeOfDay && cubaDate.TimeOfDay < next_validateTime) 
+                || (item.DateTimeId.TimeOfDay > cubaDate.TimeOfDay && item.DateTimeId.TimeOfDay < next_time);
+            if(overlap) { return overlap; }
+        
+        }
+
+        return false;
     }
 
 }

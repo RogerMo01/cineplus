@@ -36,7 +36,7 @@ namespace CineplusDB.Models
             });
             
              modelBuilder.Entity<MovieProgramming>()
-                .HasKey(mp => new { mp.Identifier, mp.RoomId, mp.MovieId, mp.DateTimeId });
+                .HasKey(mp => new { mp.RoomId, mp.MovieId, mp.DateTimeId });
 
 
             // Seed🌱

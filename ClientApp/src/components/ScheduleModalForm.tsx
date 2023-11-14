@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/Form';
 
 interface Props {
   type: string;
-  clickHandler: (id: number, movie: string, room: string, date: Date, price: number, points: number) => void;
+  clickHandler: (id: string, movie: string, room: string, date: Date, price: number, points: number) => void;
   movies: Movie[];
   rooms: Room[];
   moviePh: string;
@@ -20,7 +20,7 @@ interface Props {
   pricePh: number;
   pointsPricePh: number;
   buttonConfig: ButtonConfig;
-  modifyId: number;
+  modifyId: string;
 }
 
 function ScheduleModalForm(props: Props) {

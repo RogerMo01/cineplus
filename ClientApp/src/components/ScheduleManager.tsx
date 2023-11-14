@@ -20,7 +20,7 @@ interface Props {
 function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
-  async function handleAddSchedule(id: number, movie: string, room: string, date: Date, price: number, points: number) {
+  async function handleAddSchedule(id: string, movie: string, room: string, date: Date, price: number, points: number) {
     alert("Try to add to schedule");
 
     const request = {
@@ -64,7 +64,7 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
   }
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
-  async function handleEditSchedule(id: number, movie: string, room: string, date: Date, price: number, points: number) {
+  async function handleEditSchedule(id: string, movie: string, room: string, date: Date, price: number, points: number) {
     alert("Try to edit schedule");
 
     const request = {
@@ -113,7 +113,7 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
   }
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
-  const handleDeleteSchedule = (id: number) => async (e: React.MouseEvent) => {
+  const handleDeleteSchedule = (id: string) => async (e: React.MouseEvent) => {
     alert("Try to delete from schedule");
 
     try {
@@ -139,14 +139,14 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
   function parseDate(inputDate: string): string{
     const fecha = new Date(inputDate);
 
-    const año = inputDate.substring(0, 4);
-    const mes = inputDate.substring(5, 7);
-    const dia = inputDate.substring(8, 10);
-    const horas = padZero(String(fecha.getHours() % 12 || 12));
-    const minutos = padZero(inputDate.substring(14, 16));
+    const year = inputDate.substring(0, 4);
+    const month = inputDate.substring(5, 7);
+    const day = inputDate.substring(8, 10);
+    const hours = padZero(String(fecha.getHours() % 12 || 12));
+    const minutes = padZero(inputDate.substring(14, 16));
     const ampm = fecha.getHours() >= 12 ? 'PM' : 'AM';
 
-    return `${año}-${mes}-${dia} / ${horas}:${minutos} ${ampm}`;
+    return `${day}-${month}-${year} / ${hours}:${minutes} ${ampm}`;
   }
   
   function padZero(num: string): string {
@@ -171,7 +171,7 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
             color: "primary",
             content: <>Nueva</>,
           }}
-          modifyId={-1}
+          modifyId={"-1"}
           movies={movies}
           rooms={rooms}
         />
