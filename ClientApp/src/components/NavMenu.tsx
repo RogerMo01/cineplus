@@ -2,21 +2,27 @@ import React, { Component } from 'react';
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
+import { NavLinkRoute } from '../types/types';
+
+
+interface Props {
+  navLinkItems: NavLinkRoute[];
+}
 
 interface NavMenuState {
   collapsed: boolean;
 }
 
-export class NavMenu extends Component<{}, NavMenuState> {
+export class NavMenu extends Component<Props, NavMenuState> {
   static displayName: string = NavMenu.name;
 
-  constructor(props: {}) {
+  constructor(props: Props) {
     super(props);
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.closeNavbar = this.closeNavbar.bind(this);
     this.state = {
-      collapsed: true
+      collapsed: true,
     };
   }
 
@@ -33,6 +39,8 @@ export class NavMenu extends Component<{}, NavMenuState> {
   }
 
   render() {
+    const { navLinkItems } = this.props;
+
     return (
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow" container light>
@@ -40,7 +48,16 @@ export class NavMenu extends Component<{}, NavMenuState> {
           <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
           <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
             <ul className="navbar-nav flex-grow">
-              <NavItem>
+              {
+                navLinkItems.map((item) => {
+
+                  return(
+                    <NavItem>
+                      <NavLink tag={Link} className="text-dark" to={item.route} onClick={this.closeNavbar}>{item.name}</NavLink>
+                    </NavItem>);
+                })
+              }
+              {/* <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/" onClick={this.closeNavbar}>Home</NavLink>
               </NavItem>
               <NavItem>
@@ -54,7 +71,7 @@ export class NavMenu extends Component<{}, NavMenuState> {
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/log-in" onClick={this.closeNavbar}>Iniciar sesión</NavLink>
-              </NavItem>
+              </NavItem> */}
             </ul>
           </Collapse>
         </Navbar>

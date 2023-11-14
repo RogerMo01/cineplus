@@ -42,3 +42,7 @@ export interface Schedule {
   price: number;
   points: number;
 }
+export interface NavLinkRoute {
+  name: string;
+  route: string;
+}

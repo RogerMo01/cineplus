@@ -241,7 +241,7 @@ function ManagerPage({pathHead}: Props) {
       id: "1",
       label: "Estadísticas",
       icon: FcDoughnutChart,
-      url: `${pathHead}/stats`,
+      url: `${pathHead}`,
     },
     {
       id: "2",
@@ -270,8 +270,8 @@ function ManagerPage({pathHead}: Props) {
         <SidebarMenu items={items} />
       </div>
       <Routes>
+        <Route path="/" element={<StatsManager/>}/>
         <Route path="/movies" element={<MovieManager name="Películas" movies={movies} path={home + moviesEndpoint} />} />
-        <Route path="/stats" element={<StatsManager/>}/>
         <Route path="/schedule" element={<ScheduleManager name="Programaciones" schedule={schedule} movies={movies} rooms={rooms} path={home + scheduleEndpoint}/>}/>
         <Route path="/rooms" element={<RoomManager name="Salas" rooms={rooms} path={home + roomsEndpoint} />}/>
       </Routes>
