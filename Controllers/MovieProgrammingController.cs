@@ -45,10 +45,17 @@ public class MovieProgrammingController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> InsertProgramming([FromBody] ProgrammingData data)
     {   
+
+        TimeZoneInfo cubaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Cuba Standard Time");
+
+        // Convertir la fecha a la zona horaria de Cuba
+        DateTime cubaDate = TimeZoneInfo.ConvertTimeFromUtc(data.Date, cubaTimeZone);
+
+
         // Sala a proyectar la pelicula
         var room = _context.Rooms.FirstOrDefault(r => r.Name == data.Room);
 
-        DateTime new_Date = new DateTime(data.Date.Year, data.Date.Month, data.Date.Day, data.Date.Hour, data.Date.Minute, 0);
+        DateTime new_Date = new DateTime(cubaDate.Year, cubaDate.Month, cubaDate.Day, cubaDate.Hour, cubaDate.Minute, 0);
         bool sameDate = false;
         foreach(var item in _context.ScheduledMovies)
         {

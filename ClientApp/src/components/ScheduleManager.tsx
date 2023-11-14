@@ -6,8 +6,7 @@ import ScheduleModalForm from "./ScheduleModalForm";
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
-// import { format } from 'date-fns';
+import axios, { AxiosError } from "axios";
 
 interface Props {
   name: string;
@@ -16,29 +15,6 @@ interface Props {
   rooms: Room[];
   path: string;
 }
-
-function formatDate(date: Date, format: string): string {
-  const day = padZero(date.getDate());
-  const month = padZero(date.getMonth() + 1);
-  const year = date.getFullYear();
-  const hours = padZero(date.getHours());
-  const minutes = padZero(date.getMinutes());
-  const seconds = padZero(date.getSeconds());
-
-  const formatted = format
-      .replace('dd', day)
-      .replace('MM', month)
-      .replace('yyyy', year.toString())
-      .replace('HH', hours)
-      .replace('mm', minutes)
-      .replace('ss', seconds);
-
-  return formatted;
-}
-function padZero(value: number): string {
-  return value < 10 ? `0${value}` : value.toString();
-}
-
 
 
 function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
@@ -50,7 +26,6 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
     const request = {
       Movie: movie,
       Room: room,
-      // Date: format(date, 'dd/MM/yyyy HH:mm:ss'),
       Date: date,
       Price: price,
       Points: points,
@@ -67,12 +42,24 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
         });
       }
     } catch (error) {
-      console.log(`Error de inserción (${error})`);
-      console.log(`addPath: (${path})`);
-      toast.error(`Error de inserción (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError<any>;
+
+        if (axiosError.response) {
+          const status = axiosError.response.status;
+          const message = axiosError.response.data.message;
+
+          if (status === 409) {
+            toast.error(message, { position: "bottom-right", autoClose: 3000 });
+          }
+        }
+      } else{
+        console.error(`Error de inserción (${error})`);
+        toast.error(`Error de inserción (${error})`, {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+      }
     }
   }
 
@@ -83,7 +70,6 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
     const request = {
         Movie: movie,
         Room: room,
-        // Date: format(date, 'dd/MM/yyyy HH:mm:ss'),
         Date: date,
         Price: price,
         Points: points,
@@ -100,12 +86,29 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
         });
       }
     } catch (error) {
-      console.log(`Error de edición (${error})`);
-      console.log(`editPath: (${path})`);
-      toast.error(`Error de edición (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
+
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError<any>;
+
+        if (axiosError.response) {
+          const status = axiosError.response.status;
+          const message = axiosError.response.data.message;
+
+          if (status === 409) {
+            toast.error(message, { position: "bottom-right", autoClose: 3000 });
+          }
+        }
+      } else{
+        console.error(`Error de edición (${error})`);
+        toast.error(`Error de edición (${error})`, {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+      }
+
+
+
+      
     }
   }
 
@@ -193,8 +196,7 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
                 <td>{s.id}</td>
                 <td>{s.movie}</td>
                 <td>{s.room}</td>
-                {/* <td>{parseDate(s.date.toString())}</td> */}
-                <td>{s.date.toString()}</td>
+                <td>{parseDate(s.date.toString())}</td>
                 <td>$ {s.price}</td>
                 <td>{s.points} ptos</td>
                 <td className="editColumn">
