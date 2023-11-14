@@ -42,3 +42,8 @@ export interface Schedule {
   price: number;
   points: number;
 }
+export interface Discount {
+  id: number;
+  concept: string;
+  percent: number;
+}
