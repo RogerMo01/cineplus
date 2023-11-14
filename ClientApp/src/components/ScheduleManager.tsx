@@ -6,7 +6,7 @@ import ScheduleModalForm from "./ScheduleModalForm";
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 interface Props {
   name: string;
@@ -16,10 +16,11 @@ interface Props {
   path: string;
 }
 
+
 function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
-  async function handleAddSchedule(id: number, movie: string, room: string, date: Date, price: number, points: number) {
+  async function handleAddSchedule(id: string, movie: string, room: string, date: Date, price: number, points: number) {
     alert("Try to add to schedule");
 
     const request = {
@@ -41,17 +42,29 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
         });
       }
     } catch (error) {
-      console.log(`Error de inserción (${error})`);
-      console.log(`addPath: (${path})`);
-      toast.error(`Error de inserción (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError<any>;
+
+        if (axiosError.response) {
+          const status = axiosError.response.status;
+          const message = axiosError.response.data.message;
+
+          if (status === 409) {
+            toast.error(message, { position: "bottom-right", autoClose: 3000 });
+          }
+        }
+      } else{
+        console.error(`Error de inserción (${error})`);
+        toast.error(`Error de inserción (${error})`, {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+      }
     }
   }
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
-  async function handleEditSchedule(id: number, movie: string, room: string, date: Date, price: number, points: number) {
+  async function handleEditSchedule(id: string, movie: string, room: string, date: Date, price: number, points: number) {
     alert("Try to edit schedule");
 
     const request = {
@@ -73,17 +86,34 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
         });
       }
     } catch (error) {
-      console.log(`Error de edición (${error})`);
-      console.log(`editPath: (${path})`);
-      toast.error(`Error de edición (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
+
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError<any>;
+
+        if (axiosError.response) {
+          const status = axiosError.response.status;
+          const message = axiosError.response.data.message;
+
+          if (status === 409) {
+            toast.error(message, { position: "bottom-right", autoClose: 3000 });
+          }
+        }
+      } else{
+        console.error(`Error de edición (${error})`);
+        toast.error(`Error de edición (${error})`, {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+      }
+
+
+
+      
     }
   }
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
-  const handleDeleteSchedule = (id: number) => async (e: React.MouseEvent) => {
+  const handleDeleteSchedule = (id: string) => async (e: React.MouseEvent) => {
     alert("Try to delete from schedule");
 
     try {
@@ -106,6 +136,23 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
     }
   };
 
+  function parseDate(inputDate: string): string{
+    const fecha = new Date(inputDate);
+
+    const year = inputDate.substring(0, 4);
+    const month = inputDate.substring(5, 7);
+    const day = inputDate.substring(8, 10);
+    const hours = padZero(String(fecha.getHours() % 12 || 12));
+    const minutes = padZero(inputDate.substring(14, 16));
+    const ampm = fecha.getHours() >= 12 ? 'PM' : 'AM';
+
+    return `${day}-${month}-${year} / ${hours}:${minutes} ${ampm}`;
+  }
+  
+  function padZero(num: string): string {
+    return num.padStart(2, '0');
+  }
+  
   return (
     <div className="full-container">
       <h2 className="header">{name}</h2>
@@ -124,7 +171,7 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
             color: "primary",
             content: <>Nueva</>,
           }}
-          modifyId={-1}
+          modifyId={"-1"}
           movies={movies}
           rooms={rooms}
         />
@@ -134,7 +181,6 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th>Id</th>
               <th>Película</th>
               <th>Sala</th>
               <th>Horario</th>
@@ -146,10 +192,9 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
           <tbody>
             {schedule.map((s) => (
               <tr key={s.id}>
-                <td>{s.id}</td>
                 <td>{s.movie}</td>
                 <td>{s.room}</td>
-                <td>{s.date.toDateString()}</td>
+                <td>{parseDate(s.date.toString())}</td>
                 <td>$ {s.price}</td>
                 <td>{s.points} ptos</td>
                 <td className="editColumn">
@@ -159,7 +204,7 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
                       clickHandler={handleEditSchedule}
                       moviePh={s.movie}
                       roomPh={s.room}
-                      datePh={s.date}
+                      datePh={new Date(s.date)}
                       pricePh={s.price}
                       pointsPricePh={s.points}
                       buttonConfig={{

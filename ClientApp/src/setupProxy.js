@@ -9,6 +9,7 @@ const context = [
   "/api/form",
   "/api/movie",
   "/api/room",
+  "/api/movieprogramming",
   "/api/authentication",
   "/api/registration"
 ];

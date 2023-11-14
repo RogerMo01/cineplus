@@ -111,7 +111,6 @@ function RoomManager({ name, rooms, path }: Props) {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th>Id</th>
               <th>Nombre</th>
               <th>Butacas</th>
               <th></th>
@@ -120,7 +119,6 @@ function RoomManager({ name, rooms, path }: Props) {
           <tbody>
             {rooms.map((room) => (
               <tr key={room.id}>
-                <td>{room.id}</td>
                 <td>{room.name}</td>
                 <td>{room.seats}</td>
                 <td className="editColumn">
