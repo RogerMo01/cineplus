@@ -47,3 +47,8 @@ export interface Discount {
   concept: string;
   percent: number;
 }
+
+export interface SingleTextModal {
+  id: number,
+  name: string
+}

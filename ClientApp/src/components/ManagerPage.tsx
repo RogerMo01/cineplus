@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes } from 'react-router-dom';
-import { Discount, SidebarMenuItem } from "../types/types";
+import { Discount, SidebarMenuItem, SingleTextModal } from "../types/types";
 import "./ManagerPage.css";
 import { FcClapperboard } from "react-icons/fc";
 import { FcCurrencyExchange } from "react-icons/fc";
 import { FcPieChart } from "react-icons/fc";
 import { FcCalendar } from "react-icons/fc";
+import { FcPortraitMode } from "react-icons/fc";
+import { GiDramaMasks } from "react-icons/gi";
 import { FcConferenceCall } from "react-icons/fc";
 import SidebarMenu from "./SidebarMenu";
 import MovieManager from "./MovieManager";
@@ -14,6 +16,8 @@ import ScheduleManager from "./ScheduleManager";
 import axios from "axios";
 import RoomManager from "./RoomManager";
 import DiscountManager from "./DiscountManager";
+import ActorsManager from "./ActorsManager";
+import GenresManager from "./GenresManager";
 
 interface Props{
   pathHead: string
@@ -31,6 +35,8 @@ function ManagerPage({pathHead}: Props) {
   const roomsEndpoint = '/api/room';
   const scheduleEndpoint = '/api/movieprogramming';
   const discountsEndpoint = '/api/endpoint';
+  const actorsEndpoint = '/api/endpoint';
+  const genresEndpoint = '/api/endpoint';
   // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
 
   
@@ -96,7 +102,38 @@ function ManagerPage({pathHead}: Props) {
   //     console.error('Error al enviar la solicitud:', error);
   //   })
   // }, []);
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  // ~~~~~~~~~~~~~~~~ GET actors ~~~~~~~~~~~~~~~~~~~~
+  // const [actors, setActors] = useState([]);
+
+  // useEffect(() => {
+  //   axios.get(actorsEndpoint)
+  //   .then((response) => {
+  //     if (response.status === 200) {
+  //       console.log('Solicitud GET con éxito');
+  //       setSchedule(response.data);
+  //     }
+  //   }).catch((error) => {
+  //     console.error('Error al enviar la solicitud:', error);
+  //   })
+  // }, []);
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  // ~~~~~~~~~~~~~~~~ GET genres ~~~~~~~~~~~~~~~~~~~~
+  // const [genres, setGenres] = useState([]);
+
+  // useEffect(() => {
+  //   axios.get(actorsEndpoint)
+  //   .then((response) => {
+  //     if (response.status === 200) {
+  //       console.log('Solicitud GET con éxito');
+  //       setGenres(response.data);
+  //     }
+  //   }).catch((error) => {
+  //     console.error('Error al enviar la solicitud:', error);
+  //   })
+  // }, []);
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   
 
@@ -271,6 +308,44 @@ function ManagerPage({pathHead}: Props) {
     }
   ];
 
+  const actors: SingleTextModal[] = [
+    {
+      id: 1,
+      name: 'Jack Grealish'
+    },
+    {
+      id: 2,
+      name: 'Erling Haaland'
+    },
+    {
+      id: 3,
+      name: 'Paulo Dybala'
+    },
+    {
+      id: 4,
+      name: 'Julián Álvarez'
+    }
+  ];
+
+  const genres: SingleTextModal[] = [
+    {
+      id: 1,
+      name: 'Thriller'
+    },
+    {
+      id: 2,
+      name: 'Action'
+    },
+    {
+      id: 3,
+      name: 'Romantic'
+    },
+    {
+      id: 4,
+      name: 'Terror'
+    }
+  ];
+
 
 
 
@@ -304,6 +379,18 @@ function ManagerPage({pathHead}: Props) {
       label: "Descuentos",
       icon: FcCurrencyExchange,
       url: `${pathHead}/discounts`
+    },
+    {
+      id: "6",
+      label: "Actores",
+      icon: FcPortraitMode,
+      url: `${pathHead}/actors`
+    },
+    {
+      id: "7",
+      label: "Géneros",
+      icon: GiDramaMasks,
+      url: `${pathHead}/genres`
     }
   ];
   
@@ -319,6 +406,8 @@ function ManagerPage({pathHead}: Props) {
         <Route path="/schedule" element={<ScheduleManager name="Programaciones" schedule={schedule} movies={movies} rooms={rooms} path={home + scheduleEndpoint}/>}/>
         <Route path="/rooms" element={<RoomManager name="Salas" rooms={rooms} path={home + roomsEndpoint} />}/>
         <Route path="/discounts" element={<DiscountManager name="Descuentos" discounts={discounts} path={home + discountsEndpoint} />} />
+        <Route path="/actors" element={<ActorsManager name="Actores" actors={actors} path={home + actorsEndpoint} />} />
+        <Route path="/genres" element={<GenresManager name="Géneros" genres={genres} path={home + genresEndpoint} />} />
       </Routes>
       
     </div>

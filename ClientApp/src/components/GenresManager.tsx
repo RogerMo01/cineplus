@@ -1,26 +1,22 @@
 import React from "react";
 import "./MovieManager.css";
-import { Discount } from "../types/types";
 import { RiDeleteBin2Line } from "react-icons/ri";
-import DiscountModalForm from "./DiscountModalForm";
-import axios from "axios";
-import { toast } from "react-toastify";
 import { FiEdit2 } from "react-icons/fi";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import { SingleTextModal } from "../types/types";
+import SingleTextModalForm from "./SingleTextModalForm";
 
 interface Props {
   name: string;
-  discounts: Discount[];
+  genres: SingleTextModal[];
   path: string;
 }
 
-function DiscountManager({ name, discounts, path }: Props) {
-
-  // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
-  async function handleAddDiscount(id: number, concept: string, percent: number) {
-    alert('Trying to ADD a Discount');
+function GenresManager({ name, genres, path }: Props) {
+  async function handleAdd(id: number, name: string) {
     const request = {
-      Concept: concept,
-      Percent: percent,
+      Name: name,
     };
 
     try {
@@ -41,21 +37,19 @@ function DiscountManager({ name, discounts, path }: Props) {
     }
   }
 
-  // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
-  const handleDeleteDiscount = (id: number) => async (e: React.MouseEvent) => {
-    alert('Trying to DELETE a Discount');
-
+  const handleDelete = (id: number) => async (e: React.MouseEvent) => {
     try {
       const response = await axios.delete(path + `/${id}`);
 
       if (response.status === 200) {
+        console.log("post success");
         toast.success("Eliminación exitosa!", {
           position: "bottom-right",
           autoClose: 3000,
         });
       }
     } catch (error) {
-      console.error(`Error de eliminacion (${error})`);
+      console.error(`Error de eliminación (${error})`);
       toast.error(`Error de eliminación (${error})`, {
         position: "bottom-right",
         autoClose: 3000,
@@ -63,19 +57,16 @@ function DiscountManager({ name, discounts, path }: Props) {
     }
   };
 
-  // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
-  async function handleEditDiscount(id: number, concept: string, percent: number) {
-    alert('Trying to EDIT a Discount');
-
+  async function handleEdit(id: number, name: string) {
     const request = {
-      Concept: concept,
-      Percent: percent,
+      Name: name,
     };
 
     try {
       const response = await axios.put(path + `/${id}`, request);
 
       if (response.status === 200) {
+        console.log("post success");
         toast.success("Edición exitosa!", {
           position: "bottom-right",
           autoClose: 3000,
@@ -95,11 +86,10 @@ function DiscountManager({ name, discounts, path }: Props) {
       <h2 className="header">{name}</h2>
 
       <div className="toolButtons">
-        <DiscountModalForm
+        <SingleTextModalForm
           type="new"
-          clickHandler={handleAddDiscount}
-          conceptPh=""
-          percentPh={0}
+          clickHandler={handleAdd}
+          namePh="Insertar nombre"
           buttonConfig={{
             className: "align-right",
             color: "primary",
@@ -113,34 +103,31 @@ function DiscountManager({ name, discounts, path }: Props) {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th>Concepto</th>
-              <th>Descuento(%)</th>
+              <th>Nombre</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {discounts.map((disc) => (
-              <tr key={disc.id}>
-                <td>{disc.concept}</td>
-                <td>{disc.percent * 100}%</td>
+            {genres.map((genre) => (
+              <tr key={genre.id}>
+                <td>{genre.name}</td>
                 <td className="editColumn">
                   <div className="modifyButtons">
-                    <DiscountModalForm
+                    <SingleTextModalForm
                       type="edit"
-                      clickHandler={handleEditDiscount}
-                      conceptPh={disc.concept}
-                      percentPh={disc.percent}
+                      clickHandler={handleEdit}
+                      namePh={genre.name}
                       buttonConfig={{
                         className: "modifyButton",
                         color: "secondary",
                         content: <FiEdit2 />,
                       }}
-                      modifyId={disc.id}
+                      modifyId={genre.id}
                     />
 
                     <button
                       className="btn btn-danger modifyButton"
-                      onClick={handleDeleteDiscount(disc.id)}
+                      onClick={handleDelete(genre.id)}
                     >
                       <RiDeleteBin2Line />
                     </button>
@@ -151,8 +138,9 @@ function DiscountManager({ name, discounts, path }: Props) {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   );
 }
 
-export default DiscountManager;
+export default GenresManager;
