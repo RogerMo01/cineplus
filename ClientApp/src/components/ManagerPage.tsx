@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes } from 'react-router-dom';
-import { SidebarMenuItem } from "../types/types";
+import { Discount, SidebarMenuItem } from "../types/types";
 import "./ManagerPage.css";
 import { FcClapperboard } from "react-icons/fc";
-import { FcDoughnutChart } from "react-icons/fc";
+import { FcCurrencyExchange } from "react-icons/fc";
+import { FcPieChart } from "react-icons/fc";
 import { FcCalendar } from "react-icons/fc";
 import { FcConferenceCall } from "react-icons/fc";
 import SidebarMenu from "./SidebarMenu";
@@ -12,6 +13,7 @@ import StatsManager from "./StatsManager";
 import ScheduleManager from "./ScheduleManager";
 import axios from "axios";
 import RoomManager from "./RoomManager";
+import DiscountManager from "./DiscountManager";
 
 interface Props{
   pathHead: string
@@ -28,6 +30,7 @@ function ManagerPage({pathHead}: Props) {
   const moviesEndpoint = '/api/movie';
   const roomsEndpoint = '/api/room';
   const scheduleEndpoint = '/api/movieprogramming';
+  const discountsEndpoint = '/api/endpoint';
   // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
 
   
@@ -78,6 +81,24 @@ function ManagerPage({pathHead}: Props) {
     })
   }, []);
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  // ~~~~~~~~~~~~~~~~ GET discounts ~~~~~~~~~~~~~~~~~~~~
+  // const [discounts, setDiscounts] = useState([]);
+
+  // useEffect(() => {
+  //   axios.get(discountsEndpoint)
+  //   .then((response) => {
+  //     if (response.status === 200) {
+  //       console.log('Solicitud GET con éxito');
+  //       setDiscounts(response.data);
+  //     }
+  //   }).catch((error) => {
+  //     console.error('Error al enviar la solicitud:', error);
+  //   })
+  // }, []);
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
 
 
   // ~~~~~~~~~~~ TEMPORAL movies array ~~~~~~~~~~~~~
@@ -232,6 +253,23 @@ function ManagerPage({pathHead}: Props) {
   //   },
   // ];
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const discounts: Discount[] = [
+    {
+      id: 1,
+      concept: "Día del estudiante",
+      percent: 0.05
+    },
+    {
+      id: 2,
+      concept: "Día mundial del Cine",
+      percent: 0.1
+    },
+    {
+      id: 3,
+      concept: "Por viejo",
+      percent: 1
+    }
+  ];
 
 
 
@@ -240,7 +278,7 @@ function ManagerPage({pathHead}: Props) {
     {
       id: "1",
       label: "Estadísticas",
-      icon: FcDoughnutChart,
+      icon: FcPieChart,
       url: `${pathHead}/stats`,
     },
     {
@@ -261,6 +299,12 @@ function ManagerPage({pathHead}: Props) {
       icon: FcConferenceCall,
       url: `${pathHead}/rooms`,
     },
+    {
+      id: "5",
+      label: "Descuentos",
+      icon: FcCurrencyExchange,
+      url: `${pathHead}/discounts`
+    }
   ];
   
 
@@ -274,6 +318,7 @@ function ManagerPage({pathHead}: Props) {
         <Route path="/stats" element={<StatsManager/>}/>
         <Route path="/schedule" element={<ScheduleManager name="Programaciones" schedule={schedule} movies={movies} rooms={rooms} path={home + scheduleEndpoint}/>}/>
         <Route path="/rooms" element={<RoomManager name="Salas" rooms={rooms} path={home + roomsEndpoint} />}/>
+        <Route path="/discounts" element={<DiscountManager name="Descuentos" discounts={discounts} path={home + discountsEndpoint} />} />
       </Routes>
       
     </div>

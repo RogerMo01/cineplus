@@ -65,7 +65,12 @@ function MovieModalForm(props: Props) {
 
   const handleDurationChange = (e: React.ChangeEvent) => {
     const newDuration = (e.target as HTMLInputElement).value;
-    setDuration(parseInt(newDuration));
+    if(newDuration === ''){
+      setDuration(props.durationPh);
+    }
+    else{
+      setDuration(parseInt(newDuration));
+    }
   };
 
   const validateInput = () => {
@@ -74,6 +79,7 @@ function MovieModalForm(props: Props) {
       country.length === 0 ||
       director.length === 0 ||
       duration === 0 ||
+      duration < 0 ||
       isNaN(duration)
     ) {
       setInvalidInput(true);
@@ -156,7 +162,7 @@ function MovieModalForm(props: Props) {
                 id="minutesInput"
                 onChange={handleDurationChange}
                 placeholder={`${props.durationPh}`}
-                defaultValue={props.durationPh}
+                defaultValue={props.type === 'edit' ? props.durationPh : undefined}
                 step="1"
                 min="1"
                 required

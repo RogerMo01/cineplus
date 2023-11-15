@@ -7,44 +7,61 @@ import { ButtonConfig } from "../types/types";
 
 interface Props {
   type: string; // {new, edit}
-  clickHandler: (id: number, name: string, seats: number) => void;
-  namePh: string;
-  seatsPh: number;
+  clickHandler: (id: number, concept: string, percent: number) => void;
+  conceptPh: string;
+  percentPh: number;
   buttonConfig: ButtonConfig;
   modifyId: number;
 }
+const regex = /[^0-9]/;
 
 
-function RoomModalForm(props: Props) {
+function DiscountModalForm(props: Props) {
   const [show, setShow] = useState(false);
   const [invalidInput, setInvalidInput] = useState(false);
 
-  const [name, setName] = useState("");
-  const [seats, setSeats] = useState(0);
-
+  const [concept, setConcept] = useState("");
+  const [percent, setPercent] = useState(0);
 
   const toggle = () => {
     resetValues();
     setShow(!show);
   };
   function resetValues() {
-    setName(props.type === "edit" ? props.namePh : "");
-    setSeats(props.type === "edit" ? props.seatsPh : 0);
+    setConcept(props.type === "edit" ? props.conceptPh : "");
+    setPercent(props.type === "edit" ? props.percentPh : 0);
     setInvalidInput(false);
   }
 
-  const handleSeatsChange = (e: React.ChangeEvent) => {
-    const newCount = (e.target as HTMLInputElement).value;
-    if(newCount === ''){
-      setSeats(props.seatsPh);
+  const handlePercentChange = (e: React.ChangeEvent) => {
+    const newP = (e.target as HTMLInputElement).value;
+    const val = parseInt(newP);
+    
+
+    
+    if(regex.test(newP)){
+        (e.target as HTMLInputElement).value = percent.toString();
+    }
+    else if(val > 100){
+        (e.target as HTMLInputElement).value = "100";
+    } 
+    else if(val < 0){
+        (e.target as HTMLInputElement).value = "0";
+    }
+    else if(newP === ''){
+        setPercent(props.percentPh);
     }
     else{
-      setSeats(parseInt(newCount));
+        setPercent(parseInt(newP)/100);
     }
+    
   };
 
   const validateInput = () => {
-    if (name.length === 0 || seats === 0 || seats < 0 || isNaN(seats)) {
+    if (
+      concept.length === 0 ||
+      isNaN(percent)
+    ) {
       setInvalidInput(true);
       return false;
     } else {
@@ -68,32 +85,33 @@ function RoomModalForm(props: Props) {
       <Modal isOpen={show} toggle={toggle}>
         <ModalHeader toggle={toggle}>
           {props.type === "new"
-            ? "Nueva Sala"
+            ? "Nuevo Descuento"
             : props.type === "edit"
-            ? "Editar Sala"
+            ? "Editar Descuento"
             : ""}
         </ModalHeader>
-
         <ModalBody>
           <form>
             <TextInput
-              name="Nombre"
-              value={name}
-              setValue={setName}
-              placeholder={props.namePh}
-              defaultValue={props.type === "edit" ? props.namePh : ""}
+              name="Concepto"
+              value={concept}
+              setValue={setConcept}
+              placeholder={props.conceptPh}
+              defaultValue={props.type === "edit" ? props.conceptPh : ""}
             />
+
             <div className="form-group formgroup">
-              <label htmlFor="minutesInput">Cantidad de butacas</label>
+              <label htmlFor="percentInput">Descuento(%)</label>
               <input
                 type="number"
                 className="form-control"
-                id="seatsCount"
-                onChange={handleSeatsChange}
-                placeholder={`${props.seatsPh}`}
-                defaultValue={props.type === 'edit' ? props.seatsPh : undefined}
+                id="percentInput"
+                onChange={handlePercentChange}
+                placeholder={`${props.percentPh * 100}`}
+                defaultValue={props.type === 'edit' ? props.percentPh*100 : undefined}
                 step="1"
-                min="1"
+                min="0"
+                max="100"
                 required
               />
             </div>
@@ -117,8 +135,8 @@ function RoomModalForm(props: Props) {
               if (validateInput()) {
                 props.clickHandler(
                   props.modifyId,
-                  name,
-                  seats
+                  concept,
+                  percent
                 );
                 toggle();
               }
@@ -132,4 +150,4 @@ function RoomModalForm(props: Props) {
   );
 }
 
-export default RoomModalForm;
+export default DiscountModalForm;
