@@ -19,14 +19,11 @@ public abstract class CRDController<T> : ControllerBase where T : class
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IActionResult> Delete(int id)
+    public async Task Delete(int id)
     {
         var entity = await _context.Set<T>().FindAsync(id);
-        if (entity == null) { return NotFound(); }
 
         _context.Set<T>().Remove(entity);
         await _context.SaveChangesAsync();
-
-        return Ok();
     }
 }

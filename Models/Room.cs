@@ -5,5 +5,6 @@ namespace CineplusDB.Models
         public int RoomId { get; set; }
         public string Name { get; set; }
         public int SeatsCount { get; set; }
+
     }
 }

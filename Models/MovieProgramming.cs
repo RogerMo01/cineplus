@@ -7,8 +7,8 @@ public class MovieProgramming
 {
     public Guid Identifier { get; set; }
 
-    [Key]
-    public int RoomId { get; set; }
+    [Key, ForeignKey("Room")]
+    public int? RoomId { get; set; }
     [Key]
     public int MovieId { get; set; }
     [Key]

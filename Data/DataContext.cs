@@ -14,6 +14,8 @@ namespace CineplusDB.Models
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<MovieProgramming> ScheduledMovies { get; set; }
+        public DbSet<Seat> Seats { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
         
         protected readonly IConfiguration Configuration;
 
@@ -65,7 +67,8 @@ namespace CineplusDB.Models
                 
             modelBuilder.Entity<MovieProgramming>()
                 .HasKey(mp => new { mp.RoomId, mp.MovieId, mp.DateTimeId });
-
+            
+            
             base.OnModelCreating(modelBuilder);
 
             // Seed🌱

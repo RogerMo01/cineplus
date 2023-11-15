@@ -54,7 +54,8 @@ public class MovieController : CRDController<Movie>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteMovie(int id)
     {
-        return await base.Delete(id);
+        await base.Delete(id);
+        return Ok();
     }
 
     [HttpPut("{id}")]

@@ -1,4 +1,5 @@
 using cineplus.CRDController;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace cineplus.RoomController;
 public class RoomDto 
@@ -32,6 +33,7 @@ public class RoomController : CRDController<Room>
         return Ok(roomsDto);
     }
 
+
     [HttpPost]
     public async Task<IActionResult> InsertRoom([FromBody] Room room)
     {
@@ -41,14 +43,25 @@ public class RoomController : CRDController<Room>
         }
 
         await base.Insert(room); 
+
+        int roomId = _context.Rooms.FirstOrDefault(r => r.Name == room.Name).RoomId;
+
+        await generateSeats(room.SeatsCount, room.Name, roomId);
+        
         return Ok();
     }
+   
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteRoom(int id)
     {
-        return await base.Delete(id);
+        await base.Delete(id);
+
+        await deleteSeats(id);
+
+        return Ok();
     }
+
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateRoom(int id, [FromBody] Room updateRoom)
@@ -56,10 +69,71 @@ public class RoomController : CRDController<Room>
         var room = await _context.Rooms.FindAsync(id);
         if(room == null){ return NotFound(); }
 
+        if(room.SeatsCount != updateRoom.SeatsCount)
+        {
+            await deleteSeats(id);
+            await generateSeats(updateRoom.SeatsCount, updateRoom.Name, room.RoomId);
+        }
+
         room.Name = updateRoom.Name;
         room.SeatsCount = updateRoom.SeatsCount;
     
         await _context.SaveChangesAsync();
         return Ok();
     }
+    
+
+// ------------------ Generate Seats ------------------------------------------
+     private async Task generateSeats(int n, string name, int roomId)
+    {
+        for(int i = 1; i <= n; i++)
+        {
+            string prefix = generatePrefix(name);
+
+            Seat seat = new Seat{
+                RoomId = roomId,
+                Code = prefix.ToUpper() + "-" + i
+            };
+
+            _context.Seats.Add(seat);
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    private string generatePrefix(string p)
+    {
+        string[] words = p.Split(' ');
+
+        // Tomar la primera letra de cada palabra o fragmento de números consecutivos
+        string initials = string.Join("", words.Select(word => GetInitial(word)));
+
+        return initials;
+    }
+    private static string GetInitial(string word)
+    {
+        // Si la palabra es numérica, devolver la palabra completa
+        if (IsNumerical(word))
+        {
+            return word;
+        }
+
+        // Tomar la primera letra de la palabra
+        return word[0].ToString();
+    }
+    private static bool IsNumerical(string str)
+    {
+        return int.TryParse(str, out _);
+    }
+//  ------------------------------------------------------------------------
+
+// ---------------------- Delete Seats ---------------------------------------------
+
+    private async Task deleteSeats(int id)
+    {
+        var seats = _context.Seats.Where(s => s.RoomId == id).ToList();
+        _context.Seats.RemoveRange(seats);
+        await _context.SaveChangesAsync();
+    }
+
+// -------------------------------------------------------------------------------
 }
