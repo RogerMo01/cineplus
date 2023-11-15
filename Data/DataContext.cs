@@ -18,6 +18,8 @@ namespace CineplusDB.Models
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<Actor> Actors { get; set; }
         public DbSet<ActorByFilm> ActorsByFilms { get; set; }
+        public DbSet<Gender> Genders { get; set; }
+         public DbSet<GenderByFilm> GendersByFilms { get; set; }
         
         protected readonly IConfiguration Configuration;
 
@@ -81,6 +83,19 @@ namespace CineplusDB.Models
             modelBuilder.Entity<ActorByFilm>()
                 .HasOne(m => m.Movie)
                 .WithMany(x => x.ActorsByFilms)
+                .HasForeignKey(m => m.MovieId);
+
+            modelBuilder.Entity<GenderByFilm>()
+                .HasKey(x => new { x.GenderId, x.MovieId});
+
+            modelBuilder.Entity<GenderByFilm>()
+                .HasOne(g => g.Gender)
+                .WithMany(x => x.GendersByFilms)
+                .HasForeignKey(g => g.GenderId);
+
+            modelBuilder.Entity<GenderByFilm>()
+                .HasOne(m => m.Movie)
+                .WithMany(x => x.GendersByFilms)
                 .HasForeignKey(m => m.MovieId);
             
             base.OnModelCreating(modelBuilder);

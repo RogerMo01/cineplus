@@ -10,5 +10,6 @@ namespace CineplusDB.Models
         public int Duration { get; set; }
 
         public ICollection<ActorByFilm> ActorsByFilms { get; set; }
+         public ICollection<GenderByFilm> GendersByFilms { get; set; }
     }
 }
