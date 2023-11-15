@@ -2,8 +2,8 @@ import React, { FormEvent, useState } from "react";
 import UsernameInput from "./UsernameInput";
 import PasswordInput from "./PasswordInput";
 import { ToastContainer, toast } from "react-toastify";
-import axios, { AxiosError } from "axios";
 import { NavLink } from "react-router-dom";
+import Post from "./ProcessPost";
 
 function LogInForm() {
   const [username, setUsername] = useState("");
@@ -49,46 +49,16 @@ function LogInForm() {
       Password: password,
     };
 
-    try {
-      const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
-      const port = process.env.REACT_APP_PORT;
-      const networkIp = process.env.REACT_APP_NETWORK_IP;
+    const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
+    const port = process.env.REACT_APP_PORT;
+    const networkIp = process.env.REACT_APP_NETWORK_IP;
 
-      const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
-      //🚨🚨🚨Fix endpoints
-      const endpoint = '/api/authentication';
-      
-      const response = await axios.post(home + endpoint, formData);
+    const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
+    //🚨🚨🚨Fix endpoints
+    const endpoint = '/api/authentication';
 
-
-      if (response.status === 200) {
-        console.log("post success");
-        toast.success("Sesión iniciada!", { position: "bottom-right", autoClose: 3000 });
-        
-        // 🚨🚨🚨🚨🚨 Redireccionar a algun sitio 🚨🚨🚨🚨🚨
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<any>;
-
-        if (axiosError.response) {
-          const status = axiosError.response.status;
-          const message = axiosError.response.data.message;
-
-          if (status === 409) {
-            console.log("Invalid credentials");
-            toast.error(message, { position: "bottom-right", autoClose: 3000 });
-          } else {
-            toast.error(`Error en el registro (${status})`, { position: "bottom-right", autoClose: 3000 });
-            console.error("Error al enviar la solicitud", axiosError);
-          }
-        } else {
-          // Handle errors with no HTTP response
-          console.error("Error al enviar la solicitud", error);
-          toast.error(`Error en el registro (${error})`, { position: "bottom-right", autoClose: 3000 });
-        }
-      }
-    }
+    Post(formData, home + endpoint);
+    
   };
 
   return (

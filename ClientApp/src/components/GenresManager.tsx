@@ -6,6 +6,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { SingleTextModal } from "../types/types";
 import SingleTextModalForm from "./SingleTextModalForm";
+import Post from "./ProcessPost";
 
 interface Props {
   name: string;
@@ -19,22 +20,8 @@ function GenresManager({ name, genres, path }: Props) {
       Name: name,
     };
 
-    try {
-      const response = await axios.post(path, request);
-
-      if (response.status === 200) {
-        toast.success("Inserción exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.error(`Error de inserción (${error})`);
-      toast.error(`Error de inserción (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Post(request, path);
+    
   }
 
   const handleDelete = (id: number) => async (e: React.MouseEvent) => {

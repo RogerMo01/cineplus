@@ -6,6 +6,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { Room } from "../types/types";
 import RoomModalForm from "./RoomModalForm";
+import Post from "./ProcessPost";
 
 interface Props {
   name: string;
@@ -21,24 +22,8 @@ function RoomManager({ name, rooms, path }: Props) {
       SeatsCount: seats
     };
 
-    try {
-      const response = await axios.post(path, request);
-
-      if (response.status === 200) {
-        console.log("post success");
-        toast.success("Inserción exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.log(`Error de inserción (${error})`);
-      console.log(`addPath: (${path})`);
-      toast.error(`Error de inserción (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Post(request, path);
+    
   }
 
   const handleDeleteRoom = (id: number) => async (e: React.MouseEvent) => {

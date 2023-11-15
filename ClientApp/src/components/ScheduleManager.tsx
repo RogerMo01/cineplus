@@ -7,6 +7,7 @@ import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { ToastContainer, toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
+import Post from "./ProcessPost";
 
 interface Props {
   name: string;
@@ -31,36 +32,8 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
       Points: points,
     };
 
-    try {
-      const response = await axios.post(path, request);
-
-      if (response.status === 200) {
-        console.log("post success");
-        toast.success("Inserción exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<any>;
-
-        if (axiosError.response) {
-          const status = axiosError.response.status;
-          const message = axiosError.response.data.message;
-
-          if (status === 409) {
-            toast.error(message, { position: "bottom-right", autoClose: 3000 });
-          }
-        }
-      } else{
-        console.error(`Error de inserción (${error})`);
-        toast.error(`Error de inserción (${error})`, {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    }
+    Post(request, path);
+    
   }
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
