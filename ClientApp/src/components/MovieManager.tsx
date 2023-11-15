@@ -7,6 +7,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import MovieModalForm from "./MovieModalForm";
 import Post from "./ProcessPost";
+import Delete from "./ProcessDelete";
 
 interface Props {
   name: string;
@@ -32,24 +33,7 @@ function MovieManager({ name, movies, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
   const handleDeleteMovie = (id: number) => async (e: React.MouseEvent) => {
-    try {
-      const response = await axios.delete(path + `/${id}`);
-
-      if (response.status === 200) {
-        console.log("delete success");
-        toast.success("Eliminación exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.log(`Error de eliminación (${error})`);
-      console.log(`deletePath: (${path})`);
-      toast.error(`Error de eliminación (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Delete(id, path);
   };
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~

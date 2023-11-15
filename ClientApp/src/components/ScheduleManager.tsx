@@ -8,6 +8,7 @@ import { RiDeleteBin2Line } from "react-icons/ri";
 import { ToastContainer, toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
 import Post from "./ProcessPost";
+import Delete from "./ProcessDelete";
 
 interface Props {
   name: string;
@@ -22,7 +23,6 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
   async function handleAddSchedule(id: string, movie: string, room: string, date: Date, price: number, points: number) {
-    alert("Try to add to schedule");
 
     const request = {
       Movie: movie,
@@ -38,7 +38,6 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
   async function handleEditSchedule(id: string, movie: string, room: string, date: Date, price: number, points: number) {
-    alert("Try to edit schedule");
 
     const request = {
         Movie: movie,
@@ -87,26 +86,7 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
   const handleDeleteSchedule = (id: string) => async (e: React.MouseEvent) => {
-    alert("Try to delete from schedule");
-
-    try {
-      const response = await axios.delete(path + `/${id}`);
-  
-      if (response.status === 200) {
-        console.log("delete success");
-        toast.success("Eliminación exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.log(`Error de eliminación (${error})`);
-      console.log(`deletePath: (${path})`);
-      toast.error(`Error de eliminación (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Delete(id, path);
   };
 
   function parseDate(inputDate: string): string{

@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { SingleTextModal } from "../types/types";
 import SingleTextModalForm from "./SingleTextModalForm";
 import Post from "./ProcessPost";
+import Delete from "./ProcessDelete";
 
 interface Props {
   name: string;
@@ -25,23 +26,7 @@ function GenresManager({ name, genres, path }: Props) {
   }
 
   const handleDelete = (id: number) => async (e: React.MouseEvent) => {
-    try {
-      const response = await axios.delete(path + `/${id}`);
-
-      if (response.status === 200) {
-        console.log("post success");
-        toast.success("Eliminación exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.error(`Error de eliminación (${error})`);
-      toast.error(`Error de eliminación (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Delete(id, path);
   };
 
   async function handleEdit(id: number, name: string) {

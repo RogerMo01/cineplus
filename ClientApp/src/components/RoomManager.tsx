@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { Room } from "../types/types";
 import RoomModalForm from "./RoomModalForm";
 import Post from "./ProcessPost";
+import Delete from "./ProcessDelete";
 
 interface Props {
   name: string;
@@ -23,28 +24,10 @@ function RoomManager({ name, rooms, path }: Props) {
     };
 
     Post(request, path);
-    
   }
 
   const handleDeleteRoom = (id: number) => async (e: React.MouseEvent) => {
-    try {
-      const response = await axios.delete(path + `/${id}`);
-
-      if (response.status === 200) {
-        console.log("post success");
-        toast.success("Eliminación exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.log(`Error de eliminación (${error})`);
-      console.log(`deletePath: (${path})`);
-      toast.error(`Error de eliminación (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Delete(id, path);
   };
 
   async function handleEditRoom(id: number, name: string, seats: number) {

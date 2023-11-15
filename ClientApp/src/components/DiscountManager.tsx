@@ -7,6 +7,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FiEdit2 } from "react-icons/fi";
 import Post from "./ProcessPost";
+import Delete from "./ProcessDelete";
 
 interface Props {
   name: string;
@@ -18,7 +19,6 @@ function DiscountManager({ name, discounts, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
   async function handleAddDiscount(id: number, concept: string, percent: number) {
-    alert('Trying to ADD a Discount');
     const request = {
       Concept: concept,
       Percent: percent,
@@ -30,29 +30,11 @@ function DiscountManager({ name, discounts, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
   const handleDeleteDiscount = (id: number) => async (e: React.MouseEvent) => {
-    alert('Trying to DELETE a Discount');
-
-    try {
-      const response = await axios.delete(path + `/${id}`);
-
-      if (response.status === 200) {
-        toast.success("Eliminación exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.error(`Error de eliminacion (${error})`);
-      toast.error(`Error de eliminación (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Delete(id, path);
   };
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
   async function handleEditDiscount(id: number, concept: string, percent: number) {
-    alert('Trying to EDIT a Discount');
 
     const request = {
       Concept: concept,
