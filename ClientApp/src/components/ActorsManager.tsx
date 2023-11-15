@@ -8,6 +8,7 @@ import { SingleTextModal } from "../types/types";
 import ActorsModalForm from "./SingleTextModalForm";
 import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
+import Put from "./ProcessPut";
 
 interface Props {
   name: string;
@@ -16,13 +17,13 @@ interface Props {
 }
 
 function ActorsManager({ name, actors, path }: Props) {
+  
   async function handleAdd(id: number, name: string) {
     const request = {
       Name: name,
     };
 
     Post(request, path);
-    
   }
 
   const handleDelete = (id: number) => async (e: React.MouseEvent) => {
@@ -34,23 +35,7 @@ function ActorsManager({ name, actors, path }: Props) {
       Name: name,
     };
 
-    try {
-      const response = await axios.put(path + `/${id}`, request);
-
-      if (response.status === 200) {
-        console.log("post success");
-        toast.success("Edición exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.error(`Error de edición (${error})`);
-      toast.error(`Error de edición (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Put(id, request, path);
   }
 
   return (

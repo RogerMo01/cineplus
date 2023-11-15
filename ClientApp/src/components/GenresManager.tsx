@@ -8,6 +8,7 @@ import { SingleTextModal } from "../types/types";
 import SingleTextModalForm from "./SingleTextModalForm";
 import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
+import Put from "./ProcessPut";
 
 interface Props {
   name: string;
@@ -22,7 +23,6 @@ function GenresManager({ name, genres, path }: Props) {
     };
 
     Post(request, path);
-    
   }
 
   const handleDelete = (id: number) => async (e: React.MouseEvent) => {
@@ -34,23 +34,7 @@ function GenresManager({ name, genres, path }: Props) {
       Name: name,
     };
 
-    try {
-      const response = await axios.put(path + `/${id}`, request);
-
-      if (response.status === 200) {
-        console.log("post success");
-        toast.success("Edición exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.error(`Error de edición (${error})`);
-      toast.error(`Error de edición (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Put(id, request, path);
   }
 
   return (

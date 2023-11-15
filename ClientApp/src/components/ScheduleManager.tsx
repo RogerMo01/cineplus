@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
 import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
+import Put from "./ProcessPut";
 
 interface Props {
   name: string;
@@ -33,55 +34,20 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
     };
 
     Post(request, path);
-    
   }
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
   async function handleEditSchedule(id: string, movie: string, room: string, date: Date, price: number, points: number) {
 
     const request = {
-        Movie: movie,
-        Room: room,
-        Date: date,
-        Price: price,
-        Points: points,
+      Movie: movie,
+      Room: room,
+      Date: date,
+      Price: price,
+      Points: points,
     };
 
-    try {
-      const response = await axios.put(path + `/${id}`, request);
-
-      if (response.status === 200) {
-        console.log("put success");
-        toast.success("Edición exitosa!", {
-        position: "bottom-right",
-        autoClose: 3000,
-        });
-      }
-    } catch (error) {
-
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<any>;
-
-        if (axiosError.response) {
-          const status = axiosError.response.status;
-          const message = axiosError.response.data.message;
-
-          if (status === 409) {
-            toast.error(message, { position: "bottom-right", autoClose: 3000 });
-          }
-        }
-      } else{
-        console.error(`Error de edición (${error})`);
-        toast.error(`Error de edición (${error})`, {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-
-
-
-      
-    }
+    Put(id, request, path);
   }
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~

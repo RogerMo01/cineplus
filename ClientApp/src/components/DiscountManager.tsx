@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { FiEdit2 } from "react-icons/fi";
 import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
+import Put from "./ProcessPut";
 
 interface Props {
   name: string;
@@ -25,7 +26,6 @@ function DiscountManager({ name, discounts, path }: Props) {
     };
 
     Post(request, path);
-    
   }
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
@@ -35,28 +35,12 @@ function DiscountManager({ name, discounts, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
   async function handleEditDiscount(id: number, concept: string, percent: number) {
-
     const request = {
       Concept: concept,
       Percent: percent,
     };
 
-    try {
-      const response = await axios.put(path + `/${id}`, request);
-
-      if (response.status === 200) {
-        toast.success("Edición exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.error(`Error de edición (${error})`);
-      toast.error(`Error de edición (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Put(id, request, path);
   }
 
   return (

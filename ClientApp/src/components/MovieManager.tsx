@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import MovieModalForm from "./MovieModalForm";
 import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
+import Put from "./ProcessPut";
 
 interface Props {
   name: string;
@@ -28,7 +29,6 @@ function MovieManager({ name, movies, path }: Props) {
     };
 
     Post(request, path);
-    
   }
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
@@ -46,24 +46,7 @@ function MovieManager({ name, movies, path }: Props) {
       Duration: duration,
     };
 
-    try {
-      const response = await axios.put(path + `/${id}`, request);
-
-      if (response.status === 200) {
-        console.log("put success");
-        toast.success("Edición exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.log(`Error de edición (${error})`);
-      console.log(`editPath: (${path})`);
-      toast.error(`Error de edición (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Put(id, request, path)
   }
 
   return (
