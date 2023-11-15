@@ -8,5 +8,7 @@ namespace CineplusDB.Models
         public string Country { get; set; }
         public string Director { get; set; }
         public int Duration { get; set; }
+
+        public ICollection<ActorByFilm> ActorsByFilms { get; set; }
     }
 }
