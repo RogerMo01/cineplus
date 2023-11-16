@@ -5,6 +5,7 @@ import TextInput from "./TextInput";
 import { BiErrorCircle } from "react-icons/bi";
 import { ButtonConfig, SingleTextModal } from "../types/types";
 import Multiselect from 'multiselect-react-dropdown';
+import Form from 'react-bootstrap/Form'
 
 interface Props {
   type: string; // {new, edit}
@@ -149,30 +150,27 @@ function MovieModalForm(props: Props) {
               defaultValue={props.type === "edit" ? props.titlePh : ""}
             />
 
-            <div className="form-group formgroup">
-              <label htmlFor="year">Año</label>
-              <select
-                id="year"
-                name="year"
-                className="select"
-                onChange={handleYearChange}
-                defaultValue={props.yearPh}
-              >
-                {getYears().map((y) => (
-                  <option key={y} value={y}>
-                    {y}
-                  </option>
-                ))}
-              </select>
+            <div className="inline-container">
+              <div className="inline-item form-group formgroup">
+                <label>Año</label>
+                <Form.Select aria-label="Año" onChange={handleYearChange} defaultValue={props.yearPh}>
+                  {getYears().map((y) => (
+                    <option key={y} value={y}>
+                      {y}
+                    </option>
+                  ))}
+                </Form.Select>
+              </div>
+              <div className="inline-item">
+                <TextInput
+                  name="País"
+                  value={country}
+                  setValue={setCountry}
+                  placeholder={props.countryPh}
+                  defaultValue={props.type === "edit" ? props.countryPh : ""}
+                />
+              </div>
             </div>
-
-            <TextInput
-              name="País"
-              value={country}
-              setValue={setCountry}
-              placeholder={props.countryPh}
-              defaultValue={props.type === "edit" ? props.countryPh : ""}
-            />
 
             <TextInput
               name="Director"
