@@ -5,7 +5,6 @@ import TextInput from "./TextInput";
 import { BiErrorCircle } from "react-icons/bi";
 import { ButtonConfig, SingleTextModal } from "../types/types";
 import Multiselect from 'multiselect-react-dropdown';
-// import axios from "axios";
 
 interface Props {
   type: string; // {new, edit}
@@ -93,18 +92,6 @@ function MovieModalForm(props: Props) {
     setSelectedGenres(selectedList);
   }
 
-  // function getActors(id: number){
-  //   axios.get(props.getActorsEndpoint + `/${props.modifyId}`)
-  //   .then((response) => {
-  //     if (response.status === 200) {
-  //       console.log('Solicitud GET con éxito');
-  //       return response.data;
-  //     }
-  //   }).catch((error) => {
-  //     console.error('Error al enviar la solicitud:', error);
-  //   })
-  //   return [];
-  // }
 
   const validateInput = () => {
     if (
@@ -201,7 +188,6 @@ function MovieModalForm(props: Props) {
                   }
                 })}
                 selectedValues={
-                  // (props.type === 'edit') ? getActors(props.modifyId) : undefined
                   (props.type === 'edit') ? props.actorsPh : undefined
                 }
               />
@@ -219,7 +205,6 @@ function MovieModalForm(props: Props) {
                   }
                 })}
                 selectedValues={
-                  // (props.type === 'edit') ? getActors(props.modifyId) : undefined
                   (props.type === 'edit') ? props.genresPh : undefined
                 }
               />

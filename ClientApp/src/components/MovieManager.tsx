@@ -15,10 +15,9 @@ interface Props {
   actors: SingleTextModal[];
   genres: SingleTextModal[];
   path: string;
-  getActorsEndpoint: string;
 }
 
-function MovieManager({ name, movies, actors, genres, path, getActorsEndpoint }: Props) {
+function MovieManager({ name, movies, actors, genres, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
   async function handleAddMovie( id: number, title: string, year: number, country: string, director: string, actors: SingleTextModal[], genres: SingleTextModal[], duration: number) {
