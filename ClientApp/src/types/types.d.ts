@@ -21,6 +21,8 @@ export interface Movie {
   year: number;
   country: string;
   director: string;
+  actors: SingleTextModal[];
+  genres: SingleTextModal[];
   duration: number;
 }
 
@@ -46,4 +48,9 @@ export interface Discount {
   id: number;
   concept: string;
   percent: number;
+}
+
+export interface SingleTextModal {
+  id: number,
+  name: string
 }

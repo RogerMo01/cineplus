@@ -1,10 +1,9 @@
 import React, { FormEvent, useState } from "react";
-import axios, { AxiosError } from 'axios';
 import PasswordInput from "./PasswordInput";
 import UsernameInput from "./UsernameInput";
 import "./SignUpForm.css";
-import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
+import Post from "./ProcessPost";
 
 function SignUpForm() {
   // ~~~~~~~~~~~~~ Main states ~~~~~~~~~~~~~~~~
@@ -123,52 +122,20 @@ function SignUpForm() {
         DNI: dni,
       }
 
-      try {
-        const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
-        const port = process.env.REACT_APP_PORT;
-        const networkIp = process.env.REACT_APP_NETWORK_IP;
-        
-        const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
-        const endpoint = '/api/registration';
-        
-        const response = await axios.post(home + endpoint, formData);
-        
-        if (response.status === 200) {
-          console.log('post success');
-          toast.success('Registro completado!', {position: 'bottom-right', autoClose: 2000});
-          
-          setTimeout(() => {
-            window.location.href = home + '/log-in';
-          }, 2000);
-        }
-        
-      } catch (error) {
-        if(axios.isAxiosError(error)){
-          const axiosError = error as AxiosError<any>
+      const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
+      const port = process.env.REACT_APP_PORT;
+      const networkIp = process.env.REACT_APP_NETWORK_IP;
+      
+      const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
+      const endpoint = '/api/registration';
 
-          if (axiosError.response) {
-            const status = axiosError.response.status;
-            const message = axiosError.response.data.message;
-            
-            // Nick already exists
-            if(status === 409) {
-              console.log('Nick already exists');
-              toast.error(message, {position: 'bottom-right', autoClose: 3000});
-            } 
-            else {
-              toast.error(`Error en el registro (${status})`, {position: 'bottom-right', autoClose: 3000});
-              console.error('Error al enviar la solicitud', axiosError);
-            }
-            
-          } else {
-            // Handle errors with no HTTP response
-            console.error('Error al enviar la solicitud', error);
-            toast.error(`Error en el registro (${error})`, { position: 'bottom-right', autoClose: 3000 });
-          }
-        }
-      }
-      // ~~~~~~~ END Handle valid submit ~~~~~~~~
+      Post(formData, home + endpoint);
+      
+      // setTimeout(() => {
+      //   window.location.href = home + '/log-in';
+      // }, 2000);
     }
+
   };
   // ~~~~~~~~~~~~~~~ END Submmit Handler ~~~~~~~~~~~~~~~~~~
   

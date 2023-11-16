@@ -3,37 +3,34 @@ import "./MovieManager.css";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { FiEdit2 } from "react-icons/fi";
 import { ToastContainer } from "react-toastify";
-import { Room } from "../types/types";
-import RoomModalForm from "./RoomModalForm";
+import { SingleTextModal } from "../types/types";
+import SingleTextModalForm from "./SingleTextModalForm";
 import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
 import Put from "./ProcessPut";
 
 interface Props {
   name: string;
-  rooms: Room[];
+  genres: SingleTextModal[];
   path: string;
 }
 
-function RoomManager({ name, rooms, path }: Props) {
-
-  async function handleAddRoom(id: number, name: string, seats: number) {
+function GenresManager({ name, genres, path }: Props) {
+  async function handleAdd(id: number, name: string) {
     const request = {
       Name: name,
-      SeatsCount: seats
     };
 
     Post(request, path);
   }
 
-  const handleDeleteRoom = (id: number) => async (e: React.MouseEvent) => {
+  const handleDelete = (id: number) => async (e: React.MouseEvent) => {
     Delete(id, path);
   };
 
-  async function handleEditRoom(id: number, name: string, seats: number) {
+  async function handleEdit(id: number, name: string) {
     const request = {
       Name: name,
-      SeatsCount: seats
     };
 
     Put(id, request, path);
@@ -44,15 +41,14 @@ function RoomManager({ name, rooms, path }: Props) {
       <h2 className="header">{name}</h2>
 
       <div className="toolButtons">
-        <RoomModalForm
+        <SingleTextModalForm
           type="new"
-          clickHandler={handleAddRoom}
+          clickHandler={handleAdd}
           namePh="Insertar nombre"
-          seatsPh={0}
           buttonConfig={{
             className: "align-right",
             color: "primary",
-            content: <>Nueva</>,
+            content: <>Nuevo</>,
           }}
           modifyId={-1}
         />
@@ -63,33 +59,30 @@ function RoomManager({ name, rooms, path }: Props) {
           <thead>
             <tr>
               <th>Nombre</th>
-              <th>Butacas</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {rooms.map((room) => (
-              <tr key={room.id}>
-                <td>{room.name}</td>
-                <td>{room.seats}</td>
+            {genres.map((genre) => (
+              <tr key={genre.id}>
+                <td>{genre.name}</td>
                 <td className="editColumn">
                   <div className="modifyButtons">
-                    <RoomModalForm
+                    <SingleTextModalForm
                       type="edit"
-                      clickHandler={handleEditRoom}
-                      namePh={room.name}
-                      seatsPh={room.seats}
+                      clickHandler={handleEdit}
+                      namePh={genre.name}
                       buttonConfig={{
                         className: "modifyButton",
                         color: "secondary",
                         content: <FiEdit2 />,
                       }}
-                      modifyId={room.id}
+                      modifyId={genre.id}
                     />
 
                     <button
                       className="btn btn-danger modifyButton"
-                      onClick={handleDeleteRoom(room.id)}
+                      onClick={handleDelete(genre.id)}
                     >
                       <RiDeleteBin2Line />
                     </button>
@@ -105,4 +98,4 @@ function RoomManager({ name, rooms, path }: Props) {
   );
 }
 
-export default RoomManager;
+export default GenresManager;
