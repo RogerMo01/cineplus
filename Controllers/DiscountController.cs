@@ -6,7 +6,7 @@ public class DiscountDto
 {
     public int id { get; set; }
     public string concept { get; set; }
-    public float amount { get; set; }
+    public float percent { get; set; }
 }
 
 [Route("api/discount")]
@@ -28,7 +28,7 @@ public class DiscountController : CRDController<Discount>
             {
                 id = d.DiscountId, 
                 concept = d.Concept,
-                amount = d.Amount
+                percent = d.Percent
 
             }).ToListAsync();
         
@@ -61,7 +61,7 @@ public class DiscountController : CRDController<Discount>
         if(discount == null){ return NotFound(); }
 
         discount.Concept = updateDiscount.Concept;
-        discount.Amount = updateDiscount.Amount;
+        discount.Percent = updateDiscount.Percent;
 
         await _context.SaveChangesAsync();
         return Ok();
