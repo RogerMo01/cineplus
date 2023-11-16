@@ -98,7 +98,11 @@ namespace CineplusDB.Models
                 .WithMany(x => x.GenresByFilms)
                 .HasForeignKey(m => m.MovieId);
             
-            
+            modelBuilder.Entity<Room>()
+                .HasMany(s => s.SeatsByRoom)
+                .WithOne(seatbyroom => seatbyroom.Room)
+                .HasForeignKey(seatbyroom => seatbyroom.RoomId);
+
             SeedDataMovies(modelBuilder);
             SeedDataClients(modelBuilder);
             SeedDataDiscounts(modelBuilder);

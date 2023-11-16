@@ -6,6 +6,7 @@ namespace CineplusDB.Models
         public string Name { get; set; }
         public int SeatsCount { get; set; }
 
+        public ICollection<Seat> SeatsByRoom { get; set; }
     }
 
     public class RoomDto 
