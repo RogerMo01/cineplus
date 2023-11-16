@@ -21,6 +21,8 @@ export interface Movie {
   year: number;
   country: string;
   director: string;
+  actors: SingleTextModal[];
+  genres: SingleTextModal[];
   duration: number;
 }
 
