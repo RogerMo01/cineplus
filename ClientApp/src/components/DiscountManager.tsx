@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./MovieManager.css";
 import { Discount } from "../types/types";
 import { RiDeleteBin2Line } from "react-icons/ri";
@@ -8,14 +8,22 @@ import { FiEdit2 } from "react-icons/fi";
 import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
 import Put from "./ProcessPut";
+import fetch from "./Fetch";
 
 interface Props {
   name: string;
-  discounts: Discount[];
+  endpoint: string;
   path: string;
 }
 
-function DiscountManager({ name, discounts, path }: Props) {
+function DiscountManager({ name, endpoint, path }: Props) {
+
+  const [discounts, setDiscounts] = useState<Discount[]>([]);
+
+  useEffect(() => {
+    fetch(endpoint, setDiscounts);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
   async function handleAddDiscount(id: number, concept: string, percent: number) {
@@ -24,12 +32,12 @@ function DiscountManager({ name, discounts, path }: Props) {
       Percent: percent,
     };
 
-    Post(request, path);
+    Post(request, path, endpoint, setDiscounts);
   }
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
   const handleDeleteDiscount = (id: number) => async (e: React.MouseEvent) => {
-    Delete(id, path);
+    Delete(id, path, endpoint, setDiscounts);
   };
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
@@ -39,7 +47,7 @@ function DiscountManager({ name, discounts, path }: Props) {
       Percent: percent,
     };
 
-    Put(id, request, path);
+    Put(id, request, path, endpoint, setDiscounts);
   }
 
   return (

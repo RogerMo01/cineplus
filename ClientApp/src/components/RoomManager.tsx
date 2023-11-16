@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./MovieManager.css";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { FiEdit2 } from "react-icons/fi";
@@ -8,35 +8,43 @@ import RoomModalForm from "./RoomModalForm";
 import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
 import Put from "./ProcessPut";
+import fetch from "./Fetch";
 
 interface Props {
   name: string;
-  rooms: Room[];
+  endpoint: string;
   path: string;
 }
 
-function RoomManager({ name, rooms, path }: Props) {
+function RoomManager({ name, endpoint, path }: Props) {
+
+  const [rooms, setRooms] = useState<Room[]>([]);
+
+  useEffect(() => {
+    fetch(endpoint, setRooms);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleAddRoom(id: number, name: string, seats: number) {
     const request = {
       Name: name,
-      SeatsCount: seats
+      Seats: seats
     };
 
-    Post(request, path);
+    Post(request, path, endpoint, setRooms);
   }
 
   const handleDeleteRoom = (id: number) => async (e: React.MouseEvent) => {
-    Delete(id, path);
+    Delete(id, path, endpoint, setRooms);
   };
 
   async function handleEditRoom(id: number, name: string, seats: number) {
     const request = {
       Name: name,
-      SeatsCount: seats
+      Seats: seats
     };
 
-    Put(id, request, path);
+    Put(id, request, path, endpoint, setRooms);
   }
 
   return (

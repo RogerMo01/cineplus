@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./MovieManager.css";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { FiEdit2 } from "react-icons/fi";
@@ -8,24 +8,33 @@ import SingleTextModalForm from "./SingleTextModalForm";
 import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
 import Put from "./ProcessPut";
+import fetch from "./Fetch";
 
 interface Props {
   name: string;
-  genres: SingleTextModal[];
+  endpoint: string;
   path: string;
 }
 
-function GenresManager({ name, genres, path }: Props) {
+function GenresManager({ name, endpoint, path }: Props) {
+
+  const [genres, setGenres] = useState<SingleTextModal[]>([]);
+
+  useEffect(() => {
+    fetch(endpoint, setGenres);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   async function handleAdd(id: number, name: string) {
     const request = {
       Name: name,
     };
 
-    Post(request, path);
+    Post(request, path, endpoint, setGenres);
   }
 
   const handleDelete = (id: number) => async (e: React.MouseEvent) => {
-    Delete(id, path);
+    Delete(id, path, endpoint, setGenres);
   };
 
   async function handleEdit(id: number, name: string) {
@@ -33,7 +42,7 @@ function GenresManager({ name, genres, path }: Props) {
       Name: name,
     };
 
-    Put(id, request, path);
+    Put(id, request, path, endpoint, setGenres);
   }
 
   return (

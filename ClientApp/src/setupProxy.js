@@ -14,7 +14,8 @@ const context = [
   "/api/registration",
   'api/moviesactors',
   '/api/actor',
-  '/api/genre'
+  '/api/genre',
+  '/api/discount'
 ];
 
 const onError = (err, req, resp, target) => {

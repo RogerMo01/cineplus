@@ -1,7 +1,8 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import fetch from "./Fetch";
 
-async function Put(id: any, request: any, path: string) {
+async function Put(id: any, request: any, path: string, endpoint:string, setter: React.Dispatch<React.SetStateAction<any>>) {
   try {
     const response = axios.put(path + `/${id}`, request);
     const status = (await response).status;
@@ -12,6 +13,7 @@ async function Put(id: any, request: any, path: string) {
         autoClose: 3000,
       });
     }
+    fetch(endpoint, setter);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError<any>;

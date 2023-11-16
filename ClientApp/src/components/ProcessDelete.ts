@@ -1,7 +1,8 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import fetch from "./Fetch";
 
-async function Delete(id: any, path: string) {
+async function Delete(id: any, path: string, endpoint:string, setter: React.Dispatch<React.SetStateAction<any>>) {
   try {
     const response = await axios.delete(path + `/${id}`);
 
@@ -11,6 +12,7 @@ async function Delete(id: any, path: string) {
         autoClose: 3000,
       });
     }
+    fetch(endpoint, setter);
   } catch (error) {
     console.error(`Error de eliminación (${error})`);
     toast.error(`Error de eliminación (${error})`, {

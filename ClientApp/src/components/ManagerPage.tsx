@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Route, Routes } from 'react-router-dom';
 import { SidebarMenuItem } from "../types/types";
 import "./ManagerPage.css";
@@ -13,7 +13,6 @@ import SidebarMenu from "./SidebarMenu";
 import MovieManager from "./MovieManager";
 import StatsManager from "./StatsManager";
 import ScheduleManager from "./ScheduleManager";
-import axios from "axios";
 import RoomManager from "./RoomManager";
 import DiscountManager from "./DiscountManager";
 import ActorsManager from "./ActorsManager";
@@ -38,104 +37,6 @@ function ManagerPage({pathHead}: Props) {
   const actorsEndpoint = '/api/actor';
   const genresEndpoint = '/api/genre';
   // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
-
-  
-  // ~~~~~~~~~~~~~~~~ GET movies ~~~~~~~~~~~~~~~~~~~~
-  const [movies, setMovies] = useState([]);
-
-  useEffect(() => {
-    axios.get(moviesEndpoint)
-    .then((response) => {
-      if (response.status === 200) {
-        console.log('Solicitud GET con éxito');
-        setMovies(response.data);
-      }
-    }).catch((error) => {
-      console.error('Error al enviar la solicitud:', error);
-    })
-  }, []);
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  // ~~~~~~~~~~~~~~~~ GET rooms ~~~~~~~~~~~~~~~~~~~~
-  const [rooms, setRooms] = useState([]);
-
-  useEffect(() => {
-    axios.get(roomsEndpoint)
-    .then((response) => {
-      if (response.status === 200) {
-        console.log('Solicitud GET con éxito');
-        setRooms(response.data);
-      }
-    }).catch((error) => {
-      console.error('Error al enviar la solicitud:', error);
-    })
-  }, []);
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  // ~~~~~~~~~~~~~~~~ GET schedule ~~~~~~~~~~~~~~~~~~~~
-  const [schedule, setSchedule] = useState([]);
-
-  useEffect(() => {
-    axios.get(scheduleEndpoint)
-    .then((response) => {
-      if (response.status === 200) {
-        console.log('Solicitud GET con éxito');
-        setSchedule(response.data);
-      }
-    }).catch((error) => {
-      console.error('Error al enviar la solicitud:', error);
-    })
-  }, []);
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  // ~~~~~~~~~~~~~~~~ GET discounts ~~~~~~~~~~~~~~~~~~~~
-  const [discounts, setDiscounts] = useState([]);
-
-  useEffect(() => {
-    axios.get(discountsEndpoint)
-    .then((response) => {
-      if (response.status === 200) {
-        console.log('Solicitud GET con éxito');
-        setDiscounts(response.data);
-      }
-    }).catch((error) => {
-      console.error('Error al enviar la solicitud:', error);
-    })
-  }, []);
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  // ~~~~~~~~~~~~~~~~ GET actors ~~~~~~~~~~~~~~~~~~~~
-  const [actors, setActors] = useState([]);
-
-  useEffect(() => {
-    axios.get(actorsEndpoint)
-    .then((response) => {
-      if (response.status === 200) {
-        console.log('Solicitud GET con éxito');
-        setActors(response.data);
-      }
-    }).catch((error) => {
-      console.error('Error al enviar la solicitud:', error);
-    })
-  }, []);
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  // ~~~~~~~~~~~~~~~~ GET genres ~~~~~~~~~~~~~~~~~~~~
-  const [genres, setGenres] = useState([]);
-
-  useEffect(() => {
-    axios.get(genresEndpoint)
-    .then((response) => {
-      if (response.status === 200) {
-        console.log('Solicitud GET con éxito');
-        setGenres(response.data);
-      }
-    }).catch((error) => {
-      console.error('Error al enviar la solicitud:', error);
-    })
-  }, []);
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  
 
 
   // ~~~~~~~~~~~ TEMPORAL movies array ~~~~~~~~~~~~~
@@ -401,13 +302,13 @@ function ManagerPage({pathHead}: Props) {
         <SidebarMenu items={items} />
       </div>
       <Routes>
-        <Route path="/movies" element={<MovieManager name="Películas" movies={movies} actors={actors} genres={genres} path={home + moviesEndpoint} />} />
+        <Route path="/movies" element={<MovieManager name="Películas" moviesEndpoint={moviesEndpoint} actorsEndpoint={actorsEndpoint} genresEndpoint={genresEndpoint} path={home + moviesEndpoint} />} />
         <Route path="/stats" element={<StatsManager/>}/>
-        <Route path="/schedule" element={<ScheduleManager name="Programaciones" schedule={schedule} movies={movies} rooms={rooms} path={home + scheduleEndpoint}/>}/>
-        <Route path="/rooms" element={<RoomManager name="Salas" rooms={rooms} path={home + roomsEndpoint} />}/>
-        <Route path="/discounts" element={<DiscountManager name="Descuentos" discounts={discounts} path={home + discountsEndpoint} />} />
-        <Route path="/actors" element={<ActorsManager name="Actores" actors={actors} path={home + actorsEndpoint} />} />
-        <Route path="/genres" element={<GenresManager name="Géneros" genres={genres} path={home + genresEndpoint} />} />
+        <Route path="/schedule" element={<ScheduleManager name="Programaciones" scheduleEndpoint={scheduleEndpoint} moviesEndpoint={moviesEndpoint} roomsEndpoint={roomsEndpoint} path={home + scheduleEndpoint}/>}/>
+        <Route path="/rooms" element={<RoomManager name="Salas" endpoint={roomsEndpoint} path={home + roomsEndpoint} />}/>
+        <Route path="/discounts" element={<DiscountManager name="Descuentos" endpoint={discountsEndpoint} path={home + discountsEndpoint} />} />
+        <Route path="/actors" element={<ActorsManager name="Actores" endpoint={actorsEndpoint} path={home + actorsEndpoint} />} />
+        <Route path="/genres" element={<GenresManager name="Géneros" endpoint={genresEndpoint} path={home + genresEndpoint} />} />
       </Routes>
       
     </div>

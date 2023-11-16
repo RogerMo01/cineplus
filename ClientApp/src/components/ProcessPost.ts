@@ -1,7 +1,8 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import fetch from "./Fetch";
 
-async function Post(request: any, path: string) {
+async function Post(request: any, path: string, endpoint?:string, setter?: React.Dispatch<React.SetStateAction<any>>) {
   try {
     const response = await axios.post(path, request);
     const status = response.status;
@@ -11,6 +12,9 @@ async function Post(request: any, path: string) {
         position: "bottom-right",
         autoClose: 3000,
       });
+    }
+    if(endpoint && setter){
+      fetch(endpoint, setter);
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {

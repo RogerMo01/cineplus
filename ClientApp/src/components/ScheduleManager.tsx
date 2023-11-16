@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./MovieManager.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { Movie, Room, Schedule } from "../types/types";
@@ -9,17 +9,28 @@ import { ToastContainer } from "react-toastify";
 import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
 import Put from "./ProcessPut";
+import fetch from "./Fetch";
 
 interface Props {
   name: string;
-  schedule: Schedule[];
-  movies: Movie[];
-  rooms: Room[];
+  scheduleEndpoint: string;
+  moviesEndpoint: string;
+  roomsEndpoint: string;
   path: string;
 }
 
+function ScheduleManager({ name, scheduleEndpoint, moviesEndpoint, roomsEndpoint, path }: Props) {
 
-function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
+  const [schedule, setSchedule] = useState<Schedule[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [rooms, setRooms] = useState<Room[]>([]);
+  
+  useEffect(() => {
+    fetch(moviesEndpoint, setMovies);
+    fetch(roomsEndpoint, setRooms);
+    fetch(scheduleEndpoint, setSchedule);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
   async function handleAddSchedule(id: string, movie: string, room: string, date: Date, price: number, points: number) {
@@ -32,7 +43,7 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
       Points: points,
     };
 
-    Post(request, path);
+    Post(request, path, scheduleEndpoint, setSchedule);
   }
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
@@ -46,12 +57,12 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
       Points: points,
     };
 
-    Put(id, request, path);
+    Put(id, request, path, scheduleEndpoint, setSchedule);
   }
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
   const handleDeleteSchedule = (id: string) => async (e: React.MouseEvent) => {
-    Delete(id, path);
+    Delete(id, path, scheduleEndpoint, setSchedule);
   };
 
   function parseDate(inputDate: string): string{

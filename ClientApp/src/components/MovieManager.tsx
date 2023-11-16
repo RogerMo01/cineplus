@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./MovieManager.css";
 import { Movie, SingleTextModal } from "../types/types";
 import { RiDeleteBin2Line } from "react-icons/ri";
@@ -8,16 +8,30 @@ import MovieModalForm from "./MovieModalForm";
 import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
 import Put from "./ProcessPut";
+import fetch from "./Fetch";
 
 interface Props {
   name: string;
-  movies: Movie[];
-  actors: SingleTextModal[];
-  genres: SingleTextModal[];
+  moviesEndpoint: string;
+  actorsEndpoint: string;
+  genresEndpoint: string;
   path: string;
 }
 
-function MovieManager({ name, movies, actors, genres, path }: Props) {
+function MovieManager({ name, moviesEndpoint, actorsEndpoint, genresEndpoint, path }: Props) {
+
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [actors, setActors] = useState<SingleTextModal[]>([]);
+  const [genres, setGenres] = useState<SingleTextModal[]>([]);
+
+
+  useEffect(() => {
+    fetch(actorsEndpoint, setActors);
+    fetch(genresEndpoint, setGenres);
+    fetch(moviesEndpoint, setMovies);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
   async function handleAddMovie( id: number, title: string, year: number, country: string, director: string, actors: SingleTextModal[], genres: SingleTextModal[], duration: number) {
@@ -31,12 +45,12 @@ function MovieManager({ name, movies, actors, genres, path }: Props) {
       Duration: duration,
     };
 
-    Post(request, path);
+    Post(request, path, moviesEndpoint, setMovies);
   }
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
   const handleDeleteMovie = (id: number) => async (e: React.MouseEvent) => {
-    Delete(id, path);
+    Delete(id, path, moviesEndpoint, setMovies);
   };
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
@@ -51,7 +65,7 @@ function MovieManager({ name, movies, actors, genres, path }: Props) {
       Duration: duration,
     };
 
-    Put(id, request, path)
+    Put(id, request, path, moviesEndpoint, setMovies)
   }
 
   return (
