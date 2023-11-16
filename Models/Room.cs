@@ -7,4 +7,11 @@ namespace CineplusDB.Models
         public int SeatsCount { get; set; }
 
     }
+
+    public class RoomDto 
+{
+    public int id { get; set; } = 0;
+    public string name { get; set; }
+    public int seats { get; set; }
+}
 }

@@ -2,14 +2,6 @@ using cineplus.CRDController;
 
 namespace cineplus.ActorController;
 
-public class ActorDto
-{
-    public int id { get; set;} = 0;
-    public string name { get; set; }
-
-}
-
-
 [Route("api/actor")]
 [ApiController]
 public class ActorController : CRDController<Actor> 

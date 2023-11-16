@@ -20,3 +20,13 @@ public class MovieProgramming
     public virtual Room Room { get; set; }
     public virtual Movie Movie { get; set; }
 }
+
+public class ProgrammingData
+{
+    public string Id { get; set; } = "";
+    public string Movie { get; set; }
+    public string Room { get; set; }
+    public DateTime Date { get; set; }
+    public decimal Price { get; set; }
+    public int Points { get; set; }
+}

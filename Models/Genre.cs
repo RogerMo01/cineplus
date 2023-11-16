@@ -7,3 +7,9 @@ public class Genre
     
     public ICollection<GenreByFilm> GenresByFilms { get; set; }
 }
+
+public class GenreDto
+{
+    public int id { get; set;} = 0;
+    public string name { get; set; }
+}

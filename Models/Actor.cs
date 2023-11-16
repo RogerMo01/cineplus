@@ -10,3 +10,10 @@ public class Actor
     public ICollection<ActorByFilm> ActorsByFilms { get; set; }
 
 }
+
+public class ActorDto
+{
+    public int id { get; set;} = 0;
+    public string name { get; set; }
+
+}

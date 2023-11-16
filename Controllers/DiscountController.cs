@@ -2,13 +2,6 @@ using cineplus.CRDController;
 
 namespace cineplus.DiscountController;
 
-public class DiscountDto
-{
-    public int id { get; set; }
-    public string concept { get; set; }
-    public float percent { get; set; }
-}
-
 [Route("api/discount")]
 [ApiController]
 public class DiscountController : CRDController<Discount> 
@@ -36,14 +29,15 @@ public class DiscountController : CRDController<Discount>
     }
 
     [HttpPost]
-    public async Task<IActionResult> InsertDiscount([FromBody] Discount discount)
+    public async Task<IActionResult> InsertDiscount([FromBody] DiscountDto discount)
     {
-        if(_context.Discounts.Any(d => d.Concept == discount.Concept))
+        if(_context.Discounts.Any(d => d.Concept == discount.concept))
         {
             return Conflict( new { Message = "Este concepto ya existe"});
         }
 
-        await base.Insert(discount); 
+        var new_discount = new Discount { Concept = discount.concept, Percent = discount.percent};
+        await base.Insert(new_discount); 
         return Ok();
     }
 
@@ -55,13 +49,13 @@ public class DiscountController : CRDController<Discount>
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateDiscount(int id, [FromBody] Discount updateDiscount)
+    public async Task<IActionResult> UpdateDiscount(int id, [FromBody] DiscountDto updateDiscount)
     {
         var discount = await _context.Discounts.FindAsync(id);
         if(discount == null){ return NotFound(); }
 
-        discount.Concept = updateDiscount.Concept;
-        discount.Percent = updateDiscount.Percent;
+        discount.Concept = updateDiscount.concept;
+        discount.Percent = updateDiscount.percent;
 
         await _context.SaveChangesAsync();
         return Ok();

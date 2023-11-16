@@ -2,12 +2,6 @@ using cineplus.CRDController;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace cineplus.RoomController;
-public class RoomDto 
-{
-    public int id { get; set; }
-    public string name { get; set; }
-    public int seats { get; set; }
-}
 
 [Route("api/room")]
 [ApiController]
@@ -35,18 +29,19 @@ public class RoomController : CRDController<Room>
 
 
     [HttpPost]
-    public async Task<IActionResult> InsertRoom([FromBody] Room room)
+    public async Task<IActionResult> InsertRoom([FromBody] RoomDto room)
     {
-        if(_context.Rooms.Any(r => r.Name == room.Name))
+        if(_context.Rooms.Any(r => r.Name == room.name))
         {
             return Conflict( new { Message = "Este nombre ya existe"});
         }
 
-        await base.Insert(room); 
+        var new_room = new Room { Name = room.name, SeatsCount = room.seats};
+        await base.Insert(new_room); 
 
-        int roomId = _context.Rooms.FirstOrDefault(r => r.Name == room.Name).RoomId;
+        int roomId = _context.Rooms.FirstOrDefault(r => r.Name == room.name).RoomId;
 
-        await generateSeats(room.SeatsCount, room.Name, roomId);
+        await generateSeats(room.seats, room.name, roomId);
         
         return Ok();
     }
@@ -64,19 +59,19 @@ public class RoomController : CRDController<Room>
 
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateRoom(int id, [FromBody] Room updateRoom)
+    public async Task<IActionResult> UpdateRoom(int id, [FromBody] RoomDto updateRoom)
     {
         var room = await _context.Rooms.FindAsync(id);
         if(room == null){ return NotFound(); }
 
-        if(room.SeatsCount != updateRoom.SeatsCount)
+        if(room.SeatsCount != updateRoom.seats)
         {
             await deleteSeats(id);
-            await generateSeats(updateRoom.SeatsCount, updateRoom.Name, room.RoomId);
+            await generateSeats(updateRoom.seats, updateRoom.name, room.RoomId);
         }
 
-        room.Name = updateRoom.Name;
-        room.SeatsCount = updateRoom.SeatsCount;
+        room.Name = updateRoom.name;
+        room.SeatsCount = updateRoom.seats;
     
         await _context.SaveChangesAsync();
         return Ok();

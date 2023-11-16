@@ -2,13 +2,6 @@ using cineplus.CRDController;
 
 namespace cineplus.GenreController;
 
-public class GenreDto
-{
-    public int id { get; set;} = 0;
-    public string name { get; set; }
-
-}
-
 [Route("api/genre")]
 [ApiController]
 public class GenreController : CRDController<Genre> 

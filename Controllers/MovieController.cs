@@ -2,37 +2,6 @@ using cineplus.CRDController;
 
 namespace cineplus.MovieController;
 
-public class MovieInput
-{
-    public int id { get; set; }
-    public string title { get; set; }
-    public int year { get; set; }
-    public string country { get; set; }
-    public string director { get; set; }
-    public int duration { get; set; }
-    public List<int> actors { get; set; }
-    public List<int> genres { get; set; }
-}
-
-public class MovieGet
-{
-    public int id { get; set; }
-    public string title { get; set; }
-    public int year { get; set; }
-    public string country { get; set; }
-    public string director { get; set; }
-    public int duration { get; set; }
-    public List<Dto> actors { get; set; }
-    public List<Dto> genres { get; set; }
-}
-
-public class Dto
-{
-    public int id { get; set; }
-    public string name { get; set; }
-}
-
-
 [Route("api/movie")]
 [ApiController]
 public class MovieController : CRDController<Movie> 
@@ -48,6 +17,7 @@ public class MovieController : CRDController<Movie>
     public async Task<IActionResult> GetMovies()
     {
         List<MovieGet> movies = new List<MovieGet>();
+
         var getMovies= await base.GetAll().ToListAsync();
 
         foreach (var item in getMovies)
@@ -65,7 +35,6 @@ public class MovieController : CRDController<Movie>
                 duration = item.Duration,
                 actors = actorsFilm, 
                 genres = genresFilm
-
             };
 
             movies.Add(movie);

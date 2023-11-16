@@ -1,15 +1,5 @@
 namespace cineplus.MovieProgrammingController;
 
-public class ProgrammingData
-{
-    public string Id { get; set; } = "";
-    public string Movie { get; set; }
-    public string Room { get; set; }
-    public DateTime Date { get; set; }
-    public decimal Price { get; set; }
-    public int Points { get; set; }
-}
-
 [Route("api/movieprogramming")]
 [ApiController]
 public class MovieProgrammingController : ControllerBase
@@ -33,7 +23,7 @@ public class MovieProgrammingController : ControllerBase
             Movie =  _context.Movies.FirstOrDefault(m => m.MovieId == p.MovieId).Title,
             Room =  _context.Rooms.FirstOrDefault(r => r.RoomId == p.RoomId).Name,
             Date = p.DateTimeId,
-            Price = Math.Round(p.Price, 4),
+            Price = Math.Round(p.Price, 2),
             Points = p.PricePoints
         }).ToListAsync();
         
@@ -137,7 +127,7 @@ public class MovieProgrammingController : ControllerBase
 
         bool overlap = ValidateDate(cubaDate, room.RoomId, next_time);
         
-        if(overlap) { return Conflict(new { Message = "No es posible editar la pelicula en ese horario"});}
+        if(overlap) { return Conflict(new { Message = "No es posible editar la pelicula para ese horario"});}
 
         toUpdate.RoomId = room.RoomId;
         toUpdate.MovieId = movie.MovieId;
