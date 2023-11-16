@@ -352,7 +352,7 @@ function ManagerPage({pathHead}: Props) {
   const items: SidebarMenuItem[] = [
     {
       id: "1",
-      label: "Estadísticas",
+      label: "Dashboard",
       icon: FcPieChart,
       url: `${pathHead}/stats`,
     },
