@@ -1,13 +1,13 @@
 import React from "react";
 import "./MovieManager.css";
 import { Discount } from "../types/types";
-import { Button } from "reactstrap";
-import MovieModalForm from "./MovieModalForm";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import DiscountModalForm from "./DiscountModalForm";
-import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { FiEdit2 } from "react-icons/fi";
+import Post from "./ProcessPost";
+import Delete from "./ProcessDelete";
+import Put from "./ProcessPut";
 
 interface Props {
   name: string;
@@ -19,77 +19,27 @@ function DiscountManager({ name, discounts, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
   async function handleAddDiscount(id: number, concept: string, percent: number) {
-    alert('Trying to ADD a Discount');
     const request = {
       Concept: concept,
       Percent: percent,
     };
 
-    try {
-      const response = await axios.post(path, request);
-
-      if (response.status === 200) {
-        toast.success("Inserción exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.error(`Error de inserción (${error})`);
-      toast.error(`Error de inserción (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Post(request, path);
   }
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
   const handleDeleteDiscount = (id: number) => async (e: React.MouseEvent) => {
-    alert('Trying to DELETE a Discount');
-
-    try {
-      const response = await axios.delete(path + `/${id}`);
-
-      if (response.status === 200) {
-        toast.success("Eliminación exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.error(`Error de eliminacion (${error})`);
-      toast.error(`Error de eliminación (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Delete(id, path);
   };
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
   async function handleEditDiscount(id: number, concept: string, percent: number) {
-    alert('Trying to EDIT a Discount');
-
     const request = {
       Concept: concept,
       Percent: percent,
     };
 
-    try {
-      const response = await axios.put(path + `/${id}`, request);
-
-      if (response.status === 200) {
-        toast.success("Edición exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.error(`Error de edición (${error})`);
-      toast.error(`Error de edición (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Put(id, request, path);
   }
 
   return (
@@ -105,7 +55,7 @@ function DiscountManager({ name, discounts, path }: Props) {
           buttonConfig={{
             className: "align-right",
             color: "primary",
-            content: <>Nueva</>,
+            content: <>Nuevo</>,
           }}
           modifyId={-1}
         />
@@ -153,6 +103,7 @@ function DiscountManager({ name, discounts, path }: Props) {
           </tbody>
         </table>
       </div>
+      <ToastContainer/>
     </div>
   );
 }

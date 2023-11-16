@@ -3,16 +3,21 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import "./MovieModalForm.css";
 import TextInput from "./TextInput";
 import { BiErrorCircle } from "react-icons/bi";
-import { ButtonConfig } from "../types/types";
+import { ButtonConfig, SingleTextModal } from "../types/types";
+import Multiselect from 'multiselect-react-dropdown';
 
 interface Props {
   type: string; // {new, edit}
+  actorsList: SingleTextModal[];
+  genresList: SingleTextModal[];
   clickHandler: (
     id: number,
     title: string,
     year: number,
     country: string,
     director: string,
+    actors: SingleTextModal[],
+    genres: SingleTextModal[],
     duration: number
   ) => void;
   titlePh: string;
@@ -21,6 +26,8 @@ interface Props {
   directorPh: string;
   durationPh: number;
   buttonConfig: ButtonConfig;
+  actorsPh: SingleTextModal[];
+  genresPh: SingleTextModal[];
   modifyId: number;
 }
 
@@ -34,6 +41,8 @@ function MovieModalForm(props: Props) {
   const [country, setCountry] = useState("");
   const [director, setDirector] = useState("");
   const [duration, setDuration] = useState(0);
+  const [selectedActors, setSelectedActors] = useState<SingleTextModal[]>([]);
+  const [selectedGenres, setSelectedGenres] = useState<SingleTextModal[]>([]);
 
   const toggle = () => {
     resetValues();
@@ -46,6 +55,8 @@ function MovieModalForm(props: Props) {
     setDuration(props.type === "edit" ? props.durationPh : 0);
     setInvalidInput(false);
     setYear(props.yearPh);
+    setSelectedActors([]);
+    setSelectedGenres([]);
   }
 
   function getYears(): number[] {
@@ -73,6 +84,15 @@ function MovieModalForm(props: Props) {
     }
   };
 
+  function onSelectActor(selectedList: SingleTextModal[], selectedItem: SingleTextModal) {
+    setSelectedActors(selectedList);
+  }
+
+  function onSelectGenre(selectedList: SingleTextModal[], selectedItem: SingleTextModal) {
+    setSelectedGenres(selectedList);
+  }
+
+
   const validateInput = () => {
     if (
       title.length === 0 ||
@@ -80,6 +100,8 @@ function MovieModalForm(props: Props) {
       director.length === 0 ||
       duration === 0 ||
       duration < 0 ||
+      selectedActors.length === 0 ||
+      selectedGenres.length === 0 ||
       isNaN(duration)
     ) {
       setInvalidInput(true);
@@ -122,7 +144,7 @@ function MovieModalForm(props: Props) {
             />
 
             <div className="form-group formgroup">
-              <label htmlFor="year">Año:</label>
+              <label htmlFor="year">Año</label>
               <select
                 id="year"
                 name="year"
@@ -153,6 +175,40 @@ function MovieModalForm(props: Props) {
               placeholder={props.directorPh}
               defaultValue={props.type === "edit" ? props.directorPh : ""}
             />
+
+            <div className="form-group formgroup">
+              <label>Actores</label>
+              <Multiselect 
+                displayValue="name"
+                onSelect={onSelectActor}
+                options={props.actorsList.map((a) => {
+                  return {
+                    id: a.id,
+                    name: a.name
+                  }
+                })}
+                selectedValues={
+                  (props.type === 'edit') ? props.actorsPh : undefined
+                }
+              />
+            </div>
+
+            <div className="form-group formgroup">
+              <label>Géneros</label>
+              <Multiselect 
+                displayValue="name"
+                onSelect={onSelectGenre}
+                options={props.genresList.map((g) => {
+                  return {
+                    id: g.id,
+                    name: g.name
+                  }
+                })}
+                selectedValues={
+                  (props.type === 'edit') ? props.genresPh : undefined
+                }
+              />
+            </div>
 
             <div className="form-group formgroup">
               <label htmlFor="minutesInput">Duración (minutos)</label>
@@ -192,6 +248,8 @@ function MovieModalForm(props: Props) {
                   year,
                   country,
                   director,
+                  selectedActors,
+                  selectedGenres,
                   duration
                 );
                 toggle();

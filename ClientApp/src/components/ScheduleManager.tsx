@@ -5,8 +5,10 @@ import { Movie, Room, Schedule } from "../types/types";
 import ScheduleModalForm from "./ScheduleModalForm";
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBin2Line } from "react-icons/ri";
-import { ToastContainer, toast } from "react-toastify";
-import axios, { AxiosError } from "axios";
+import { ToastContainer } from "react-toastify";
+import Post from "./ProcessPost";
+import Delete from "./ProcessDelete";
+import Put from "./ProcessPut";
 
 interface Props {
   name: string;
@@ -21,7 +23,6 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
   async function handleAddSchedule(id: string, movie: string, room: string, date: Date, price: number, points: number) {
-    alert("Try to add to schedule");
 
     const request = {
       Movie: movie,
@@ -31,109 +32,26 @@ function ScheduleManager({ name, schedule, movies, rooms, path }: Props) {
       Points: points,
     };
 
-    try {
-      const response = await axios.post(path, request);
-
-      if (response.status === 200) {
-        console.log("post success");
-        toast.success("Inserción exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<any>;
-
-        if (axiosError.response) {
-          const status = axiosError.response.status;
-          const message = axiosError.response.data.message;
-
-          if (status === 409) {
-            toast.error(message, { position: "bottom-right", autoClose: 3000 });
-          }
-        }
-      } else{
-        console.error(`Error de inserción (${error})`);
-        toast.error(`Error de inserción (${error})`, {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    }
+    Post(request, path);
   }
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
   async function handleEditSchedule(id: string, movie: string, room: string, date: Date, price: number, points: number) {
-    alert("Try to edit schedule");
 
     const request = {
-        Movie: movie,
-        Room: room,
-        Date: date,
-        Price: price,
-        Points: points,
+      Movie: movie,
+      Room: room,
+      Date: date,
+      Price: price,
+      Points: points,
     };
 
-    try {
-      const response = await axios.put(path + `/${id}`, request);
-
-      if (response.status === 200) {
-        console.log("put success");
-        toast.success("Edición exitosa!", {
-        position: "bottom-right",
-        autoClose: 3000,
-        });
-      }
-    } catch (error) {
-
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<any>;
-
-        if (axiosError.response) {
-          const status = axiosError.response.status;
-          const message = axiosError.response.data.message;
-
-          if (status === 409) {
-            toast.error(message, { position: "bottom-right", autoClose: 3000 });
-          }
-        }
-      } else{
-        console.error(`Error de edición (${error})`);
-        toast.error(`Error de edición (${error})`, {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-
-
-
-      
-    }
+    Put(id, request, path);
   }
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
   const handleDeleteSchedule = (id: string) => async (e: React.MouseEvent) => {
-    alert("Try to delete from schedule");
-
-    try {
-      const response = await axios.delete(path + `/${id}`);
-  
-      if (response.status === 200) {
-        console.log("delete success");
-        toast.success("Eliminación exitosa!", {
-          position: "bottom-right",
-          autoClose: 3000,
-        });
-      }
-    } catch (error) {
-      console.log(`Error de eliminación (${error})`);
-      console.log(`deletePath: (${path})`);
-      toast.error(`Error de eliminación (${error})`, {
-        position: "bottom-right",
-        autoClose: 3000,
-      });
-    }
+    Delete(id, path);
   };
 
   function parseDate(inputDate: string): string{
