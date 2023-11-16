@@ -195,6 +195,7 @@ function MovieModalForm(props: Props) {
                 selectedValues={
                   (props.type === 'edit') ? props.actorsPh : undefined
                 }
+                placeholder="Seleccionar"
               />
             </div>
 
@@ -213,6 +214,7 @@ function MovieModalForm(props: Props) {
                 selectedValues={
                   (props.type === 'edit') ? props.genresPh : undefined
                 }
+                placeholder="Seleccionar"
               />
             </div>
 
