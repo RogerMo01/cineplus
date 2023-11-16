@@ -27,7 +27,7 @@ public class ActorController : CRDController<Actor>
             .Select(actor => new ActorDto
             {
                 id = actor.ActorId,
-                name = actor.ActorName
+                name = actor.Name
             }).ToListAsync();
         
         return Ok(actors);
@@ -36,7 +36,7 @@ public class ActorController : CRDController<Actor>
     [HttpPost]
     public async Task<IActionResult> InsertActor([FromBody] Actor actor)
     {
-        if(_context.Actors.Any(a => a.ActorName == actor.ActorName))
+        if(_context.Actors.Any(a => a.Name == actor.Name))
         {
             return Conflict( new { Message = "Este actor ya existe"});
         }
@@ -58,7 +58,7 @@ public class ActorController : CRDController<Actor>
         var actor = _context.Actors.FirstOrDefault(a => a.ActorId == id);
         if(actor == null) { return NotFound(); }
 
-        actor.ActorName = updateActor.ActorName;
+        actor.Name = updateActor.Name;
 
         await _context.SaveChangesAsync();
         return Ok();
