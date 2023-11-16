@@ -53,10 +53,10 @@ function MovieModalForm(props: Props) {
     setCountry(props.type === "edit" ? props.countryPh : "");
     setDirector(props.type === "edit" ? props.directorPh : "");
     setDuration(props.type === "edit" ? props.durationPh : 0);
-    setInvalidInput(false);
+    setSelectedActors(props.type === 'edit' ? props.actorsPh : []);
+    setSelectedGenres(props.type === 'edit' ? props.genresPh : []);
     setYear(props.yearPh);
-    setSelectedActors([]);
-    setSelectedGenres([]);
+    setInvalidInput(false);
   }
 
   function getYears(): number[] {
@@ -87,8 +87,14 @@ function MovieModalForm(props: Props) {
   function onSelectActor(selectedList: SingleTextModal[], selectedItem: SingleTextModal) {
     setSelectedActors(selectedList);
   }
+  function onRemoveActor(selectedList: SingleTextModal[], removedItem: SingleTextModal) {
+    setSelectedActors(selectedList);
+  }
 
   function onSelectGenre(selectedList: SingleTextModal[], selectedItem: SingleTextModal) {
+    setSelectedGenres(selectedList);
+  }
+  function onRemoveGenre(selectedList: SingleTextModal[], selectedItem: SingleTextModal) {
     setSelectedGenres(selectedList);
   }
 
@@ -181,6 +187,7 @@ function MovieModalForm(props: Props) {
               <Multiselect 
                 displayValue="name"
                 onSelect={onSelectActor}
+                onRemove={onRemoveActor}
                 options={props.actorsList.map((a) => {
                   return {
                     id: a.id,
@@ -198,6 +205,7 @@ function MovieModalForm(props: Props) {
               <Multiselect 
                 displayValue="name"
                 onSelect={onSelectGenre}
+                onRemove={onRemoveGenre}
                 options={props.genresList.map((g) => {
                   return {
                     id: g.id,

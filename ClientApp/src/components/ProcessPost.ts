@@ -3,8 +3,8 @@ import { toast } from "react-toastify";
 
 async function Post(request: any, path: string) {
   try {
-    const response = axios.post(path, request);
-    const status = (await response).status;
+    const response = await axios.post(path, request);
+    const status = response.status;
 
     if (status === 200 || status === 201 || status === 204) {
       toast.success("Solicitud exitosa!", {
