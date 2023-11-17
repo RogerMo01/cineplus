@@ -21,6 +21,8 @@ export interface Movie {
   year: number;
   country: string;
   director: string;
+  actors: SingleTextModal[];
+  genres: SingleTextModal[];
   duration: number;
 }
 
@@ -29,11 +31,13 @@ export interface Room {
   name: string;
   seats: number;
 }
+
 export interface ButtonConfig {
   className: string;
   color: string;
   content: JSX.Element;
 }
+
 export interface Schedule {
   id: string;
   movie: string;
@@ -42,10 +46,23 @@ export interface Schedule {
   price: number;
   points: number;
 }
+
 export interface NavLinkRoute {
   name: string;
   route: string;
 }
+
 export interface UserData {
   nick: string;
+}
+
+export interface Discount {
+  id: number;
+  concept: string;
+  percent: number;
+}
+
+export interface SingleTextModal {
+  id: number,
+  name: string
 }

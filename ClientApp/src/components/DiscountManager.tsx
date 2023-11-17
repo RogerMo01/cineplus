@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./MovieManager.css";
+import { Discount } from "../types/types";
 import { RiDeleteBin2Line } from "react-icons/ri";
-import { FiEdit2 } from "react-icons/fi";
+import DiscountModalForm from "./DiscountModalForm";
 import { ToastContainer } from "react-toastify";
-import { Room } from "../types/types";
-import RoomModalForm from "./RoomModalForm";
+import { FiEdit2 } from "react-icons/fi";
 import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
 import Put from "./ProcessPut";
@@ -16,35 +16,38 @@ interface Props {
   path: string;
 }
 
-function RoomManager({ name, endpoint, path }: Props) {
+function DiscountManager({ name, endpoint, path }: Props) {
 
-  const [rooms, setRooms] = useState<Room[]>([]);
+  const [discounts, setDiscounts] = useState<Discount[]>([]);
 
   useEffect(() => {
-    fetch(endpoint, setRooms);
+    fetch(endpoint, setDiscounts);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function handleAddRoom(id: number, name: string, seats: number) {
+  // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
+  async function handleAddDiscount(id: number, concept: string, percent: number) {
     const request = {
-      Name: name,
-      Seats: seats
+      Concept: concept,
+      Percent: percent,
     };
 
-    Post(request, path, endpoint, setRooms);
+    Post(request, path, endpoint, setDiscounts);
   }
 
-  const handleDeleteRoom = (id: number) => async (e: React.MouseEvent) => {
-    Delete(id, path, endpoint, setRooms);
+  // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
+  const handleDeleteDiscount = (id: number) => async (e: React.MouseEvent) => {
+    Delete(id, path, endpoint, setDiscounts);
   };
 
-  async function handleEditRoom(id: number, name: string, seats: number) {
+  // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
+  async function handleEditDiscount(id: number, concept: string, percent: number) {
     const request = {
-      Name: name,
-      Seats: seats
+      Concept: concept,
+      Percent: percent,
     };
 
-    Put(id, request, path, endpoint, setRooms);
+    Put(id, request, path, endpoint, setDiscounts);
   }
 
   return (
@@ -52,15 +55,15 @@ function RoomManager({ name, endpoint, path }: Props) {
       <h2 className="header">{name}</h2>
 
       <div className="toolButtons">
-        <RoomModalForm
+        <DiscountModalForm
           type="new"
-          clickHandler={handleAddRoom}
-          namePh="Insertar nombre"
-          seatsPh={0}
+          clickHandler={handleAddDiscount}
+          conceptPh=""
+          percentPh={0}
           buttonConfig={{
             className: "align-right",
             color: "primary",
-            content: <>Nueva</>,
+            content: <>Nuevo</>,
           }}
           modifyId={-1}
         />
@@ -70,34 +73,34 @@ function RoomManager({ name, endpoint, path }: Props) {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th>Nombre</th>
-              <th>Butacas</th>
+              <th>Concepto</th>
+              <th>Descuento(%)</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {rooms.map((room) => (
-              <tr key={room.id}>
-                <td>{room.name}</td>
-                <td>{room.seats}</td>
+            {discounts.map((disc) => (
+              <tr key={disc.id}>
+                <td>{disc.concept}</td>
+                <td>{disc.percent * 100}%</td>
                 <td className="editColumn">
                   <div className="modifyButtons">
-                    <RoomModalForm
+                    <DiscountModalForm
                       type="edit"
-                      clickHandler={handleEditRoom}
-                      namePh={room.name}
-                      seatsPh={room.seats}
+                      clickHandler={handleEditDiscount}
+                      conceptPh={disc.concept}
+                      percentPh={disc.percent}
                       buttonConfig={{
                         className: "modifyButton",
                         color: "secondary",
                         content: <FiEdit2 />,
                       }}
-                      modifyId={room.id}
+                      modifyId={disc.id}
                     />
 
                     <button
                       className="btn btn-danger modifyButton"
-                      onClick={handleDeleteRoom(room.id)}
+                      onClick={handleDeleteDiscount(disc.id)}
                     >
                       <RiDeleteBin2Line />
                     </button>
@@ -108,9 +111,9 @@ function RoomManager({ name, endpoint, path }: Props) {
           </tbody>
         </table>
       </div>
-      <ToastContainer />
+      <ToastContainer/>
     </div>
   );
 }
 
-export default RoomManager;
+export default DiscountManager;

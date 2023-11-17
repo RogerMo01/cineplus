@@ -3,8 +3,8 @@ import "./MovieManager.css";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { FiEdit2 } from "react-icons/fi";
 import { ToastContainer } from "react-toastify";
-import { Room } from "../types/types";
-import RoomModalForm from "./RoomModalForm";
+import { SingleTextModal } from "../types/types";
+import ActorsModalForm from "./SingleTextModalForm";
 import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
 import Put from "./ProcessPut";
@@ -16,35 +16,34 @@ interface Props {
   path: string;
 }
 
-function RoomManager({ name, endpoint, path }: Props) {
+function ActorsManager({ name, endpoint, path }: Props) {
 
-  const [rooms, setRooms] = useState<Room[]>([]);
+  const [actors, setActors] = useState<SingleTextModal[]>([]);
 
   useEffect(() => {
-    fetch(endpoint, setRooms);
+    fetch(endpoint, setActors);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function handleAddRoom(id: number, name: string, seats: number) {
+
+  async function handleAdd(id: number, name: string) {
     const request = {
       Name: name,
-      Seats: seats
     };
 
-    Post(request, path, endpoint, setRooms);
+    Post(request, path, endpoint, setActors);
   }
 
-  const handleDeleteRoom = (id: number) => async (e: React.MouseEvent) => {
-    Delete(id, path, endpoint, setRooms);
+  const handleDelete = (id: number) => async (e: React.MouseEvent) => {
+    Delete(id, path, endpoint, setActors);
   };
 
-  async function handleEditRoom(id: number, name: string, seats: number) {
+  async function handleEdit(id: number, name: string) {
     const request = {
       Name: name,
-      Seats: seats
     };
 
-    Put(id, request, path, endpoint, setRooms);
+    Put(id, request, path, endpoint, setActors);
   }
 
   return (
@@ -52,15 +51,14 @@ function RoomManager({ name, endpoint, path }: Props) {
       <h2 className="header">{name}</h2>
 
       <div className="toolButtons">
-        <RoomModalForm
+        <ActorsModalForm
           type="new"
-          clickHandler={handleAddRoom}
+          clickHandler={handleAdd}
           namePh="Insertar nombre"
-          seatsPh={0}
           buttonConfig={{
             className: "align-right",
             color: "primary",
-            content: <>Nueva</>,
+            content: <>Nuevo</>,
           }}
           modifyId={-1}
         />
@@ -71,33 +69,30 @@ function RoomManager({ name, endpoint, path }: Props) {
           <thead>
             <tr>
               <th>Nombre</th>
-              <th>Butacas</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {rooms.map((room) => (
-              <tr key={room.id}>
-                <td>{room.name}</td>
-                <td>{room.seats}</td>
+            {actors.map((actor) => (
+              <tr key={actor.id}>
+                <td>{actor.name}</td>
                 <td className="editColumn">
                   <div className="modifyButtons">
-                    <RoomModalForm
+                    <ActorsModalForm
                       type="edit"
-                      clickHandler={handleEditRoom}
-                      namePh={room.name}
-                      seatsPh={room.seats}
+                      clickHandler={handleEdit}
+                      namePh={actor.name}
                       buttonConfig={{
                         className: "modifyButton",
                         color: "secondary",
                         content: <FiEdit2 />,
                       }}
-                      modifyId={room.id}
+                      modifyId={actor.id}
                     />
 
                     <button
                       className="btn btn-danger modifyButton"
-                      onClick={handleDeleteRoom(room.id)}
+                      onClick={handleDelete(actor.id)}
                     >
                       <RiDeleteBin2Line />
                     </button>
@@ -113,4 +108,4 @@ function RoomManager({ name, endpoint, path }: Props) {
   );
 }
 
-export default RoomManager;
+export default ActorsManager;

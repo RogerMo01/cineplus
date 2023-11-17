@@ -7,20 +7,18 @@ import { ButtonConfig } from "../types/types";
 
 interface Props {
   type: string; // {new, edit}
-  clickHandler: (id: number, name: string, seats: number) => void;
+  clickHandler: (id: number, name: string) => void;
   namePh: string;
-  seatsPh: number;
   buttonConfig: ButtonConfig;
   modifyId: number;
 }
 
 
-function RoomModalForm(props: Props) {
+function ActorsModalForm(props: Props) {
   const [show, setShow] = useState(false);
   const [invalidInput, setInvalidInput] = useState(false);
 
   const [name, setName] = useState("");
-  const [seats, setSeats] = useState(0);
 
 
   const toggle = () => {
@@ -29,22 +27,12 @@ function RoomModalForm(props: Props) {
   };
   function resetValues() {
     setName(props.type === "edit" ? props.namePh : "");
-    setSeats(props.type === "edit" ? props.seatsPh : 0);
     setInvalidInput(false);
   }
 
-  const handleSeatsChange = (e: React.ChangeEvent) => {
-    const newCount = (e.target as HTMLInputElement).value;
-    if(newCount === ''){
-      setSeats(props.seatsPh);
-    }
-    else{
-      setSeats(parseInt(newCount));
-    }
-  };
 
   const validateInput = () => {
-    if (name.length === 0 || seats === 0 || seats < 0 || isNaN(seats)) {
+    if (name.length === 0) {
       setInvalidInput(true);
       return false;
     } else {
@@ -68,9 +56,9 @@ function RoomModalForm(props: Props) {
       <Modal isOpen={show} toggle={toggle}>
         <ModalHeader toggle={toggle}>
           {props.type === "new"
-            ? "Nueva Sala"
+            ? "Nuevo"
             : props.type === "edit"
-            ? "Editar Sala"
+            ? "Editar"
             : ""}
         </ModalHeader>
 
@@ -83,20 +71,6 @@ function RoomModalForm(props: Props) {
               placeholder={props.namePh}
               defaultValue={props.type === "edit" ? props.namePh : ""}
             />
-            <div className="form-group formgroup">
-              <label htmlFor="minutesInput">Cantidad de butacas</label>
-              <input
-                type="number"
-                className="form-control"
-                id="seatsCount"
-                onChange={handleSeatsChange}
-                placeholder={`${props.seatsPh}`}
-                defaultValue={props.type === 'edit' ? props.seatsPh : undefined}
-                step="1"
-                min="1"
-                required
-              />
-            </div>
           </form>
 
           {invalidInput && (
@@ -117,8 +91,7 @@ function RoomModalForm(props: Props) {
               if (validateInput()) {
                 props.clickHandler(
                   props.modifyId,
-                  name,
-                  seats
+                  name
                 );
                 toggle();
               }
@@ -132,4 +105,4 @@ function RoomModalForm(props: Props) {
   );
 }
 
-export default RoomModalForm;
+export default ActorsModalForm;
