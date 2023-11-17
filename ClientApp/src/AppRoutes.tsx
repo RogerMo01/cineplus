@@ -31,10 +31,6 @@ const AppRoutes: AppRoute[] = [
     element: <SignUpPage />
   },
   {
-    path: '/manage/*',
-    element: <ManagerPage pathHead='/manage' />
-  },
-  {
     path: '/log-in',
     element: <LogInPage />
   }

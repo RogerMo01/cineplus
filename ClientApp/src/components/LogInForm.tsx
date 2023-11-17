@@ -54,11 +54,9 @@ function LogInForm() {
     const networkIp = process.env.REACT_APP_NETWORK_IP;
 
     const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
-    //🚨🚨🚨Fix endpoints
     const endpoint = '/api/authentication';
 
     Post(formData, home + endpoint);
-    
   };
 
   return (
