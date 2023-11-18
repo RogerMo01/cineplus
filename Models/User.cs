@@ -11,4 +11,12 @@ namespace CineplusDB.Models
         public virtual Manager Manager { get; set; }
         public virtual TicketSeller TicketSeller { get; set; }
     }
+
+    public class FormInput
+    {
+        public string Nick { get; set; }
+        public string Password {get; set; }
+        public string DNI { get; set; }
+        public string CreditCard { get; set; }
+    }
 }

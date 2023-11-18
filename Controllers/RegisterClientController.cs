@@ -2,14 +2,6 @@ using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace cineplus.RegisterClientContoller;
 
-public class FormInput
-{
-    public string Nick { get; set; }
-    public string Password {get; set; }
-    public string DNI { get; set; }
-    public string CreditCard { get; set; }
-}
-
 [Route("api/registration")]
 [ApiController]
 public class RegisterClient : ControllerBase

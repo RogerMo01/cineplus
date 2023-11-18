@@ -1,0 +1,35 @@
+.table-container {
+  margin-top: 70px;
+  width: 100%;
+  overflow-x: auto;
+  padding-left: 5%;
+  padding-right: 5%;
+  max-height: calc(100vh - 200px);
+  height: auto;
+  overflow-y: auto;
+}
+
+.full-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.header {
+  text-align: center;
+  margin: 20px 0px;
+}
+
+.modifyButton {
+  margin: 2px;
+  padding: 3px 5px;
+}
+
+.modifyButtons {
+  margin: 2px;
+  display: flex;
+  flex-direction: row;
+}
+
+.editColumn {
+  border-left: solid gray;
+}
