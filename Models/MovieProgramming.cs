@@ -5,9 +5,14 @@ namespace CineplusDB.Models;
 
 public class MovieProgramming
 {
+    public MovieProgramming()
+    {
+        Tickets = new List<Ticket>();
+    }
+
     public Guid Identifier { get; set; }
 
-    [Key, ForeignKey("Room")]
+    [Key]
     public int? RoomId { get; set; }
     [Key]
     public int MovieId { get; set; }
@@ -19,6 +24,7 @@ public class MovieProgramming
     
     public virtual Room Room { get; set; }
     public virtual Movie Movie { get; set; }
+    public ICollection<Ticket> Tickets { get; set; }
 }
 
 public class ProgrammingData
