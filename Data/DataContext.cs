@@ -73,10 +73,10 @@ namespace CineplusDB.Models
             modelBuilder.Entity<MovieProgramming>()
                 .HasKey(mp => new { mp.RoomId, mp.MovieId, mp.DateTimeId });
             
-            modelBuilder.Entity<MovieProgramming>()
-                .HasMany(mp => mp.Tickets)
-                .WithOne(t => t.MovieProgramming)
-                .HasForeignKey(t => new { t.RoomId, t.MovieId, t.DateTimeId });
+            // modelBuilder.Entity<MovieProgramming>()
+            //     .HasMany(mp => mp.Tickets)
+            //     .WithOne(t => t.MovieProgramming)
+            //     .HasForeignKey(t => new { t.RoomId, t.MovieId, t.DateTimeId });
                         
             modelBuilder.Entity<ActorByFilm>()
                 .HasKey(x => new { x.ActorId, x.MovieId});
@@ -109,10 +109,10 @@ namespace CineplusDB.Models
                 .WithOne(seatbyroom => seatbyroom.Room)
                 .HasForeignKey(seatbyroom => seatbyroom.RoomId);
             
-            modelBuilder.Entity<Seat>()
-                .HasMany(s => s.Tickets)
-                .WithOne(t => t.Seat)
-                .HasForeignKey(t => t.SeatId);
+            // modelBuilder.Entity<Seat>()
+            //     .HasMany(s => s.Tickets)
+            //     .WithOne(t => t.Seat)
+            //     .HasForeignKey(t => t.SeatId);
 
             modelBuilder.Entity<Ticket>()
                 .HasKey(x => new {x.RoomId, x.MovieId, x.DateTimeId, x.SeatId});

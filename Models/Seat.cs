@@ -11,5 +11,6 @@ public class Seat
     public int RoomId { get; set; }
     public virtual Room Room { get; set; }
     public string Code { get; set; }
+    
     public ICollection<Ticket> Tickets { get; set; }
 }
