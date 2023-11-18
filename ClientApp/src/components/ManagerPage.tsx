@@ -297,7 +297,7 @@ function ManagerPage({pathHead}: Props) {
   
 
   return (
-    <div className="ManagerPage">
+    <div className="SidebarPage">
       <div className="item">
         <SidebarMenu items={items} />
       </div>
