@@ -257,39 +257,39 @@ namespace CineplusDB.Models
         {
             var discount0 = new Discount
             {
-                DiscountId = 0,
+                DiscountId = 1,
                 Concept = "Ninguno",
                 Percent = 0 // 10%
             };
             var discount1 = new Discount
             {
-                DiscountId = 1,
+                DiscountId = 2,
                 Concept = "Descuento de Cumpleaños",
                 Percent = 0.10f // 10%
             };
 
             var discount2 = new Discount
             {
-                DiscountId = 2,
+                DiscountId = 3,
                 Concept = "Oferta Especial de Verano",
                 Percent = 0.15f // 15%
             };
 
             var discount3 = new Discount
             {
-                DiscountId = 3,
+                DiscountId = 4,
                 Concept = "Descuento a la Tercera Edad",
                 Percent = 0.20f // 10%
             };
 
             var discount4 = new Discount
             {
-                DiscountId = 4,
+                DiscountId = 5,
                 Concept = "Día del Estudiante",
                 Percent = 0.15f // 15%
             };
 
-            modelBuilder.Entity<Discount>().HasData(discount1, discount2, discount3, discount4);
+            modelBuilder.Entity<Discount>().HasData(discount0, discount1, discount2, discount3, discount4);
         }
 
         public void SeedDataRooms(ModelBuilder modelBuilder)

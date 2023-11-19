@@ -5,6 +5,7 @@ import { Discount, Schedule, Seat } from "../types/types";
 import fetch from "./Fetch";
 import parseDate from "./DateParser";
 import Post from "./ProcessPost";
+import { ToastContainer } from "react-toastify";
 
 interface Props {
   scheduleEndpoint: string;
@@ -22,7 +23,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   const [selectedSchedule, setSelectedSchedule] = useState('');
   const [selectedSeat, setSelectedSeat] = useState('');
   const [selectedDiscountValue, setSelectedDiscountValue] = useState(0);
-  const [selectedDiscount, setSelectedDiscount] = useState(0);
+  const [selectedDiscount, setSelectedDiscount] = useState(1);
 
   const [price, setPrice] = useState(0);
   const [points, setPoints] = useState(0);
@@ -66,21 +67,17 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   
   const handleChangeSelectedSchedule = (e: React.ChangeEvent) => {
     const newValue = (e.target as HTMLInputElement).value;
-    alert('change selected schedule to: ' + newValue);
     setSelectedSchedule(newValue);
     fetch(seatEndpoint + `/${selectedSchedule}`, setSeats);
   }
 
   const handleChangeSelectedSeat = (e: React.ChangeEvent) => {
     const newValue = (e.target as HTMLInputElement).value;
-    alert('change selected schedule to: ' + newValue);
     setSelectedSeat(newValue);
   }
 
   const handleChangeSelectedDiscount = (e: React.ChangeEvent) => {
     const newValue = (e.target as HTMLInputElement).value;
-    alert('change selected schedule to: ' + newValue);
-
     const [discountId, discountValue] = newValue.split(',');
 
     setSelectedDiscount(parseInt(discountId));
@@ -90,14 +87,13 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-    alert("Submit: schedule:" + selectedSchedule + "   |butaca: " + selectedSeat + "   |discount: " + selectedDiscount);
     const request = {
       MovieProgId: selectedSchedule,
       Seat: selectedSeat,
       Discount: selectedDiscount
     }
 
-    Post(request, buyEndpoint);
+    Post(request, buyEndpoint, seatEndpoint + `/${selectedSchedule}`, setSeats);
   }
 
   return (
@@ -122,7 +118,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
           <div className="inline-container">
             <div className="form-element">
               <Form.Label>Seleccionar Butaca</Form.Label>
-              <Form.Select onChange={handleChangeSelectedSeat} /*disabled={seats.length === 0 ? true : false}*/>
+              <Form.Select onChange={handleChangeSelectedSeat} disabled={seats.length === 0 ? true : false}>
                 {seats.map(s => (
                   <option key={s.code} value={s.code}>{s.code}</option>
                 ))}
@@ -131,8 +127,8 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
             <div className="form-element inline-item">
               <Form.Label>Seleccionar Descuento</Form.Label>
               
-              <Form.Select onChange={handleChangeSelectedDiscount} defaultValue={1}>
-                <option key="none" value={'0,0'}>Ninguno</option>
+              <Form.Select onChange={handleChangeSelectedDiscount} defaultValue={'1,0'}>
+                {/* <option key="none" value={'0,0'}>Ninguno</option> */}
                 {discounts.map(d => (
                   <option key={d.id} value={`${d.id},${d.percent}`}>{d.concept}</option>
                 ))}
@@ -152,6 +148,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
         </div>
         
       </div>
+      <ToastContainer/>
     </div>
   );
 }
