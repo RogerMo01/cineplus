@@ -18,7 +18,7 @@ public class SalesController : Controller
     }
 
     //[Authorize(Roles ="client")]
-    [HttpPost("buy")]
+    [HttpPost]
     public async Task<IActionResult> Buy_without_selection([FromBody] Ticket_Without_Selection input)
     {
         string id = GetDataJWT().Item1;

@@ -21,7 +21,8 @@ function TicketSellerPage({ pathHead }: Props) {
   const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
   const scheduleEndpoint = '/api/movieprogramming';
   const discountsEndpoint = '/api/discount';
-  const seatsEndponit = '/api/seats' //Fix endpoint 🚨🚨🚨🚨🚨🚨🚨
+  const seatsEndponit = '/api/seats'
+  const buyEndpoint = '/api/sales'
   // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -44,7 +45,7 @@ function TicketSellerPage({ pathHead }: Props) {
     <div className="SidebarPage">
         <SidebarMenu items={items} />
         <Routes>
-            <Route path="/" element={<SellTicketSeller scheduleEndpoint={scheduleEndpoint} seatEndpoint={seatsEndponit} discountEndpoint={discountsEndpoint} />} />
+            <Route path="/" element={<SellTicketSeller scheduleEndpoint={scheduleEndpoint} seatEndpoint={seatsEndponit} discountEndpoint={discountsEndpoint} buyEndpoint={home + buyEndpoint} />} />
             <Route path="/associate" element={<AssociateTicketSeller/>} />
         </Routes>
     </div>
