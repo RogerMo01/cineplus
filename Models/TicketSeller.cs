@@ -6,5 +6,6 @@ namespace CineplusDB.Models
 
         public int UserId { get; set; }
         public virtual User User { get; set; }
+        public ICollection<BoxOfficeSales> Sales { get; set; }
     }
 }

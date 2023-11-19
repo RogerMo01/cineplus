@@ -36,10 +36,9 @@ public class MovieController : CRDController<Movie>
                 actors = actorsFilm, 
                 genres = genresFilm
             };
-
             movies.Add(movie);
         }
-
+           
         return Ok(movies);
     }
 
@@ -95,30 +94,33 @@ public class MovieController : CRDController<Movie>
             Duration = movieDto.duration
         };
 
-        await base.Insert(movie); 
-
-        int movieId = _context.Movies.FirstOrDefault(m => m.Title == movieDto.title).MovieId;
-
-        foreach (var item in movieDto.actors)
+        // Agregar actores a la pelicula
+        if (movieDto.actors != null && movieDto.actors.Any())
         {
-            ActorByFilm actorByFilm = new ActorByFilm{
-                ActorId = item,
-                MovieId = movieId
-            };
-
-            _context.ActorsByFilms.Add(actorByFilm);
+            foreach (var item in movieDto.actors)
+            {
+                var actor = await _context.Actors.FindAsync(item);
+                if (actor != null)
+                {
+                    movie.ActorsByFilms.Add(new ActorByFilm { Actor = actor });
+                }
+            }
         }
 
-        foreach (var item in movieDto.genres)
+        // Agregar géneros a la película
+        if (movieDto.genres != null && movieDto.genres.Any())
         {
-            GenreByFilm genreByFilm = new GenreByFilm{
-                GenreId = item,
-                MovieId = movieId
-            };
+            foreach (var item in movieDto.genres)
+            {
+                var genre = await _context.Genres.FindAsync(item);
+                if (genre != null)
+                {
+                    movie.GenresByFilms.Add(new GenreByFilm { Genre = genre });
+                }
+            }
+        }
 
-            _context.GenresByFilms.Add(genreByFilm);
-        }        
-
+        await base.Insert(movie); 
         await _context.SaveChangesAsync();
 
         return Ok();
@@ -158,25 +160,25 @@ public class MovieController : CRDController<Movie>
 
         foreach (var item in updateMovie.actors)
         {
-            ActorByFilm actorByFilm = new ActorByFilm{
-                ActorId = item,
-                MovieId = movie.MovieId
-            };
-
-            _context.ActorsByFilms.Add(actorByFilm);
+            var actor = await _context.Actors.FindAsync(item);
+            if (actor != null)
+            {
+                movie.ActorsByFilms.Add(new ActorByFilm { Actor = actor });
+            }
         }
 
         foreach (var item in updateMovie.genres)
         {
-            GenreByFilm genreByFilm = new GenreByFilm{
-                GenreId = item,
-                MovieId = movie.MovieId
-            };
+            var genre = await _context.Genres.FindAsync(item);
+            if (genre != null)
+            {
+                movie.GenresByFilms.Add(new GenreByFilm { Genre = genre });
+            }
+        } 
 
-            _context.GenresByFilms.Add(genreByFilm);
-        }        
         await _context.SaveChangesAsync();
 
         return Ok();
     }
 }
+

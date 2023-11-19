@@ -4,6 +4,11 @@ namespace CineplusDB.Models;
 
 public class Actor 
 {
+    public Actor()
+    {
+        ActorsByFilms = new List<ActorByFilm>();
+    }
+
     public int ActorId { get; set; }
     public string Name { get; set; }
     
