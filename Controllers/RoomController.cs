@@ -37,11 +37,15 @@ public class RoomController : CRDController<Room>
         }
 
         var new_room = new Room { Name = room.name, SeatsCount = room.seats};
+
         await base.Insert(new_room); 
 
         int roomId = _context.Rooms.FirstOrDefault(r => r.Name == room.name).RoomId;
 
-        await generateSeats(room.seats, room.name, roomId);
+        var seats = generateSeats(room.seats, room.name, roomId);
+        new_room.SeatsByRoom = seats;
+
+        await _context.SaveChangesAsync();
         
         return Ok();
     }
@@ -67,20 +71,22 @@ public class RoomController : CRDController<Room>
         if(room.SeatsCount != updateRoom.seats)
         {
             await deleteSeats(id);
-            await generateSeats(updateRoom.seats, updateRoom.name, room.RoomId);
+            room.SeatsByRoom = generateSeats(updateRoom.seats, updateRoom.name, room.RoomId);
         }
 
         room.Name = updateRoom.name;
         room.SeatsCount = updateRoom.seats;
     
         await _context.SaveChangesAsync();
+
         return Ok();
     }
     
 
-// ------------------ Generate Seats ------------------------------------------
-     private async Task generateSeats(int n, string name, int roomId)
+    // ------------------ Generate Seats ------------------------------------------
+     private List<Seat> generateSeats(int n, string name, int roomId)
     {
+        List<Seat> seats = new List<Seat>();
         for(int i = 1; i <= n; i++)
         {
             string prefix = generatePrefix(name);
@@ -90,9 +96,10 @@ public class RoomController : CRDController<Room>
                 Code = prefix.ToUpper() + "-" + i
             };
 
-            _context.Seats.Add(seat);
-            await _context.SaveChangesAsync();
+            seats.Add(seat);
         }
+
+        return seats;
     }
 
     private string generatePrefix(string p)
@@ -119,9 +126,9 @@ public class RoomController : CRDController<Room>
     {
         return int.TryParse(str, out _);
     }
-//  ------------------------------------------------------------------------
 
-// ---------------------- Delete Seats ---------------------------------------------
+
+    // ---------------------- Delete Seats ---------------------------------------------
 
     private async Task deleteSeats(int id)
     {
@@ -130,5 +137,4 @@ public class RoomController : CRDController<Room>
         await _context.SaveChangesAsync();
     }
 
-// -------------------------------------------------------------------------------
 }

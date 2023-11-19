@@ -2,6 +2,12 @@ namespace CineplusDB.Models
 {
     public class Movie
     {
+        public Movie()
+        {
+            ActorsByFilms = new List<ActorByFilm>();
+            GenresByFilms = new List<GenreByFilm>();
+        }
+        
         public int MovieId { get; set; }
         public string Title { get; set; }
         public int Year { get; set; }
