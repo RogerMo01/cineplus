@@ -10,13 +10,14 @@ import TicketsellerNavList from "./TicketsellerNavList";
 import TicketsellerRoutes from "./TicketsellerRoutes";
 import ClientNavLinks from "./ClientNavLinks";
 import ClientRoutes from "./ClientRoutes";
+import Footer from "./components/Footer";
 
 
 function Switch() {
 
 
   // 🚨🚨🚨🚨🚨 Logic of token authorization 🚨🚨🚨🚨🚨
-  var role = "client";
+  var role = "unknown";
 
 
   // 🛑🛑🛑 GET request of manager info 🛑🛑🛑
@@ -43,6 +44,7 @@ function Switch() {
               return <Route key={index} {...rest} element={element} />;
             })}
           </Routes>
+          <Footer/>
         </Layout>
       )}
       {role === "admin" && (
