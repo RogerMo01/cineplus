@@ -5,3 +5,5 @@ global using Microsoft.AspNetCore.Mvc;
 global using System.Threading.Tasks;
 global using Org.BouncyCastle.Asn1.Nist;
 global using System.Configuration;
+global using IpFinder;
+global using System;
