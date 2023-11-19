@@ -1,0 +1,9 @@
+.item{
+    display: flex;
+}
+
+.ManagerPage{
+    display: flex;
+    flex-direction: row;
+}
+
