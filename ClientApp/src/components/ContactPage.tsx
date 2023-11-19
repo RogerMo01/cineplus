@@ -5,6 +5,7 @@ import { BsTelegram } from "react-icons/bs";
 import { BsFacebook } from "react-icons/bs";
 import { BsSignpostFill } from "react-icons/bs";
 import { BsTelephoneFill } from "react-icons/bs";
+import { BsInstagram } from "react-icons/bs";
 //@ts-ignore
 import imagen from "./estamos_aqui.jpg";
 interface Props {
@@ -16,7 +17,7 @@ function ContactPage(params: Props) {
             <div className="row mt-5">
                 <div className="col-md-6">
 
-                    <h1 className="text-center">Contacta con nosotros</h1>
+                    <h1 className="text-center">Contácta con nosotros</h1>
                     <p>Esperamos que hayas disfrutado explorando nuestro rincón virtual. Ahora que has tenido un vistazo a lo que ofrecemos, queremos estar aún más cerca de ti.
                         La página de "Contáctanos" es como nuestra puerta mágica; al traspasarla, entras en un mundo donde tus preguntas se convierten en respuestas y tus sugerencias en mejoras palpables. <br /> <br />
                         Ya sea que desees compartir tus impresiones, plantearnos alguna pregunta o simplemente saludar, estamos aquí para ti. Creemos que cada interacción es una oportunidad de hacer nuevos amigos y aprender algo nuevo.
@@ -25,14 +26,16 @@ function ContactPage(params: Props) {
                         El Equipo de Cine+
                     </p>
 
-                    <p><u><strong>Horario de atencion al cliente</strong></u>: De lunes a jueves: de 8:00 a 20:00 horas. Viernes: de 8:00 a 19:00 horas. Fines de semana y festivos: de 10:00 a 18:00 horas.</p>
-                    <p>Si tienes alguna duda o sugerencia puedes contactarnos a traves de nuestro canal de Telegram</p>
+                    <p><u><strong>Horario de atención al cliente</strong></u>: De lunes a jueves: de 8:00 a 20:00 horas. Viernes: de 8:00 a 19:00 horas. Fines de semana y festivos: de 10:00 a 18:00 horas.</p>
+                    <p>Si tienes alguna duda o sugerencia puedes contactarnos a través de nuestro correo electrónico: <a href="https://localhost:44492/"><strong><u>peliculascine+@gmail.com</u></strong></a> </p>
+                    <p></p>
                 </div>
                 <div className="col-md-6">
-                    <h2 className="text-center">Puedes seguirnos en nuestras redes</h2>
+                    <h2 className="text-center">Puedes seguirnos en nuestras redes sociales</h2>
                     <h4 className="text-center">Facebook <a href="https://localhost:44492/"><BsFacebook className="text-primary" /> </a></h4>
                     <h4 className="text-center">Whatsapp <a href="https://localhost:44492/"><BsWhatsapp className="text-success" /></a></h4>
-                    <h4 className="text-center">Telegram <a href="https://localhost:44492/"><BsTelegram className="text-primary" /></a></h4>
+                    <h4 className="text-center">Telegram <a href="https://localhost:44492/"><BsTelegram className="text-info" /></a></h4>
+                    <h4 className="text-center">Instagram <a href="https://localhost:44492/"><BsInstagram className="text-danger" /></a></h4>
                     <br />
                     <br />
                     <h5 className="text-center">Nuestra sede se encuentra aquí</h5>
