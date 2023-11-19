@@ -8,6 +8,8 @@ import UnknownNavLinks from "./UnknownNavLinks";
 import { UserData } from "./types/types";
 import TicketsellerNavList from "./TicketsellerNavList";
 import TicketsellerRoutes from "./TicketsellerRoutes";
+import ClientNavLinks from "./ClientNavLinks";
+import ClientRoutes from "./ClientRoutes";
 import Footer from "./components/Footer";
 
 
@@ -25,6 +27,10 @@ function Switch() {
 
   const ticketsellerData: UserData = {
     nick: 'Taquillero 1'
+  }
+
+  const clientData: UserData = {
+    nick: 'John Doe'
   }
 
 
@@ -55,6 +61,16 @@ function Switch() {
         <Layout navLinks={TicketsellerNavList} userData={ticketsellerData}>
           <Routes>
             {TicketsellerRoutes.map((route, index) => {
+              const { element, ...rest } = route;
+              return <Route key={index} {...rest} element={element} />;
+            })}
+          </Routes>
+        </Layout>
+      )}
+      {role === "client" && (
+        <Layout navLinks={ClientNavLinks} userData={clientData}>
+          <Routes>
+            {ClientRoutes.map((route, index) => {
               const { element, ...rest } = route;
               return <Route key={index} {...rest} element={element} />;
             })}
