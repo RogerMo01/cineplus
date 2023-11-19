@@ -1,178 +1,21 @@
-  .imagen1 {
-    background-image: url('./pexels-pavel-danilyuk-7234389.jpg');
-    width: 250px;
-    height: 170px;
-    top: 380px;
-    left: 720px;
-  }
-
-  .imagen2 {
-    background-image: url('pexels-markus-spiske-2672097.jpg');
-    width: 250px;
-    height: 410px;
-    top: 110px;
-    left: 990px;
-  }
-
-  .imagen3 {
-    background-image: url('pexels-lisa-fotios-2923675.jpg');
-    width: 250px;
-    height: 200px;
-    top: 160px;
-    left: 720px;
-  }
-
-  .imagen4 {
-    background-image: url('pexels-cottonbro-studio-8261568.jpg');
-    width: 280px;
-    height: 240px;
-    top: 285px;
-    left: 420px;
-  }
-
-  .imagen5 {
-    background-image: url('pexels-angello-13111754.jpg');
-    width: 370px;
-    height: 560px;
-    top: 580px;
-    left: 180px;
-  }
-
-  .imagen6 {
-    background-image: url('pexels-linda-gschwentner-11718584.jpg');
-    width: 400px;
-    height: 470px;
-    top: 1180px;
-    left: 780px;
+  .auxi{
+    margin-top: 120px;
   }
 
   .imagen {
-    background-size: cover;
-    position: absolute;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
   }
 
   .slogan {
-    position: absolute;
     font-weight: bolder;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
   .slogan1 {
-    font-size: 60px;
-    top: 70px;
-    left: 150px;
-  }
-
-  .slogan2 {
-    font-size: 40px;
-    top: 660px;
-    left: 600px;
-  }
-
-  .slogan3 {
-    font-size: 40px;
-    top: 1245px;
-    left: 150px;
+    font-size: 400%;
   }
 
   .parrafo {
     font-size: 20px;
-    position: absolute;
-
-  }
-
-  .parrafo1 {
-    top: 212px;
-    left: 150px;
-  }
-
-  .parrafo2 {
-    top: 860px;
-    left: 600px;
-  }
-
-  .parrafo3 {
-    top: 1400px;
-    left: 150px;
-  }
-
-  @media (max-width: 767px) {
-    .cont{
-      position: relative;
-      top: -20px;
-      left: -10px;
-    }
-    .slogan1{
-      left: 10px;
-    }
-    .parrafo1{
-      top: 300px;
-      left:10px;
-    }
-    .imagen1 {
-      width: 170px;
-      height: 110px;
-      left:10px;
-      top:609px;
-    }
-    
-    /* OK */
-    .imagen2 {
-      left: 190px;
-      top:400px;
-      width: 210px;
-      height: 320px;
-    }
-
-    .imagen3{
-      width: 170px;
-      height: 110px;
-      left:10px;
-      top:400px
-    }
-
-    .imagen4{
-      width: 170px;
-      height: 80px;
-      left:10px;
-      top:520px;
-    }
-
-    .slogan2{
-      left: 10px;
-      top:780px;
-      
-    }
-
-    .imagen5{
-      left:10px;
-      top:1080px;
-      height: 500px;
-      width: 390px;
-    }
-
-    .parrafo2{
-      left: 10px;
-      top:1600px;
-    }
-
-    .slogan3{
-      left: 10px;
-      top: 1930px;
-    }
-
-    .imagen6{
-      width: 390px;
-      top: 2085px;
-      left:10px;
-    }
-
-    .parrafo3{
-      left: 10px;
-      top: 2575px;
-
-    }
-
   }
