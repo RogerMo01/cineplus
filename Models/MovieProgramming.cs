@@ -13,7 +13,7 @@ public class MovieProgramming
     public Guid Identifier { get; set; }
 
     [Key]
-    public int? RoomId { get; set; }
+    public int RoomId { get; set; }
     [Key]
     public int MovieId { get; set; }
     [Key]
@@ -21,7 +21,7 @@ public class MovieProgramming
 
     public double Price { get; set; }
     public int PricePoints { get; set; }
-    
+
     public virtual Room Room { get; set; }
     public virtual Movie Movie { get; set; }
     public ICollection<Ticket> Tickets { get; set; }

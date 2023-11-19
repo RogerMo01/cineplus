@@ -19,11 +19,11 @@ public class BoxOfficeSales
     public int DiscountId { get; set; }
 
     public DateTime DateOfPurchase { get; set; }
-    public string WayToPay { get; set; }
-    public  double FinalPrice { get; set; }
-    
+    public bool Cash { get; set; }
+    public double FinalPrice { get; set; }
+
     public virtual TicketSeller TicketSeller { get; set; }
-    public virtual Ticket Ticket { get ; set ; }
+    public virtual Ticket Ticket { get; set; }
     public virtual Discount Discount { get; set; }
-    
+
 }

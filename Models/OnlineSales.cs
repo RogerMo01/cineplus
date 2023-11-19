@@ -19,11 +19,11 @@ public class OnlineSales
     public int DiscountId { get; set; }
 
     public DateTime DateOfPurchase { get; set; }
-    public string WayToPay { get; set; }
-    public  double FinalPrice { get; set; }
-    
+    public bool Transfer { get; set; }
+    public double FinalPrice { get; set; }
+
     public virtual Client Client { get; set; }
-    public virtual Ticket Ticket { get ; set ; }
+    public virtual Ticket Ticket { get; set; }
     public virtual Discount Discount { get; set; }
-    
+
 }

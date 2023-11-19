@@ -14,10 +14,17 @@ public class Ticket
     [Key]
     public int SeatId { get; set; }
 
-    public double Price{ get; set; }
-    public int PricePoints{ get; set; }
-    public int Code{ get; set; }
+    public double Price { get; set; }
+    public int PricePoints { get; set; }
+    public int Code { get; set; }
 
     public virtual MovieProgramming MovieProgramming { get; set; }
     public virtual Seat Seat { get; set; }
+}
+public class Ticket_Without_Selection
+{
+    public string MovieProgId { get; set; }
+    public int Seat { get; set; }
+    public int Count_Ticket { get; set; }
+    public int Discount { get; set; }
 }
