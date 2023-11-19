@@ -2,6 +2,18 @@
     margin-top: 120px;
   }
 
+  .auxi2{
+    margin:30%
+  }
+
+  .but{
+    margin-left: 40%;
+  }
+
+  .auxi1{
+    text-align: right;
+  }
+
   .imagen {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
@@ -18,4 +30,16 @@
 
   .parrafo {
     font-size: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .changi{
+      text-align: center;
+    }
+    .auxi1{
+      text-align: center;
+    }
+    .but{
+      margin-left: 0%;
+    }
   }
