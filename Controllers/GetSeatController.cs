@@ -1,6 +1,8 @@
 namespace cineplus.GetSeat;
 
-public class GetSeat
+[Route("api/seats")]
+[ApiController]
+public class GetSeat : Controller
 {
     private readonly DataContext _context;
     public GetSeat(DataContext context)
