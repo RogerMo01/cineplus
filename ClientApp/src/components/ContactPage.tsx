@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BsWhatsapp } from 'react-icons/bs';
 import { BsTelegram } from "react-icons/bs";
 import { BsFacebook } from "react-icons/bs";
+import { BsSignpostFill } from "react-icons/bs";
+import { BsTelephoneFill } from "react-icons/bs";
 //@ts-ignore
 import imagen from "./estamos_aqui.jpg";
 interface Props {
@@ -24,20 +26,29 @@ function ContactPage(params: Props) {
                     </p>
 
                     <p><u><strong>Horario de atencion al cliente</strong></u>: De lunes a jueves: de 8:00 a 20:00 horas. Viernes: de 8:00 a 19:00 horas. Fines de semana y festivos: de 10:00 a 18:00 horas.</p>
+                    <p>Si tienes alguna duda o sugerencia puedes contactarnos a traves de nuestro canal de Telegram</p>
                 </div>
                 <div className="col-md-6">
                     <h2 className="text-center">Puedes seguirnos en nuestras redes</h2>
                     <h4 className="text-center">Facebook <a href="https://localhost:44492/"><BsFacebook className="text-primary" /> </a></h4>
                     <h4 className="text-center">Whatsapp <a href="https://localhost:44492/"><BsWhatsapp className="text-success" /></a></h4>
                     <h4 className="text-center">Telegram <a href="https://localhost:44492/"><BsTelegram className="text-primary" /></a></h4>
+                    <br />
+                    <br />
                     <h5 className="text-center">Nuestra sede se encuentra aquí</h5>
-                    <img
-                        src={imagen}
-                        alt="Ubicacion de la compañia"
-                        className="img-fluid w-75 mr-5 mb-5"
-                    />
-
-
+                    <div className="d-flex justify-content-center">
+                        <img
+                            src={imagen}
+                            alt="Ubicacion de la compañia"
+                            className="img-fluid w-50 mb-5"
+                        />
+                    </div>
+                    <h5 className="text-center"><BsSignpostFill className="text-warning" />
+                        C/ Juan Bruno Zayas #157, e/ San Mariano y Vista Alegre <br />
+                        Diez de Octubre, La Habana, Cuba</h5>
+                    <h5 className="text-center mb-3"><BsTelephoneFill className="text-warning" />
+                        +53 58454733
+                    </h5>
                 </div>
             </div>
         </div >
