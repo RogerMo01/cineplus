@@ -13,8 +13,7 @@ import imagen5 from './pexels-angello-13111754.jpg';
 //@ts-ignore
 import imagen6 from './pexels-linda-gschwentner-11718584.jpg';
 //@ts-ignore
-import imagen7 from './pexels-pavel-danilyuk-7234446.jpg';
-import Footer from './Footer';
+// import imagen7 from './pexels-pavel-danilyuk-7234446.jpg';
 
 function ReservaButton() {
   const islocalTesting = process.env.REACT_APP_LOCAL_TESTING;
@@ -24,7 +23,6 @@ function ReservaButton() {
   const home = (islocalTesting) ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
 
   function handleClick() {
-    alert(home);
     window.location.href = home + '/log-in';
   }
 
@@ -88,7 +86,7 @@ export class Home extends Component {
             </p>
           </div>
           <div className='col-md-4'>
-            <img src={imagen7} alt='cine+7' className='img-fluid imagen' />
+            <img src={imagen2} alt='cine+7' className='img-fluid imagen' />
           </div>
         </div>
         <div className='row mt-5'>
@@ -110,7 +108,6 @@ export class Home extends Component {
             <ReservaButton />
           </div>
         </div>
-        <Footer/>
       </div>
     );
   }

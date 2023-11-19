@@ -6,18 +6,6 @@ const UnknownNavLinks: NavLinkRoute[] = [
     route: "/",
   },
   {
-    name: "Counter",
-    route: "/counter",
-  },
-  {
-    name: "Fetch",
-    route: "/fetch-data",
-  },
-  {
-    name: "Registrarse",
-    route: "/sign-up",
-  },
-  {
     name: "Iniciar sesión",
     route: "/log-in",
   },

@@ -8,13 +8,14 @@ import UnknownNavLinks from "./UnknownNavLinks";
 import { UserData } from "./types/types";
 import TicketsellerNavList from "./TicketsellerNavList";
 import TicketsellerRoutes from "./TicketsellerRoutes";
+import Footer from "./components/Footer";
 
 
 function Switch() {
 
 
   // 🚨🚨🚨🚨🚨 Logic of token authorization 🚨🚨🚨🚨🚨
-  var role = "seller";
+  var role = "unknown";
 
 
   // 🛑🛑🛑 GET request of manager info 🛑🛑🛑
@@ -37,6 +38,7 @@ function Switch() {
               return <Route key={index} {...rest} element={element} />;
             })}
           </Routes>
+          <Footer/>
         </Layout>
       )}
       {role === "admin" && (
