@@ -18,12 +18,12 @@ public class SalesController : Controller
     }
 
     //[Authorize(Roles ="client")]
-    [HttpPost("buy")]
+    [HttpPost]
     public async Task<IActionResult> Buy_without_selection([FromBody] Ticket_Without_Selection input)
     {
-        string id = GetDataJWT().Item1;
-        int user_id = int.Parse(id);
-        string role = GetDataJWT().Item2;
+        // string id = GetDataJWT().Item1;
+        // int user_id = int.Parse(id);
+        // string role = GetDataJWT().Item2;
 
         if (input == null)
         {

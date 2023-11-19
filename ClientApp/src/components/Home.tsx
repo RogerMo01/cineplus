@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './Home.css';
+//@ts-ignore
+import tuImagen from './pexels-angello-13111754.jpg';
 
 export class Home extends Component {
   static displayName: string = Home.name;
@@ -8,7 +10,7 @@ export class Home extends Component {
     return (
 
       <div className="container">
-        <div className='cont'>
+        {/* <div className='cont'>
 
           <h1 className='slogan slogan1'>
             Tu historia, <br />
@@ -47,6 +49,16 @@ export class Home extends Component {
             ¡Reserva tu asiento ahora y prepárate para quedar cautivado <br />
             por la magia del cine!
           </p>
+        </div> */}
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6">
+              <h1>Tu historia,<br/> nuestro escenario</h1>
+            </div>
+            <div className="col-md-6">
+              <img src={tuImagen} alt="Descripción de la imagen" className="img-fluid" />
+            </div>
+          </div>
         </div>
       </div>
     );

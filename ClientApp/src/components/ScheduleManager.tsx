@@ -10,6 +10,7 @@ import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
 import Put from "./ProcessPut";
 import fetch from "./Fetch";
+import parseDate from "./DateParser";
 
 interface Props {
   name: string;
@@ -65,23 +66,6 @@ function ScheduleManager({ name, scheduleEndpoint, moviesEndpoint, roomsEndpoint
     Delete(id, path, scheduleEndpoint, setSchedule);
   };
 
-  function parseDate(inputDate: string): string{
-    const fecha = new Date(inputDate);
-
-    const year = inputDate.substring(0, 4);
-    const month = inputDate.substring(5, 7);
-    const day = inputDate.substring(8, 10);
-    const hours = padZero(String(fecha.getHours() % 12 || 12));
-    const minutes = padZero(inputDate.substring(14, 16));
-    const ampm = fecha.getHours() >= 12 ? 'PM' : 'AM';
-
-    return `${day}-${month}-${year} / ${hours}:${minutes} ${ampm}`;
-  }
-  
-  function padZero(num: string): string {
-    return num.padStart(2, '0');
-  }
-  
   return (
     <div className="full-container">
       <h2 className="header">{name}</h2>
