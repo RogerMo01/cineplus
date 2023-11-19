@@ -1,18 +1,19 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import "./SellTicketSeller.css";
 import Form from "react-bootstrap/Form";
-import { Discount, Schedule, Seat, SingleTextModal } from "../types/types";
-import { FcClapperboard } from "react-icons/fc";
+import { Discount, Schedule, Seat } from "../types/types";
 import fetch from "./Fetch";
 import parseDate from "./DateParser";
+import Post from "./ProcessPost";
 
 interface Props {
   scheduleEndpoint: string;
   seatEndpoint: string;
   discountEndpoint: string;
+  buyEndpoint: string;
 }
 
-function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint }: Props) {
+function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buyEndpoint }: Props) {
 
   const [schedule, setSchedule] = useState<Schedule[]>([]);
   const [seats, setSeats] = useState<Seat[]>([]);
@@ -20,7 +21,8 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint }: P
 
   const [selectedSchedule, setSelectedSchedule] = useState('');
   const [selectedSeat, setSelectedSeat] = useState('');
-  const [selectedDiscount, setSelectedDiscount] = useState(1);
+  const [selectedDiscountValue, setSelectedDiscountValue] = useState(0);
+  const [selectedDiscount, setSelectedDiscount] = useState(0);
 
   const [price, setPrice] = useState(0);
   const [points, setPoints] = useState(0);
@@ -40,12 +42,12 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint }: P
   }, [seats]);
 
   useEffect(() => {
-    const price = getPriceById(selectedSchedule, schedule) * selectedDiscount
+    const price = getPriceById(selectedSchedule, schedule) * (1 - selectedDiscountValue)
     setPrice(parseFloat(price.toFixed(2)))
-    const points = getPointsById(selectedSchedule, schedule) * selectedDiscount
+    const points = getPointsById(selectedSchedule, schedule) * (1 - selectedDiscountValue)
     setPoints(parseInt(points.toFixed(0)))
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDiscount, selectedSchedule]);
+  }, [selectedDiscountValue, selectedSchedule]);
 
   useEffect(() => {
     fetch(seatEndpoint + `/${selectedSchedule}`, setSeats);
@@ -78,22 +80,28 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint }: P
   const handleChangeSelectedDiscount = (e: React.ChangeEvent) => {
     const newValue = (e.target as HTMLInputElement).value;
     alert('change selected schedule to: ' + newValue);
-    setSelectedDiscount(parseFloat(newValue));
+
+    const [discountId, discountValue] = newValue.split(',');
+
+    setSelectedDiscount(parseInt(discountId));
+    setSelectedDiscountValue(parseFloat(discountValue));
   }
   
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     alert("Submit: schedule:" + selectedSchedule + "   |butaca: " + selectedSeat + "   |discount: " + selectedDiscount);
+    const request = {
+      MovieProgId: selectedSchedule,
+      Seat: selectedSeat,
+      Discount: selectedDiscount
+    }
 
-
-    // filtrar no pasar descuento si es -1
+    Post(request, buyEndpoint);
   }
 
   return (
     <div className="full-container border rounded">
-      
-
       <h2 className="text-center form-element">Vender Ticket</h2>
 
       <div className="form-container container">
@@ -114,7 +122,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint }: P
           <div className="inline-container">
             <div className="form-element">
               <Form.Label>Seleccionar Butaca</Form.Label>
-              <Form.Select onChange={handleChangeSelectedSeat} disabled={seats.length === 0 ? true : false}>
+              <Form.Select onChange={handleChangeSelectedSeat} /*disabled={seats.length === 0 ? true : false}*/>
                 {seats.map(s => (
                   <option key={s.code} value={s.code}>{s.code}</option>
                 ))}
@@ -122,10 +130,11 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint }: P
             </div>
             <div className="form-element inline-item">
               <Form.Label>Seleccionar Descuento</Form.Label>
+              
               <Form.Select onChange={handleChangeSelectedDiscount} defaultValue={1}>
-                <option key="none" value={1}>Ninguno</option>
+                <option key="none" value={'0,0'}>Ninguno</option>
                 {discounts.map(d => (
-                  <option key={d.id} value={d.percent}>{d.concept}</option>
+                  <option key={d.id} value={`${d.id},${d.percent}`}>{d.concept}</option>
                 ))}
               </Form.Select>
             </div>
@@ -135,13 +144,12 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint }: P
             Reservar Ticket
           </button>
         </form>
-
+        
 
         <div className="border-top mt-5">
           <p className="text-sm-end fs-4">Importe: ${price}</p>
           <p className="text-sm-end fs-4">Importe puntos: {points}</p>
         </div>
-
         
       </div>
     </div>

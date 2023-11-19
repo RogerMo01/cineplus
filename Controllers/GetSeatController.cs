@@ -10,7 +10,7 @@ public class GetSeat : Controller
         _context = context;
     }
 
-    [HttpGet("id")]
+    [HttpGet("{id}")]
     public IEnumerable<Seat> GetSeats(string id)
     {
         Guid IdG = new Guid(id);

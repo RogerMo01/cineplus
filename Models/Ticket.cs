@@ -24,7 +24,6 @@ public class Ticket
 public class Ticket_Without_Selection
 {
     public string MovieProgId { get; set; }
-    public int Seat { get; set; }
-    public int Count_Ticket { get; set; }
+    public string Seat { get; set; }
     public int Discount { get; set; }
 }
