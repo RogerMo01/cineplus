@@ -45,64 +45,47 @@ public class SalesController : Controller
         {
             return Conflict(new { Message = "Sala sin capacidad" });
         }
-        if (room.SeatsCount - ocupated_seat < input.Count_Ticket)
-        {
-            return Conflict(new { Message = "Disponibles solo " + (room.SeatsCount - ocupated_seat) });
-        }
         //falta incluir la tarjeta
         var discount = _context.Discounts.Where(d => d.DiscountId == input.Discount).FirstOrDefault();
+        Seat seat_Id = _context.Seats.FirstOrDefault(s => (s.Code == input.Seat) && (s.RoomId == movie.RoomId));
 
-        var ocupated = _context.Tickets
-            .Where(t => t.MovieProgramming.Identifier == movie.Identifier)
-            .Select(t => t.Seat.SeatId)
-            .ToList();
+        //Añadir el ticket reservado a la tabla
+        Ticket reserve = new Ticket();
+        reserve.DateTimeId = movie.DateTimeId;
+        reserve.MovieId = movie.MovieId;
+        reserve.RoomId = movie.RoomId;
+        reserve.SeatId = seat_Id.SeatId;
+        reserve.Price = movie.Price;
+        reserve.PricePoints = movie.PricePoints;
 
-        var disponible = _context.Seats
-            .Where(b => !ocupated.Contains(b.SeatId)).ToList();
-
-        //añade los ticket a la base de datos
-
-        for (int i = 0; i < input.Count_Ticket; i++)
+        //añadir la compra a la Base de Datos dependiendo del rol
+        //if (role == "client")
+        //{
+        OnlineSales ticket_client = new OnlineSales();
+        //ticket_client.ClientId = user_id;
+        ticket_client.DateTimeId = reserve.DateTimeId;
+        ticket_client.MovieId = reserve.MovieId;
+        ticket_client.RoomId = reserve.RoomId;
+        ticket_client.SeatId = reserve.SeatId;
+        ticket_client.DiscountId = discount.DiscountId;
+        ticket_client.FinalPrice = reserve.Price - (discount.Percent) * reserve.Price;
+        ticket_client.Transfer = true;
+        //}
+        /*else if (role == "seller")
         {
-            //Añadir el ticket reservado a la tabla
-            Ticket reserve = new Ticket();
-            reserve.DateTimeId = movie.DateTimeId;
-            reserve.MovieId = movie.MovieId;
-            reserve.RoomId = movie.RoomId;
-            reserve.SeatId = disponible.First().SeatId;
-            reserve.Price = movie.Price;
-            reserve.PricePoints = movie.PricePoints;
-
-            //añadir la compra a la Base de Datos dependiendo del rol
-            //if (role == "client")
-            //{
-            OnlineSales ticket_client = new OnlineSales();
-            //ticket_client.ClientId = user_id;
+            BoxOfficeSales ticket_client = new BoxOfficeSales();
+            ticket_client.TicketSellerId = user_id;
             ticket_client.DateTimeId = reserve.DateTimeId;
             ticket_client.MovieId = reserve.MovieId;
             ticket_client.RoomId = reserve.RoomId;
             ticket_client.SeatId = reserve.SeatId;
             ticket_client.DiscountId = discount.DiscountId;
             ticket_client.FinalPrice = reserve.Price - (discount.Percent) * reserve.Price;
-            ticket_client.Transfer = true;
-            //}
-            /*else if (role == "seller")
-            {
-                BoxOfficeSales ticket_client = new BoxOfficeSales();
-                ticket_client.TicketSellerId = user_id;
-                ticket_client.DateTimeId = reserve.DateTimeId;
-                ticket_client.MovieId = reserve.MovieId;
-                ticket_client.RoomId = reserve.RoomId;
-                ticket_client.SeatId = reserve.SeatId;
-                ticket_client.DiscountId = discount.DiscountId;
-                ticket_client.FinalPrice = reserve.Price - (discount.Percent) * reserve.Price;
-                ticket_client.Cash = true;
-            }*/
+            ticket_client.Cash = true;
+        }*/
 
 
-            _context.Tickets.Add(reserve);
-            disponible.RemoveAt(0);
-        }
+        _context.Tickets.Add(reserve);
 
 
         await _context.SaveChangesAsync();
