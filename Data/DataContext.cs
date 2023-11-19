@@ -23,7 +23,7 @@ namespace CineplusDB.Models
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<OnlineSales> OnlineSales { get; set; }
         public DbSet<BoxOfficeSales> BoxOfficeSales { get; set; }
-        
+
         protected readonly IConfiguration Configuration;
 
         public DataContext(IConfiguration configuration)
@@ -34,7 +34,7 @@ namespace CineplusDB.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.EnableSensitiveDataLogging();
-            var connectionString = Configuration.GetConnectionString("DefaultConnection"); 
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -52,18 +52,18 @@ namespace CineplusDB.Models
                 .WithOne(m => m.User)
                 .HasForeignKey<Manager>(m => m.UserId)
                 .IsRequired(false);
-            
+
             modelBuilder.Entity<User>()
                 .HasOne(u => u.TicketSeller)
                 .WithOne(s => s.User)
                 .HasForeignKey<TicketSeller>(s => s.UserId)
                 .IsRequired(false);
-        
+
             modelBuilder.Entity<Client>()
                 .HasOne(c => c.User)
                 .WithOne(u => u.Client)
                 .IsRequired();
-            
+
             modelBuilder.Entity<Client>()
                 .HasMany(c => c.Sales)
                 .WithOne(v => v.Client)
@@ -73,26 +73,26 @@ namespace CineplusDB.Models
                 .HasOne(m => m.User)
                 .WithOne(u => u.Manager)
                 .IsRequired();
-          
+
             modelBuilder.Entity<TicketSeller>()
                 .HasOne(s => s.User)
                 .WithOne(u => u.TicketSeller)
                 .IsRequired();
-            
+
             modelBuilder.Entity<TicketSeller>()
                 .HasMany(ts => ts.Sales)
                 .WithOne(v => v.TicketSeller)
                 .HasForeignKey(v => v.TicketSellerId);
-                
+
             //---------------------- Movie Programming -----------------------------------
 
             modelBuilder.Entity<MovieProgramming>()
                 .HasKey(mp => new { mp.RoomId, mp.MovieId, mp.DateTimeId });
-            
+
             // ------------------- Actors and genres by films --------------------------------------
 
             modelBuilder.Entity<ActorByFilm>()
-                .HasKey(x => new { x.ActorId, x.MovieId});
+                .HasKey(x => new { x.ActorId, x.MovieId });
 
             modelBuilder.Entity<ActorByFilm>()
                 .HasOne(a => a.Actor)
@@ -105,7 +105,7 @@ namespace CineplusDB.Models
                 .HasForeignKey(m => m.MovieId);
 
             modelBuilder.Entity<GenreByFilm>()
-                .HasKey(x => new { x.GenreId, x.MovieId});
+                .HasKey(x => new { x.GenreId, x.MovieId });
 
             modelBuilder.Entity<GenreByFilm>()
                 .HasOne(g => g.Genre)
@@ -116,18 +116,18 @@ namespace CineplusDB.Models
                 .HasOne(m => m.Movie)
                 .WithMany(x => x.GenresByFilms)
                 .HasForeignKey(m => m.MovieId);
-            
+
             // ------------------------ seats by room ------------------------------------------
 
             modelBuilder.Entity<Room>()
                 .HasMany(s => s.SeatsByRoom)
                 .WithOne(seatbyroom => seatbyroom.Room)
                 .HasForeignKey(seatbyroom => seatbyroom.RoomId);
-            
+
             // ---------------------- tickets ---------------------------------------------------
 
             modelBuilder.Entity<Ticket>()
-                .HasKey(x => new {x.RoomId, x.MovieId, x.DateTimeId, x.SeatId});
+                .HasKey(x => new { x.RoomId, x.MovieId, x.DateTimeId, x.SeatId });
 
             modelBuilder.Entity<Ticket>()
                 .HasOne(t => t.MovieProgramming)
@@ -141,11 +141,11 @@ namespace CineplusDB.Models
 
             // ---------------------- Online sale -----------------------------------------
             modelBuilder.Entity<OnlineSales>()
-                .HasKey(x => new {x.ClientId, x.RoomId, x.MovieId, x.DateTimeId, x.SeatId, x.DiscountId});
+                .HasKey(x => new { x.ClientId, x.RoomId, x.MovieId, x.DateTimeId, x.SeatId, x.DiscountId });
 
             modelBuilder.Entity<BoxOfficeSales>()
-                .HasKey(x => new {x.TicketSellerId, x.RoomId, x.MovieId, x.DateTimeId, x.SeatId, x.DiscountId});
-                
+                .HasKey(x => new { x.TicketSellerId, x.RoomId, x.MovieId, x.DateTimeId, x.SeatId, x.DiscountId });
+
             SeedDataMovies(modelBuilder);
             SeedDataClients(modelBuilder);
             SeedDataDiscounts(modelBuilder);
@@ -199,6 +199,7 @@ namespace CineplusDB.Models
         {
             string salt1 = BCryptNet.GenerateSalt();
             string salt2 = BCryptNet.GenerateSalt();
+            string salt3 = BCryptNet.GenerateSalt();
 
             modelBuilder.Entity<User>().HasData(
 
@@ -216,6 +217,13 @@ namespace CineplusDB.Models
                     Nick = "Jane Doe",
                     Password = BCryptNet.HashPassword("secretpass2", salt2),
                     Salt = salt2
+                },
+                new User
+                {
+                    UserId = 3,
+                    Nick = "Yoanciño seller",
+                    Password = BCryptNet.HashPassword("iguana salvaje", salt3),
+                    Salt = salt3
                 }
             );
 
@@ -232,14 +240,27 @@ namespace CineplusDB.Models
                 {
                     ClientId = 2,
                     DNI = "00000000001",
-                    CreditCard = "0000000000000001", 
+                    CreditCard = "0000000000000001",
                     UserId = 2
+                }
+            );
+            modelBuilder.Entity<TicketSeller>().HasData(
+                new TicketSeller
+                {
+                    TicketSellerId = 1,
+                    UserId = 3
                 }
             );
         }
 
         private void SeedDataDiscounts(ModelBuilder modelBuilder)
         {
+            var discount0 = new Discount
+            {
+                DiscountId = 0,
+                Concept = "Ninguno",
+                Percent = 0 // 10%
+            };
             var discount1 = new Discount
             {
                 DiscountId = 1,
@@ -273,35 +294,35 @@ namespace CineplusDB.Models
 
         public void SeedDataRooms(ModelBuilder modelBuilder)
         {
-           modelBuilder.Entity<Room>().HasData(
-                new Room
-                {
-                    RoomId = 1,
-                    Name = "Sala A",
-                    SeatsCount = 1
-                },
+            modelBuilder.Entity<Room>().HasData(
+                 new Room
+                 {
+                     RoomId = 1,
+                     Name = "Sala A",
+                     SeatsCount = 1
+                 },
 
-                new Room
-                {
-                    RoomId = 2,
-                    Name = "Sala B",
-                    SeatsCount = 1
-                },
+                 new Room
+                 {
+                     RoomId = 2,
+                     Name = "Sala B",
+                     SeatsCount = 1
+                 },
 
-                new Room
-                {
-                    RoomId = 3,
-                    Name = "Sala VIP",
-                    SeatsCount = 1
-                },
+                 new Room
+                 {
+                     RoomId = 3,
+                     Name = "Sala VIP",
+                     SeatsCount = 1
+                 },
 
-                new Room
-                {
-                    RoomId = 4,
-                    Name = "Sala 3D",
-                    SeatsCount = 1
-                }
-            );  
+                 new Room
+                 {
+                     RoomId = 4,
+                     Name = "Sala 3D",
+                     SeatsCount = 1
+                 }
+             );
         }
 
         public void SeedDataSeats(ModelBuilder modelBuilder)
@@ -309,44 +330,44 @@ namespace CineplusDB.Models
             modelBuilder.Entity<Seat>().HasData(
                 new Seat
                 {
-                    SeatId = 1, 
-                    RoomId = 1, 
+                    SeatId = 1,
+                    RoomId = 1,
                     Code = "A-1"
                 },
 
                 new Seat
                 {
-                    SeatId = 2, 
-                    RoomId = 2, 
+                    SeatId = 2,
+                    RoomId = 2,
                     Code = "B-1"
                 },
 
                 new Seat
                 {
-                    SeatId = 3, 
-                    RoomId = 3, 
+                    SeatId = 3,
+                    RoomId = 3,
                     Code = "VIP-1"
                 },
 
                 new Seat
                 {
-                    SeatId = 4, 
-                    RoomId = 4, 
+                    SeatId = 4,
+                    RoomId = 4,
                     Code = "3D-1"
                 }
-            );  
+            );
         }
-       
+
         private void SeedDataProgramming(ModelBuilder modelBuilder)
         {
             var movieProgramming1 = new MovieProgramming
             {
                 Identifier = Guid.NewGuid(),
                 RoomId = 2,
-                MovieId = 1, 
+                MovieId = 1,
                 DateTimeId = DateTime.Parse("2023-11-16 18:30:00"),
-                Price = 4.99, 
-                PricePoints = 20 
+                Price = 4.99,
+                PricePoints = 20
             };
 
             var movieProgramming2 = new MovieProgramming
