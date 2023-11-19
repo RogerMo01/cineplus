@@ -2,6 +2,11 @@ namespace CineplusDB.Models;
 
 public class Genre 
 {
+    public Genre()
+    {
+        GenresByFilms = new List<GenreByFilm>();
+    }
+    
     public int GenreId { get; set; }
     public string Name { get; set; }
     
