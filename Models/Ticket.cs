@@ -5,7 +5,6 @@ namespace CineplusDB.Models;
 
 public class Ticket
 {
-    public Guid IdentifierTicket { get; set; }
     [Key]
     public int RoomId { get; set; }
     [Key]
@@ -15,7 +14,7 @@ public class Ticket
     [Key]
     public int SeatId { get; set; }
 
-    public decimal Price{ get; set; }
+    public double Price{ get; set; }
     public int PricePoints{ get; set; }
     public int Code{ get; set; }
 

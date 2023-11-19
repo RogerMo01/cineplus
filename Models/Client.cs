@@ -9,5 +9,6 @@ namespace CineplusDB.Models
         public int UserId { get; set; } // Propiedad para la clave foránea
         public virtual User User { get; set; }
 
+        public ICollection<OnlineSales> Sales { get; set; }
     }
 }

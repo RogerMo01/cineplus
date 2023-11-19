@@ -19,7 +19,7 @@ public class MovieProgramming
     [Key]
     public DateTime DateTimeId { get; set; }
 
-    public decimal Price { get; set; }
+    public double Price { get; set; }
     public int PricePoints { get; set; }
     
     public virtual Room Room { get; set; }
@@ -33,6 +33,6 @@ public class ProgrammingData
     public string Movie { get; set; }
     public string Room { get; set; }
     public DateTime Date { get; set; }
-    public decimal Price { get; set; }
+    public double Price { get; set; }
     public int Points { get; set; }
 }
