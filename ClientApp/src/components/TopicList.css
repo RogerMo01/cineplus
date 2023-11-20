@@ -1,0 +1,25 @@
+.margin-card {
+  margin: 1px;
+}
+
+.carousel-card {
+  height: 100%; /* Establece una altura fija para cada tarjeta en el carrusel */
+  display: flex;
+  flex-direction: column;
+}
+
+.cardgroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.ul-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  border: solid 1px gray;
+  border-radius: 10px;
+  background-color: rgba(247, 247, 247, 0.765);
+}
