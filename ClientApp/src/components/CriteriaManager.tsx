@@ -57,21 +57,8 @@ function CriteriaManager({ name, endpoint, activeEndpoint, path, activePath }: P
 
   const handleCheckInput = (id: number) => async (e: React.MouseEvent) => {
     Put(id, {}, activePath , activeEndpoint, setActives)
-    // updateActiveCriteria(id);
   }
 
-//   function updateActiveCriteria(id: number) {
-//     setActives((prevActives) => {
-//       // Si el ID ya está en la lista, lo eliminamos
-//       if (prevActives.includes(id)) {
-//         return prevActives.filter((activeId) => activeId !== id);
-//       } else {
-//         // Si el ID no está en la lista, lo agregamos
-//         return [...prevActives, id];
-//       }
-//     });
-//   }
-  
 
   return (
     <div className="full-container">

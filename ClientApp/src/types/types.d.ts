@@ -81,6 +81,6 @@ export interface MovieCard {
 }
 
 export interface Criterion {
-  id: string,
+  id: number,
   name: string
 }
