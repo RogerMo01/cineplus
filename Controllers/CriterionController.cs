@@ -1,4 +1,6 @@
 using cineplus.CRDController;
+using Microsoft.AspNetCore.Mvc.Routing;
+using cineplus.MovieController;
 
 namespace cineplus.CriterionController;
 
@@ -13,6 +15,7 @@ public class CriterionController : CRDController<Criterion>
     }
 
     [HttpGet]
+    [Route("all")]
     public async Task<IActionResult> GetCriteria()
     {
         var criteriaDto = await base.GetAll()
@@ -25,25 +28,72 @@ public class CriterionController : CRDController<Criterion>
         return Ok(criteriaDto);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> InsertCriterion([FromBody] CriterionDto criterion)
+    [HttpGet]
+    [Route("random")]
+    public async Task<IActionResult> GetRandomMovies()
     {
-        if(_context.Criteria.Any(c => c.Name == criterion.name))
+        var random_movies = _context.Movies.OrderBy(m => Guid.NewGuid()).ToList();
+
+        List<MovieGet> movies = new List<MovieGet>();
+
+        foreach (var item in random_movies)
         {
-            return Conflict( new { Message = "Este criterio ya existe"});
+            List<Dto> actorsFilm = GetActors(item.MovieId);
+            List<Dto> genresFilm = GetGenres(item.MovieId);
+
+            MovieGet movie = new MovieGet{
+                id = item.MovieId,
+                title = item.Title,
+                year = item.Year,
+                country = item.Country,
+                director = item.Director,
+                duration = item.Duration,
+                actors = actorsFilm, 
+                genres = genresFilm
+            };
+
+            movies.Add(movie);
         }
 
-        var new_criterion = new Criterion { Name = criterion.name};
-
-        await base.Insert(new_criterion); 
-
-        return Ok();
+        return Ok(movies);
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCriterion(int id)
+    private List<Dto> GetActors(int movieId)
     {
-        await base.Delete(id);
-        return Ok();
+        var actors = _context.ActorsByFilms
+            .Where(m => m.MovieId == movieId)
+            .Join(
+                _context.Actors,
+                m => m.ActorId,
+                a => a.ActorId,
+                (m, a) => new Dto
+                {
+                    id = a.ActorId,
+                    name = a.Name
+                }
+            ).ToList();
+
+        return actors;
     }
+
+    private List<Dto> GetGenres(int movieId)
+    {
+        var genres = _context.GenresByFilms
+            .Where(m => m.MovieId == movieId)
+            .Join(
+                _context.Genres,
+                m => m.GenreId,
+                g => g.GenreId,
+                (m, g) => new Dto
+                {
+                    id = g.GenreId,
+                    name = g.Name
+                }
+            ).ToList();
+
+        return genres;
+    }
+
 }
+
+
