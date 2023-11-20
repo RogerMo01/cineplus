@@ -169,6 +169,7 @@ namespace CineplusDB.Models
             SeedDataSchedule(modelBuilder);
             SeedDataRooms(modelBuilder);
             SeedDataSeats(modelBuilder);
+            SeedDataCriterion(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
 
@@ -180,35 +181,48 @@ namespace CineplusDB.Models
             // Películas
             var movie1 = new Movie { MovieId = 1, Title = "Inception", Year = 2010, Country = "USA", Director = "Christopher Nolan", Duration = 148 };
             var movie2 = new Movie { MovieId = 2, Title = "The Shawshank Redemption", Year = 1994, Country = "USA", Director = "Frank Darabont", Duration = 142 };
-
+            var movie3 = new Movie { MovieId = 3, Title = "The Dark Knight", Year = 2008, Country = "USA", Director = "Christopher Nolan", Duration = 152 };
+            var movie4 = new Movie { MovieId = 4, Title = "Forrest Gump", Year = 1994, Country = "USA", Director = "Robert Zemeckis", Duration = 142 };
+            
             // Actores
             var actor1 = new Actor { ActorId = 1, Name = "Leonardo DiCaprio" };
             var actor2 = new Actor { ActorId = 2, Name = "Tom Hardy" };
             var actor3 = new Actor { ActorId = 3, Name = "Joseph Gordon-Levitt" };
             var actor4 = new Actor { ActorId = 4, Name = "Morgan Freeman" };
+            var actor5 = new Actor { ActorId = 5, Name = "Christian Bale" };
+            var actor6 = new Actor { ActorId = 6, Name = "Heath Ledger" };
+            var actor7 = new Actor { ActorId = 7, Name = "Gary Sinise" };
 
             // Géneros
             var genre1 = new Genre { GenreId = 1, Name = "Ciencia Ficción" };
             var genre2 = new Genre { GenreId = 2, Name = "Drama" };
             var genre3 = new Genre { GenreId = 3, Name = "Comedia" };
+            var genre4 = new Genre { GenreId = 4, Name = "Acción" };
+            var genre5 = new Genre { GenreId = 5, Name = "Romance" };
+            var genre6 = new Genre { GenreId = 6, Name = "Aventura" };
 
             // Relaciones Actor - Película
             var actorByFilm1 = new ActorByFilm { ActorId = 1, MovieId = 1 };
             var actorByFilm2 = new ActorByFilm { ActorId = 2, MovieId = 1 };
             var actorByFilm3 = new ActorByFilm { ActorId = 3, MovieId = 1 };
-
             var actorByFilm4 = new ActorByFilm { ActorId = 1, MovieId = 2 };
             var actorByFilm5 = new ActorByFilm { ActorId = 4, MovieId = 2 };
-
+            var actorByFilm6 = new ActorByFilm { ActorId = 5, MovieId = 3 };
+            var actorByFilm7 = new ActorByFilm { ActorId = 6, MovieId = 3 };
+            var actorByFilm8 = new ActorByFilm { ActorId = 7, MovieId = 4 };
+            
             // Relaciones Género - Película
             var genreByFilm1 = new GenreByFilm { GenreId = 1, MovieId = 1 };
             var genreByFilm2 = new GenreByFilm { GenreId = 2, MovieId = 2 };
+            var genreByFilm3 = new GenreByFilm { GenreId = 4, MovieId = 3 };
+            var genreByFilm4 = new GenreByFilm { GenreId = 5, MovieId = 4 };
+            var genreByFilm5 = new GenreByFilm { GenreId = 6, MovieId = 4 };
 
-            modelBuilder.Entity<Movie>().HasData(movie1, movie2);
-            modelBuilder.Entity<Actor>().HasData(actor1, actor2, actor3, actor4);
-            modelBuilder.Entity<Genre>().HasData(genre1, genre2, genre3);
-            modelBuilder.Entity<ActorByFilm>().HasData(actorByFilm1, actorByFilm2, actorByFilm3, actorByFilm4, actorByFilm5);
-            modelBuilder.Entity<GenreByFilm>().HasData(genreByFilm1, genreByFilm2);
+            modelBuilder.Entity<Movie>().HasData(movie1, movie2, movie3, movie4);
+            modelBuilder.Entity<Actor>().HasData(actor1, actor2, actor3, actor4, actor5, actor6, actor7);
+            modelBuilder.Entity<Genre>().HasData(genre1, genre2, genre3, genre4, genre5, genre6);
+            modelBuilder.Entity<ActorByFilm>().HasData(actorByFilm1, actorByFilm2, actorByFilm3, actorByFilm4, actorByFilm5, actorByFilm6, actorByFilm7, actorByFilm8);
+            modelBuilder.Entity<GenreByFilm>().HasData(genreByFilm1, genreByFilm2, genreByFilm3, genreByFilm4, genreByFilm5);
         }
 
         private void SeedDataClients(ModelBuilder modelBuilder)
@@ -414,5 +428,12 @@ namespace CineplusDB.Models
             modelBuilder.Entity<Schedule>().HasData(schedule1, schedule2);
         }
 
+        private void SeedDataCriterion(ModelBuilder modelBuilder)
+        {
+            var criterion1 = new Criterion{ CriterionId = 1, Name = "Random"};
+            
+            modelBuilder.Entity<Criterion>().HasData(criterion1);
+        }
     }
+
 }
