@@ -23,6 +23,8 @@ namespace CineplusDB.Models
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<OnlineSales> OnlineSales { get; set; }
         public DbSet<BoxOfficeSales> BoxOfficeSales { get; set; }
+        public DbSet<Criterion> Criteria { get; set; }
+        public DbSet<ActiveCriterion> ActiveCriteria { get; set; }
 
         protected readonly IConfiguration Configuration;
 
@@ -140,11 +142,25 @@ namespace CineplusDB.Models
             .HasForeignKey(t => t.SeatId);
 
             // ---------------------- Online sale -----------------------------------------
+
             modelBuilder.Entity<OnlineSales>()
                 .HasKey(x => new { x.ClientId, x.RoomId, x.MovieId, x.DateTimeId, x.SeatId, x.DiscountId });
 
             modelBuilder.Entity<BoxOfficeSales>()
                 .HasKey(x => new { x.TicketSellerId, x.RoomId, x.MovieId, x.DateTimeId, x.SeatId, x.DiscountId });
+
+            // ------------------- Criteria ---------------------------------------------------
+
+            modelBuilder.Entity<Criterion>()
+                .HasOne(c => c.ActiveCriterion)
+                .WithOne(ac => ac.Criterion)
+                .HasForeignKey<ActiveCriterion>(ac => ac.CriterionId)
+                .IsRequired(false);
+
+            modelBuilder.Entity<ActiveCriterion>()
+                .HasOne(ac => ac.Criterion)
+                .WithOne(c => c.ActiveCriterion)
+                .IsRequired();
 
             SeedDataMovies(modelBuilder);
             SeedDataClients(modelBuilder);
