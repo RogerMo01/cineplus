@@ -9,7 +9,7 @@ interface Props {
     route: string,
 }
 
-function MovieCard(props: Props) {
+function    MovieCard(props: Props) {
     return(
         <li className="movie-card">
             <img src={props.route} width={110} height={170} className="movie-img" alt={props.movie.title} />

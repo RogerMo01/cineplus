@@ -119,7 +119,7 @@ function CatalogPage() {
   return (
     // <Container className="full-container border rounded">
     <div>
-      <h2 className="text-center mb-5 mt-5">Catálogo</h2>
+      <h2 className="text-center mb-5 mt-5 text-">Catálogo</h2>
 
       <Tabs
         id="main"
@@ -131,7 +131,6 @@ function CatalogPage() {
       >
         {criteria.map((c) => (
           <Tab key={c.id} eventKey={c.id} title={c.name}>
-            <hr className="topic-hr" />
             <div className="topic-slider">
               <TopicList header={c.name} movies={movies} />
             </div>
