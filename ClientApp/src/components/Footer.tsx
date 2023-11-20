@@ -1,4 +1,6 @@
 import React from "react";
+import { NavLink } from "reactstrap";
+import { Link } from 'react-router-dom';
 
 function Footer() {
     return (
@@ -10,19 +12,19 @@ function Footer() {
                             <div className="row text-center d-flex justify-content-center pt-5">
                                 <div className="col-md-2">
                                     <h6 className="text-uppercase font-weight-bold">
-                                        <a href="#!" className="text-black">Sobre nosotros</a>
+                                        <NavLink tag={Link} className="text-decoration-underline" to={'/about'}>Sobre Nosotros</NavLink>
                                     </h6>
                                 </div>
 
                                 <div className="col-md-2">
                                     <h6 className="text-uppercase font-weight-bold">
-                                        <a href="#!" className="text-black">Péliculas</a>
+                                        <NavLink tag={Link} className="text-decoration-underline" to={'/catalog'}>Películas</NavLink>
                                     </h6>
                                 </div>
 
                                 <div className="col-md-2">
                                     <h6 className="text-uppercase font-weight-bold">
-                                        <a href="#!" className="text-black">Contacto</a>
+                                        <NavLink tag={Link} className="text-decoration-underline" to={'/contact'}>Contacto</NavLink>
                                     </h6>
                                 </div>
                             </div>
