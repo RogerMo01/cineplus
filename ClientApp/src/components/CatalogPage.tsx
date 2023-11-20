@@ -121,13 +121,17 @@ function CatalogPage() {
   
   const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
   const moviesEndpoint = '/api/movie';
-  const criteriaEndpoint = '/api/criterion';
+  const criteriaEndpoint = '/api/criterion/all';
   const activeCriteriaEndpoint = '/api/activecriterion';
+
+  // Criteria
+  const randomMoviesEndpoint = '/api/criterion/random';
 
 
   const [movies, setMovies] = useState<Movie[]>([]);
   const [criteria, setCriteria] = useState<Criterion[]>([]);
   const [activeCriteria, setActiveCriteria] = useState<{id: number}[]>([]);
+  const [randomMovies, setRandomMovies] = useState<Movie[]>([]);
 
   const [showedCriteria, setShowedCriteria] = useState<Criterion[]>([]);
   const [key, setKey] = useState("");
@@ -136,6 +140,7 @@ function CatalogPage() {
     fetch(moviesEndpoint, setMovies);
     fetch(criteriaEndpoint, setCriteria);
     fetch(activeCriteriaEndpoint, setActiveCriteria);
+    fetch(randomMoviesEndpoint, setRandomMovies);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
@@ -152,6 +157,14 @@ function CatalogPage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showedCriteria])
   
+  function getMovies(criteria: string) : Movie[] {
+    if(criteria === 'Random'){
+      return randomMovies;
+    }
+    else{
+      throw new Error('No match in criterion selection');
+    }
+  }
 
   return (
     // <Container className="full-container border rounded">
@@ -170,10 +183,12 @@ function CatalogPage() {
         {showedCriteria.map((c) => (
           <Tab key={c.id} eventKey={c.id} title={c.name}>
             <div className="topic-slider">
-              <TopicList topic={c.name} movies={movies} />
+              <TopicList topic={c.name} movies={getMovies(c.name)} />
             </div>
           </Tab>
         ))}
+
+
       </Tabs>
     </div>
     // </Container>

@@ -19,6 +19,7 @@ const context = [
   '/api/seats',
   '/api/sales',
   '/api/criterion',
+  '/api/criterion/all',
   '/api/activecriterion'
 ];
 

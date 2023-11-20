@@ -38,7 +38,7 @@ function ManagerPage({pathHead}: Props) {
   const discountsEndpoint = '/api/discount';
   const actorsEndpoint = '/api/actor';
   const genresEndpoint = '/api/genre';
-  const criteriaEndpoint = '/api/criterion';
+  const criteriaEndpoint = '/api/criterion/all';
   const activecriteriaEndpoint = '/api/activecriterion';
   // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
 
