@@ -29,7 +29,9 @@ public class ActiveCriterionController : CRDController<ActiveCriterion>
     {
         if(_context.ActiveCriteria.Any(ac => ac.CriterionId == id))
         {
-            await base.Delete(id);
+            var active_criterion = _context.ActiveCriteria.FirstOrDefault(ac => ac.CriterionId == id);
+            int active_criterionId = active_criterion.ActiveCriterionId;
+            await base.Delete(active_criterionId);
             return Ok();
         }
 

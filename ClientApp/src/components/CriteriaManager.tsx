@@ -18,19 +18,19 @@ interface Props {
 }
 
 function CriteriaManager({ name, endpoint, activeEndpoint, path, activePath }: Props) {
-  const criterios = [
-    {
-      id: 1,
-      name: "Dramas",
-    },
-    {
-      id: 2,
-      name: "Thrillers",
-    },
-  ];
+//   const criterios = [
+//     {
+//       id: 1,
+//       name: "Dramas",
+//     },
+//     {
+//       id: 2,
+//       name: "Thrillers",
+//     },
+//   ];
 
   const [criteria, setCriteria] = useState<SingleTextModal[]>([]);
-  const [actives, setActives] = useState<number[]>([]);
+  const [actives, setActives] = useState<{id: number}[]>([]);
 
   useEffect(() => {
     fetch(endpoint, setCriteria);
@@ -57,20 +57,20 @@ function CriteriaManager({ name, endpoint, activeEndpoint, path, activePath }: P
 
   const handleCheckInput = (id: number) => async (e: React.MouseEvent) => {
     Put(id, {}, activePath , activeEndpoint, setActives)
-    updateActiveCriteria(id);
+    // updateActiveCriteria(id);
   }
 
-  function updateActiveCriteria(id: number) {
-    setActives((prevActives) => {
-      // Si el ID ya está en la lista, lo eliminamos
-      if (prevActives.includes(id)) {
-        return prevActives.filter((activeId) => activeId !== id);
-      } else {
-        // Si el ID no está en la lista, lo agregamos
-        return [...prevActives, id];
-      }
-    });
-  }
+//   function updateActiveCriteria(id: number) {
+//     setActives((prevActives) => {
+//       // Si el ID ya está en la lista, lo eliminamos
+//       if (prevActives.includes(id)) {
+//         return prevActives.filter((activeId) => activeId !== id);
+//       } else {
+//         // Si el ID no está en la lista, lo agregamos
+//         return [...prevActives, id];
+//       }
+//     });
+//   }
   
 
   return (
@@ -101,7 +101,7 @@ function CriteriaManager({ name, endpoint, activeEndpoint, path, activePath }: P
             </tr>
           </thead>
           <tbody>
-            {criterios.map((criterion) => (
+            {criteria.map((criterion) => (
               <tr key={criterion.id}>
                 <td key={criterion.id}>
                   <div key={criterion.id} className="form-check form-switch">
@@ -111,7 +111,7 @@ function CriteriaManager({ name, endpoint, activeEndpoint, path, activePath }: P
                       type="checkbox"
                       role="switch"
                       id={`flexSwitchCheck${criterion.id}`}
-                      checked={actives.includes(criterion.id)}
+                      checked={actives.some((active) => active.id === criterion.id)}
                       onClick={handleCheckInput(criterion.id)}
                     />
                   </div>
