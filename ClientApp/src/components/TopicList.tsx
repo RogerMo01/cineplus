@@ -7,14 +7,14 @@ import img from '../media/default_poster.jpg'
 
 
 interface Props {
-  header: string;
+  topic: string;
   movies: Movie[];
 }
 
 const TopicList = (props: Props) => {
   return (
     <div>
-      <h4>{props.header}:</h4>
+      <h4>{props.topic}:</h4>
 
       <ul className="ul-group">
         {props.movies.map(m => (

@@ -170,7 +170,7 @@ function CatalogPage() {
         {showedCriteria.map((c) => (
           <Tab key={c.id} eventKey={c.id} title={c.name}>
             <div className="topic-slider">
-              <TopicList header={c.name} movies={movies} />
+              <TopicList topic={c.name} movies={movies} />
             </div>
           </Tab>
         ))}
