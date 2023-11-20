@@ -6,3 +6,8 @@ public class ActiveCriterion
     public int CriterionId { get; set; }
     public virtual Criterion Criterion { get; set; }
 }
+
+public class ActiveCriterionDto
+{
+    public int id { get; set; }
+}
