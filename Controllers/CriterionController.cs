@@ -32,7 +32,9 @@ public class CriterionController : CRDController<Criterion>
     [Route("random")]
     public async Task<IActionResult> GetRandomMovies()
     {
-        var random_movies = _context.Movies.OrderBy(m => Guid.NewGuid()).ToList();
+        var allmovies = _context.Movies.ToList();
+        // var random_movies = _context.Movies.OrderBy(m => Guid.NewGuid()).ToList();
+        var random_movies = allmovies.OrderBy(m => Guid.NewGuid()).ToList();
 
         List<MovieGet> movies = new List<MovieGet>();
 
