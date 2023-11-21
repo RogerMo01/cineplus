@@ -66,3 +66,7 @@ export interface SingleTextModal {
   id: number,
   name: string
 }
+
+export interface Seat {
+  code: string
+}

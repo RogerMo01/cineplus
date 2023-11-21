@@ -136,6 +136,7 @@ public class MovieProgrammingController : ControllerBase
         toUpdate.PricePoints = data.Points;
 
         await _context.SaveChangesAsync();
+        
         return Ok();
     }
 

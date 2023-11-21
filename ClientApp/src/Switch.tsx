@@ -6,6 +6,8 @@ import { Layout } from "./components/Layout";
 import ManagerNavLinks from "./ManagerNavLinks";
 import UnknownNavLinks from "./UnknownNavLinks";
 import { UserData } from "./types/types";
+import TicketsellerNavList from "./TicketsellerNavList";
+import TicketsellerRoutes from "./TicketsellerRoutes";
 
 
 function Switch() {
@@ -20,6 +22,9 @@ function Switch() {
     nick: 'Administrator'
   }
 
+  const ticketsellerData: UserData = {
+    nick: 'Taquillero 1'
+  }
 
 
   return (
@@ -38,6 +43,16 @@ function Switch() {
         <Layout navLinks={ManagerNavLinks} userData={managerData}>
           <Routes>
             {ManagerRoutes.map((route, index) => {
+              const { element, ...rest } = route;
+              return <Route key={index} {...rest} element={element} />;
+            })}
+          </Routes>
+        </Layout>
+      )}
+      {role === "seller" && (
+        <Layout navLinks={TicketsellerNavList} userData={ticketsellerData}>
+          <Routes>
+            {TicketsellerRoutes.map((route, index) => {
               const { element, ...rest } = route;
               return <Route key={index} {...rest} element={element} />;
             })}

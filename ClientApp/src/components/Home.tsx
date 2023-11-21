@@ -19,7 +19,6 @@ function ReservaButton() {
 }
 
 
-
 export class Home extends Component {
   static displayName: string = Home.name;
 
