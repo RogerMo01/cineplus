@@ -5,6 +5,8 @@ import { FetchData } from './components/FetchData';
 import { Home } from './components/Home';
 import SignUpPage from './components/SignUpPage';
 import LogInPage from './components/LogInPage';
+import AboutPage from './components/AboutPage';
+import ContactPage from './components/ContactPage';
 import CatalogPage from './components/CatalogPage';
 
 interface AppRoute {
@@ -23,9 +25,18 @@ const AppRoutes: AppRoute[] = [
     element: <LogInPage />
   },
   {
+    path: '/about-us',
+    element: <AboutPage />
+  },
+  {
+    path: '/contact',
+    element: <ContactPage />
+  },
+  {
     path: '/movies',
     element: <CatalogPage />
   }
+  
 ];
 
 export default AppRoutes;
