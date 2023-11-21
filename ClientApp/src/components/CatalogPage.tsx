@@ -5,6 +5,7 @@ import "./CatalogPage.css";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import fetch from "./Fetch";
+import Spinner from 'react-bootstrap/Spinner';
 
 function CatalogPage() {
   // const movies: Movie[] = [
@@ -137,11 +138,21 @@ function CatalogPage() {
   const [showedCriteria, setShowedCriteria] = useState<Criterion[]>([]);
   const [key, setKey] = useState("");
 
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    fetch(moviesEndpoint, setMovies);
-    fetch(criteriaEndpoint, setCriteria);
-    fetch(activeCriteriaEndpoint, setActiveCriteria);
-    fetch(randomMoviesEndpoint, setRandomMovies);
+    setIsLoading(true);
+    Promise.all([
+      fetch(moviesEndpoint, setMovies),
+      fetch(criteriaEndpoint, setCriteria),
+      fetch(activeCriteriaEndpoint, setActiveCriteria),
+      fetch(randomMoviesEndpoint, setRandomMovies),
+    ]).then(() => {
+      setIsLoading(false);
+    }).catch((e) => {
+      console.error("Error fetching data:", e);
+        // En caso de error, también se detiene la carga
+        setIsLoading(false);
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
@@ -168,11 +179,14 @@ function CatalogPage() {
   }
 
   return (
-    // <Container className="full-container border rounded">
     <div>
       <h2 className="text-center mb-5 mt-5 text-">Catálogo</h2>
 
-      <Tabs
+      {isLoading ? (
+        <div className="d-flex justify-content-center align-items-center">
+          <Spinner className="" animation="border" variant="dark" />
+        </div>
+      ) : <Tabs
         id="main"
         activeKey={key}
         onSelect={(k) => {
@@ -191,9 +205,8 @@ function CatalogPage() {
         ))}
 
 
-      </Tabs>
+      </Tabs>}
     </div>
-    // </Container>
   );
 }
 
