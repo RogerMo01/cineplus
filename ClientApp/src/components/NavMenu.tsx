@@ -54,7 +54,7 @@ export class NavMenu extends Component<Props, NavMenuState> {
     return (
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow custom-navbar" container light>
-          <NavbarBrand tag={Link} to="/" onClick={this.closeNavbar}><img src="Logo.png" width={45} height={40} alt="logo" /></NavbarBrand>
+          <NavbarBrand tag={Link} to="/" onClick={this.closeNavbar}><img src="Logo.png" width={41} height={40} alt="logo" /></NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} className=" mr-2 custom-toggler"/>
           <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
             <ul className="navbar-nav flex-grow">
@@ -72,7 +72,7 @@ export class NavMenu extends Component<Props, NavMenuState> {
                 <div className='user-box'>
 
                   <div className='user-icon-container'>
-                    <BiUserCircle className='user-icon' id='Popover' />
+                    <img src='user.png' width={45} height={45} alt='user' id='Popover' />
                   </div>
 
 
