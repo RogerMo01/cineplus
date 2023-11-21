@@ -1,6 +1,5 @@
 .movie-card {
   list-style: none;
-  transition: transform 0.2s ease-in-out;
 }
 
 .movie-img {
@@ -8,10 +7,17 @@
   background-color: azure;
 }
 
-.movie-card:hover {
-  transform: scale(1.1);
+.tcard {
+  max-width: 150px;
+  transition: transform 0.2s ease-in-out;
+}
+.poster-card {
+  max-width: 220px;
+  /* width: auto; */
+  height: 360px;
+  
 }
 
-.tcard {
-    max-width: 150px;
+.tcard:hover {
+  transform: scale(1.1);
 }
