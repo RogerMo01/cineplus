@@ -9,20 +9,24 @@ import {
   CardTitle,
 } from "reactstrap";
 import MovieInfoModal from "./MovieInfoModal";
-// import { useNavigate } from 'react-router-dom';
+import MoviesScheduledList from "./MovieScheduledList";
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   movie: Movie;
   route: string;
   redirect: string;
+  scheduleEndpoint: string
 }
 
 function MovieCard(props: Props) {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [modal, setModal] = useState(false);
+  const [scheduledModal, setScheduledModal] = useState(false);
 
   const toggle = () => setModal(!modal);
+  const toggle2 = () => setScheduledModal(!scheduledModal);
 
   const handleResize = () => {
     if (window.innerWidth < 400) {
@@ -47,9 +51,13 @@ function MovieCard(props: Props) {
 
 
 
-  function handleBuy(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  function handleSeeSchedule(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     toggle();
-    // navigate(props.redirect);
+    toggle2();
+  }
+
+  function handleBuy(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+    navigate(props.redirect);
   }
 
   return (
@@ -70,8 +78,9 @@ function MovieCard(props: Props) {
         </CardBody>
       </Card>
 
-      <MovieInfoModal showModal={modal} toggle={toggle} layout={layout} movie={props.movie} route={props.route} redirect={props.redirect} handleBuy={handleBuy} />
+      <MovieInfoModal showModal={modal} toggle={toggle} layout={layout} movie={props.movie} route={props.route} redirect={props.redirect} handleSeeSchedule={handleSeeSchedule} />
       
+      <MoviesScheduledList scheduleEndpoint={props.scheduleEndpoint} showModal={scheduledModal} toggle={toggle2} handleBuy={handleBuy} />
     </li>
   );
 }

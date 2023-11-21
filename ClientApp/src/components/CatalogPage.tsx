@@ -123,6 +123,7 @@ function CatalogPage() {
   const moviesEndpoint = '/api/movie';
   const criteriaEndpoint = '/api/criterion/all';
   const activeCriteriaEndpoint = '/api/activecriterion';
+  const scheduleEndpoint = '/api/movieprogramming'
 
   // Criteria
   const randomMoviesEndpoint = '/api/criterion/random';
@@ -184,7 +185,7 @@ function CatalogPage() {
         {showedCriteria.map((c) => (
           <Tab key={c.id} eventKey={c.id} title={c.name}>
             <div className="topic-slider">
-              <TopicList topic={c.name} movies={getMovies(c.name)} />
+              <TopicList topic={c.name} movies={getMovies(c.name)} scheduleEndpoint={scheduleEndpoint} />
             </div>
           </Tab>
         ))}

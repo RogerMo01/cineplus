@@ -7,6 +7,7 @@ import MovieCard from "./MovieCard";
 interface Props {
   topic: string;
   movies: Movie[];
+  scheduleEndpoint: string;
 }
 
 const TopicList = (props: Props) => {
@@ -15,7 +16,7 @@ const TopicList = (props: Props) => {
       <h4>{props.topic}:</h4>
       <ul className="ul-group">
         {props.movies.map(m => (
-          <MovieCard key={m.id} movie={m} route={`${m.id}.jpg`} redirect='/log-in' />
+          <MovieCard key={m.id} movie={m} route={`${m.id}.jpg`} redirect='/log-in' scheduleEndpoint={props.scheduleEndpoint} />
         ))}
       </ul>
 

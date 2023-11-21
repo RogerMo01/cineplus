@@ -18,7 +18,7 @@ interface Props {
   movie: Movie;
   route: string;
   redirect: string;
-  handleBuy: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleSeeSchedule: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 function formatList(list: string[]): string {
@@ -37,9 +37,11 @@ function MovieInfoModal({
   movie,
   route,
   redirect,
-  handleBuy
+  handleSeeSchedule: handleBuy
 }: Props) {
+  
   return (
+
     <Modal size="lg" isOpen={showModal} toggle={toggle}>
       <ModalHeader toggle={toggle}>
         <FcInfo /> Información
@@ -85,10 +87,12 @@ function MovieInfoModal({
           Ver programaciones
         </Button>
         <Button color="secondary" onClick={toggle}>
-          Cancelar
+          Cerrar
         </Button>
       </ModalFooter>
     </Modal>
+
+
   );
 }
 
