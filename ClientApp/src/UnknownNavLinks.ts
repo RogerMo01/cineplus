@@ -21,6 +21,14 @@ const UnknownNavLinks: NavLinkRoute[] = [
     name: "Iniciar sesión",
     route: "/log-in",
   },
+  {
+    name: "Sobre Nosotros",
+    route: "/about-us"
+  },
+  {
+    name: "Contáctanos",
+    route: "/contact"
+  }
 ];
 
 export default UnknownNavLinks;

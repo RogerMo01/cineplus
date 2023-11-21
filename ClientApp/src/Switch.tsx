@@ -14,7 +14,7 @@ function Switch() {
 
 
   // 🚨🚨🚨🚨🚨 Logic of token authorization 🚨🚨🚨🚨🚨
-  var role = "seller";
+  var role = "unknown";
 
 
   // 🛑🛑🛑 GET request of manager info 🛑🛑🛑

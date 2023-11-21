@@ -16,7 +16,7 @@ function Footer() {
 
                                 <div className="col-md-2">
                                     <h6 className="text-uppercase font-weight-bold">
-                                        <a href="#!" className="text-black">Péliculas</a>
+                                        <a href="#!" className="text-black">Películas</a>
                                     </h6>
                                 </div>
 
