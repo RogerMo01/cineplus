@@ -20,7 +20,8 @@ const context = [
   '/api/sales',
   '/api/criterion',
   '/api/criterion/all',
-  '/api/activecriterion'
+  '/api/activecriterion',
+  '/api/availableprogramming'
 ];
 
 const onError = (err, req, resp, target) => {

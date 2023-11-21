@@ -8,129 +8,13 @@ import fetch from "./Fetch";
 import Spinner from 'react-bootstrap/Spinner';
 
 function CatalogPage() {
-  // const movies: Movie[] = [
-  //   {
-  //     id: 1,
-  //     title: "Inception",
-  //     year: 2010,
-  //     country: "United States",
-  //     director: "Christopher Nolan",
-  //     actors: [
-  //       { id: 101, name: "Leonardo DiCaprio" },
-  //       { id: 102, name: "Joseph Gordon-Levitt" },
-  //       // Agrega más actores si es necesario
-  //     ],
-  //     genres: [
-  //       { id: 201, name: "Sci-Fi" },
-  //       { id: 202, name: "Action" },
-  //       // Agrega más géneros si es necesario
-  //     ],
-  //     duration: 148,
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "The Shawshank Redemption",
-  //     year: 1994,
-  //     country: "United States",
-  //     director: "Frank Darabont",
-  //     actors: [
-  //       { id: 103, name: "Tim Robbins" },
-  //       { id: 104, name: "Morgan Freeman" },
-  //       // Agrega más actores si es necesario
-  //     ],
-  //     genres: [
-  //       { id: 203, name: "Drama" },
-  //       { id: 204, name: "Crime" },
-  //       // Agrega más géneros si es necesario
-  //     ],
-  //     duration: 142,
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "The Godfather",
-  //     year: 1972,
-  //     country: "United States",
-  //     director: "Francis Ford Coppola",
-  //     actors: [
-  //       { id: 105, name: "Marlon Brando" },
-  //       { id: 106, name: "Al Pacino" },
-  //       // Agrega más actores si es necesario
-  //     ],
-  //     genres: [
-  //       { id: 205, name: "Crime" },
-  //       { id: 206, name: "Drama" },
-  //       // Agrega más géneros si es necesario
-  //     ],
-  //     duration: 175,
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Pulp Fiction",
-  //     year: 1994,
-  //     country: "United States",
-  //     director: "Quentin Tarantino",
-  //     actors: [
-  //       { id: 107, name: "John Travolta" },
-  //       { id: 108, name: "Samuel L. Jackson" },
-  //       // Agrega más actores si es necesario
-  //     ],
-  //     genres: [
-  //       { id: 207, name: "Crime" },
-  //       { id: 208, name: "Drama" },
-  //       // Agrega más géneros si es necesario
-  //     ],
-  //     duration: 154,
-  //   },
-  //   {
-  //     id: 5,
-  //     title: "Forrest Gump",
-  //     year: 1994,
-  //     country: "United States",
-  //     director: "Robert Zemeckis",
-  //     actors: [
-  //       { id: 109, name: "Tom Hanks" },
-  //       { id: 110, name: "Robin Wright" },
-  //       // Agrega más actores si es necesario
-  //     ],
-  //     genres: [
-  //       { id: 209, name: "Drama" },
-  //       { id: 210, name: "Romance" },
-  //       // Agrega más géneros si es necesario
-  //     ],
-  //     duration: 142,
-  //   },
-  // ];
-
-  // const criteria: Criterion[] = [
-  //   {
-  //     id: "1",
-  //     name: "Aleatorio",
-  //   },
-  //   {
-  //     id: "2",
-  //     name: "Pura adrenalina",
-  //   },
-  //   {
-  //     id: "3",
-  //     name: "Dramas",
-  //   },
-  // ];
-
-  const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
-  const port = process.env.REACT_APP_PORT;
-  const networkIp = process.env.REACT_APP_NETWORK_IP;
-  
-  const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
-  const moviesEndpoint = '/api/movie';
   const criteriaEndpoint = '/api/criterion/all';
   const activeCriteriaEndpoint = '/api/activecriterion';
-  const scheduleEndpoint = '/api/movieprogramming'
+  const scheduleEndpoint = '/api/availableprogramming'
 
   // Criteria
   const randomMoviesEndpoint = '/api/criterion/random';
 
-
-  const [movies, setMovies] = useState<Movie[]>([]);
   const [criteria, setCriteria] = useState<Criterion[]>([]);
   const [activeCriteria, setActiveCriteria] = useState<{id: number}[]>([]);
   const [randomMovies, setRandomMovies] = useState<Movie[]>([]);
@@ -142,7 +26,6 @@ function CatalogPage() {
   useEffect(() => {
     setIsLoading(true);
     Promise.all([
-      fetch(moviesEndpoint, setMovies),
       fetch(criteriaEndpoint, setCriteria),
       fetch(activeCriteriaEndpoint, setActiveCriteria),
       fetch(randomMoviesEndpoint, setRandomMovies),

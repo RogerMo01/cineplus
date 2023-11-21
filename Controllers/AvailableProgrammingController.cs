@@ -1,5 +1,7 @@
 namespace cineplus.AvailableProgrammingController;
 
+
+
 [Route("api/availableprogramming")]
 [ApiController]
 public class AvailableProgrammingController : ControllerBase
@@ -13,16 +15,16 @@ public class AvailableProgrammingController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAvailableProgramming()
     {
-        List<ProgrammingData> availableProgramming = new List<ProgrammingData>();
+        List<MovieProgrammingData> availableProgramming = new List<MovieProgrammingData>();
 
         DateTime time = DateTime.Now;
 
         var programming = await _context.ScheduledMovies
         .Where(p => p.DateTimeId > time)
-        .Select(p => new ProgrammingData
+        .Select(p => new MovieProgrammingData
         {
             Id = p.Identifier.ToString(),
-            Movie =  _context.Movies.FirstOrDefault(m => m.MovieId == p.MovieId).Title,
+            Movie =  _context.Movies.FirstOrDefault(m => m.MovieId == p.MovieId).MovieId,
             Room =  _context.Rooms.FirstOrDefault(r => r.RoomId == p.RoomId).Name,
             Date = p.DateTimeId,
             Price = Math.Round(p.Price, 2),
@@ -31,7 +33,7 @@ public class AvailableProgrammingController : ControllerBase
 
         foreach (var item in programming)
         {
-            int movieId = _context.Movies.FirstOrDefault(m => m.Title == item.Movie).MovieId;
+            int movieId = _context.Movies.FirstOrDefault(m => m.MovieId == item.Movie).MovieId;
             Room room = _context.Rooms.FirstOrDefault(r => r.Name == item.Room);
 
             int ocupated_seat = _context.Tickets

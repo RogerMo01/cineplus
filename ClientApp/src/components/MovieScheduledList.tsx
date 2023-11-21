@@ -4,12 +4,13 @@ import {
   CardBody,
 } from "reactstrap";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
-import { Schedule } from "../types/types";
+import { MovieSchedule } from "../types/types";
 import fetch from "./Fetch";
 import parseDate from "./DateParser";
 import "./MovieManager.css";
 
 interface Props {
+  movieId: number;
   name: string
   scheduleEndpoint: string;
   showModal: boolean;
@@ -18,13 +19,14 @@ interface Props {
 }
 
 function MoviesScheduledList({
+  movieId,
   name,
   scheduleEndpoint,
   showModal,
   toggle,
   handleBuy,
 }: Props) {
-  const [schedule, setSchedule] = useState<Schedule[]>([]);
+  const [schedule, setSchedule] = useState<MovieSchedule[]>([]);
 
   useEffect(() => {
     fetch(scheduleEndpoint, setSchedule);
@@ -49,7 +51,7 @@ function MoviesScheduledList({
                   </tr>
                 </thead>
                 <tbody>
-                  {schedule.map((s) => (
+                  {schedule.filter(x => x.movie === movieId).map((s) => (
                     <tr key={s.id}>
                       <td>{s.room}</td>
                       <td>{parseDate(s.date.toString())}</td>

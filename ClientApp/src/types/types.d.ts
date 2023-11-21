@@ -47,6 +47,15 @@ export interface Schedule {
   points: number;
 }
 
+export interface MovieSchedule {
+  id: string;
+  movie: number;
+  room: string;
+  date: Date;
+  price: number;
+  points: number;
+}
+
 export interface NavLinkRoute {
   name: string;
   route: string;

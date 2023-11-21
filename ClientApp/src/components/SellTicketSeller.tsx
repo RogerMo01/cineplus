@@ -97,7 +97,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   }
 
   return (
-    <div className="full-container border rounded">
+    <div className="fullts-container border rounded">
       <h2 className="text-center form-element">Vender Ticket</h2>
 
       <div className="form-container container">

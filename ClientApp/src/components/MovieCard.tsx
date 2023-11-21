@@ -49,8 +49,6 @@ function MovieCard(props: Props) {
 
 
 
-
-
   function handleSeeSchedule(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     toggle();
     toggle2();
@@ -80,7 +78,7 @@ function MovieCard(props: Props) {
 
       <MovieInfoModal showModal={modal} toggle={toggle} layout={layout} movie={props.movie} route={props.route} redirect={props.redirect} handleSeeSchedule={handleSeeSchedule} />
       
-      <MoviesScheduledList name={props.movie.title} scheduleEndpoint={props.scheduleEndpoint} showModal={scheduledModal} toggle={toggle2} handleBuy={handleBuy} />
+      <MoviesScheduledList name={props.movie.title} scheduleEndpoint={props.scheduleEndpoint} showModal={scheduledModal} toggle={toggle2} handleBuy={handleBuy} movieId={props.movie.id} />
     </li>
   );
 }
