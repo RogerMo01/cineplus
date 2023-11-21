@@ -29,6 +29,10 @@ const AppRoutes: AppRoute[] = [
     element: <AboutPage />
   },
   {
+    path: 'sign-up',
+    element: <SignUpPage />
+  },
+  {
     path: '/contact',
     element: <ContactPage />
   },

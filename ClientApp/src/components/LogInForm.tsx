@@ -62,7 +62,7 @@ function LogInForm() {
 
   return (
     <div>
-      <div className="form-container border rounded custom-padding">
+      <div className="form-container border rounded custom-padding mt-5">
         <form onSubmit={handleSubmit}>
           <h2>Iniciar sesión</h2>
           <div className="form-group form-element">

@@ -145,7 +145,7 @@ function SignUpForm() {
 
   return (
     <div>
-      <div className="form-container border rounded custom-padding">
+      <div className="form-container border rounded custom-padding mt-5">
         <form onSubmit={handleSubmit}>
           <h2>Registrarse</h2>
           <div className="form-group form-element">
@@ -172,11 +172,11 @@ function SignUpForm() {
             </div>
           </div>
           <div className="form-group form-element">
-            <label htmlFor="idCard">DNI</label>
+            <label htmlFor="idCard">Documento de identidad</label>
             <input
               className={`form-control ${dniTag}`}
               id="idCard"
-              placeholder="Introduce tu DNI"
+              placeholder="Introduce tu Documento de identidad"
               onChange={handleDniInputChange}
             />
             <div className="invalid-feedback">{dniInvalidFeedback}</div>
