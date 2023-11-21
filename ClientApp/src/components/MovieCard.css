@@ -1,10 +1,17 @@
 .movie-card {
-    list-style: none;
-    font-size: 1.1rem;
-    text-align: center;
+  list-style: none;
+  transition: transform 0.2s ease-in-out;
 }
 
 .movie-img {
-    border-radius: 10px;
-    background-color: azure;
+  border-radius: 5px;
+  background-color: azure;
+}
+
+.movie-card:hover {
+  transform: scale(1.1);
+}
+
+.tcard {
+    max-width: 150px;
 }
