@@ -17,6 +17,26 @@ html {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
+.custom-navbar {
+  background-color: #151736;
+}
+
+.custom-color {
+  color: #febe03 !important;
+  transition:  transform 0.1s ease-in-out;
+  font-size: 1.3rem;
+}
+
+.custom-color:hover {
+  transform: scale(1.1);
+}
+
+.custom-toggler {
+  background-color:#6d757d; /* Fondo transparente para el NavbarToggler */
+  color: #6d757d
+}
+
+
 .user-box {
   margin-left: 0px;
 }

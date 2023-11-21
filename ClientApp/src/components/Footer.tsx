@@ -62,6 +62,10 @@ function Footer() {
           </div>
 
           <div className="text-center p-3 style1">
+            <div className="centered-container">
+              <img src="/FooterLogo.png" alt="Footer" className="centered-image" height={45} width={50}/>
+            </div>
+            <br />
             © 2023 Todos los derechos reservados
             <br />
             Hecho con ❤️
