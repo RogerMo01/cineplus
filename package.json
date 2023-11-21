@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "autoprefixer": "^10.4.16",
     "axios": "^1.5.1",
     "postcss-cli": "^10.1.0",
