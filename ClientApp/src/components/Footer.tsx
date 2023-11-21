@@ -12,13 +12,13 @@ function Footer() {
                             <div className="row text-center d-flex justify-content-center pt-5">
                                 <div className="col-md-2">
                                     <h6 className="text-uppercase font-weight-bold">
-                                        <NavLink tag={Link} className="text-decoration-underline" to={'/about'}>Sobre Nosotros</NavLink>
+                                        <NavLink tag={Link} className="text-decoration-underline" to={'/about-us'}>Sobre Nosotros</NavLink>
                                     </h6>
                                 </div>
 
                                 <div className="col-md-2">
                                     <h6 className="text-uppercase font-weight-bold">
-                                        <NavLink tag={Link} className="text-decoration-underline" to={'/catalog'}>Películas</NavLink>
+                                        <NavLink tag={Link} className="text-decoration-underline" to={'/catalog'}>Producto</NavLink>
                                     </h6>
                                 </div>
 

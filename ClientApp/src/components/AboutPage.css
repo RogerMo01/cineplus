@@ -50,7 +50,7 @@
     justify-content: center;
 }
 
-.card {
+.about-card {
     
     width: 100%;
     max-width: 18.5rem;
@@ -94,7 +94,7 @@
         text-align: justify;
     }
 
-    .card {
+    .about-card {
 
         max-width: 22rem;
         margin-top: 100px;

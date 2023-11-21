@@ -35,7 +35,7 @@ function AboutPage(props: Props) {
       <div className="card-container">
         <CardGroup className="card-group">
 
-          <Card className="card">
+          <Card className="about-card">
             <CardImg src="card1.jpg" className="card-Img" alt="Pasión Cinematográfica" top />
             <CardBody>
               <CardTitle className="text-center" tag="h4"> Nuestra Pasión Cinematográfica</CardTitle>
@@ -47,7 +47,7 @@ function AboutPage(props: Props) {
             </CardBody>
           </Card>
 
-          <Card className="card">
+          <Card className="about-card">
             <CardImg src="card2.jpg" className="card-Img" alt="Innovación en la Venta de Entradas" top />
             <CardBody>
               <CardTitle className="text-center" tag="h4"> Innovación en la Venta de Entradas</CardTitle>
@@ -60,7 +60,7 @@ function AboutPage(props: Props) {
             </CardBody>
           </Card>
 
-          <Card className="card">
+          <Card className="about-card">
             <CardImg src="card3.jpg" className="card-Img" alt="Más que Entradas, Una Experiencia Exclusiva" top />
             <CardBody>
               <CardTitle className="text-center" tag="h4"> Más que Entradas, Una Experiencia Exclusiva</CardTitle>
