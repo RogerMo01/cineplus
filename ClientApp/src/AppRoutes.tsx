@@ -6,6 +6,7 @@ import { Home } from './components/Home';
 import SignUpPage from './components/SignUpPage';
 import LogInPage from './components/LogInPage';
 import AboutPage from './components/AboutPage';
+import ContactPage from './components/ContactPage';
 
 interface AppRoute {
   index?: boolean;
@@ -35,8 +36,12 @@ const AppRoutes: AppRoute[] = [
     element: <LogInPage />
   },
   {
-    path: '/about',
+    path: '/about-us',
     element: <AboutPage />
+  },
+  {
+    path: '/contact',
+    element: <ContactPage />
   }
   
 ];

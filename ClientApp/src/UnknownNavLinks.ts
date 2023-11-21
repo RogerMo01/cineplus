@@ -24,6 +24,10 @@ const UnknownNavLinks: NavLinkRoute[] = [
   {
     name: "Sobre Nosotros",
     route: "/about-us"
+  },
+  {
+    name: "Contáctanos",
+    route: "/contact"
   }
 ];
 
