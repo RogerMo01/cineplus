@@ -179,6 +179,7 @@ function CatalogPage() {
           if (k) setKey(k);
         }}
         className="mb-3"
+        justify
       >
         {showedCriteria.map((c) => (
           <Tab key={c.id} eventKey={c.id} title={c.name}>
