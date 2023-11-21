@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
 import './Home.css';
-//@ts-ignore
-import imagen1 from './pexels-pavel-danilyuk-7234389.jpg';
-//@ts-ignore
-import imagen5 from './pexels-angello-13111754.jpg';
-//@ts-ignore
-import imagen6 from './pexels-linda-gschwentner-11718584.jpg';
-//@ts-ignore
-import imagen7 from './pexels-pavel-danilyuk-7234446.jpg';
 import Footer from './Footer';
 
 function ReservaButton() {
