@@ -18,7 +18,6 @@ function ReservaButton() {
   const home = (islocalTesting) ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
 
   function handleClick() {
-    alert(home);
     window.location.href = home + '/log-in';
   }
 
