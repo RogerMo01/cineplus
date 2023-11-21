@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Home.css';
 import Footer from './Footer';
 
+
 function ReservaButton() {
   const islocalTesting = process.env.REACT_APP_LOCAL_TESTING;
   const port = process.env.REACT_APP_PORT;
@@ -95,7 +96,6 @@ export class Home extends Component {
             <ReservaButton />
           </div>
         </div>
-        <Footer/>
       </div>
     );
   }

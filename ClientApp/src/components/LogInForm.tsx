@@ -4,6 +4,7 @@ import PasswordInput from "./PasswordInput";
 import { ToastContainer, toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
 import Post from "./ProcessPost";
+import "./SignUpForm.css";
 
 function LogInForm() {
   const [username, setUsername] = useState("");

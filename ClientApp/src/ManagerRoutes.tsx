@@ -3,13 +3,13 @@ import { ReactElement } from 'react'; // Importa ReactElement para las anotacion
 import { Counter } from './components/Counter';
 import ManagerPage from './components/ManagerPage';
 
-interface ManagerRoute {
+interface AppRoute {
   index?: boolean;
   path?: string;
   element: ReactElement;
 }
 
-const ManagerRoutes: ManagerRoute[] = [
+const ManagerRoutes: AppRoute[] = [
   {
     index: true,
     path: '/*',

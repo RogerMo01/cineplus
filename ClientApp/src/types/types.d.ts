@@ -70,3 +70,17 @@ export interface SingleTextModal {
 export interface Seat {
   code: string
 }
+
+export interface MovieCard {
+  id: string,
+  img: string,
+  title: string,
+  year: number,
+  genres: string[],
+  actors: string[]
+}
+
+export interface Criterion {
+  id: number,
+  name: string
+}

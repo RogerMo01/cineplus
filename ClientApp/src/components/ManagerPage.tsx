@@ -9,6 +9,7 @@ import { FcCalendar } from "react-icons/fc";
 import { FcPortraitMode } from "react-icons/fc";
 import { GiDramaMasks } from "react-icons/gi";
 import { FcConferenceCall } from "react-icons/fc";
+import { FcFilmReel } from "react-icons/fc";
 import SidebarMenu from "./SidebarMenu";
 import MovieManager from "./MovieManager";
 import StatsManager from "./StatsManager";
@@ -17,6 +18,7 @@ import RoomManager from "./RoomManager";
 import DiscountManager from "./DiscountManager";
 import ActorsManager from "./ActorsManager";
 import GenresManager from "./GenresManager";
+import CriteriaManager from "./CriteriaManager";
 
 interface Props{
   pathHead: string
@@ -36,6 +38,8 @@ function ManagerPage({pathHead}: Props) {
   const discountsEndpoint = '/api/discount';
   const actorsEndpoint = '/api/actor';
   const genresEndpoint = '/api/genre';
+  const criteriaEndpoint = '/api/criterion/all';
+  const activecriteriaEndpoint = '/api/activecriterion';
   // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -292,6 +296,12 @@ function ManagerPage({pathHead}: Props) {
       label: "Géneros",
       icon: GiDramaMasks,
       url: `${pathHead}/genres`
+    },
+    {
+      id: "8",
+      label: "Sugerencias",
+      icon: FcFilmReel,
+      url: `${pathHead}/criteria`
     }
   ];
   
@@ -309,6 +319,7 @@ function ManagerPage({pathHead}: Props) {
         <Route path="/discounts" element={<DiscountManager name="Descuentos" endpoint={discountsEndpoint} path={home + discountsEndpoint} />} />
         <Route path="/actors" element={<ActorsManager name="Actores" endpoint={actorsEndpoint} path={home + actorsEndpoint} />} />
         <Route path="/genres" element={<GenresManager name="Géneros" endpoint={genresEndpoint} path={home + genresEndpoint} />} />
+        <Route path="/criteria" element={<CriteriaManager name="Criterios de Sugerencia" endpoint={criteriaEndpoint} activeEndpoint={activecriteriaEndpoint} path={home + criteriaEndpoint} activePath={home + activecriteriaEndpoint} />} />
       </Routes>
       
     </div>

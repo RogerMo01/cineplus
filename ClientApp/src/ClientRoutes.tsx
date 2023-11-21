@@ -5,9 +5,7 @@ import { FetchData } from './components/FetchData';
 import { Home } from './components/Home';
 import SignUpPage from './components/SignUpPage';
 import LogInPage from './components/LogInPage';
-import AboutPage from './components/AboutPage';
-import ContactPage from './components/ContactPage';
-import CatalogPage from './components/CatalogPage';
+import ClientPage from './components/ClientPage';
 
 interface AppRoute {
   index?: boolean;
@@ -15,28 +13,19 @@ interface AppRoute {
   element: ReactElement;
 }
 
-const AppRoutes: AppRoute[] = [
+const ClientRoutes: AppRoute[] = [
   {
     index: true,
-    element: <Home />
+    element: <ClientPage />
   },
   {
-    path: '/log-in',
-    element: <LogInPage />
+    path: '/counter',
+    element: <Counter />
   },
   {
-    path: '/about-us',
-    element: <AboutPage />
-  },
-  {
-    path: '/contact',
-    element: <ContactPage />
-  },
-  {
-    path: '/movies',
-    element: <CatalogPage />
+    path: '/fetch-data',
+    element: <FetchData />
   }
-  
 ];
 
-export default AppRoutes;
+export default ClientRoutes;
