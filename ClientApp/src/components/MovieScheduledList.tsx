@@ -2,19 +2,15 @@ import React, { useEffect, useState } from "react";
 import {
   Card,
   CardBody,
-  CardImg,
-  CardSubtitle,
-  CardText,
-  CardTitle,
 } from "reactstrap";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
-import { FcInfo } from "react-icons/fc";
-import { Movie, Schedule } from "../types/types";
+import { Schedule } from "../types/types";
 import fetch from "./Fetch";
 import parseDate from "./DateParser";
 import "./MovieManager.css";
 
 interface Props {
+  name: string
   scheduleEndpoint: string;
   showModal: boolean;
   toggle: () => void;
@@ -22,6 +18,7 @@ interface Props {
 }
 
 function MoviesScheduledList({
+  name,
   scheduleEndpoint,
   showModal,
   toggle,
@@ -36,7 +33,7 @@ function MoviesScheduledList({
 
   return (
     <Modal size="lg" isOpen={showModal} toggle={toggle}>
-      <ModalHeader toggle={toggle}>Programaciones Disponibles</ModalHeader>
+      <ModalHeader toggle={toggle}>📅 Programaciones Disponibles para: {name}</ModalHeader>
       <ModalBody>
         <Card>
           <CardBody>

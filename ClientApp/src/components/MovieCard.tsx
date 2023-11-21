@@ -80,7 +80,7 @@ function MovieCard(props: Props) {
 
       <MovieInfoModal showModal={modal} toggle={toggle} layout={layout} movie={props.movie} route={props.route} redirect={props.redirect} handleSeeSchedule={handleSeeSchedule} />
       
-      <MoviesScheduledList scheduleEndpoint={props.scheduleEndpoint} showModal={scheduledModal} toggle={toggle2} handleBuy={handleBuy} />
+      <MoviesScheduledList name={props.movie.title} scheduleEndpoint={props.scheduleEndpoint} showModal={scheduledModal} toggle={toggle2} handleBuy={handleBuy} />
     </li>
   );
 }
