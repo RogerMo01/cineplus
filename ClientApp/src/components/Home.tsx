@@ -1,19 +1,5 @@
 import React, { Component } from 'react';
 import './Home.css';
-//@ts-ignore
-import imagen1 from './pexels-pavel-danilyuk-7234389.jpg';
-//@ts-ignore
-import imagen2 from './pexels-markus-spiske-2672097.jpg';
-//@ts-ignore
-import imagen3 from './pexels-lisa-fotios-2923675.jpg';
-//@ts-ignore
-import imagen4 from './pexels-cottonbro-studio-8261568.jpg';
-//@ts-ignore
-import imagen5 from './pexels-angello-13111754.jpg';
-//@ts-ignore
-import imagen6 from './pexels-linda-gschwentner-11718584.jpg';
-//@ts-ignore
-import imagen7 from './pexels-pavel-danilyuk-7234446.jpg';
 import Footer from './Footer';
 
 function ReservaButton() {
@@ -24,7 +10,6 @@ function ReservaButton() {
   const home = (islocalTesting) ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
 
   function handleClick() {
-    alert(home);
     window.location.href = home + '/log-in';
   }
 
@@ -50,13 +35,13 @@ export class Home extends Component {
             </p>
           </div>
           <div className='col-md-6'>
-            <img src={imagen1} alt='cine+1' className='img-fluid imagen' />
+            <img src='pexels-pavel-danilyuk-7234389.jpg' alt='cine+1' className='img-fluid imagen' />
           </div>
         </div>
         <hr className="my-5" />
         <div className='row auxi'>
           <div className='col-md-4'>
-            <img src={imagen5} alt='cine+5' className='img-fluid imagen' />
+            <img src='pexels-angello-13111754.jpg' alt='cine+5' className='img-fluid imagen' />
           </div>
           <div className='col-md-6'>
             <h1 className='slogan auxi1'>
@@ -89,12 +74,12 @@ export class Home extends Component {
             </p>
           </div>
           <div className='col-md-4'>
-            <img src={imagen7} alt='cine+7' className='img-fluid imagen' />
+            <img src='pexels-pavel-danilyuk-7234446.jpg' alt='cine+7' className='img-fluid imagen' />
           </div>
         </div>
         <div className='row mt-5'>
           <div className='col-md-4'>
-            <img src={imagen6} alt='cine+6' className='img-fluid imagen' />
+            <img src='pexels-linda-gschwentner-11718584.jpg' alt='cine+6' className='img-fluid imagen' />
           </div>
           <div className='col-md-6'>
             <h1 className='slogan auxi1'>
