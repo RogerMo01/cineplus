@@ -10,8 +10,8 @@ const UnknownNavLinks: NavLinkRoute[] = [
     route: "/log-in",
   },
   {
-    name: "Catálogo",
-    route: "/catalog"
+    name: "Películas",
+    route: "/movies"
   }
 ];
 

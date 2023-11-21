@@ -23,7 +23,7 @@ const AppRoutes: AppRoute[] = [
     element: <LogInPage />
   },
   {
-    path: '/catalog',
+    path: '/movies',
     element: <CatalogPage />
   }
 ];

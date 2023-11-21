@@ -15,7 +15,7 @@ const TopicList = (props: Props) => {
       <h4>{props.topic}:</h4>
       <ul className="ul-group">
         {props.movies.map(m => (
-          <MovieCard key={m.id} movie={m} route={`${m.id}.jpg`} />
+          <MovieCard key={m.id} movie={m} route={`${m.id}.jpg`} redirect='/log-in' />
         ))}
       </ul>
 

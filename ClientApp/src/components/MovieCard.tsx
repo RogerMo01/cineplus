@@ -11,13 +11,17 @@ import {
 } from "reactstrap";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FcInfo } from "react-icons/fc";
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   movie: Movie;
   route: string;
+  redirect: string;
 }
 
 function MovieCard(props: Props) {
+  const navigate = useNavigate();
+
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
@@ -36,7 +40,7 @@ function MovieCard(props: Props) {
   }
 
 
-  
+
   const handleResize = () => {
     if (window.innerWidth < 400) {
       setLayout('flex-column');
@@ -64,8 +68,13 @@ function MovieCard(props: Props) {
 
 
 
+  function handleBuy(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    toggle();
+    navigate(props.redirect);
+  }
+
   return (
-    <li className="movie-card">
+    <li className="movie-card d-flex justify-content-center">
       <Card className="tcard" onClick={toggle}>
         <CardImg
           width={150}
@@ -130,9 +139,9 @@ function MovieCard(props: Props) {
           </Card>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggle}>
+          <Button color="primary" onClick={handleBuy}>
             Ver programaciones
-          </Button>{" "}
+          </Button>
           <Button color="secondary" onClick={toggle}>
             Cancelar
           </Button>

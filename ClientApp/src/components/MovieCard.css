@@ -15,9 +15,9 @@
   max-width: 220px;
   /* width: auto; */
   height: 360px;
-  
 }
 
 .tcard:hover {
   transform: scale(1.1);
+  cursor: pointer;
 }

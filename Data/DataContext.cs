@@ -191,7 +191,7 @@ namespace CineplusDB.Models
             var actor4 = new Actor { ActorId = 4, Name = "Morgan Freeman" };
             var actor5 = new Actor { ActorId = 5, Name = "Christian Bale" };
             var actor6 = new Actor { ActorId = 6, Name = "Heath Ledger" };
-            var actor7 = new Actor { ActorId = 7, Name = "Gary Sinise" };
+            var actor7 = new Actor { ActorId = 7, Name = "Tom Hanks" };
 
             // Géneros
             var genre1 = new Genre { GenreId = 1, Name = "Ciencia Ficción" };
