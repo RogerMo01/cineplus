@@ -15,10 +15,6 @@ const TicketsellerRoutes: AppRoute[] = [
     index: true,
     path: '/*',
     element: <TicketSellerPage pathHead='' />
-  },
-  {
-    path: '/counter',
-    element: <Counter />
   }
 ];
 

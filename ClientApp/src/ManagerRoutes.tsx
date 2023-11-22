@@ -14,10 +14,6 @@ const ManagerRoutes: AppRoute[] = [
     index: true,
     path: '/*',
     element: <ManagerPage pathHead='' />
-  },
-  {
-    path: '/counter',
-    element: <Counter />
   }
 ];
 

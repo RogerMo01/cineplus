@@ -2,7 +2,7 @@ import { NavLinkRoute } from "./types/types";
 
 const UnknownNavLinks: NavLinkRoute[] = [
   {
-    name: "Home",
+    name: "Inicio",
     route: "/",
   },
   {
