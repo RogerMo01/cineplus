@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
 import Post from "./ProcessPost";
 import "./SignUpForm.css";
+import { scrollToTop } from "./scrollToTop";
 
 function LogInForm() {
   const [username, setUsername] = useState("");
@@ -85,7 +86,7 @@ function LogInForm() {
             Iniciar sesión
           </button>
         </form>
-        <NavLink className="text-primary" to="/sign-up">¿Ya estás registrado?</NavLink>
+        <NavLink className="text-primary" onClick={scrollToTop} to="/sign-up">¿Ya estás registrado?</NavLink>
       </div>
       <ToastContainer />
     </div>

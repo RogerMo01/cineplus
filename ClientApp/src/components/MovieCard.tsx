@@ -11,6 +11,7 @@ import {
 import MovieInfoModal from "./MovieInfoModal";
 import MoviesScheduledList from "./MovieScheduledList";
 import { useNavigate } from 'react-router-dom';
+import { scrollToTop } from "./scrollToTop";
 
 interface Props {
   movie: Movie;
@@ -56,6 +57,7 @@ function MovieCard(props: Props) {
 
   function handleBuy(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
     navigate(props.redirect);
+    scrollToTop();
   }
 
   return (
