@@ -67,7 +67,7 @@ function CatalogPage() {
 
       {isLoading ? (
         <div className="d-flex justify-content-center align-items-center">
-          <Spinner className="" animation="border" variant="dark" />
+          <Spinner animation="border" variant="dark" />
         </div>
       ) : <Tabs
         id="main"

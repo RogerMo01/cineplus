@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import {
   Card,
   CardBody,
@@ -33,11 +33,19 @@ function MoviesScheduledList({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const movieNotScheduled = (
+    <div className="containet lead">
+      No hay programaciones para esta película
+    </div>
+  );
+
   return (
     <Modal size="lg" isOpen={showModal} toggle={toggle}>
       <ModalHeader toggle={toggle}>📅 Programaciones Disponibles para: {name}</ModalHeader>
       <ModalBody>
-        <Card>
+        {schedule.filter(x => x.movie === movieId).length === 0
+        ? movieNotScheduled
+        :<Card>
           <CardBody>
             <div className="table-container">
               <table className="table table-striped">
@@ -74,6 +82,7 @@ function MoviesScheduledList({
             </div>
           </CardBody>
         </Card>
+        }
       </ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={toggle}>
