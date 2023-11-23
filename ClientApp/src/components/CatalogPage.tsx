@@ -49,19 +49,17 @@ function CatalogPage({modalContent} : Props) {
       setIsLoading(false);
     }).catch((e) => {
       console.error("Error fetching data:", e);
-        // En caso de error, también se detiene la carga
-        setIsLoading(false);
+      setIsLoading(false);
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   useEffect(() => {
     setShowedCriteria(criteria.filter((criterion) =>
       activeCriteria.some((active) => active.id === criterion.id)
     ))
     if(showedCriteria.length !== 0) setKey(showedCriteria[0].id.toString());
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeCriteria]);
+  }, [activeCriteria, criteria]);
 
   useEffect(() => {
     if(showedCriteria.length !== 0) setKey(showedCriteria[0].id.toString());
