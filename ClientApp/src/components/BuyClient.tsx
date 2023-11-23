@@ -23,7 +23,6 @@ function BuyClient(props: Props){
 
     return (
         <div>
-            Buy: {props.scheduledMovieId}
             <SellTicketSeller scheduleEndpoint={scheduleEndpoint} discountEndpoint={discountsEndpoint} seatEndpoint={seatsEndponit} buyEndpoint={buyEndpoint} scheduledMovieId={props.scheduledMovieId} scheduledMovie={props.scheduledMovie} scheduledDate={props.scheduledDate} scheduledRoom={props.scheduledRoom} />
         </div>
     );

@@ -103,7 +103,7 @@ function MovieCard(props: Props) {
       
       <MoviesScheduledList name={props.movie.title} schedule={schedule} /*scheduleEndpoint={props.scheduleEndpoint}*/ showModal={scheduledModal} toggle={toggle2} handleBuy={handleBuy} movieId={props.movie.id} />
 
-      <Modal  isOpen={redirectModal} toggle={toggle3}>
+      <Modal size="lg" isOpen={redirectModal} toggle={toggle3}>
         <ModalHeader toggle={toggle3}>
         </ModalHeader>
         <ModalBody>
