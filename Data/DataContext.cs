@@ -23,6 +23,7 @@ namespace CineplusDB.Models
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<OnlineSales> OnlineSales { get; set; }
         public DbSet<BoxOfficeSales> BoxOfficeSales { get; set; }
+        public DbSet<Membership> Memberships { get; set; }
 
         protected readonly IConfiguration Configuration;
 
@@ -145,6 +146,17 @@ namespace CineplusDB.Models
 
             modelBuilder.Entity<BoxOfficeSales>()
                 .HasKey(x => new { x.TicketSellerId, x.RoomId, x.MovieId, x.DateTimeId, x.SeatId, x.DiscountId });
+
+            //--------------------------Membership-----------------------------------------------------
+
+            modelBuilder.Entity<Membership>()
+            .HasKey(m => m.MembershipCode);
+
+            modelBuilder.Entity<Membership>()
+            .HasOne(m => m.Client)
+            .WithOne(c => c.Membership)
+            .HasForeignKey<Membership>(m => m.ClientID)
+            .IsRequired();
 
             SeedDataMovies(modelBuilder);
             SeedDataClients(modelBuilder);
