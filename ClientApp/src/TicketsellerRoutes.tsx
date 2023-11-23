@@ -4,21 +4,17 @@ import { Counter } from './components/Counter';
 import TicketSellerPage from './components/TicketSellerPage';
 // import TicketSellerPage from './components/TicketSellerPage';
 
-interface ManagerRoute {
+interface AppRoute {
   index?: boolean;
   path?: string;
   element: ReactElement;
 }
 
-const TicketsellerRoutes: ManagerRoute[] = [
+const TicketsellerRoutes: AppRoute[] = [
   {
     index: true,
     path: '/*',
     element: <TicketSellerPage pathHead='' />
-  },
-  {
-    path: '/counter',
-    element: <Counter />
   }
 ];
 

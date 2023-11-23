@@ -46,7 +46,7 @@ namespace CineplusDB.Models
     public class Dto
     {
         public int id { get; set; } = 0;
-        public string name { get; set; }
+        public string? name { get; set; }
     }
 
 }

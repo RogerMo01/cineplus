@@ -9,6 +9,7 @@ import { FcCalendar } from "react-icons/fc";
 import { FcPortraitMode } from "react-icons/fc";
 import { GiDramaMasks } from "react-icons/gi";
 import { FcConferenceCall } from "react-icons/fc";
+import { FcFilmReel } from "react-icons/fc";
 import SidebarMenu from "./SidebarMenu";
 import MovieManager from "./MovieManager";
 import StatsManager from "./StatsManager";
@@ -17,6 +18,7 @@ import RoomManager from "./RoomManager";
 import DiscountManager from "./DiscountManager";
 import ActorsManager from "./ActorsManager";
 import GenresManager from "./GenresManager";
+import CriteriaManager from "./CriteriaManager";
 
 interface Props{
   pathHead: string
@@ -25,17 +27,14 @@ interface Props{
 function ManagerPage({pathHead}: Props) {
   
   // ~~~~~~~~~~~~~~~~~~~~~~ Configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~~~
-  const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
-  const port = process.env.REACT_APP_PORT;
-  const networkIp = process.env.REACT_APP_NETWORK_IP;
-  
-  const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
   const moviesEndpoint = '/api/movie';
   const roomsEndpoint = '/api/room';
   const scheduleEndpoint = '/api/movieprogramming';
   const discountsEndpoint = '/api/discount';
   const actorsEndpoint = '/api/actor';
   const genresEndpoint = '/api/genre';
+  const criteriaEndpoint = '/api/criterion/all';
+  const activecriteriaEndpoint = '/api/activecriterion';
   // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -292,6 +291,12 @@ function ManagerPage({pathHead}: Props) {
       label: "Géneros",
       icon: GiDramaMasks,
       url: `${pathHead}/genres`
+    },
+    {
+      id: "8",
+      label: "Sugerencias",
+      icon: FcFilmReel,
+      url: `${pathHead}/criteria`
     }
   ];
   
@@ -303,12 +308,13 @@ function ManagerPage({pathHead}: Props) {
       </div>
       <Routes>
         <Route path="/" element={<StatsManager/>}/>
-        <Route path="/movies" element={<MovieManager name="Películas" moviesEndpoint={moviesEndpoint} actorsEndpoint={actorsEndpoint} genresEndpoint={genresEndpoint} path={home + moviesEndpoint} />} />
-        <Route path="/schedule" element={<ScheduleManager name="Programaciones" scheduleEndpoint={scheduleEndpoint} moviesEndpoint={moviesEndpoint} roomsEndpoint={roomsEndpoint} path={home + scheduleEndpoint}/>}/>
-        <Route path="/rooms" element={<RoomManager name="Salas" endpoint={roomsEndpoint} path={home + roomsEndpoint} />}/>
-        <Route path="/discounts" element={<DiscountManager name="Descuentos" endpoint={discountsEndpoint} path={home + discountsEndpoint} />} />
-        <Route path="/actors" element={<ActorsManager name="Actores" endpoint={actorsEndpoint} path={home + actorsEndpoint} />} />
-        <Route path="/genres" element={<GenresManager name="Géneros" endpoint={genresEndpoint} path={home + genresEndpoint} />} />
+        <Route path="/movies" element={<MovieManager name="Películas" moviesEndpoint={moviesEndpoint} actorsEndpoint={actorsEndpoint} genresEndpoint={genresEndpoint} path={moviesEndpoint} />} />
+        <Route path="/schedule" element={<ScheduleManager name="Programaciones" scheduleEndpoint={scheduleEndpoint} moviesEndpoint={moviesEndpoint} roomsEndpoint={roomsEndpoint} path={scheduleEndpoint}/>}/>
+        <Route path="/rooms" element={<RoomManager name="Salas" endpoint={roomsEndpoint} path={roomsEndpoint} />}/>
+        <Route path="/discounts" element={<DiscountManager name="Descuentos" endpoint={discountsEndpoint} path={discountsEndpoint} />} />
+        <Route path="/actors" element={<ActorsManager name="Actores" endpoint={actorsEndpoint} path={actorsEndpoint} />} />
+        <Route path="/genres" element={<GenresManager name="Géneros" endpoint={genresEndpoint} path={genresEndpoint} />} />
+        <Route path="/criteria" element={<CriteriaManager name="Criterios de Sugerencia" endpoint={criteriaEndpoint} activeEndpoint={activecriteriaEndpoint} activePath={activecriteriaEndpoint} />} />
       </Routes>
       
     </div>

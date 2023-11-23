@@ -1,12 +1,12 @@
 import React from 'react';
 import { ReactElement } from 'react'; // Importa ReactElement para las anotaciones de tipo
-import { Counter } from './components/Counter';
-import { FetchData } from './components/FetchData';
 import { Home } from './components/Home';
 import SignUpPage from './components/SignUpPage';
 import LogInPage from './components/LogInPage';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
+import CatalogPage from './components/CatalogPage';
+import LogInForm from './components/LogInForm';
 
 interface AppRoute {
   index?: boolean;
@@ -20,18 +20,6 @@ const AppRoutes: AppRoute[] = [
     element: <Home />
   },
   {
-    path: '/counter',
-    element: <Counter />
-  },
-  {
-    path: '/fetch-data',
-    element: <FetchData />
-  },
-  {
-    path: '/sign-up',
-    element: <SignUpPage />
-  },
-  {
     path: '/log-in',
     element: <LogInPage />
   },
@@ -40,8 +28,16 @@ const AppRoutes: AppRoute[] = [
     element: <AboutPage />
   },
   {
+    path: 'sign-up',
+    element: <SignUpPage />
+  },
+  {
     path: '/contact',
     element: <ContactPage />
+  },
+  {
+    path: '/movies',
+    element: <CatalogPage modalContent={LogInForm} />
   }
   
 ];

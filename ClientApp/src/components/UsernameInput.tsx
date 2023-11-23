@@ -14,7 +14,7 @@ function UsernameInput(props: Props) {
         className={`form-control ${props.usernameTag}`}
         name="username"
         id="usernameInput"
-        placeholder="Elige tu usuario"
+        placeholder="Introduce tu usuario"
         onChange={props.changeHandler}
       />
       <div className="invalid-feedback">{props.invalidFeedback}</div>
