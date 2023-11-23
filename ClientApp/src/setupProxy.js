@@ -21,7 +21,11 @@ const context = [
   '/api/criterion',
   '/api/criterion/all',
   '/api/activecriterion',
-  '/api/availableprogramming'
+  '/api/availableprogramming',
+  // '/api/criterion/recentlyadded',
+  // '/api/criterion/thisyear',
+  // '/api/criterion/recentlyprogramming',
+  // '/api/criterion/mostpopular'
 ];
 
 const onError = (err, req, resp, target) => {
