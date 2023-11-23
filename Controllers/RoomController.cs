@@ -1,7 +1,4 @@
 using cineplus.CRDController;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 
 namespace cineplus.RoomController;
 
@@ -10,16 +7,18 @@ namespace cineplus.RoomController;
 public class RoomController : CRDController<Room>
 {
     private readonly DataContext _context;
-    public RoomController(DataContext context) : base(context)
+    private readonly IMapper _mapper;
+    public RoomController(DataContext context, IMapper mapper) : base(context)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetRooms([FromServices] IMapper mapper)
+    public async Task<IActionResult> GetRooms()
     {
         var roomsDto = await base.GetAll()
-            .ProjectTo<RoomDto>(mapper.ConfigurationProvider) 
+            .ProjectTo<RoomDto>(_mapper.ConfigurationProvider) 
             .ToListAsync();
 
         return Ok(roomsDto);
@@ -27,14 +26,14 @@ public class RoomController : CRDController<Room>
 
 
     [HttpPost]
-    public async Task<IActionResult> InsertRoom([FromBody] RoomDto room,  [FromServices] IMapper mapper)
+    public async Task<IActionResult> InsertRoom([FromBody] RoomDto room)
     {
         if (_context.Rooms.Any(r => r.Name == room.name))
         {
             return Conflict(new { Message = "Este nombre ya existe" });
         }
 
-        Room new_room = mapper.Map<Room>(room);
+        Room new_room = _mapper.Map<Room>(room);
 
         await base.Insert(new_room);
 
@@ -62,12 +61,12 @@ public class RoomController : CRDController<Room>
 
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateRoom(int id, [FromBody] RoomDto updateRoom, [FromServices] IMapper mapper)
+    public async Task<IActionResult> UpdateRoom(int id, [FromBody] RoomDto updateRoom)
     {
         Room room = await _context.Rooms.FindAsync(id);
         if (room == null) { return NotFound(); }
 
-        mapper.Map(updateRoom, room);
+        _mapper.Map(updateRoom, room);
 
         await deleteSeats(id);
         room.SeatsByRoom = generateSeats(updateRoom.seats, updateRoom.name, room.RoomId);
