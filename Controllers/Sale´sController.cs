@@ -39,7 +39,7 @@ public class SalesController : Controller
 
         int ocupated_seat = _context.Tickets
             .Include(t => t.MovieProgramming)
-            .Count(t => (t.MovieProgramming.MovieId == movie.MovieId) && (t.MovieProgramming.RoomId == movie.RoomId));
+            .Count(t => (t.MovieProgramming.MovieId == movie.MovieId) && (t.MovieProgramming.RoomId == movie.RoomId)&& (t.MovieProgramming.DateTimeId ==movie.DateTimeId) );
 
         if (ocupated_seat == room.SeatsCount)
         {
@@ -57,6 +57,7 @@ public class SalesController : Controller
         reserve.SeatId = seat_Id.SeatId;
         reserve.Price = movie.Price;
         reserve.PricePoints = movie.PricePoints;
+        reserve.Code = input.Seat;
 
         //añadir la compra a la Base de Datos dependiendo del rol
         //if (role == "client")

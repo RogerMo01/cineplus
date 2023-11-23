@@ -4,6 +4,26 @@
   padding: 40px 20px;
 }
 
+@media (max-width: 500px) {
+  .fullts-container {
+    width: 100%;
+    margin: 10px auto;
+    padding: 40px 20px;
+  }
+  .form-element {
+    margin-bottom: 20px;
+  }
+  
+  .inline-container {
+    display: flex;
+    flex-direction: row;
+  }
+  .inline-item {
+    flex-grow: 1;
+    margin-left: 15px;
+  }
+}
+
 .form-element {
   margin-bottom: 20px;
 }

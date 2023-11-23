@@ -131,9 +131,9 @@ function SignUpForm() {
 
       Post(formData, home + endpoint);
       
-      // setTimeout(() => {
-      //   window.location.href = home + '/log-in';
-      // }, 2000);
+      setTimeout(() => {
+        window.location.href = home + '/log-in';
+      }, 2000);
     }
 
   };

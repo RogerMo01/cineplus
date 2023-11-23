@@ -1,40 +1,33 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React from "react";
 import {
   Card,
   CardBody,
 } from "reactstrap";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { MovieSchedule } from "../types/types";
-import fetch from "./Fetch";
 import parseDate from "./DateParser";
 import "./MovieManager.css";
 
 interface Props {
   movieId: number;
   name: string
-  scheduleEndpoint: string;
   showModal: boolean;
   toggle: () => void;
-  handleBuy: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleBuy: (id: string, room: string, date: Date) => void;
+  schedule: MovieSchedule[];
 }
 
 function MoviesScheduledList({
   movieId,
   name,
-  scheduleEndpoint,
   showModal,
   toggle,
   handleBuy,
+  schedule
 }: Props) {
-  const [schedule, setSchedule] = useState<MovieSchedule[]>([]);
-
-  useEffect(() => {
-    fetch(scheduleEndpoint, setSchedule);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const movieNotScheduled = (
-    <div className="containet lead">
+    <div className="lead">
       No hay programaciones para esta película
     </div>
   );
@@ -69,7 +62,7 @@ function MoviesScheduledList({
                         <div className="modifyButtons">
                           <button
                             className="btn btn-success modifyButton"
-                            onClick={handleBuy}
+                            onClick={() => handleBuy(s.id, s.room, s.date)}
                           >
                             Comprar
                           </button>

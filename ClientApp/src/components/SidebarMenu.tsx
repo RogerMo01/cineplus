@@ -6,7 +6,6 @@ import './SidebarMenu.css'
 
 interface Props {
   items: SidebarMenuItem[];
-  // card: SidebarMenuCard;
 }
 
 function SidebarMenu({ items }: Props) {
@@ -16,7 +15,6 @@ function SidebarMenu({ items }: Props) {
   
   function handleButtonClick(e: React.TouchEvent | React.MouseEvent){
     setIsOpen(!isOpen);
-    console.log(isOpenClassName);
   }
   
 

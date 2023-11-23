@@ -6,6 +6,7 @@ import LogInPage from './components/LogInPage';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import CatalogPage from './components/CatalogPage';
+import LogInForm from './components/LogInForm';
 
 interface AppRoute {
   index?: boolean;
@@ -36,7 +37,7 @@ const AppRoutes: AppRoute[] = [
   },
   {
     path: '/movies',
-    element: <CatalogPage />
+    element: <CatalogPage modalContent={LogInForm} />
   }
   
 ];

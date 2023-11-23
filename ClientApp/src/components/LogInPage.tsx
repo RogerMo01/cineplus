@@ -4,7 +4,7 @@ import { Container } from "reactstrap";
 
 function LogInPage() {
   return (
-    <Container>
+    <Container className="mt-5">
       <LogInForm />
     </Container>
   );

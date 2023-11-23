@@ -1,9 +1,11 @@
 import React from "react";
+import CatalogPage from "./CatalogPage";
+import BuyClient from "./BuyClient";
 
 function ClientPage() {
   return (
     <div>
-      <h2>Client Page</h2>
+      <CatalogPage modalContent={BuyClient}  />
     </div>
   );
 }

@@ -7,7 +7,11 @@ import Tabs from "react-bootstrap/Tabs";
 import fetch from "./Fetch";
 import Spinner from 'react-bootstrap/Spinner';
 
-function CatalogPage() {
+interface Props {
+  modalContent?: React.ComponentType<any>;
+}
+
+function CatalogPage({modalContent} : Props) {
   const criteriaEndpoint = '/api/criterion/all';
   const activeCriteriaEndpoint = '/api/activecriterion';
   const scheduleEndpoint = '/api/availableprogramming'
@@ -63,7 +67,7 @@ function CatalogPage() {
 
   return (
     <div>
-      <h2 className="text-center mb-5 mt-5 text-">Catálogo</h2>
+      <h2 className="text-center mb-5 mt-5 text-">Cartelera</h2>
 
       {isLoading ? (
         <div className="d-flex justify-content-center align-items-center">
@@ -82,7 +86,7 @@ function CatalogPage() {
         {showedCriteria.map((c) => (
           <Tab key={c.id} eventKey={c.id} title={c.name}>
             <div className="topic-slider">
-              <TopicList topic={c.name} movies={getMovies(c.name)} scheduleEndpoint={scheduleEndpoint} />
+              <TopicList topic={c.name} movies={getMovies(c.name)} scheduleEndpoint={scheduleEndpoint} modalContent={modalContent} />
             </div>
           </Tab>
         ))}
