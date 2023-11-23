@@ -23,6 +23,7 @@ builder.Services.AddAuthentication(item=>{
 });
 
 builder.Services.AddDbContext<DataContext>();
+builder.Services.AddAutoMapper(typeof(Program));    
 
 // Clave secreta JwtToken
 var _jwtsettings = builder.Configuration.GetSection("JwtSettings");

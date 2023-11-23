@@ -1,11 +1,13 @@
 using cineplus.CRDController;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 namespace cineplus.RoomController;
 
 [Route("api/room")]
 [ApiController]
-public class RoomController : CRDController<Room> 
+public class RoomController : CRDController<Room>
 {
     private readonly DataContext _context;
     public RoomController(DataContext context) : base(context)
@@ -14,48 +16,45 @@ public class RoomController : CRDController<Room>
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetRooms()
+    public async Task<IActionResult> GetRooms([FromServices] IMapper mapper)
     {
         var roomsDto = await base.GetAll()
-            .Select(room => new RoomDto
-            {
-                id = room.RoomId,
-                name = room.Name,
-                seats = room.SeatsCount
-            }).ToListAsync();
+            .ProjectTo<RoomDto>(mapper.ConfigurationProvider) 
+            .ToListAsync();
 
         return Ok(roomsDto);
     }
 
 
     [HttpPost]
-    public async Task<IActionResult> InsertRoom([FromBody] RoomDto room)
+    public async Task<IActionResult> InsertRoom([FromBody] RoomDto room,  [FromServices] IMapper mapper)
     {
-        if(_context.Rooms.Any(r => r.Name == room.name))
+        if (_context.Rooms.Any(r => r.Name == room.name))
         {
-            return Conflict( new { Message = "Este nombre ya existe"});
+            return Conflict(new { Message = "Este nombre ya existe" });
         }
 
-        var new_room = new Room { Name = room.name, SeatsCount = room.seats};
+        Room new_room = mapper.Map<Room>(room);
 
-        await base.Insert(new_room); 
+        await base.Insert(new_room);
 
-        int roomId = _context.Rooms.FirstOrDefault(r => r.Name == room.name).RoomId;
+        int roomId = _context.Rooms.FirstOrDefault(r => r.Name == new_room.Name).RoomId;
 
-        var seats = generateSeats(room.seats, room.name, roomId);
+        List<Seat> seats = generateSeats(new_room.SeatsCount, new_room.Name, roomId);
         new_room.SeatsByRoom = seats;
 
-        await _context.SaveChangesAsync();
+        _context.Seats.AddRange(seats);
         
+        await _context.SaveChangesAsync();
+
         return Ok();
     }
-   
+
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteRoom(int id)
     {
         await base.Delete(id);
-
         await deleteSeats(id);
 
         return Ok();
@@ -63,35 +62,33 @@ public class RoomController : CRDController<Room>
 
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateRoom(int id, [FromBody] RoomDto updateRoom)
+    public async Task<IActionResult> UpdateRoom(int id, [FromBody] RoomDto updateRoom, [FromServices] IMapper mapper)
     {
-        var room = await _context.Rooms.FindAsync(id);
-        if(room == null){ return NotFound(); }
+        Room room = await _context.Rooms.FindAsync(id);
+        if (room == null) { return NotFound(); }
 
-        if(room.SeatsCount != updateRoom.seats)
-        {
-            await deleteSeats(id);
-            room.SeatsByRoom = generateSeats(updateRoom.seats, updateRoom.name, room.RoomId);
-        }
+        mapper.Map(updateRoom, room);
 
-        room.Name = updateRoom.name;
-        room.SeatsCount = updateRoom.seats;
-    
+        await deleteSeats(id);
+        room.SeatsByRoom = generateSeats(updateRoom.seats, updateRoom.name, room.RoomId);
+
         await _context.SaveChangesAsync();
 
         return Ok();
     }
-    
+
+
 
     // ------------------ Generate Seats ------------------------------------------
-     private List<Seat> generateSeats(int n, string name, int roomId)
+    private List<Seat> generateSeats(int n, string name, int roomId)
     {
         List<Seat> seats = new List<Seat>();
-        for(int i = 1; i <= n; i++)
+        for (int i = 1; i <= n; i++)
         {
             string prefix = generatePrefix(name);
 
-            Seat seat = new Seat{
+            Seat seat = new Seat
+            {
                 RoomId = roomId,
                 Code = prefix.ToUpper() + "-" + i
             };
