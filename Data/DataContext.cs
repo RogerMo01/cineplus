@@ -170,6 +170,7 @@ namespace CineplusDB.Models
             SeedDataRooms(modelBuilder);
             SeedDataSeats(modelBuilder);
             SeedDataCriterion(modelBuilder);
+            SeedDataActiveCriterion(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
 
@@ -183,7 +184,8 @@ namespace CineplusDB.Models
             var movie2 = new Movie { MovieId = 2, Title = "The Shawshank Redemption", Year = 1994, Country = "USA", Director = "Frank Darabont", Duration = 142 };
             var movie3 = new Movie { MovieId = 3, Title = "The Dark Knight", Year = 2008, Country = "USA", Director = "Christopher Nolan", Duration = 152 };
             var movie4 = new Movie { MovieId = 4, Title = "Forrest Gump", Year = 1994, Country = "USA", Director = "Robert Zemeckis", Duration = 142 };
-            
+            var movie5 = new Movie { MovieId = 5, Title = "Nowhere", Year = 2023, Country = "España", Director = "Albert Pintó", Duration = 129 };
+
             // Actores
             var actor1 = new Actor { ActorId = 1, Name = "Leonardo DiCaprio" };
             var actor2 = new Actor { ActorId = 2, Name = "Tom Hardy" };
@@ -192,6 +194,7 @@ namespace CineplusDB.Models
             var actor5 = new Actor { ActorId = 5, Name = "Christian Bale" };
             var actor6 = new Actor { ActorId = 6, Name = "Heath Ledger" };
             var actor7 = new Actor { ActorId = 7, Name = "Tom Hanks" };
+            var actor8 = new Actor { ActorId = 8, Name = "Anna Castillo"};
 
             // Géneros
             var genre1 = new Genre { GenreId = 1, Name = "Ciencia Ficción" };
@@ -200,6 +203,7 @@ namespace CineplusDB.Models
             var genre4 = new Genre { GenreId = 4, Name = "Acción" };
             var genre5 = new Genre { GenreId = 5, Name = "Romance" };
             var genre6 = new Genre { GenreId = 6, Name = "Aventura" };
+            var genre7 = new Genre { GenreId = 7, Name = "Suspenso" };
 
             // Relaciones Actor - Película
             var actorByFilm1 = new ActorByFilm { ActorId = 1, MovieId = 1 };
@@ -210,6 +214,7 @@ namespace CineplusDB.Models
             var actorByFilm6 = new ActorByFilm { ActorId = 5, MovieId = 3 };
             var actorByFilm7 = new ActorByFilm { ActorId = 6, MovieId = 3 };
             var actorByFilm8 = new ActorByFilm { ActorId = 7, MovieId = 4 };
+            var actorByFilm9 = new ActorByFilm { ActorId = 8, MovieId = 5 };
             
             // Relaciones Género - Película
             var genreByFilm1 = new GenreByFilm { GenreId = 1, MovieId = 1 };
@@ -217,12 +222,14 @@ namespace CineplusDB.Models
             var genreByFilm3 = new GenreByFilm { GenreId = 4, MovieId = 3 };
             var genreByFilm4 = new GenreByFilm { GenreId = 5, MovieId = 4 };
             var genreByFilm5 = new GenreByFilm { GenreId = 6, MovieId = 4 };
+            var genreByFilm6 = new GenreByFilm { GenreId = 2, MovieId = 5 };
+            var genreByFilm7 = new GenreByFilm { GenreId = 7, MovieId = 5 };
 
-            modelBuilder.Entity<Movie>().HasData(movie1, movie2, movie3, movie4);
-            modelBuilder.Entity<Actor>().HasData(actor1, actor2, actor3, actor4, actor5, actor6, actor7);
-            modelBuilder.Entity<Genre>().HasData(genre1, genre2, genre3, genre4, genre5, genre6);
-            modelBuilder.Entity<ActorByFilm>().HasData(actorByFilm1, actorByFilm2, actorByFilm3, actorByFilm4, actorByFilm5, actorByFilm6, actorByFilm7, actorByFilm8);
-            modelBuilder.Entity<GenreByFilm>().HasData(genreByFilm1, genreByFilm2, genreByFilm3, genreByFilm4, genreByFilm5);
+            modelBuilder.Entity<Movie>().HasData(movie1, movie2, movie3, movie4, movie5);
+            modelBuilder.Entity<Actor>().HasData(actor1, actor2, actor3, actor4, actor5, actor6, actor7, actor8);
+            modelBuilder.Entity<Genre>().HasData(genre1, genre2, genre3, genre4, genre5, genre6, genre7);
+            modelBuilder.Entity<ActorByFilm>().HasData(actorByFilm1, actorByFilm2, actorByFilm3, actorByFilm4, actorByFilm5, actorByFilm6, actorByFilm7, actorByFilm8, actorByFilm9);
+            modelBuilder.Entity<GenreByFilm>().HasData(genreByFilm1, genreByFilm2, genreByFilm3, genreByFilm4, genreByFilm5, genreByFilm6, genreByFilm7);
         }
 
         private void SeedDataClients(ModelBuilder modelBuilder)
@@ -251,8 +258,8 @@ namespace CineplusDB.Models
                 new User
                 {
                     UserId = 3,
-                    Nick = "Yoanciño seller",
-                    Password = BCryptNet.HashPassword("iguana salvaje", salt3),
+                    Nick = "mario_taquilleroCinemas",
+                    Password = BCryptNet.HashPassword("scretpass3", salt3),
                     Salt = salt3
                 }
             );
@@ -273,7 +280,9 @@ namespace CineplusDB.Models
                     CreditCard = "0000000000000001",
                     UserId = 2
                 }
+                
             );
+
             modelBuilder.Entity<TicketSeller>().HasData(
                 new TicketSeller
                 {
@@ -301,7 +310,7 @@ namespace CineplusDB.Models
             var discount2 = new Discount
             {
                 DiscountId = 3,
-                Concept = "Oferta Especial de Verano",
+                Concept = "Descuento Especial de Verano",
                 Percent = 0.15f // 15%
             };
 
@@ -309,17 +318,24 @@ namespace CineplusDB.Models
             {
                 DiscountId = 4,
                 Concept = "Descuento a la Tercera Edad",
-                Percent = 0.20f // 10%
+                Percent = 0.40f // 10%
             };
 
             var discount4 = new Discount
             {
                 DiscountId = 5,
-                Concept = "Día del Estudiante",
+                Concept = "Descuento a Universitarios",
                 Percent = 0.15f // 15%
             };
 
-            modelBuilder.Entity<Discount>().HasData(discount0, discount1, discount2, discount3, discount4);
+            var discount5 = new Discount
+            {
+                DiscountId = 6,
+                Concept = "Descuento a niños (aplicable solo hasta 12 años)",
+                Percent = 0.25f // 15%
+            };
+
+            modelBuilder.Entity<Discount>().HasData(discount0, discount1, discount2, discount3, discount4, discount5);
         }
 
         public void SeedDataRooms(ModelBuilder modelBuilder)
@@ -395,7 +411,7 @@ namespace CineplusDB.Models
                 Identifier = Guid.NewGuid(),
                 RoomId = 2,
                 MovieId = 1,
-                DateTimeId = DateTime.Parse("2023-11-16 18:30:00"),
+                DateTimeId = DateTime.Parse("2023-12-5 18:30:00"),
                 Price = 4.99,
                 PricePoints = 20
             };
@@ -405,7 +421,7 @@ namespace CineplusDB.Models
                 Identifier = Guid.NewGuid(),
                 RoomId = 1,
                 MovieId = 2,
-                DateTimeId = DateTime.Parse("2023-11-16 21:30:00"),
+                DateTimeId = DateTime.Parse("2023-12-5 21:30:00"),
                 Price = 3.00,
                 PricePoints = 15
             };
@@ -430,9 +446,24 @@ namespace CineplusDB.Models
 
         private void SeedDataCriterion(ModelBuilder modelBuilder)
         {
-            var criterion1 = new Criterion{ CriterionId = 1, Name = "Random"};
+            var criterion1 = new Criterion{ CriterionId = 1, Name = "Aleatorio"};
+            var criterion2 = new Criterion{ CriterionId = 2, Name = "Populares en Cine+"};
+            var criterion3 = new Criterion{ CriterionId = 3, Name = "Programaciones de la semana"};
+            var criterion4 = new Criterion{ CriterionId = 4, Name = "Añadidas recientemente"};
+            var criterion5 = new Criterion{ CriterionId = 5, Name = "Estrenadas hace menos de un año"};
             
-            modelBuilder.Entity<Criterion>().HasData(criterion1);
+            modelBuilder.Entity<Criterion>().HasData(criterion1, criterion2, criterion3, criterion4, criterion5);
+        }
+
+        private void SeedDataActiveCriterion(ModelBuilder modelBuilder)
+        {
+            var activecriterion1 = new ActiveCriterion{ ActiveCriterionId = 1, CriterionId = 1};
+            var activecriterion2 = new ActiveCriterion{ ActiveCriterionId = 2, CriterionId = 2};
+            var activecriterion3 = new ActiveCriterion{ ActiveCriterionId = 3, CriterionId = 3};
+            var activecriterion4 = new ActiveCriterion{ ActiveCriterionId = 4, CriterionId = 4};
+            var activecriterion5 = new ActiveCriterion{ ActiveCriterionId = 5, CriterionId = 5};
+           
+            modelBuilder.Entity<ActiveCriterion>().HasData(activecriterion1, activecriterion2, activecriterion3, activecriterion4, activecriterion5);
         }
     }
 
