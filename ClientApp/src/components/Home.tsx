@@ -26,14 +26,15 @@ export class Home extends Component {
       <div className="container mt-4 mb-4 changi">
         <div className='row mb-3'>
           <div className='col-md-6'>
-            <h1 className='slogan slogan1' >Tu historia, <br />nuestro escenario</h1>
+            <br />
+            <h1 className='slogan slogan1' style={{ color: 'rgb(25, 58, 148)'}} >Tu historia, <br />nuestro escenario</h1>
             <p className='parrafo'>
               Encuentra tu escape en las obras cinematográficas<br />
               que te ofrecemos.
             </p>
           </div>
-          <div className='col-md-6'>
-            <img src='pexels-pavel-danilyuk-7234389.jpg' alt='cine+1' className='img-fluid imagen' />
+          <div className='col-md-6 mt-4'>
+            <img src='pexels-pavel-danilyuk-7234389.jpg' alt='cine+1' className='img-fluid imagen' margin-top= '2000px' />
           </div>
         </div>
         <hr className="my-5" />
@@ -42,7 +43,8 @@ export class Home extends Component {
             <img src='pexels-angello-13111754.jpg' alt='cine+5' className='img-fluid imagen' />
           </div>
           <div className='col-md-6'>
-            <h1 className='slogan auxi1'>
+            <br />
+            <h1 className='slogan auxi1' style={{ color: 'rgb(25, 58, 148)'}}>
               Explora el séptimo arte
               y sumérgete en el mundo <br />
               de emociones de<br /> nuestro cine
@@ -58,7 +60,7 @@ export class Home extends Component {
         </div>
         <div className='row mt-5'>
           <div className='col-md-6'>
-            <h1 className='slogan'>
+            <h1 className='slogan' style={{ color: 'rgb(25, 58, 148)'}}>
               Disfruta de lo bello que ofrecemos
             </h1>
             <p className='parrafo'>
@@ -80,7 +82,8 @@ export class Home extends Component {
             <img src='pexels-linda-gschwentner-11718584.jpg' alt='cine+6' className='img-fluid imagen' />
           </div>
           <div className='col-md-6'>
-            <h1 className='slogan auxi1'>
+            <br />
+            <h1 className='slogan auxi1' style={{ color: 'rgb(25, 58, 148)'}}>
               Ya es tiempo de reservar <br />
               tu asiento<br />
             </h1>
