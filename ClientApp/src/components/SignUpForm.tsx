@@ -5,7 +5,7 @@ import "./SignUpForm.css";
 import { ToastContainer } from 'react-toastify';
 import Post from "./ProcessPost";
 
-function SignUpForm() {
+function SignUpForm({endpoint} : {endpoint: string}) {
   // ~~~~~~~~~~~~~ Main states ~~~~~~~~~~~~~~~~
   const [username, setUsername] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
@@ -122,18 +122,11 @@ function SignUpForm() {
         DNI: dni,
       }
 
-      const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
-      const port = process.env.REACT_APP_PORT;
-      const networkIp = process.env.REACT_APP_NETWORK_IP;
+      const response = Post(formData, endpoint);
       
-      const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
-      const endpoint = '/api/registration';
-
-      Post(formData, home + endpoint);
-      
-      setTimeout(() => {
-        window.location.href = home + '/log-in';
-      }, 2000);
+      if(await response) {setTimeout(() => {
+        window.location.href = '/log-in';
+      }, 3000);}
     }
 
   };

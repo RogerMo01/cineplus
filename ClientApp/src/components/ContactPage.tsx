@@ -12,10 +12,6 @@ interface Props {
 
 }
 function ContactPage(params: Props) {
-    function rgb(arg0: number, arg1: number, arg2: number): import("csstype").Property.Color | undefined {
-        throw new Error("Function not implemented.");
-    }
-
     return (
         <div className="container">
             <div className="row mt-5">

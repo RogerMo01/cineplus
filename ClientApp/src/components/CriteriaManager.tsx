@@ -9,11 +9,10 @@ interface Props {
   name: string;
   endpoint: string;
   activeEndpoint: string;
-  path: string;
   activePath: string;
 }
 
-function CriteriaManager({ name, endpoint, activeEndpoint, path, activePath }: Props) {
+function CriteriaManager({ name, endpoint, activeEndpoint, activePath }: Props) {
 
   const [criteria, setCriteria] = useState<SingleTextModal[]>([]);
   const [actives, setActives] = useState<{id: number}[]>([]);

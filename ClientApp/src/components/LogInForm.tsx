@@ -7,7 +7,7 @@ import Post from "./ProcessPost";
 import "./SignUpForm.css";
 import { scrollToTop } from "./scrollToTop";
 
-function LogInForm() {
+function LogInForm({endpoint}: {endpoint: string}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -51,14 +51,7 @@ function LogInForm() {
       Password: password,
     };
 
-    const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
-    const port = process.env.REACT_APP_PORT;
-    const networkIp = process.env.REACT_APP_NETWORK_IP;
-
-    const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
-    const endpoint = '/api/authentication';
-
-    Post(formData, home + endpoint);
+    Post(formData, endpoint);
   };
 
   return (
