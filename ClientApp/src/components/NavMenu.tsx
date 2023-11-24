@@ -3,13 +3,14 @@ import { Button, Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink,
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 import { NavLinkRoute, UserData } from '../types/types';
-import { BiUserCircle } from "react-icons/bi";
+import axios from 'axios';
 
 
 interface Props {
   navLinkItems: NavLinkRoute[];
   userLogued: boolean;
   userData?: UserData;
+  setToken?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 interface NavMenuState {
@@ -44,7 +45,11 @@ export class NavMenu extends Component<Props, NavMenuState> {
   }
 
   handleLogoutClick = () => {
-    alert("Se ha intentado cerrar sesión, pero no está la implementación");
+    if(this.props.userLogued && this.props.setToken){
+      localStorage.removeItem('sessionToken');
+      delete axios.defaults.headers.common['Authorization'];
+      this.props.setToken(null);
+    }
   };
 
 

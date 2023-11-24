@@ -6,6 +6,7 @@ interface Props {
   children?: ReactNode;
   navLinks: NavLinkRoute[];
   userData?: UserData;
+  tokenSetter?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 
@@ -16,7 +17,7 @@ export class Layout extends Component<Props> {
     const unknownUser = this.props.userData === undefined;
     return (
       <div>
-        <NavMenu navLinkItems={this.props.navLinks} userLogued={!unknownUser} userData={this.props.userData} />
+        <NavMenu navLinkItems={this.props.navLinks} userLogued={!unknownUser} userData={this.props.userData} setToken={this.props.tokenSetter} />
         <div className='content'>
           {this.props.children}
         </div>

@@ -23,6 +23,7 @@ interface Props {
   redirect: string;
   scheduleEndpoint: string;
   modalContent?: React.ComponentType<any>;
+  tokenSetter?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 function MovieCard(props: Props) {
@@ -109,6 +110,7 @@ function MovieCard(props: Props) {
         <ModalBody>
           {props.modalContent && React.createElement(props.modalContent, 
             {
+              tokenSetter: props.tokenSetter,
               scheduledMovieId: selectedScheduledMovie,
               scheduledMovie: props.movie.title,
               scheduledRoom: selectedScheduledRoom,
