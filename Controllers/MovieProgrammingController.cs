@@ -46,11 +46,11 @@ public class MovieProgrammingController : ControllerBase
         {
             DateTime itemDate = item.DateTimeId;
             DateTime new_itemDate = new DateTime(itemDate.Year, itemDate.Month, itemDate.Day, itemDate.Hour, itemDate.Minute, 0);
-            sameDate = (new_Date == new_itemDate);
+            sameDate = ((new_Date == new_itemDate) && (item.RoomId == room.RoomId));
             if (sameDate) { break; }
         }
 
-        if (sameDate && _context.ScheduledMovies.Any(sm => sm.RoomId == room.RoomId))
+        if (sameDate)
         {
             return Conflict(new { Message = "Ya existe una pelicula programada con esa sala y horario" });
         }
