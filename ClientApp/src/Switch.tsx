@@ -28,8 +28,6 @@ function Switch() {
 
       setRole(newRole);
       setNick(newNick);
-
-      console.log('Nuevo rol del usuario:', role);
     }
     else{
       setRole('unknown');

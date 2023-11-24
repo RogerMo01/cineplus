@@ -1,5 +1,5 @@
 import React, { Component, ReactNode } from 'react';
-import { NavMenu } from './NavMenu';
+import NavMenu from './NavMenu';
 import { NavLinkRoute, UserData } from '../types/types';
 
 interface Props {

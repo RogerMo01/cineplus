@@ -20,7 +20,7 @@ function LogInForm({tokenSetter: setToken}: {tokenSetter: React.Dispatch<React.S
 
   const handleUsernameInputChange = (e: React.ChangeEvent) => {
     const newUsername = (e.target as HTMLInputElement).value;
-
+    
     // Control invalid feedback
     if (newUsername.length === 0) {
       setUsernameInvalidFeedback("Campo obligatorio");
