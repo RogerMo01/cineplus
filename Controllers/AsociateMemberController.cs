@@ -9,15 +9,15 @@ namespace cineplus.MemberController;
 [ApiController]
 public class AsociateMemberController : Controller
 {
-    private readonly DbContext _context;
-    public AsociateMemberController(DbContext context)
+    private readonly DataContext _context;
+    public AsociateMemberController(DataContext context)
     {
         _context = context;
     }
 
     //[Authorize]
     [HttpPost]
-    public async Task<IActionResult> Asociate(MembershipData input)
+    public async Task<IActionResult> Asociate([FromBody] MembershipData input)
     {
         //var identity = HttpContext.User.Identity as ClaimsIdentity;
         //string id = ObtainJWT.GetDataJWT(identity).Item1;
