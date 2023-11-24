@@ -24,6 +24,7 @@ builder.Services.AddAuthentication(item=>{
 
 builder.Services.AddDbContext<DataContext>();
 
+
 var mappingConfig = new MapperConfiguration(cfg =>
 {
     cfg.AddProfile<MappingRoom>();
@@ -31,12 +32,14 @@ var mappingConfig = new MapperConfiguration(cfg =>
     cfg.AddProfile<MappingGenre>();
     cfg.AddProfile<MappingMovieProgramming>();
     cfg.AddProfile<MappingDiscount>();
+    cfg.AddProfile<MappingMovie>();
     // Agrega otros perfiles si los tienes
     // cfg.AddProfile<OtroPerfil>();
 });
 
 var mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
+
 
 //  builder.Services.AddAutoMapper(typeof(Program));    
 
