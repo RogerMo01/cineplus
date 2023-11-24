@@ -21,10 +21,8 @@ public class SalesController : Controller
     [HttpPost]
     public async Task<IActionResult> Buy_without_selection([FromBody] Ticket_Without_Selection input)
     {
-        string id = GetDataJWT().Item1;
-        int user_id = int.Parse(id);
-        string role = GetDataJWT().Item2;
-
+        (string, string) Jwt_data = GetDataJWT();
+        int user_id = int.Parse(Jwt_data.Item1);
         if (input == null)
         {
             return BadRequest("Invalid Data");
@@ -50,46 +48,65 @@ public class SalesController : Controller
         Seat seat_Id = _context.Seats.FirstOrDefault(s => (s.Code == input.Seat) && (s.RoomId == movie.RoomId));
 
         //Añadir el ticket reservado a la tabla
-        Ticket reserve = new Ticket();
-        reserve.DateTimeId = movie.DateTimeId;
-        reserve.MovieId = movie.MovieId;
-        reserve.RoomId = movie.RoomId;
-        reserve.SeatId = seat_Id.SeatId;
-        reserve.Price = movie.Price;
-        reserve.PricePoints = movie.PricePoints;
-        reserve.Code = input.Seat;
-
-        //añadir la compra a la Base de Datos dependiendo del rol
-        if (role == "client")
+        Ticket reserve = new Ticket
         {
-            OnlineSales ticket_client = new OnlineSales();
-            ticket_client.ClientId = user_id;
-            ticket_client.DateTimeId = reserve.DateTimeId;
-            ticket_client.MovieId = reserve.MovieId;
-            ticket_client.RoomId = reserve.RoomId;
-            ticket_client.SeatId = reserve.SeatId;
-            ticket_client.DiscountId = discount.DiscountId;
-            ticket_client.FinalPrice = reserve.Price - (discount.Percent) * reserve.Price;
-            ticket_client.Transfer = true;
-        }
-        else if (role == "seller")
-        {
-            BoxOfficeSales ticket_client = new BoxOfficeSales();
-            ticket_client.TicketSellerId = user_id;
-            ticket_client.DateTimeId = reserve.DateTimeId;
-            ticket_client.MovieId = reserve.MovieId;
-            ticket_client.RoomId = reserve.RoomId;
-            ticket_client.SeatId = reserve.SeatId;
-            ticket_client.DiscountId = discount.DiscountId;
-            ticket_client.FinalPrice = reserve.Price - (discount.Percent) * reserve.Price;
-            ticket_client.Cash = true;
-        }
-
-
+            DateTimeId = movie.DateTimeId,
+            MovieId = movie.MovieId,
+            RoomId = movie.RoomId,
+            SeatId = seat_Id.SeatId,
+            Price = movie.Price,
+            PricePoints = movie.PricePoints,
+            Code = input.Seat
+        };
         _context.Tickets.Add(reserve);
 
+        //añadir la compra a la Base de Datos dependiendo del rol
+        if (Jwt_data.Item2 == "client")
+        {
+            var client = _context.Clients
+            .FirstOrDefault(c => c.UserId == user_id);
+            OnlineSales ticket_client = new OnlineSales
+            {
+                ClientId = client.ClientId,
+                DateTimeId = reserve.DateTimeId,
+                MovieId = reserve.MovieId,
+                RoomId = reserve.RoomId,
+                SeatId = reserve.SeatId,
+                DiscountId = discount.DiscountId,
+                FinalPrice = reserve.Price - (discount.Percent) * reserve.Price,
+                Transfer = true
+            };
+            _context.OnlineSales.Add(ticket_client);
 
-        await _context.SaveChangesAsync();
+        }
+        else if (Jwt_data.Item2 == "seller")
+        {
+            var seller = _context.Sellers
+            .FirstOrDefault(s => s.UserId == user_id);
+            BoxOfficeSales ticket_client = new BoxOfficeSales
+            {
+                TicketSellerId = seller.TicketSellerId,
+                DateTimeId = reserve.DateTimeId,
+                MovieId = reserve.MovieId,
+                RoomId = reserve.RoomId,
+                SeatId = reserve.SeatId,
+                DiscountId = discount.DiscountId,
+                FinalPrice = reserve.Price - (discount.Percent) * reserve.Price,
+                Cash = true
+            };
+            _context.BoxOfficeSales.Add(ticket_client);
+
+        }
+        try
+        {
+            await _context.SaveChangesAsync();
+
+        }
+        catch (Exception ex)
+        {
+
+            Console.WriteLine(ex);
+        }
         return Ok(new { Message = "Compra realizada correctamente" });
     }
     public (string, string) GetDataJWT()
