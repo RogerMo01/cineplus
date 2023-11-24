@@ -12,10 +12,6 @@ interface Props {
 
 }
 function ContactPage(params: Props) {
-    function rgb(arg0: number, arg1: number, arg2: number): import("csstype").Property.Color | undefined {
-        throw new Error("Function not implemented.");
-    }
-
     return (
         <div className="container">
             <div className="row mt-5">
@@ -23,8 +19,8 @@ function ContactPage(params: Props) {
                     <h1 className="text-center" style={{ color: 'rgb(254, 190, 3)', fontSize: '50px'}}>¡Contacta con nosotros!</h1>
                     <br />
                     <p style={{fontSize: '17px'}}>
-                        Esperamos que hayas disfrutado explorando nuestro rincón virtual. Ahora que has tenido un vistazo a lo que ofrecemos, queremos estar aún más cerca de ti.
-                        La página de "Contacto" es como nuestra puerta mágica; al traspasarla, entras en un mundo donde tus preguntas se convierten en respuestas y tus sugerencias en mejoras palpables. <br /> <br />
+                        Esperamos que hayas disfrutado explorando nuestro rincón virtual. Ahora que conoces lo que ofrecemos, queremos estar aún más cerca de ti.
+                        La página de "Contacto" es nuestra puerta mágica; al traspasarla, entras en un mundo donde tus preguntas se convierten en respuestas y tus sugerencias en mejoras palpables. <br /> <br />
                         Ya sea que desees compartir tus impresiones, plantearnos alguna pregunta o simplemente saludar, estamos aquí para ti. Creemos que cada interacción es una oportunidad de hacer nuevos amigos y aprender algo nuevo.
                         Haz clic en nuestros enlaces a redes sociales para seguir conectados. <br />
                     </p>

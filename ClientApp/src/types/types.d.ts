@@ -47,6 +47,15 @@ export interface Schedule {
   points: number;
 }
 
+export interface MovieSchedule {
+  id: string;
+  movie: number;
+  room: string;
+  date: Date;
+  price: number;
+  points: number;
+}
+
 export interface NavLinkRoute {
   name: string;
   route: string;
@@ -69,4 +78,18 @@ export interface SingleTextModal {
 
 export interface Seat {
   code: string
+}
+
+export interface MovieCard {
+  id: string,
+  img: string,
+  title: string,
+  year: number,
+  genres: string[],
+  actors: string[]
+}
+
+export interface Criterion {
+  id: number,
+  name: string
 }

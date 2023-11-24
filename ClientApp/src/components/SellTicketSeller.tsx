@@ -12,9 +12,13 @@ interface Props {
   seatEndpoint: string;
   discountEndpoint: string;
   buyEndpoint: string;
+  scheduledMovieId?: string;
+  scheduledMovie?: string;
+  scheduledRoom?: string;
+  scheduledDate?: Date;
 }
 
-function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buyEndpoint }: Props) {
+function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buyEndpoint, scheduledMovieId, scheduledMovie, scheduledRoom, scheduledDate }: Props) {
 
   const [schedule, setSchedule] = useState<Schedule[]>([]);
   const [seats, setSeats] = useState<Seat[]>([]);
@@ -35,7 +39,10 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   }, []);
 
   useEffect(() => {
-    if(schedule.length > 0) {setSelectedSchedule(schedule[0].id);}
+    if(schedule.length > 0) {
+      setSelectedSchedule(scheduledMovieId ? scheduledMovieId : schedule[0].id);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [schedule]);
   
   useEffect(() => {
@@ -96,9 +103,10 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
     Post(request, buyEndpoint, seatEndpoint + `/${selectedSchedule}`, setSeats);
   }
 
+
   return (
-    <div className="full-container border rounded">
-      <h2 className="text-center form-element">Vender Ticket</h2>
+    <div className="fullts-container border rounded">
+      <h2 className="text-center form-element">Reservar Ticket</h2>
 
       <div className="form-container container">
         <form onSubmit={handleSubmit}>
@@ -108,8 +116,13 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
 
           <div className="form-element">
             <Form.Label>Seleccionar Programación</Form.Label>
-            <Form.Select onChange={handleChangeSelectedSchedule}>
-              {schedule.map(s => (
+            <Form.Select 
+              onChange={handleChangeSelectedSchedule}
+              disabled={scheduledMovieId ? true : false}
+              >
+              {scheduledMovieId 
+              ? <option key={scheduledMovieId} value={scheduledMovieId}>{parseDate(scheduledDate ? scheduledDate.toString() : new Date().toString()) + ' | ' + scheduledMovie + ' | ' + scheduledRoom}</option>
+              : schedule.map(s => (
                 <option key={s.id} value={s.id}>{parseDate(s.date.toString()) + ' | ' + s.movie + ' | ' + s.room}</option>
               ))}
             </Form.Select>

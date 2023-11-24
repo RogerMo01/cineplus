@@ -14,7 +14,7 @@ interface Props {
 }
 
 
-function ActorsModalForm(props: Props) {
+function SingleTextModalForm(props: Props) {
   const [show, setShow] = useState(false);
   const [invalidInput, setInvalidInput] = useState(false);
 
@@ -105,4 +105,4 @@ function ActorsModalForm(props: Props) {
   );
 }
 
-export default ActorsModalForm;
+export default SingleTextModalForm;

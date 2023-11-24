@@ -42,5 +42,4 @@ namespace CineplusDB.Models
         public List<ActorDto> actors { get; set; }
         public List<GenreDto> genres { get; set; }
     }
-
 }
