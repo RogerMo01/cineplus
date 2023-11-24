@@ -51,7 +51,7 @@ public class Authentication : ControllerBase
             else{ role = "admin"; }
 
             // Generar un token JWT
-            string token = GenerateJwtToken(user, role);
+            string token = GenerateJwtToken(user, role, user.Nick);
 
             // Devolver el token en la respuesta
             return Ok(new { Token = token });
@@ -71,7 +71,7 @@ public class Authentication : ControllerBase
     }
 
     // Generar un Token de autenticacion (JWT) que incluye información sobre el usuario autenticado 
-    string GenerateJwtToken(User user, string role)
+    string GenerateJwtToken(User user, string role, string nick)
     {
         // Crear una clave de seguridad basada en una cadena
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.jwtSettings.securitykey));
@@ -81,8 +81,9 @@ public class Authentication : ControllerBase
         // Definir informacion sobre el usuario autenticado
         var claims = new[]
         {
-        new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()), 
-        new Claim(ClaimTypes.Role, role)
+            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()), 
+            new Claim(ClaimTypes.Role, role),
+            new Claim("Nick", nick)
         };
 
         var token = new JwtSecurityToken(
