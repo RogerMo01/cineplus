@@ -33,6 +33,7 @@ var mappingConfig = new MapperConfiguration(cfg =>
     cfg.AddProfile<MappingMovieProgramming>();
     cfg.AddProfile<MappingDiscount>();
     cfg.AddProfile<MappingMovie>();
+    cfg.AddProfile<MappingCriterion>();
     // Agrega otros perfiles si los tienes
     // cfg.AddProfile<OtroPerfil>();
 });
