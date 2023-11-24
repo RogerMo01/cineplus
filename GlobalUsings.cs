@@ -9,3 +9,4 @@ global using IpFinder;
 global using System;
 global using AutoMapper;
 global using AutoMapper.QueryableExtensions;
+global using Microsoft.Extensions.DependencyInjection;

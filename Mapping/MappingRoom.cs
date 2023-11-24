@@ -1,4 +1,3 @@
-using AutoMapper;
 public class MappingRoom : Profile
 {
     public MappingRoom()

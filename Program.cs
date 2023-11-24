@@ -23,7 +23,22 @@ builder.Services.AddAuthentication(item=>{
 });
 
 builder.Services.AddDbContext<DataContext>();
-builder.Services.AddAutoMapper(typeof(Program));    
+
+var mappingConfig = new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile<MappingRoom>();
+    cfg.AddProfile<MappingActor>();
+    cfg.AddProfile<MappingGenre>();
+    cfg.AddProfile<MappingMovieProgramming>();
+    cfg.AddProfile<MappingDiscount>();
+    // Agrega otros perfiles si los tienes
+    // cfg.AddProfile<OtroPerfil>();
+});
+
+var mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
+//  builder.Services.AddAutoMapper(typeof(Program));    
 
 // Clave secreta JwtToken
 var _jwtsettings = builder.Configuration.GetSection("JwtSettings");
