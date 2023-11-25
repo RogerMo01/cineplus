@@ -36,7 +36,7 @@ function MoviesScheduledList({
     <Modal size="lg" isOpen={showModal} toggle={toggle}>
       <ModalHeader toggle={toggle}>📅 Programaciones Disponibles para: {name}</ModalHeader>
       <ModalBody>
-        {schedule.filter(x => x.movie === movieId).length === 0
+        {schedule.filter(x => parseInt(x.movieId) === movieId).length === 0
         ? movieNotScheduled
         :<Card>
           <CardBody>
@@ -52,7 +52,7 @@ function MoviesScheduledList({
                   </tr>
                 </thead>
                 <tbody>
-                  {schedule.filter(x => x.movie === movieId).map((s) => (
+                  {schedule.filter(x => parseInt(x.movieId) === movieId).map((s) => (
                     <tr key={s.id}>
                       <td>{s.room}</td>
                       <td>{parseDate(s.date.toString())}</td>
