@@ -29,6 +29,9 @@ async function Post(request: any, path: string, endpoint?:string, setter?: React
           console.log("Error " + status);
           toast.error(message, { position: "bottom-right", autoClose: 3000 });
         }
+        if(endpoint && setter){
+          fetch(endpoint, setter);
+        }
       }
     } else {
       console.error(`Error en la solicitud (${error})`);

@@ -101,19 +101,19 @@ const shopListEndpoint = '/api/shoppinghistory';
 // ];
 
 function ShoppingHistory() {
-  const [shopList, setShopList]= useState<ShopItem[]>([]);
+  const [shopList, setShopList] = useState<ShopItem[]>([]);
 
   useEffect(() => {
     fetch(shopListEndpoint, setShopList);
   }, [])
-  
+
   function handleCancel(id: string) {
     Delete(id, shopListEndpoint, shopListEndpoint, setShopList);
   }
 
   return (
     <div>
-      <h2 className="header">Historial de compras</h2>
+      <h2 className="header">Historial de compras activas</h2>
       <div className="table-container">
         <table className="table table-striped inside-table">
           <thead>
@@ -132,7 +132,7 @@ function ShoppingHistory() {
                 <td>{parseDate(item.date.toString())}</td>
                 <td>{item.room}</td>
                 <td>{item.seat}</td>
-                
+
                 <td className="editColumn">
                   <div className="modifyButtons">
                     <button

@@ -19,23 +19,15 @@ public class ShoppingHistoryController : Controller
     {
         (string, string) Jwt_data = _utility.GetDataJWT(HttpContext.Request);
         int userId = int.Parse(Jwt_data.Item1);
+        int clientId = _context.Clients.FirstOrDefault(x => x.UserId == userId).ClientId;
 
         DateTime now = DateTime.Now.AddHours(2);
 
-        var history = _context.OnlineSales.Where(x => x.ClientId == userId && x.DateTimeId > now);
-        List<CustomerPurchases> result = new List<CustomerPurchases>();
+        var history = _context.OnlineSales.Where(x => x.ClientId == clientId && x.DateTimeId > now).ToList();
 
-        _mapper.Map(history, result);
+        List<CustomerPurchases> result = _mapper.Map<List<CustomerPurchases>>(history);
 
-        foreach (var item in result)
-        {
-            string title = _context.Movies.FirstOrDefault(x => x.MovieId == int.Parse(item.movie)).Title;
-            item.movie = title;
-            string room = _context.Rooms.FirstOrDefault(x => x.RoomId == int.Parse(item.room)).Name;
-            item.room = room;
-            string code = _context.Seats.FirstOrDefault(x => x.SeatId == int.Parse(item.seat)).Code;
-            item.seat = code;
-        }
+        result = _utility.GetPurchaseTicketData(result);
 
         return Ok(result);
     }
@@ -49,7 +41,9 @@ public class ShoppingHistoryController : Controller
 
         DateTime now = DateTime.Now;
         TimeSpan difference = item.DateTimeId - now;
-        if( difference.TotalHours < 2) { return Conflict(new { Message = "No es posible cancelar la compra con menos de dos horas de antelación" });}
+
+        if (difference.TotalHours < 2) { return Conflict(new { Message = "No es posible cancelar la compra con menos de dos horas de antelación" }); }
+        
         _context.OnlineSales.Remove(item);
 
         var ticket = _context.Tickets.FirstOrDefault(x => x.MovieId == item.MovieId && x.RoomId == item.RoomId && x.DateTimeId == item.DateTimeId && x.SeatId == item.SeatId);
@@ -59,5 +53,5 @@ public class ShoppingHistoryController : Controller
 
         return Ok();
     }
-    
+
 }

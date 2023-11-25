@@ -6,7 +6,7 @@ const ClientNavLinks: NavLinkRoute[] = [
     route: "/",
   },
   {
-    name: "Mis Compras",
+    name: "Compras Activas",
     route: "/shopping-history"
   }
 ];

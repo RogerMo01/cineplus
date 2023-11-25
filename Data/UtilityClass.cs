@@ -78,6 +78,22 @@ public class UtilityClass
         }
         return (null, null);
     }
+
+        // ----------  Obtener datos del ticket de la compra del cliente ----------------------
+        public List<CustomerPurchases> GetPurchaseTicketData(List<CustomerPurchases> purchase)
+        {
+            foreach (var item in purchase)
+            {
+                string title = _context.Movies.FirstOrDefault(x => x.MovieId == int.Parse(item.movie)).Title;
+                item.movie = title;
+                string room = _context.Rooms.FirstOrDefault(x => x.RoomId == int.Parse(item.room)).Name;
+                item.room = room;
+                string code = _context.Seats.FirstOrDefault(x => x.SeatId == int.Parse(item.seat)).Code;
+                item.seat = code;
+            }
+
+            return purchase;
+        }
 }
 
 

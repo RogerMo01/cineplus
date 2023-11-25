@@ -16,44 +16,49 @@ public class SalesController : Controller
     [HttpPost]
     public async Task<IActionResult> Buy_without_selection([FromBody] Ticket_Without_Selection input)
     {
-        
+        // Hora a la que se efectuó la compra
         DateTime now_date = DateTime.Now;
-        
+
         (string, string) Jwt_data = _utility.GetDataJWT(HttpContext.Request);
         int user_id = int.Parse(Jwt_data.Item1);
-        if (input == null)
-        {
-            return BadRequest("Invalid Data");
-        }
+
+        if (input == null) { return BadRequest("Invalid Data"); }
 
         //Pelicula programada que recibo de entrada
         Guid guid = new Guid(input.MovieProgId);
-        MovieProgramming movie = _context.ScheduledMovies.FirstOrDefault(mp => mp.Identifier == guid)!;
+        MovieProgramming programming = _context.ScheduledMovies.FirstOrDefault(mp => mp.Identifier == guid)!;
+
+        // Verificar si el asiento esta verdaderamente libre 
+        if (_context.Tickets.Any(x => x.DateTimeId == programming.DateTimeId && x.RoomId == programming.RoomId && x.Code == input.Seat))
+        {
+            return Conflict(new { Message = "Lo sentimos, la butaca " + input.Seat +  " ya no está disponible. Seleccione una nueva butaca para realizar su compra."});
+        }
 
         //Verificar si tienen capacidad las salas
-        var room = _context.Rooms.FirstOrDefault(r => r.RoomId == movie.RoomId);
+        // var room = _context.Rooms.FirstOrDefault(r => r.RoomId == movie.RoomId);
 
-        int ocupated_seat = _context.Tickets
-            .Include(t => t.MovieProgramming)
-            .Count(t => (t.MovieProgramming.MovieId == movie.MovieId) && (t.MovieProgramming.RoomId == movie.RoomId) && (t.MovieProgramming.DateTimeId == movie.DateTimeId));
+        // int ocupated_seat = _context.Tickets
+        //     .Include(t => t.MovieProgramming)
+        //     .Count(t => (t.MovieProgramming.MovieId == movie.MovieId) && (t.MovieProgramming.RoomId == movie.RoomId) && (t.MovieProgramming.DateTimeId == movie.DateTimeId));
 
-        if (ocupated_seat == room.SeatsCount)
-        {
-            return Conflict(new { Message = "Sala sin capacidad" });
-        }
+        // if (ocupated_seat == room.SeatsCount)
+        // {
+        //     return Conflict(new { Message = "Sala sin capacidad" });
+        // }
+
         //falta incluir la tarjeta
         var discount = _context.Discounts.Where(d => d.DiscountId == input.Discount).FirstOrDefault();
-        Seat seat_Id = _context.Seats.FirstOrDefault(s => (s.Code == input.Seat) && (s.RoomId == movie.RoomId));
+        Seat seat_Id = _context.Seats.FirstOrDefault(s => (s.Code == input.Seat) && (s.RoomId == programming.RoomId));
 
         //Añadir el ticket reservado a la tabla
         Ticket reserve = new Ticket
         {
-            DateTimeId = movie.DateTimeId,
-            MovieId = movie.MovieId,
-            RoomId = movie.RoomId,
+            DateTimeId = programming.DateTimeId,
+            MovieId = programming.MovieId,
+            RoomId = programming.RoomId,
             SeatId = seat_Id.SeatId,
-            Price = movie.Price,
-            PricePoints = movie.PricePoints,
+            Price = programming.Price,
+            PricePoints = programming.PricePoints,
             Code = input.Seat
         };
         _context.Tickets.Add(reserve);
@@ -63,6 +68,7 @@ public class SalesController : Controller
         {
             var client = _context.Clients
             .FirstOrDefault(c => c.UserId == user_id);
+
             OnlineSales ticket_client = new OnlineSales
             {
                 ClientId = client.ClientId,
@@ -76,6 +82,7 @@ public class SalesController : Controller
                 FinalPrice = reserve.Price - (discount.Percent) * reserve.Price,
                 SaleIdentifier = Guid.NewGuid()
             };
+
             _context.OnlineSales.Add(ticket_client);
 
         }
@@ -83,6 +90,7 @@ public class SalesController : Controller
         {
             var seller = _context.Sellers
             .FirstOrDefault(s => s.UserId == user_id);
+
             BoxOfficeSales ticket_client = new BoxOfficeSales
             {
                 TicketSellerId = seller.TicketSellerId,
@@ -94,6 +102,7 @@ public class SalesController : Controller
                 FinalPrice = reserve.Price - (discount.Percent) * reserve.Price,
                 Cash = true
             };
+
             _context.BoxOfficeSales.Add(ticket_client);
 
         }
@@ -107,6 +116,7 @@ public class SalesController : Controller
 
             Console.WriteLine(ex);
         }
+
         return Ok(new { Message = "Compra realizada correctamente" });
     }
 }
