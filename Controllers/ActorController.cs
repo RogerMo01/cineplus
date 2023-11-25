@@ -7,21 +7,20 @@ namespace cineplus.ActorController;
 public class ActorController : CRDController<Actor> 
 {
     private readonly DataContext _context;
+    private readonly IMapper _mapper; 
 
-    public ActorController(DataContext context) : base(context)
+    public ActorController(DataContext context, IMapper mapper) : base(context)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetActors()
     {
         var actors = await base.GetAll()
-            .Select(actor => new ActorDto
-            {
-                id = actor.ActorId,
-                name = actor.Name
-            }).ToListAsync();
+            .ProjectTo<ActorDto>(_mapper.ConfigurationProvider) 
+            .ToListAsync();
         
         return Ok(actors);
     }
@@ -34,7 +33,7 @@ public class ActorController : CRDController<Actor>
             return Conflict( new { Message = "Este actor ya existe"});
         }
 
-        var new_actor = new Actor { Name = actor.name};
+        Actor new_actor = _mapper.Map<Actor>(actor);
         await base.Insert(new_actor); 
         return Ok();
     }
@@ -52,7 +51,7 @@ public class ActorController : CRDController<Actor>
         var actor = _context.Actors.FirstOrDefault(a => a.ActorId == id);
         if(actor == null) { return NotFound(); }
 
-        actor.Name = updateActor.name;
+        _mapper.Map(updateActor, actor);
 
         await _context.SaveChangesAsync();
         return Ok();

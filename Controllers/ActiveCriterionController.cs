@@ -1,27 +1,26 @@
 using cineplus.CRDController;
-
 namespace cineplus.ActiveCriterionController;
 
 [Route("api/activecriterion")]
 [ApiController]
-public class ActiveCriterionController : CRDController<ActiveCriterion> 
+public class ActiveCriterionController : CRDController<ActiveCriterion>
 {
     private readonly DataContext _context;
-    public ActiveCriterionController(DataContext context) : base(context)
+    private readonly IMapper _mapper;
+    public ActiveCriterionController(DataContext context, IMapper mapper) : base(context)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetActiveCriteria()
     {
-        var active_criteriaDto = await base.GetAll()
-            .Select(active_criterion => new ActiveCriterionDto
-            {
-                id = active_criterion.CriterionId,
-            }).ToListAsync();
+        var active_criteria = await base.GetAll()
+            .ProjectTo<CriterionDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
 
-        return Ok(active_criteriaDto);
+        return Ok(active_criteria);
     }
 
     [HttpPut("{id}")]

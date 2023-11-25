@@ -1,42 +1,46 @@
-using cineplus.CRDController;
-using Microsoft.AspNetCore.Mvc.Routing;
-using cineplus.MovieController;
-using System.Data.Entity.Core.Common.CommandTrees;
-
 namespace cineplus.CriterionController;
 
 [Route("api/criterion")]
 [ApiController]
-public class CriterionController : CRDController<Criterion>
+public class CriterionController : ControllerBase
 {
     private readonly DataContext _context;
-    public CriterionController(DataContext context) : base(context)
+    private readonly IMapper _mapper;
+
+    public CriterionController(DataContext context, IMapper mapper) 
     {
         _context = context;
+        _mapper = mapper;
     }
 
     [HttpGet]
     [Route("all")]
     public async Task<IActionResult> GetCriteria()
     {
-        var criteriaDto = await base.GetAll()
-            .Select(criterion => new CriterionDto
-            {
-                id = criterion.CriterionId,
-                name = criterion.Name,
-            }).ToListAsync();
+        var criteria = _context.Criteria.ToList();
 
-        return Ok(criteriaDto);
+        List<CriterionDto> result = new List<CriterionDto>();
+
+        _mapper.Map(criteria, result);
+        
+        return Ok(result);
     }
+    
 
     [HttpGet]
     [Route("random")]
     public async Task<IActionResult> GetRandomMovies()
     {
         var allmovies = _context.Movies.ToList();
+
         var random_movies = allmovies.OrderBy(m => Guid.NewGuid()).ToList();
 
-        List<MovieGet> movies = CreateMovieGet(random_movies);
+        List<MovieGet> movies = new List<MovieGet>();
+
+        _mapper.Map(random_movies, movies);
+
+        UtilityClass utilityClass = new UtilityClass(_context);
+        movies = utilityClass.MovieData(movies);
 
         if (movies.Count <= 20) { return Ok(movies); }
         else
@@ -46,70 +50,7 @@ public class CriterionController : CRDController<Criterion>
         }
     }
 
-    private List<MovieGet> CreateMovieGet(List<Movie> movies)
-    {
-        List<MovieGet> result = new List<MovieGet>();
-
-        foreach (var item in movies)
-        {
-            List<Dto> actorsFilm = GetActors(item.MovieId);
-            List<Dto> genresFilm = GetGenres(item.MovieId);
-
-            MovieGet movie = new MovieGet
-            {
-                id = item.MovieId,
-                title = item.Title,
-                year = item.Year,
-                country = item.Country,
-                director = item.Director,
-                duration = item.Duration,
-                actors = actorsFilm,
-                genres = genresFilm
-            };
-
-            result.Add(movie);
-        }
-
-        return result;
-    }
-
-    private List<Dto> GetActors(int movieId)
-    {
-        var actors = _context.ActorsByFilms
-            .Where(m => m.MovieId == movieId)
-            .Join(
-                _context.Actors,
-                m => m.ActorId,
-                a => a.ActorId,
-                (m, a) => new Dto
-                {
-                    id = a.ActorId,
-                    name = a.Name
-                }
-            ).ToList();
-
-        return actors;
-    }
-
-    private List<Dto> GetGenres(int movieId)
-    {
-        var genres = _context.GenresByFilms
-            .Where(m => m.MovieId == movieId)
-            .Join(
-                _context.Genres,
-                m => m.GenreId,
-                g => g.GenreId,
-                (m, g) => new Dto
-                {
-                    id = g.GenreId,
-                    name = g.Name
-                }
-            ).ToList();
-
-        return genres;
-    }
-
-
+    
     [HttpGet]
     [Route("recentlyadded")]
     public async Task<IActionResult> GetRecentlyAddedMovies()
@@ -118,9 +59,11 @@ public class CriterionController : CRDController<Criterion>
                                     orderby item.MovieId descending
                                     select item;
 
-        List<Movie> movies = recently_added_movies.ToList();
+        List<MovieGet> moviesGet = new List<MovieGet>();
+        _mapper.Map(recently_added_movies, moviesGet);
 
-        List<MovieGet> moviesGet = CreateMovieGet(movies);
+        UtilityClass utilityClass = new UtilityClass(_context);
+        moviesGet = utilityClass.MovieData(moviesGet);
 
         if (moviesGet.Count <= 20) { return Ok(moviesGet); }
         else
@@ -130,6 +73,7 @@ public class CriterionController : CRDController<Criterion>
         }
     }
 
+
     [HttpGet]
     [Route("thisyear")]
     public async Task<IActionResult> GetThisYearMovies()
@@ -137,7 +81,13 @@ public class CriterionController : CRDController<Criterion>
         DateTime date = DateTime.Now;
         var movies = _context.Movies.Where(m => m.Year == date.Year).ToList();
 
-        List<MovieGet> this_year_movies = CreateMovieGet(movies);
+        List<MovieGet> this_year_movies = new List<MovieGet>();
+
+        _mapper.Map(movies, this_year_movies);
+
+        UtilityClass utilityClass = new UtilityClass(_context);
+        this_year_movies = utilityClass.MovieData(this_year_movies);
+
 
         if (this_year_movies.Count <= 20) { return Ok(this_year_movies); }
         else
@@ -146,6 +96,7 @@ public class CriterionController : CRDController<Criterion>
             return Ok(limit_movies);
         }
     }
+
 
     [HttpGet]
     [Route("recentlyprogramming")]
@@ -164,16 +115,22 @@ public class CriterionController : CRDController<Criterion>
                       .Where(m => movie_programmingIds.Contains(m.MovieId))
                       .ToList();
         
-        List<MovieGet> recently_programming = CreateMovieGet(movies);
+        List<MovieGet> recently_programming = new List<MovieGet>();
 
+        _mapper.Map(movies, recently_programming);
+
+        UtilityClass utilityClass = new UtilityClass(_context);
+        recently_programming = utilityClass.MovieData(recently_programming);
+
+        
         if (recently_programming.Count() <= 20) { return Ok(recently_programming); }
         else
         {
             List<MovieGet> limit = recently_programming.Take(20).ToList();
             return Ok(limit);
         }
-
     }
+
 
     [HttpGet]
     [Route("mostpopular")]
@@ -182,16 +139,9 @@ public class CriterionController : CRDController<Criterion>
         var popular_movies = from item in _context.Tickets
                              group item by item.MovieId into group_movie
                              orderby group_movie.Count() descending
-                             select new Dto
-                             {
-                                 id = group_movie.Key
-                             };
-
-        List<int> ids = new List<int>();
-        foreach (var item in popular_movies)
-        {
-            ids.Add(item.id);
-        }
+                             select group_movie.Key;
+                           
+        List<int> ids = popular_movies.ToList();
 
         List<MovieGet> result = new List<MovieGet>();
 
@@ -201,14 +151,19 @@ public class CriterionController : CRDController<Criterion>
 
         List<Movie> movies = getMovies.ToList();
 
+        _mapper.Map(movies, result);
+
+        UtilityClass utilityClass = new UtilityClass(_context);
+        result = utilityClass.MovieData(result);
+
+
         if (popular_movies.Count() <= 20)
         {
-            result = CreateMovieGet(movies);
             return Ok(result);
         }
         else
         {
-            result = CreateMovieGet(movies).Take(20).ToList();
+            result = result.Take(20).ToList();
             return Ok(result);
         }
     }

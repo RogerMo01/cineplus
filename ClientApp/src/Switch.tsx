@@ -20,6 +20,7 @@ function Switch() {
   const [role, setRole] = useState('unknown');
   const [nick, setNick] = useState('unknown');
 
+
   useEffect(() => {
     if(token){
       const decodedToken = jwtDecode<UserPayload>(token);
