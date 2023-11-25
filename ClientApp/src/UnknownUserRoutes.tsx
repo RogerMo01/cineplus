@@ -1,5 +1,4 @@
 import React from 'react';
-import { ReactElement } from 'react'; // Importa ReactElement para las anotaciones de tipo
 import { Home } from './components/Home';
 import SignUpPage from './components/SignUpPage';
 import LogInPage from './components/LogInPage';
@@ -8,20 +7,15 @@ import ContactPage from './components/ContactPage';
 import CatalogPage from './components/CatalogPage';
 import LogInForm from './components/LogInForm';
 
-interface AppRoute {
-  index?: boolean;
-  path?: string;
-  element: ReactElement;
-}
 
-const AppRoutes: AppRoute[] = [
+const UnknownUserRoutes = (tokenSetter: React.Dispatch<React.SetStateAction<string | null>>) => [
   {
     index: true,
     element: <Home />
   },
   {
     path: '/log-in',
-    element: <LogInPage />
+    element: <LogInPage tokenSetter={tokenSetter} />
   },
   {
     path: '/about-us',
@@ -37,9 +31,9 @@ const AppRoutes: AppRoute[] = [
   },
   {
     path: '/movies',
-    element: <CatalogPage modalContent={LogInForm} />
+    element: <CatalogPage modalContent={LogInForm} tokenSetter={tokenSetter} />
   }
   
 ];
 
-export default AppRoutes;
+export default UnknownUserRoutes;

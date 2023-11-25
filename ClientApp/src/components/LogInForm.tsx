@@ -2,12 +2,16 @@ import React, { FormEvent, useState } from "react";
 import UsernameInput from "./UsernameInput";
 import PasswordInput from "./PasswordInput";
 import { ToastContainer, toast } from "react-toastify";
-import { NavLink } from "react-router-dom";
-import Post from "./ProcessPost";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./SignUpForm.css";
 import { scrollToTop } from "./scrollToTop";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { UserPayload } from "../types/types";
 
-function LogInForm({endpoint}: {endpoint: string}) {
+function LogInForm({tokenSetter: setToken}: {tokenSetter: React.Dispatch<React.SetStateAction<string | null>>}) {
+  const navigate = useNavigate();
+  
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,7 +20,7 @@ function LogInForm({endpoint}: {endpoint: string}) {
 
   const handleUsernameInputChange = (e: React.ChangeEvent) => {
     const newUsername = (e.target as HTMLInputElement).value;
-
+    
     // Control invalid feedback
     if (newUsername.length === 0) {
       setUsernameInvalidFeedback("Campo obligatorio");
@@ -51,7 +55,43 @@ function LogInForm({endpoint}: {endpoint: string}) {
       Password: password,
     };
 
-    Post(formData, endpoint);
+    try {
+      const endpoint = '/api/authentication';
+
+      const response = await axios.post(endpoint, formData);
+      if(response){
+        console.log('Solicitud exitosa! (200)');
+        toast.success("Solicitud exitosa!, redireccionando...", {
+          position: "bottom-right",
+          autoClose: 2000,
+        });
+        
+        const token = response.data.token;
+        localStorage.setItem('sessionToken', token);
+
+        if (token) {
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } else {
+          // Si no hay token, elimina el encabezado de autorización
+          delete axios.defaults.headers.common['Authorization'];
+        }
+        
+        console.log('Token JWT:', token);
+
+        const decodedToken = jwtDecode<UserPayload>(token);
+        const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+        console.log('Rol del usuario:', role);
+
+        
+        setTimeout(() => {
+          setToken(token);
+          navigate('/');
+        }, 3000);
+
+      }
+    } catch (error) {
+      
+    }
   };
 
   return (

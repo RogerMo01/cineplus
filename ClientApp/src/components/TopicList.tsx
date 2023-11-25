@@ -9,6 +9,7 @@ interface Props {
   movies: Movie[];
   scheduleEndpoint: string;
   modalContent?: React.ComponentType<any>;
+  tokenSetter?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const TopicList = (props: Props) => {
@@ -16,10 +17,9 @@ const TopicList = (props: Props) => {
     <div>
       <ul className="ul-group">
         {props.movies.map(m => (
-          <MovieCard key={m.id} movie={m} route={`${m.id}.jpg`} redirect='/log-in' scheduleEndpoint={props.scheduleEndpoint} modalContent={props.modalContent} />
+          <MovieCard key={m.id} movie={m} route={`${m.id}.jpg`} redirect='/log-in' scheduleEndpoint={props.scheduleEndpoint} modalContent={props.modalContent} tokenSetter={props.tokenSetter} />
         ))}
       </ul>
-
     </div>
   );
 };

@@ -1,36 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import AppRoutes from "./AppRoutes";
+import UnknownUserRoutes from "./UnknownUserRoutes";
 import ManagerRoutes from "./ManagerRoutes";
 import { Layout } from "./components/Layout";
 import ManagerNavLinks from "./ManagerNavLinks";
 import UnknownNavLinks from "./UnknownNavLinks";
-import { UserData } from "./types/types";
+import { UserData, UserPayload } from "./types/types";
 import TicketsellerNavList from "./TicketsellerNavList";
 import TicketsellerRoutes from "./TicketsellerRoutes";
 import ClientNavLinks from "./ClientNavLinks";
 import ClientRoutes from "./ClientRoutes";
 import Footer from "./components/Footer";
+import { jwtDecode } from "jwt-decode";
 
 
 function Switch() {
 
+  const [token, setToken] = useState(localStorage.getItem('sessionToken'));
+  const [role, setRole] = useState('unknown');
+  const [nick, setNick] = useState('unknown');
 
-  // 🚨🚨🚨🚨🚨 Logic of token authorization 🚨🚨🚨🚨🚨
-  var role = "admin";
 
+  useEffect(() => {
+    if(token){
+      const decodedToken = jwtDecode<UserPayload>(token);
+      const newRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      const newNick = decodedToken['Nick'];
 
-  // 🛑🛑🛑 GET request of manager info 🛑🛑🛑
-  const managerData: UserData = {
-    nick: 'Administrator'
-  }
+      setRole(newRole);
+      setNick(newNick);
+    }
+    else{
+      setRole('unknown');
+      setNick('unknown');
+    }
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token])
+  
 
-  const ticketsellerData: UserData = {
-    nick: 'Taquillero 1'
-  }
-
-  const clientData: UserData = {
-    nick: 'John Doe'
+  const userData: UserData = {
+    nick: nick
   }
 
 
@@ -39,7 +49,7 @@ function Switch() {
       {role === "unknown" && (
         <Layout navLinks={UnknownNavLinks}>
           <Routes>
-            {AppRoutes.map((route, index) => {
+            {UnknownUserRoutes(setToken).map((route, index) => {
               const { element, ...rest } = route;
               return <Route key={index} {...rest} element={element} />;
             })}
@@ -48,7 +58,7 @@ function Switch() {
         </Layout>
       )}
       {role === "admin" && (
-        <Layout navLinks={ManagerNavLinks} userData={managerData}>
+        <Layout navLinks={ManagerNavLinks} userData={userData} tokenSetter={setToken}>
           <Routes>
             {ManagerRoutes.map((route, index) => {
               const { element, ...rest } = route;
@@ -58,7 +68,7 @@ function Switch() {
         </Layout>
       )}
       {role === "seller" && (
-        <Layout navLinks={TicketsellerNavList} userData={ticketsellerData}>
+        <Layout navLinks={TicketsellerNavList} userData={userData} tokenSetter={setToken}>
           <Routes>
             {TicketsellerRoutes.map((route, index) => {
               const { element, ...rest } = route;
@@ -68,9 +78,9 @@ function Switch() {
         </Layout>
       )}
       {role === "client" && (
-        <Layout navLinks={ClientNavLinks} userData={clientData}>
+        <Layout navLinks={ClientNavLinks} userData={userData} tokenSetter={setToken}>
           <Routes>
-            {ClientRoutes.map((route, index) => {
+            {ClientRoutes().map((route, index) => {
               const { element, ...rest } = route;
               return <Route key={index} {...rest} element={element} />;
             })}

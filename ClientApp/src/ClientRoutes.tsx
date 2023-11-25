@@ -1,18 +1,18 @@
 import React from 'react';
-import { ReactElement } from 'react'; // Importa ReactElement para las anotaciones de tipo
 import ClientPage from './components/ClientPage';
+import { AppRoute } from './types/types';
+import ShoppingHistory from './components/ShoppingHistory';
 
-interface AppRoute {
-  index?: boolean;
-  path?: string;
-  element: ReactElement;
-}
 
-const ClientRoutes: AppRoute[] = [
+const ClientRoutes = () : AppRoute[] => [
   {
     index: true,
     element: <ClientPage />
   },
+  {
+    path: '/shopping-history',
+    element: <ShoppingHistory />
+  }
 ];
 
 export default ClientRoutes;
