@@ -14,11 +14,11 @@ public class StatisticController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetPopularMovies([FromBody] FromInput input)
+    public async Task<IActionResult> GetPopularMovies([FromQuery] string actor, [FromQuery] string genres, [FromQuery] DateTime? begin, [FromQuery] DateTime? end)
     {
-        bool actor_bool = input.actor != null;
-        bool genres_bool = input.genres != null;
-        bool date_bool = input.begin != null && input.end != null;
+        bool actor_bool = actor != null;
+        bool genres_bool = genres != null;
+        bool date_bool = begin != null && end != null;
         if (!actor_bool && !genres_bool && !date_bool)
         {
             List<Movie> popular_movies = _popular.GetMostPopularMovies();
@@ -34,7 +34,13 @@ public class StatisticController : Controller
         else
         {
             //🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨 Puede explotar
-            List<Movie> statistic = _popular.GetMovieByFilter(input);
+            FromInput filter= new FromInput();
+            filter.actor = actor;
+            filter.genres = genres;
+            filter.begin = begin;
+            filter.end = end;
+
+            List<Movie> statistic = _popular.GetMovieByFilter(filter);
             return Ok(statistic);
         }
     }

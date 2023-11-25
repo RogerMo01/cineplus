@@ -8,9 +8,10 @@ interface Props {
     moviesEndpoint: string;
     actorsEndpoint: string;
     genresEndpoint: string;
+    statsEndpoint: string;
 }
 
-function StatsManager({moviesEndpoint, actorsEndpoint, genresEndpoint}: Props) {
+function StatsManager({moviesEndpoint, actorsEndpoint, genresEndpoint, statsEndpoint}: Props) {
     const [movies, setMovies] = useState<Movie[]>([]);
     const [actors, setActors] = useState<SingleTextModal[]>([]);
     const [genres, setGenres] = useState<SingleTextModal[]>([]);
@@ -27,14 +28,15 @@ function StatsManager({moviesEndpoint, actorsEndpoint, genresEndpoint}: Props) {
             <h2 className="header">Películas Taquilleras</h2>
             <div className="toolButtons">
                 <MovieFilterForm
+                    setMovies={setMovies}
                     actorsList={actors}
                     genresList={genres}
-                    yearPh={new Date().getFullYear()}
                     buttonConfig={{
                         className: "align-right",
                         color: "primary",
                         content: <>Filtro</>,
                     }}
+                    statsEndpoint={statsEndpoint}
                 />
             </div>
             <div className="table-container">

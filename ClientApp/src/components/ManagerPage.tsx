@@ -37,6 +37,7 @@ function ManagerPage({pathHead}: Props) {
   const scheduleEndpoint = '/api/movieprogramming';
   const discountsEndpoint = '/api/discount';
   const actorsEndpoint = '/api/actor';
+  const statsEndpoint = './api/statistic';
   const genresEndpoint = '/api/genre';
   const criteriaEndpoint = '/api/criterion/all';
   const activecriteriaEndpoint = '/api/activecriterion';
@@ -312,7 +313,7 @@ function ManagerPage({pathHead}: Props) {
         <SidebarMenu items={items} />
       </div>
       <Routes>
-        <Route path="/" element={<StatsManager moviesEndpoint={moviesEndpoint} actorsEndpoint={actorsEndpoint} genresEndpoint={genresEndpoint}/>}/>
+        <Route path="/" element={<StatsManager moviesEndpoint={moviesEndpoint} actorsEndpoint={actorsEndpoint} genresEndpoint={genresEndpoint} statsEndpoint={statsEndpoint}/>}/>
         <Route path="/movies" element={<MovieManager name="Películas" moviesEndpoint={moviesEndpoint} actorsEndpoint={actorsEndpoint} genresEndpoint={genresEndpoint} path={home + moviesEndpoint} />} />
         <Route path="/schedule" element={<ScheduleManager name="Programaciones" scheduleEndpoint={scheduleEndpoint} moviesEndpoint={moviesEndpoint} roomsEndpoint={roomsEndpoint} path={home + scheduleEndpoint}/>}/>
         <Route path="/rooms" element={<RoomManager name="Salas" endpoint={roomsEndpoint} path={home + roomsEndpoint} />}/>
