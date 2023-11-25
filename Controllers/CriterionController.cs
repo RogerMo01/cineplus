@@ -2,6 +2,7 @@ using cineplus.CRDController;
 using Microsoft.AspNetCore.Mvc.Routing;
 using cineplus.MovieController;
 using System.Data.Entity.Core.Common.CommandTrees;
+using cineplus.Controllers;
 
 namespace cineplus.CriterionController;
 
@@ -10,9 +11,11 @@ namespace cineplus.CriterionController;
 public class CriterionController : CRDController<Criterion>
 {
     private readonly DataContext _context;
+    private readonly IMostPopular _popular;
     public CriterionController(DataContext context) : base(context)
     {
         _context = context;
+        _popular = new MostPopular(_context);
     }
 
     [HttpGet]
@@ -35,7 +38,6 @@ public class CriterionController : CRDController<Criterion>
     {
         var allmovies = _context.Movies.ToList();
         var random_movies = allmovies.OrderBy(m => Guid.NewGuid()).ToList();
-
         List<MovieGet> movies = CreateMovieGet(random_movies);
 
         if (movies.Count <= 20) { return Ok(movies); }
@@ -163,7 +165,7 @@ public class CriterionController : CRDController<Criterion>
         var movies = _context.Movies
                       .Where(m => movie_programmingIds.Contains(m.MovieId))
                       .ToList();
-        
+
         List<MovieGet> recently_programming = CreateMovieGet(movies);
 
         if (recently_programming.Count() <= 20) { return Ok(recently_programming); }
@@ -179,29 +181,10 @@ public class CriterionController : CRDController<Criterion>
     [Route("mostpopular")]
     public async Task<IActionResult> GetMostPopularMovies()
     {
-        var popular_movies = from item in _context.Tickets
-                             group item by item.MovieId into group_movie
-                             orderby group_movie.Count() descending
-                             select new Dto
-                             {
-                                 id = group_movie.Key
-                             };
-
-        List<int> ids = new List<int>();
-        foreach (var item in popular_movies)
-        {
-            ids.Add(item.id);
-        }
-
         List<MovieGet> result = new List<MovieGet>();
+        List<Movie> movies = _popular.GetMostPopularMovies();
 
-        var getMovies = from item in _context.Movies
-                        where ids.Contains(item.MovieId)
-                        select item;
-
-        List<Movie> movies = getMovies.ToList();
-
-        if (popular_movies.Count() <= 20)
+        if (movies.Count() <= 20)
         {
             result = CreateMovieGet(movies);
             return Ok(result);

@@ -22,6 +22,7 @@ const context = [
   '/api/criterion/all',
   '/api/activecriterion',
   '/api/availableprogramming',
+  "/api/statistic",
   // '/api/criterion/recentlyadded',
   // '/api/criterion/thisyear',
   // '/api/criterion/recentlyprogramming',
