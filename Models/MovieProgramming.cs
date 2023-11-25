@@ -36,12 +36,3 @@ public class ProgrammingData
     public double Price { get; set; }
     public int Points { get; set; }
 }
-
-public class MovieProgrammingData {
-    public string Id { get; set; } = "";
-    public int Movie { get; set; }
-    public string Room { get; set; }
-    public DateTime Date { get; set; }
-    public double Price { get; set; }
-    public int Points { get; set; }
-}
