@@ -34,13 +34,13 @@ public class StatisticController : Controller
         else
         {
             //🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨 Puede explotar
-            FromInput filter= new FromInput();
+            FromInput filter = new FromInput();
             filter.actor = actor;
             filter.genres = genres;
             filter.begin = begin;
             filter.end = end;
 
-            List<Movie> statistic = _popular.GetMovieByFilter(filter);
+            List<Movie> statistic = _popular.GetMovieByFilter(filter, actor_bool, genres_bool, date_bool);
             return Ok(statistic);
         }
     }
