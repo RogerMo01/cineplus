@@ -12,6 +12,7 @@ import ClientNavLinks from "./ClientNavLinks";
 import ClientRoutes from "./ClientRoutes";
 import Footer from "./components/Footer";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 
 function Switch() {
@@ -23,6 +24,8 @@ function Switch() {
 
   useEffect(() => {
     if(token){
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      
       const decodedToken = jwtDecode<UserPayload>(token);
       const newRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
       const newNick = decodedToken['Nick'];

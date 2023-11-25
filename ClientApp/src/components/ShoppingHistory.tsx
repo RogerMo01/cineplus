@@ -126,7 +126,7 @@ function ShoppingHistory() {
             </tr>
           </thead>
           <tbody className="border">
-            {shopList.sort((a, b) => b.datePurchase.getTime() - a.datePurchase.getTime()).map((item) => (
+            {shopList.map((item) => (
               <tr key={item.id}>
                 <td>{item.movie}</td>
                 <td>{parseDate(item.date.toString())}</td>

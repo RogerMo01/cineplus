@@ -237,6 +237,7 @@ namespace CineplusDB.Models
             string salt1 = BCryptNet.GenerateSalt();
             string salt2 = BCryptNet.GenerateSalt();
             string salt3 = BCryptNet.GenerateSalt();
+            string salt4 = BCryptNet.GenerateSalt();
 
             modelBuilder.Entity<User>().HasData(
 
@@ -261,6 +262,13 @@ namespace CineplusDB.Models
                     Nick = "mario_taquilleroCinemas",
                     Password = BCryptNet.HashPassword("scretpass3", salt3),
                     Salt = salt3
+                },
+                new User
+                {
+                    UserId = 4,
+                    Nick = "gerenteCine+",
+                    Password = BCryptNet.HashPassword("secretpass4", salt4),
+                    Salt = salt4
                 }
             );
 
@@ -288,6 +296,14 @@ namespace CineplusDB.Models
                 {
                     TicketSellerId = 1,
                     UserId = 3
+                }
+            );
+
+            modelBuilder.Entity<Manager>().HasData(
+                new Manager
+                {
+                    ManagerId = 1,
+                    UserId = 4
                 }
             );
         }

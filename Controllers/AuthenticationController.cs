@@ -42,13 +42,13 @@ public class Authentication : ControllerBase
             }
             else if(_context.Managers.Any(m => m.UserId == user.UserId)){
 
-                role = "manager";
+                role = "admin";
             }
             else if (_context.Sellers.Any(s => s.UserId == user.UserId)){
 
                 role = "seller";
             }
-            else{ role = "admin"; }
+            else{ role = "unknown"; }
 
             // Generar un token JWT
             string token = GenerateJwtToken(user, role, user.Nick);

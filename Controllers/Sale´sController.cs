@@ -1,10 +1,3 @@
-
-using Microsoft.AspNetCore.Authorization;
-using Renci.SshNet.Messages;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-
 namespace cineplus.SalesControler;
 
 [Route("api/sales")]
@@ -12,16 +5,21 @@ namespace cineplus.SalesControler;
 public class SalesController : Controller
 {
     private readonly DataContext _context;
+    private readonly UtilityClass _utility;
     public SalesController(DataContext context)
     {
         _context = context;
+        _utility = new UtilityClass(_context);
     }
 
     //[Authorize(Roles ="client")]
     [HttpPost]
     public async Task<IActionResult> Buy_without_selection([FromBody] Ticket_Without_Selection input)
     {
-        (string, string) Jwt_data = GetDataJWT();
+        
+        DateTime now_date = DateTime.Now;
+        
+        (string, string) Jwt_data = _utility.GetDataJWT(HttpContext.Request);
         int user_id = int.Parse(Jwt_data.Item1);
         if (input == null)
         {
@@ -68,13 +66,15 @@ public class SalesController : Controller
             OnlineSales ticket_client = new OnlineSales
             {
                 ClientId = client.ClientId,
-                DateTimeId = reserve.DateTimeId,
-                MovieId = reserve.MovieId,
                 RoomId = reserve.RoomId,
+                MovieId = reserve.MovieId,
+                DateTimeId = reserve.DateTimeId,
                 SeatId = reserve.SeatId,
                 DiscountId = discount.DiscountId,
+                DateOfPurchase = now_date,
+                Transfer = true,
                 FinalPrice = reserve.Price - (discount.Percent) * reserve.Price,
-                Transfer = true
+                SaleIdentifier = Guid.NewGuid()
             };
             _context.OnlineSales.Add(ticket_client);
 
@@ -108,18 +108,5 @@ public class SalesController : Controller
             Console.WriteLine(ex);
         }
         return Ok(new { Message = "Compra realizada correctamente" });
-    }
-    public (string, string) GetDataJWT()
-    {
-        var identity = HttpContext.User.Identity as ClaimsIdentity;
-        if (identity != null)
-        {
-            var userClaims = identity.Claims;
-            string id = userClaims.FirstOrDefault(n => n.Type == ClaimTypes.NameIdentifier)?.Value;
-            string role = userClaims.FirstOrDefault(n => n.Type == ClaimTypes.Role)?.Value;
-            var turn_up = (id, role);
-            return turn_up;
-        }
-        return (null, null);
     }
 }
