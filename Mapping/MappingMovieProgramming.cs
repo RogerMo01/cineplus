@@ -20,6 +20,15 @@ public class MappingMovieProgramming : Profile
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
             .ForMember(dest => dest.Points, opt => opt.MapFrom(src => src.PricePoints));
         
+        CreateMap<MovieProgramming, Ticket>()
+            .ForMember(dest => dest. MovieId, opt => opt.MapFrom(src => src.MovieId))
+            .ForMember(dest => dest. RoomId, opt => opt.MapFrom(src => src.RoomId))
+            .ForMember(dest => dest. DateTimeId, opt => opt.MapFrom(src => src.DateTimeId))
+            .ForMember(dest => dest. SeatId, opt => opt.Ignore())
+            .ForMember(dest => dest. Price, opt => opt.MapFrom(src => src.Price))
+            .ForMember(dest => dest. PricePoints, opt => opt.MapFrom(src => src.PricePoints))
+            .ForMember(dest => dest. Code, opt => opt.Ignore());
+
 
     }
 

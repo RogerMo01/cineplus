@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Configuracion de la autenticacion basada en JWT
-var _authkey = builder.Configuration.GetValue<string>("JwtSettings:securitykey");
+var _authkey = builder.Configuration.GetValue<string>("JwtSettings:securitykey")!;
 builder.Services.AddAuthentication(item =>
 {
     item.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

@@ -12,8 +12,8 @@ public class UtilityClass
         if (identity != null)
         {
             var userClaims = identity.Claims;
-            string id = userClaims.FirstOrDefault(n => n.Type == ClaimTypes.NameIdentifier)?.Value;
-            string role = userClaims.FirstOrDefault(n => n.Type == ClaimTypes.Role)?.Value;
+            string id = userClaims.FirstOrDefault(n => n.Type == ClaimTypes.NameIdentifier)!.Value;
+            string role = userClaims.FirstOrDefault(n => n.Type == ClaimTypes.Role)!.Value;
             var turn_up = (id, role);
             return turn_up;
         }
