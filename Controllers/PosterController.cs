@@ -26,7 +26,7 @@ public class PosterController : ControllerBase
             if (poster != null && poster.Length > 0)
             {
                 // Procesar la imagen, por ejemplo, guardarla en el servidor
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "ClientApp", "public");
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "ClientApp", "public", "posters");
 
                 var filePath = Path.Combine(uploadsFolder, name.ToString() + ".jpg");
                 using (var stream = new FileStream(filePath, FileMode.Create))
@@ -55,9 +55,10 @@ public class PosterController : ControllerBase
         {
             var poster = HttpContext.Request.Form.Files["file"];
             var name = HttpContext.Request.Form["name"].ToString();
+            var old = HttpContext.Request.Form["old"].ToString();
             var id = int.Parse(HttpContext.Request.Form["id"].ToString());
 
-            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "ClientApp", "public");
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "ClientApp", "public", "posters");
 
             if (poster != null && poster.Length > 0)
             {
@@ -87,11 +88,6 @@ public class PosterController : ControllerBase
             }
             else
             {
-                // No hay poster, puede haber pelicula
-                // buscar numbre de pelicula con el id = id
-                var old = _context.Movies.FirstOrDefault(m => m.MovieId == id).Title;
-
-
                 // Construir la ruta del archivo original
                 var oldFilePath = Path.Combine(uploadsFolder, old + ".jpg");
 
@@ -99,6 +95,7 @@ public class PosterController : ControllerBase
                 if (System.IO.File.Exists(oldFilePath))
                 {
                     // Construir la ruta del nuevo archivo
+                    // var newFilePath = Path.Combine(uploadsFolder, Uri.EscapeDataString(name) + ".jpg");
                     var newFilePath = Path.Combine(uploadsFolder, name + ".jpg");
 
                     // Renombrar el archivo
