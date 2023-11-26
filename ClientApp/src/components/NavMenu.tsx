@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, PopoverBody, PopoverHeader, UncontrolledPopover } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import './NavMenu.css';

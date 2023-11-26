@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./SignUpForm.css";
 import { scrollToTop } from "./scrollToTop";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
 import { UserPayload } from "../types/types";
 
@@ -90,7 +90,25 @@ function LogInForm({tokenSetter: setToken}: {tokenSetter: React.Dispatch<React.S
 
       }
     } catch (error) {
-      
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError<any>;
+  
+        if (axiosError.response) {
+          const status = axiosError.response.status;
+          const message = axiosError.response.data.message;
+  
+          if (message) {
+            console.log("Error " + status);
+            toast.error(message, { position: "bottom-right", autoClose: 3000 });
+          }
+        }
+      } else {
+        console.error(`Error en la solicitud (${error})`);
+        toast.error(`Error en la solicitud (${error})`, {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+      }
     }
   };
 

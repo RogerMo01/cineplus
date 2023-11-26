@@ -1,11 +1,12 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import "./SellTicketSeller.css";
 import Form from "react-bootstrap/Form";
-import { Discount, Schedule, Seat } from "../types/types";
+import { Discount, Schedule, Seat, UserPayload } from "../types/types";
 import fetch from "./Fetch";
 import parseDate from "./DateParser";
 import Post from "./ProcessPost";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 
 interface Props {
   scheduleEndpoint: string;
@@ -92,7 +93,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   }
   
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
     const request = {
       MovieProgId: selectedSchedule,
@@ -100,7 +101,23 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
       Discount: selectedDiscount
     }
 
-    Post(request, buyEndpoint, seatEndpoint + `/${selectedSchedule}`, setSeats);
+    const response = Post(request, buyEndpoint, seatEndpoint + `/${selectedSchedule}`, setSeats);
+    if(await response){
+
+      const token = localStorage.getItem('sessionToken');
+      if(token){
+        const decodedToken = jwtDecode<UserPayload>(token);
+        const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+
+        if(role === 'client'){
+          toast.info("Comprobante disponible en la página de compras", {
+            position: "bottom-right",
+            autoClose: 5000,
+          });
+        }
+      }
+
+    }
   }
 
 

@@ -116,3 +116,13 @@ export interface ShopItem {
   seat: string,
   payed: number
 }
+
+export interface Ticket {
+  id: string;
+  movie: string;
+  room: string;
+  date: Date;
+  datePurchase: Date;
+  seat: string;
+  payed: number;
+}
