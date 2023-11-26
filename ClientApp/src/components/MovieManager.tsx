@@ -59,7 +59,7 @@ function MovieManager({ name, moviesEndpoint, actorsEndpoint, genresEndpoint, po
   };
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
-  async function handleEditMovie(id: number, title: string, year: number, country: string, director: string, actors: SingleTextModal[], genres: SingleTextModal[], duration: number, poster: File | null) {
+  async function handleEditMovie(id: number, title: string, year: number, country: string, director: string, actors: SingleTextModal[], genres: SingleTextModal[], duration: number, poster: File | null, oldName: string) {
     const request = {
       Title: title,
       Year: year,
@@ -69,10 +69,11 @@ function MovieManager({ name, moviesEndpoint, actorsEndpoint, genresEndpoint, po
       Genres: genres.map(g => g.id),
       Duration: duration,
     };
+    
 
     const response = await Put(id, request, path, moviesEndpoint, setMovies)
     if(response){
-      putPoster(posterEndpoint, poster, title, id);
+      putPoster(posterEndpoint, poster, title, oldName, id);
     }
   }
 

@@ -20,7 +20,8 @@ interface Props {
     actors: SingleTextModal[],
     genres: SingleTextModal[],
     duration: number,
-    poster: File | null
+    poster: File | null,
+    oldName: string
   ) => void;
   titlePh: string;
   yearPh: number;
@@ -272,7 +273,8 @@ function MovieModalForm(props: Props) {
                   selectedActors,
                   selectedGenres,
                   duration,
-                  poster
+                  poster,
+                  props.titlePh
                 );
                 toggle();
               }

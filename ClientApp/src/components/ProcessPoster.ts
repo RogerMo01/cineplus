@@ -27,12 +27,14 @@ export const putPoster = async (
   endpoint: string,
   poster: File | null,
   name: string,
+  oldName: string,
   id: number
 ) => {
 
   const formData = new FormData();
   formData.append("id", id.toString());
   formData.append("name", name);
+  formData.append("old", oldName);
 
   if (poster) {
     formData.append("file", poster);
