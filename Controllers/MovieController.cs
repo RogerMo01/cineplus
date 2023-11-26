@@ -18,13 +18,14 @@ public class MovieController : CRDController<Movie>
     [HttpGet]
     public async Task<IActionResult> GetMovies()
     {
+        var getMovies = _context.Movies
+            .Include(p => p.ActorsByFilms)
+                .ThenInclude(a => a.Actor)
+            .Include(p => p.GenresByFilms)  
+                .ThenInclude(g => g.Genre)
+            .ToList();
 
-        var getMovies = await base.GetAll()
-            .ProjectTo<MovieGet>(_mapper.ConfigurationProvider)
-            .ToListAsync();
-
-        UtilityClass utilityClass = new UtilityClass(_context);
-        List<MovieGet> movies = utilityClass.MovieData(getMovies);
+        List<MovieGet> movies = _mapper.Map<List<MovieGet>>(getMovies);
 
         return Ok(movies);
     }

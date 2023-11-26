@@ -9,7 +9,7 @@ public class SalesController : Controller
     public SalesController(DataContext context)
     {
         _context = context;
-        _utility = new UtilityClass(_context);
+        _utility = new UtilityClass();
     }
 
     //[Authorize(Roles ="client")]
