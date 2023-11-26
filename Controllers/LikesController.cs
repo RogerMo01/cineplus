@@ -12,6 +12,18 @@ public class LikesController : ControllerBase
         _utility = new UtilityClass();
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> ClientLiked(int id)
+    {
+        (string, string) Jwt_data = _utility.GetDataJWT(HttpContext.Request);
+        int userId = int.Parse(Jwt_data.Item1);
+        int clientId = _context.Clients.FirstOrDefault(x => x.UserId == userId)!.ClientId;
+
+        bool active = _context.Likes.Any(x => (x.ClientId == clientId && x.MovieId == id));
+
+        return Ok(active);
+    }
+
     [HttpPut("{id}")]
     public async Task<IActionResult> ActivateOrDeactivateLike(int id)
     {
@@ -20,21 +32,16 @@ public class LikesController : ControllerBase
         int clientId = _context.Clients.FirstOrDefault(x => x.UserId == userId)!.ClientId;
 
         var item = _context.Likes.Find(clientId, id);
-        bool IsLike = false;
 
-        if(item == null)
+        if (item == null)
         {
-            Likes like = new Likes { ClientId = clientId, MovieId = id};
+            Likes like = new Likes { ClientId = clientId, MovieId = id };
             _context.Likes.Add(like);
-            _context.SaveChanges();
-            IsLike = true;
-            return Ok(IsLike);
         }
-        else {
+        else { _context.Likes.Remove(item); }
 
-            _context.Likes.Remove(item);
-            _context.SaveChanges();
-            return Ok(IsLike); 
-        }
+        _context.SaveChanges();
+
+        return Ok();
     }
 }
