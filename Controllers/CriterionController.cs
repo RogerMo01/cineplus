@@ -31,16 +31,16 @@ public class CriterionController : ControllerBase
     [Route("random")]
     public async Task<IActionResult> GetRandomMovies()
     {
-        var allmovies = _context.Movies.ToList();
+        var allmovies = _context.Movies
+            .Include(p => p.ActorsByFilms)
+                .ThenInclude(a => a.Actor)
+            .Include(p => p.GenresByFilms)  
+                .ThenInclude(g => g.Genre)
+            .ToList();
 
         var random_movies = allmovies.OrderBy(m => Guid.NewGuid()).ToList();
 
-        List<MovieGet> movies = new List<MovieGet>();
-
-        _mapper.Map(random_movies, movies);
-
-        UtilityClass utilityClass = new UtilityClass(_context);
-        movies = utilityClass.MovieData(movies);
+        List<MovieGet> movies = _mapper.Map<List<MovieGet>>(random_movies);
 
         if (movies.Count <= 20) { return Ok(movies); }
         else
@@ -55,15 +55,16 @@ public class CriterionController : ControllerBase
     [Route("recentlyadded")]
     public async Task<IActionResult> GetRecentlyAddedMovies()
     {
-        var recently_added_movies = from item in _context.Movies.ToList()
+        var recently_added_movies = (from item in _context.Movies
                                     orderby item.MovieId descending
-                                    select item;
+                                    select item)
+                                    .Include(p => p.ActorsByFilms)
+                                        .ThenInclude(a => a.Actor)
+                                    .Include(p => p.GenresByFilms)
+                                        .ThenInclude(g => g.Genre)
+                                    .ToList();
 
-        List<MovieGet> moviesGet = new List<MovieGet>();
-        _mapper.Map(recently_added_movies, moviesGet);
-
-        UtilityClass utilityClass = new UtilityClass(_context);
-        moviesGet = utilityClass.MovieData(moviesGet);
+        List<MovieGet> moviesGet = _mapper.Map<List<MovieGet>>(recently_added_movies);
 
         if (moviesGet.Count <= 20) { return Ok(moviesGet); }
         else
@@ -79,15 +80,16 @@ public class CriterionController : ControllerBase
     public async Task<IActionResult> GetThisYearMovies()
     {
         DateTime date = DateTime.Now;
-        var movies = _context.Movies.Where(m => m.Year == date.Year).ToList();
 
-        List<MovieGet> this_year_movies = new List<MovieGet>();
+        var movies = _context.Movies
+            .Where(m => m.Year == date.Year)
+            .Include(p => p.ActorsByFilms)
+                .ThenInclude(a => a.Actor)
+            .Include(p => p.GenresByFilms)
+                .ThenInclude(g => g.Genre)
+            .ToList();
 
-        _mapper.Map(movies, this_year_movies);
-
-        UtilityClass utilityClass = new UtilityClass(_context);
-        this_year_movies = utilityClass.MovieData(this_year_movies);
-
+        List<MovieGet> this_year_movies = _mapper.Map<List<MovieGet>>(movies);
 
         if (this_year_movies.Count <= 20) { return Ok(this_year_movies); }
         else
@@ -106,23 +108,22 @@ public class CriterionController : ControllerBase
         DateTime next_date = now_date.AddDays(7);
 
         var movie_programmingIds = _context.ScheduledMovies
-                .Where(m => m.DateTimeId >= now_date && m.DateTimeId <= next_date)
-                .Select(m => m.MovieId)
-                .Distinct()
-                .ToList();
+            .Where(m => m.DateTimeId >= now_date && m.DateTimeId <= next_date)
+            .Select(m => m.MovieId)
+            .Distinct()
+            .ToList();
 
         var movies = _context.Movies
-                      .Where(m => movie_programmingIds.Contains(m.MovieId))
-                      .ToList();
+            .Where(m => movie_programmingIds.Contains(m.MovieId))
+            .Include(p => p.ActorsByFilms)
+                .ThenInclude(a => a.Actor)
+            .Include(p => p.GenresByFilms)
+                .ThenInclude(g => g.Genre)
+            .ToList();
+                
         
-        List<MovieGet> recently_programming = new List<MovieGet>();
+        List<MovieGet> recently_programming = _mapper.Map<List<MovieGet>>(movies);
 
-        _mapper.Map(movies, recently_programming);
-
-        UtilityClass utilityClass = new UtilityClass(_context);
-        recently_programming = utilityClass.MovieData(recently_programming);
-
-        
         if (recently_programming.Count() <= 20) { return Ok(recently_programming); }
         else
         {
@@ -143,19 +144,17 @@ public class CriterionController : ControllerBase
                            
         List<int> ids = popular_movies.ToList();
 
-        List<MovieGet> result = new List<MovieGet>();
 
-        var getMovies = from item in _context.Movies
+        var getMovies = (from item in _context.Movies
                         where ids.Contains(item.MovieId)
-                        select item;
+                        select item)
+                        .Include(p => p.ActorsByFilms)
+                            .ThenInclude(a => a.Actor)
+                        .Include(p => p.GenresByFilms)
+                            .ThenInclude(g => g.Genre)
+                        .ToList();
 
-        List<Movie> movies = getMovies.ToList();
-
-        _mapper.Map(movies, result);
-
-        UtilityClass utilityClass = new UtilityClass(_context);
-        result = utilityClass.MovieData(result);
-
+        List<MovieGet> result = _mapper.Map<List<MovieGet>>(getMovies);
 
         if (popular_movies.Count() <= 20)
         {
