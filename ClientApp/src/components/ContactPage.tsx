@@ -6,8 +6,6 @@ import { BsFacebook } from "react-icons/bs";
 import { BsSignpostFill } from "react-icons/bs";
 import { BsTelephoneFill } from "react-icons/bs";
 import { BsInstagram } from "react-icons/bs";
-//@ts-ignore
-import imagen from "./estamos_aqui.jpg";
 interface Props {
 
 }
@@ -48,7 +46,7 @@ function ContactPage(params: Props) {
                     <h4 className="text-center" style={{ color: 'rgb(25, 58, 148)'}}>📍 Estamos aquí: </h4>
                     <div className="d-flex justify-content-center">
                         <img
-                            src={imagen}
+                            src='estamos_aqui.jpg'
                             alt="Ubicacion de la compañia"
                             className="img-fluid w-50 mb-5"
                         />

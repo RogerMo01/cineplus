@@ -14,6 +14,7 @@ async function Put(id: any, request: any, path: string, endpoint:string, setter:
       });
     }
     fetch(endpoint, setter);
+    return true;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError<any>;
@@ -34,6 +35,7 @@ async function Put(id: any, request: any, path: string, endpoint:string, setter:
         autoClose: 3000,
       });
     }
+    return false;
   }
 }
 
