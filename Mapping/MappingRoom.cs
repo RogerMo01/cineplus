@@ -3,7 +3,7 @@ public class MappingRoom : Profile
     public MappingRoom()
     {
         CreateMap<RoomDto, Room>()
-            .ForMember(room => room.RoomId, opt => opt.Ignore())  // Ignorar la propiedad RoomId
+            .ForMember(room => room.RoomId, opt => opt.Ignore())  
             .ForMember(room => room.Name, opt => opt.MapFrom(src => src.name))
             .ForMember(room => room.SeatsCount, opt => opt.MapFrom(src => src.seats));
 

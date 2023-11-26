@@ -31,8 +31,8 @@ public class MappingMovie : Profile
             .ForMember(dest => dest.country, opt => opt.MapFrom(src => src.Country))
             .ForMember(dest => dest.director, opt => opt.MapFrom(src => src.Director))
             .ForMember(dest => dest.duration, opt => opt.MapFrom(src => src.Duration))
-            .ForMember(dest => dest.actors, opt => opt.Ignore())
-            .ForMember(dest => dest.genres, opt => opt.Ignore());
+            .ForMember(dest => dest.actors, opt => opt.MapFrom(src => src.ActorsByFilms.Select(a => new ActorDto { id = a.Actor.ActorId, name = a.Actor.Name })))
+            .ForMember(dest => dest.genres, opt => opt.MapFrom(src => src.GenresByFilms.Select(g => new GenreDto { id = g.Genre.GenreId, name = g.Genre.Name })));
             
     }          
 }

@@ -11,7 +11,7 @@ public class ShoppingHistoryController : Controller
     {
         _context = context;
         _mapper = mapper;
-        _utility = new UtilityClass(_context);
+        _utility = new UtilityClass();
     }
 
     [HttpGet]
@@ -19,15 +19,21 @@ public class ShoppingHistoryController : Controller
     {
         (string, string) Jwt_data = _utility.GetDataJWT(HttpContext.Request);
         int userId = int.Parse(Jwt_data.Item1);
-        int clientId = _context.Clients.FirstOrDefault(x => x.UserId == userId).ClientId;
+        int clientId = _context.Clients.FirstOrDefault(x => x.UserId == userId)!.ClientId;
 
         DateTime now = DateTime.Now.AddHours(2);
 
-        var history = _context.OnlineSales.Where(x => x.ClientId == clientId && x.DateTimeId > now).ToList();
+        var history = _context.OnlineSales
+            .Where(x => x.ClientId == clientId && x.DateTimeId > now)
+            .Include(t => t.Ticket)
+                .ThenInclude(mp => mp.MovieProgramming)
+                    .ThenInclude(m => m.Movie)
+            .Include(t => t.Ticket)
+                .ThenInclude(mp => mp.MovieProgramming)
+                    .ThenInclude(r => r.Room)
+            .ToList();
 
         List<CustomerPurchases> result = _mapper.Map<List<CustomerPurchases>>(history);
-
-        result = _utility.GetPurchaseTicketData(result);
 
         return Ok(result);
     }
