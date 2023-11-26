@@ -22,7 +22,6 @@ public class MovieProgrammingController : ControllerBase
              .ProjectTo<ProgrammingData>(_mapper.ConfigurationProvider)
             .ToListAsync();
 
-
         return Ok(programming);
     }
 

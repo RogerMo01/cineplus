@@ -23,6 +23,7 @@ interface Props {
   redirect: string;
   scheduleEndpoint: string;
   modalContent?: React.ComponentType<any>;
+  tokenSetter?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 function MovieCard(props: Props) {
@@ -33,8 +34,8 @@ function MovieCard(props: Props) {
   const [schedule, setSchedule] = useState<MovieSchedule[]>([]);
 
   const toggle = () => setModal(!modal);
-  const toggle2 = () => setScheduledModal(!scheduledModal); 
-  const toggle3 = () => setRedirectModal(!redirectModal); 
+  const toggle2 = () => setScheduledModal(!scheduledModal);
+  const toggle3 = () => setRedirectModal(!redirectModal);
 
   const handleResize = () => {
     if (window.innerWidth < 400) {
@@ -53,12 +54,12 @@ function MovieCard(props: Props) {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     fetch(props.scheduleEndpoint, setSchedule);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scheduledModal, redirectModal]);
 
 
@@ -77,9 +78,9 @@ function MovieCard(props: Props) {
     toggle3();
   }
 
-  const [selectedScheduledMovie, setSelectedScheduledMovie]= useState('');
-  const [selectedScheduledRoom, setSelectedScheduledRoom]= useState('');
-  const [selectedScheduledDate, setSelectedScheduledDate]= useState(new Date());
+  const [selectedScheduledMovie, setSelectedScheduledMovie] = useState('');
+  const [selectedScheduledRoom, setSelectedScheduledRoom] = useState('');
+  const [selectedScheduledDate, setSelectedScheduledDate] = useState(new Date());
 
   return (
     <li className="movie-card d-flex justify-content-center">
@@ -100,15 +101,16 @@ function MovieCard(props: Props) {
       </Card>
 
       <MovieInfoModal showModal={modal} toggle={toggle} layout={layout} movie={props.movie} route={props.route} redirect={props.redirect} handleSeeSchedule={handleSeeSchedule} />
-      
-      <MoviesScheduledList name={props.movie.title} schedule={schedule} /*scheduleEndpoint={props.scheduleEndpoint}*/ showModal={scheduledModal} toggle={toggle2} handleBuy={handleBuy} movieId={props.movie.id} />
+
+      <MoviesScheduledList name={props.movie.title} schedule={schedule} showModal={scheduledModal} toggle={toggle2} handleBuy={handleBuy} movieId={props.movie.id} />
 
       <Modal size="lg" isOpen={redirectModal} toggle={toggle3}>
         <ModalHeader toggle={toggle3}>
         </ModalHeader>
         <ModalBody>
-          {props.modalContent && React.createElement(props.modalContent, 
+          {props.modalContent && React.createElement(props.modalContent,
             {
+              tokenSetter: props.tokenSetter,
               scheduledMovieId: selectedScheduledMovie,
               scheduledMovie: props.movie.title,
               scheduledRoom: selectedScheduledRoom,
@@ -119,7 +121,7 @@ function MovieCard(props: Props) {
           <Button onClick={toggle3}>Cerrar</Button>
         </ModalFooter>
       </Modal>
-      
+
     </li>
   );
 }

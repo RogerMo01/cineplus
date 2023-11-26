@@ -1,13 +1,7 @@
 import React from 'react';
-import { ReactElement } from 'react'; // Importa ReactElement para las anotaciones de tipo
-import { Counter } from './components/Counter';
 import ManagerPage from './components/ManagerPage';
+import { AppRoute } from './types/types';
 
-interface AppRoute {
-  index?: boolean;
-  path?: string;
-  element: ReactElement;
-}
 
 const ManagerRoutes: AppRoute[] = [
   {

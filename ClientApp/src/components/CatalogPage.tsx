@@ -9,9 +9,10 @@ import Spinner from 'react-bootstrap/Spinner';
 
 interface Props {
   modalContent?: React.ComponentType<any>;
+  tokenSetter?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-function CatalogPage({modalContent} : Props) {
+function CatalogPage({modalContent, tokenSetter} : Props) {
   const criteriaEndpoint = '/api/criterion/all';
   const activeCriteriaEndpoint = '/api/activecriterion';
   const scheduleEndpoint = '/api/availableprogramming'
@@ -104,7 +105,7 @@ function CatalogPage({modalContent} : Props) {
         {showedCriteria.map((c) => (
           <Tab key={c.id} eventKey={c.id} title={c.name}>
             <div className="topic-slider">
-              <TopicList topic={c.name} movies={getMovies(c.id)} scheduleEndpoint={scheduleEndpoint} modalContent={modalContent} />
+              <TopicList topic={c.name} movies={getMovies(c.id)} scheduleEndpoint={scheduleEndpoint} modalContent={modalContent} tokenSetter={tokenSetter}/>
             </div>
           </Tab>
         ))}

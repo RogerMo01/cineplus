@@ -12,11 +12,11 @@ async function Post(request: any, path: string, endpoint?:string, setter?: React
         position: "bottom-right",
         autoClose: 3000,
       });
-      return true;
     }
     if(endpoint && setter){
       fetch(endpoint, setter);
     }
+    return true;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError<any>;
@@ -28,6 +28,9 @@ async function Post(request: any, path: string, endpoint?:string, setter?: React
         if (message) {
           console.log("Error " + status);
           toast.error(message, { position: "bottom-right", autoClose: 3000 });
+        }
+        if(endpoint && setter){
+          fetch(endpoint, setter);
         }
       }
     } else {
