@@ -97,7 +97,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
     event.preventDefault();
     const request = {
       MovieProgId: selectedSchedule,
-      Seat: selectedSeat,
+      SeatCode: selectedSeat,
       Discount: selectedDiscount
     }
 
