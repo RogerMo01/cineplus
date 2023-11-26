@@ -19,7 +19,7 @@ public class ShoppingHistoryController : Controller
     {
         (string, string) Jwt_data = _utility.GetDataJWT(HttpContext.Request);
         int userId = int.Parse(Jwt_data.Item1);
-        int clientId = _context.Clients.FirstOrDefault(x => x.UserId == userId).ClientId;
+        int clientId = _context.Clients.FirstOrDefault(x => x.UserId == userId)!.ClientId;
 
         DateTime now = DateTime.Now.AddHours(2);
 

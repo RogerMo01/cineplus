@@ -50,11 +50,11 @@ public class SalesController : Controller
 
         //falta incluir la tarjeta
         var discount = _context.Discounts.Where(d => d.DiscountId == input.Discount).FirstOrDefault();
-        Seat seat_Id = _context.Seats.FirstOrDefault(s => (s.Code == input.SeatCode) && (s.RoomId == programming.RoomId));
+        Seat seat_Id = _context.Seats.FirstOrDefault(s => (s.Code == input.SeatCode) && (s.RoomId == programming.RoomId))!;
 
         //Añadir el ticket reservado a la tabla
         Ticket reserve = new Ticket();
-        
+
         _mapper.Map(programming, reserve);
         reserve.SeatId = seat_Id.SeatId;
         reserve.Code = input.SeatCode;

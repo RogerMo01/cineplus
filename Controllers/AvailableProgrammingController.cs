@@ -26,8 +26,8 @@ public class AvailableProgrammingController : ControllerBase
         
         foreach (var item in programming)
         {
-            int movieId = _context.Movies.FirstOrDefault(m => m.Title == item.Movie).MovieId;
-            Room room = _context.Rooms.FirstOrDefault(r => r.Name == item.Room);
+            int movieId = _context.Movies.FirstOrDefault(m => m.Title == item.Movie)!.MovieId;
+            Room room = _context.Rooms.FirstOrDefault(r => r.Name == item.Room)!;
 
             int ocupated_seat = _context.Tickets
             .Include(t => t.MovieProgramming)
