@@ -76,7 +76,6 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   const handleChangeSelectedSchedule = (e: React.ChangeEvent) => {
     const newValue = (e.target as HTMLInputElement).value;
     setSelectedSchedule(newValue);
-    fetch(seatEndpoint + `/${selectedSchedule}`, setSeats);
   }
 
   const handleChangeSelectedSeat = (e: React.ChangeEvent) => {
