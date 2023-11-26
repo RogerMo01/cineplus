@@ -3,9 +3,11 @@ import SignUpForm from "./SignUpForm";
 import { Container } from "reactstrap";
 
 function SignUpPage() {
+  const endpoint = '/api/registration';
+
   return (
     <Container>
-      <SignUpForm />
+      <SignUpForm endpoint={endpoint} />
     </Container>
   );
 }

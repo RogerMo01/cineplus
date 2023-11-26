@@ -15,7 +15,15 @@ const context = [
   'api/moviesactors',
   '/api/actor',
   '/api/genre',
-  '/api/discount'
+  '/api/discount',
+  '/api/seats',
+  '/api/sales',
+  '/api/criterion',
+  '/api/criterion/all',
+  '/api/activecriterion',
+  '/api/availableprogramming',
+  '/api/shoppinghistory',
+  '/api/receipt'
 ];
 
 const onError = (err, req, resp, target) => {

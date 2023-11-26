@@ -4,7 +4,7 @@
   overflow-x: auto;
   padding-left: 5%;
   padding-right: 5%;
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 50vh);
   height: auto;
   overflow-y: auto;
 }
