@@ -493,8 +493,9 @@ namespace CineplusDB.Models
             var criterion3 = new Criterion { CriterionId = 3, Name = "Programaciones de la semana" };
             var criterion4 = new Criterion { CriterionId = 4, Name = "Añadidas recientemente" };
             var criterion5 = new Criterion { CriterionId = 5, Name = "Estrenadas hace menos de un año" };
+            var criterion6 = new Criterion { CriterionId = 6, Name = "Aclamadas por nuestro público" };
 
-            modelBuilder.Entity<Criterion>().HasData(criterion1, criterion2, criterion3, criterion4, criterion5);
+            modelBuilder.Entity<Criterion>().HasData(criterion1, criterion2, criterion3, criterion4, criterion5, criterion6);
         }
 
         private void SeedDataActiveCriterion(ModelBuilder modelBuilder)
@@ -504,8 +505,9 @@ namespace CineplusDB.Models
             var activecriterion3 = new ActiveCriterion { ActiveCriterionId = 3, CriterionId = 3 };
             var activecriterion4 = new ActiveCriterion { ActiveCriterionId = 4, CriterionId = 4 };
             var activecriterion5 = new ActiveCriterion { ActiveCriterionId = 5, CriterionId = 5 };
+            var activecriterion6 = new ActiveCriterion { ActiveCriterionId = 6, CriterionId = 6 };
 
-            modelBuilder.Entity<ActiveCriterion>().HasData(activecriterion1, activecriterion2, activecriterion3, activecriterion4, activecriterion5);
+            modelBuilder.Entity<ActiveCriterion>().HasData(activecriterion1, activecriterion2, activecriterion3, activecriterion4, activecriterion5, activecriterion6);
         }
     }
 
