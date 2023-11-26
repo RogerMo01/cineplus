@@ -19,7 +19,8 @@ interface Props {
     director: string,
     actors: SingleTextModal[],
     genres: SingleTextModal[],
-    duration: number
+    duration: number,
+    poster: File | null
   ) => void;
   titlePh: string;
   yearPh: number;
@@ -44,6 +45,7 @@ function MovieModalForm(props: Props) {
   const [duration, setDuration] = useState(0);
   const [selectedActors, setSelectedActors] = useState<SingleTextModal[]>([]);
   const [selectedGenres, setSelectedGenres] = useState<SingleTextModal[]>([]);
+  const [poster, setPoster] = useState<File | null>(null);
 
   const toggle = () => {
     resetValues();
@@ -99,6 +101,12 @@ function MovieModalForm(props: Props) {
     setSelectedGenres(selectedList);
   }
 
+  const handlePosterChange = (e: React.ChangeEvent) => {
+    const newPoster = (e.target as HTMLInputElement).files;
+    if(newPoster && newPoster.length > 0){
+      setPoster(newPoster[0]);
+    }
+  };
 
   const validateInput = () => {
     if (
@@ -149,6 +157,11 @@ function MovieModalForm(props: Props) {
               placeholder={props.titlePh}
               defaultValue={props.type === "edit" ? props.titlePh : ""}
             />
+
+            <div className="form-group formgroup">
+              <label>Portada</label>
+              <div><input type="file" onChange={handlePosterChange} accept=".jpg" /></div>
+            </div>
 
             <div className="inline-container">
               <div className="inline-item form-group formgroup">
@@ -258,7 +271,8 @@ function MovieModalForm(props: Props) {
                   director,
                   selectedActors,
                   selectedGenres,
-                  duration
+                  duration,
+                  poster
                 );
                 toggle();
               }
