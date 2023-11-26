@@ -17,6 +17,7 @@ namespace CineplusDB.Models
 
         public ICollection<ActorByFilm> ActorsByFilms { get; set; }
         public ICollection<GenreByFilm> GenresByFilms { get; set; }
+        public ICollection<Likes> Likes { get; set; }
     }
 
     public class MovieInput
