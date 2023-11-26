@@ -11,7 +11,7 @@ public class ShoppingHistoryController : Controller
     {
         _context = context;
         _mapper = mapper;
-        _utility = new UtilityClass(_context);
+        _utility = new UtilityClass();
     }
 
     [HttpGet]
@@ -23,11 +23,17 @@ public class ShoppingHistoryController : Controller
 
         DateTime now = DateTime.Now.AddHours(2);
 
-        var history = _context.OnlineSales.Where(x => x.ClientId == clientId && x.DateTimeId > now).ToList();
+        var history = _context.OnlineSales
+            .Where(x => x.ClientId == clientId && x.DateTimeId > now)
+            .Include(t => t.Ticket)
+                .ThenInclude(mp => mp.MovieProgramming)
+                    .ThenInclude(m => m.Movie)
+            .Include(t => t.Ticket)
+                .ThenInclude(mp => mp.MovieProgramming)
+                    .ThenInclude(r => r.Room)
+            .ToList();
 
         List<CustomerPurchases> result = _mapper.Map<List<CustomerPurchases>>(history);
-
-        result = _utility.GetPurchaseTicketData(result);
 
         return Ok(result);
     }

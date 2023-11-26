@@ -6,13 +6,11 @@ public class ReceiptController : ControllerBase
 {
     private readonly DataContext _context;
     private readonly IMapper _mapper;
-    private readonly UtilityClass _utility;
-    
+
     public ReceiptController(DataContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
-        _utility = new UtilityClass(_context);
     }
 
     [HttpGet("{id}")]
@@ -20,15 +18,21 @@ public class ReceiptController : ControllerBase
     {
         Guid identifier = new Guid(id);
 
-        var item = _context.OnlineSales.FirstOrDefault(x => x.SaleIdentifier == identifier);
+        OnlineSales item = _context.OnlineSales
+            .Where(x => x.SaleIdentifier == identifier)
+            .Include(t => t.Ticket)
+                .ThenInclude(mp => mp.MovieProgramming)
+                    .ThenInclude(m => m.Movie)
+            .Include(t => t.Ticket)
+                .ThenInclude(mp => mp.MovieProgramming)
+                    .ThenInclude(r => r.Room)
+            .Include(t => t.Ticket)
+            .FirstOrDefault() ?? new OnlineSales();
 
-        var buy = _mapper.Map<CustomerPurchases>(item);
+        CustomerPurchases receiptInfo = new CustomerPurchases();
 
-        List<CustomerPurchases> buys = new List<CustomerPurchases> { buy };
+        _mapper.Map(item, receiptInfo);
 
-        buys = _utility.GetPurchaseTicketData(buys);
-
-        return Ok(buys[0]);
-
+        return Ok(receiptInfo);
     }
 }
