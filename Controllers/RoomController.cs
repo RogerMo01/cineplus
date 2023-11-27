@@ -37,7 +37,7 @@ public class RoomController : CRDController<Room>
 
         await base.Insert(new_room);
 
-        int roomId = _context.Rooms.FirstOrDefault(r => r.Name == new_room.Name).RoomId;
+        int roomId = _context.Rooms.FirstOrDefault(r => r.Name == new_room.Name)!.RoomId;
 
         List<Seat> seats = generateSeats(new_room.SeatsCount, new_room.Name, roomId);
         new_room.SeatsByRoom = seats;

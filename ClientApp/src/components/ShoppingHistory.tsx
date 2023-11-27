@@ -21,17 +21,17 @@ function ShoppingHistory() {
   }
 
   return (
-    <div>
+    <div className="container mt-5">
       <h2 className="header">Historial de compras activas</h2>
       <div className="table-container">
-        <table className="table table-striped inside-table">
+        {shopList.length === 0 ? <div className="alert alert-info" role="alert">No hay compras</div> : <table className="table table-striped inside-table">
           <thead>
             <tr>
               <th>Película</th>
               <th>Horario</th>
               <th>Sala</th>
               <th>Butaca</th>
-              <th></th>
+              <th>Comprobante</th>
               <th></th>
             </tr>
           </thead>
@@ -62,7 +62,7 @@ function ShoppingHistory() {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table>}
       </div>
       <ToastContainer />
     </div>

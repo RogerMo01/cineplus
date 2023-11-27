@@ -9,16 +9,18 @@ import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
 import Put from "./ProcessPut";
 import fetch from "./Fetch";
+import { postPoster, putPoster } from "./ProcessPoster";
 
 interface Props {
   name: string;
   moviesEndpoint: string;
   actorsEndpoint: string;
   genresEndpoint: string;
+  posterEndpoint: string;
   path: string;
 }
 
-function MovieManager({ name, moviesEndpoint, actorsEndpoint, genresEndpoint, path }: Props) {
+function MovieManager({ name, moviesEndpoint, actorsEndpoint, genresEndpoint, posterEndpoint, path }: Props) {
 
   const [movies, setMovies] = useState<Movie[]>([]);
   const [actors, setActors] = useState<SingleTextModal[]>([]);
@@ -34,7 +36,7 @@ function MovieManager({ name, moviesEndpoint, actorsEndpoint, genresEndpoint, pa
 
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
-  async function handleAddMovie( id: number, title: string, year: number, country: string, director: string, actors: SingleTextModal[], genres: SingleTextModal[], duration: number) {
+  async function handleAddMovie( id: number, title: string, year: number, country: string, director: string, actors: SingleTextModal[], genres: SingleTextModal[], duration: number, poster: File | null) {
     const request = {
       Title: title,
       Year: year,
@@ -45,7 +47,10 @@ function MovieManager({ name, moviesEndpoint, actorsEndpoint, genresEndpoint, pa
       Duration: duration,
     };
 
-    Post(request, path, moviesEndpoint, setMovies);
+    const response = await Post(request, path, moviesEndpoint, setMovies);
+    if(response){
+      postPoster(posterEndpoint, poster, title);
+    }
   }
 
   // ~~~~~~~~~~~~~~~ DELETE Handler ~~~~~~~~~~~~~~~~~
@@ -54,7 +59,7 @@ function MovieManager({ name, moviesEndpoint, actorsEndpoint, genresEndpoint, pa
   };
 
   // ~~~~~~~~~~~~~~~ EDIT Handler ~~~~~~~~~~~~~~~~~
-  async function handleEditMovie(id: number, title: string, year: number, country: string, director: string, actors: SingleTextModal[], genres: SingleTextModal[], duration: number) {
+  async function handleEditMovie(id: number, title: string, year: number, country: string, director: string, actors: SingleTextModal[], genres: SingleTextModal[], duration: number, poster: File | null, oldName: string) {
     const request = {
       Title: title,
       Year: year,
@@ -64,8 +69,12 @@ function MovieManager({ name, moviesEndpoint, actorsEndpoint, genresEndpoint, pa
       Genres: genres.map(g => g.id),
       Duration: duration,
     };
+    
 
-    Put(id, request, path, moviesEndpoint, setMovies)
+    const response = await Put(id, request, path, moviesEndpoint, setMovies)
+    if(response){
+      putPoster(posterEndpoint, poster, title, oldName, id);
+    }
   }
 
   return (

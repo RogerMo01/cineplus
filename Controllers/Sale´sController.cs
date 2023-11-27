@@ -6,10 +6,12 @@ public class SalesController : Controller
 {
     private readonly DataContext _context;
     private readonly UtilityClass _utility;
-    public SalesController(DataContext context)
+    private readonly IMapper _mapper; 
+    public SalesController(DataContext context, IMapper mapper)
     {
         _context = context;
-        _utility = new UtilityClass(_context);
+        _utility = new UtilityClass();
+        _mapper = mapper;
     }
 
     //[Authorize(Roles ="client")]
@@ -29,9 +31,9 @@ public class SalesController : Controller
         MovieProgramming programming = _context.ScheduledMovies.FirstOrDefault(mp => mp.Identifier == guid)!;
 
         // Verificar si el asiento esta verdaderamente libre 
-        if (_context.Tickets.Any(x => x.DateTimeId == programming.DateTimeId && x.RoomId == programming.RoomId && x.Code == input.Seat))
+        if (_context.Tickets.Any(x => x.DateTimeId == programming.DateTimeId && x.RoomId == programming.RoomId && x.Code == input.SeatCode))
         {
-            return Conflict(new { Message = "Lo sentimos, la butaca " + input.Seat +  " ya no está disponible. Seleccione una nueva butaca para realizar su compra."});
+            return Conflict(new { Message = "Lo sentimos, la butaca " + input.SeatCode +  " ya no está disponible. Seleccione una nueva butaca para realizar su compra."});
         }
 
         //Verificar si tienen capacidad las salas
@@ -48,19 +50,15 @@ public class SalesController : Controller
 
         //falta incluir la tarjeta
         var discount = _context.Discounts.Where(d => d.DiscountId == input.Discount).FirstOrDefault();
-        Seat seat_Id = _context.Seats.FirstOrDefault(s => (s.Code == input.Seat) && (s.RoomId == programming.RoomId));
+        Seat seat_Id = _context.Seats.FirstOrDefault(s => (s.Code == input.SeatCode) && (s.RoomId == programming.RoomId))!;
 
         //Añadir el ticket reservado a la tabla
-        Ticket reserve = new Ticket
-        {
-            DateTimeId = programming.DateTimeId,
-            MovieId = programming.MovieId,
-            RoomId = programming.RoomId,
-            SeatId = seat_Id.SeatId,
-            Price = programming.Price,
-            PricePoints = programming.PricePoints,
-            Code = input.Seat
-        };
+        Ticket reserve = new Ticket();
+
+        _mapper.Map(programming, reserve);
+        reserve.SeatId = seat_Id.SeatId;
+        reserve.Code = input.SeatCode;
+        
         _context.Tickets.Add(reserve);
 
         //añadir la compra a la Base de Datos dependiendo del rol

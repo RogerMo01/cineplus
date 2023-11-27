@@ -29,14 +29,17 @@ public class ActiveCriterionController : CRDController<ActiveCriterion>
         if(_context.ActiveCriteria.Any(ac => ac.CriterionId == id))
         {
             var active_criterion = _context.ActiveCriteria.FirstOrDefault(ac => ac.CriterionId == id);
-            int active_criterionId = active_criterion.ActiveCriterionId;
+            int active_criterionId = active_criterion!.ActiveCriterionId;
             await base.Delete(active_criterionId);
+            _context.SaveChanges();
             return Ok();
         }
 
         var new_activeCriterion = new ActiveCriterion { CriterionId = id};
         await base.Insert(new_activeCriterion);
         
+        _context.SaveChanges();
+
         return Ok();
     }
 }
