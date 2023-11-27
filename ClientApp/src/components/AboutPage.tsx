@@ -69,7 +69,7 @@ function AboutPage(props: Props) {
                 Conviértete en Socio Cinéfilo y descubre un mundo de privilegios. Obtén acceso exclusivo a eventos de preestreno y
                 descuentos adicionales. Además, acumula puntos con cada compra para disfrutar de entradas
                 gratuitas. Pero eso no es todo, ¡queremos premiarte desde el principio! Al asociarte,
-                te obsequiamos automáticamente 10 puntos que podrás canjear más adelante.
+                te obsequiamos automáticamente 20 puntos que podrás canjear más adelante.
               </CardText>
             </CardBody>
           </Card>

@@ -1,49 +1,42 @@
 import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import TextInput from "./TextInput";
-import {
-  Alert,
-  Button,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from "reactstrap";
-import axios, { AxiosError } from "axios";
+import { Alert, Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import DniInput from "./DniInput";
+import './SearchMember.css'
+import { toast } from "react-toastify";
+import axios, { AxiosError } from "axios";
 
 interface Props {
-  header: string;
   endpoint: string;
 }
 
-function MemberSignUpForm({ header, endpoint }: Props) {
-  const [name, setName] = useState("");
-  const [dni, setDni] = useState("");
 
 
+function SearchMember({endpoint} : Props) {
+  const [dni, setDni] = useState('');
   const [valid, setValid] = useState(true);
   const [show, setShow] = useState(false);
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState('');
+  const [points, setPoints] = useState('');
+  const [name, setName] = useState('');
 
   const toggle = () => setShow(!show);
 
-  async function handleSubmit(event: React.FormEvent): Promise<void> {
+
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
 
-    if (!validateInputs()) return;
-
-    const request = {
-      fullName: name,
-      DNI: dni,
-    };
+    if(!validateInputs()) return;
 
     axios
-      .post(endpoint, request)
+      .get(`${endpoint}/${dni}`)
       .then((response) => {
-        const code = response.data.code;
-        console.log("El codigo es: " + code);
-        setCode(code);
+        const codeS = response.data.code;
+        const pointsS = response.data.points;
+        const nameS = response.data.name;
+        setCode(codeS);
+        setPoints(pointsS);
+        setName(nameS);
         toggle();
       })
       .catch((error) => {
@@ -70,36 +63,29 @@ function MemberSignUpForm({ header, endpoint }: Props) {
           });
         }
       });
+
+
   }
 
   const validateInputs = () => {
-    if (dni.length !== 11 || name.length === 0) {
+    if (dni.length !== 11) {
       setValid(false);
       return false;
     }
-    setValid(true);
-    return true;
+    else{
+      setValid(true);
+      return true;
+    }
   };
 
-  function handleCloseCode(event: React.MouseEvent): void {
-    toggle();
-    setCode("");
-  }
 
   return (
-    <div className="fullts-container border rounded">
-      <h2 className="text-center form-element">{header}</h2>
+    <div className="fullts-container border rounded search-member">
+      <h2 className="text-center form-element">Buscar Miembros</h2>
 
       <div className="form-container border rounded custom-padding container">
-        <form onSubmit={handleSubmit}>
-          <TextInput
-            name="Nombre completo"
-            value={name}
-            setValue={setName}
-            placeholder="Ingrese el nombre completo"
-            defaultValue=""
-          />
-
+        <form onSubmit={handleSubmit} className="">
+          
           <DniInput dni={dni} setDni={setDni} />
 
           {!valid && (
@@ -110,7 +96,7 @@ function MemberSignUpForm({ header, endpoint }: Props) {
 
           <div className="d-flex justify-content-end">
             <Button type="submit" color="primary" className="formgroup">
-              {header}
+              Buscar
             </Button>
           </div>
         </form>
@@ -118,15 +104,18 @@ function MemberSignUpForm({ header, endpoint }: Props) {
 
       <Modal isOpen={show} toggle={toggle}>
         <ModalHeader>Código de Membresía</ModalHeader>
-        <ModalBody>{`Conserve este código: ${code}`}</ModalBody>
+        <ModalBody>
+          {`Nombre: ${name}`}<br />
+          {`Código de Miembro: ${code}`}<br/>
+          {`Puntos disponibles: ${points}`}
+        </ModalBody>
         <ModalFooter>
-          <Button onClick={handleCloseCode}>Cerrar</Button>
+          <Button onClick={toggle}>Cerrar</Button>
         </ModalFooter>
       </Modal>
 
-      <ToastContainer />
     </div>
   );
 }
 
-export default MemberSignUpForm;
+export default SearchMember;
