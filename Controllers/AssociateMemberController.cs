@@ -3,6 +3,7 @@ using Renci.SshNet.Messages;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.VisualBasic;
 
 namespace cineplus.MemberController;
 
@@ -78,6 +79,9 @@ public class AssociateMemberController : Controller
 
         if(Jwt_data.Item2 == "seller") 
         {
+            var IsRegisteredId = _context.Clients.FirstOrDefault(x => x.DNI == input.DNI);
+            if(IsRegisteredId != null) { member.ClientId = IsRegisteredId.ClientId; }
+
             _context.Memberships.Add(member);
             _context.SaveChanges();
         }
@@ -124,7 +128,7 @@ public class AssociateMemberController : Controller
         }
     }
 
-    byte[] CombineBytes(byte[] first, byte[] second)
+    private byte[] CombineBytes(byte[] first, byte[] second)
     {
         byte[] combined = new byte[first.Length + second.Length];
         Buffer.BlockCopy(first, 0, combined, 0, first.Length);

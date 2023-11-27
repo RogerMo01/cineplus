@@ -28,7 +28,7 @@ public class RegisterClient : ControllerBase
 
         if (_context.Clients.Any(c => c.DNI == input.DNI))
         {
-            return Conflict(new { Message = "El DNI ya está asociado a otra cuenta" });
+            return Conflict(new { Message = "El documento de identidad ya está asociado a otra cuenta" });
         }
         
         // Hashe password
