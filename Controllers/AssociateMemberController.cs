@@ -18,6 +18,7 @@ public class AssociateMemberController : Controller
     {
         _context = context;
         _mapper = mapper;
+        _utility = new UtilityClass();
     }
 
     //[Authorize]
@@ -68,20 +69,21 @@ public class AssociateMemberController : Controller
 
         member.MembershipCode = code;
 
-        string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-        var jwtSecurityToken = new JwtSecurityToken(token);
-        string role = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-        string id = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        // string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+        // var jwtSecurityToken = new JwtSecurityToken(token);
+        // string role = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+        // string id = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-        if(role == "seller") 
+        (string, string) Jwt_data = _utility.GetDataJWT(HttpContext.Request);
+
+        if(Jwt_data.Item2 == "seller") 
         {
-            
             _context.Memberships.Add(member);
             _context.SaveChanges();
         }
-        else if(role == "client")
+        else if(Jwt_data.Item2 == "client")
         {
-            int userId = int.Parse(id);
+            int userId = int.Parse(Jwt_data.Item1);
             int clientId = _context.Clients.FirstOrDefault(x => x.UserId == userId)!.ClientId;
 
             member.ClientId = clientId;
