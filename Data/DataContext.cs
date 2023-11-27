@@ -26,6 +26,7 @@ namespace CineplusDB.Models
         public DbSet<Criterion> Criteria { get; set; }
         public DbSet<ActiveCriterion> ActiveCriteria { get; set; }
         public DbSet<Likes> Likes { get; set; }
+        public DbSet<Membership> Memberships { get; set; }
 
         protected readonly IConfiguration Configuration;
 
@@ -149,7 +150,7 @@ namespace CineplusDB.Models
 
             modelBuilder.Entity<BoxOfficeSales>()
                 .HasKey(x => new { x.TicketSellerId, x.RoomId, x.MovieId, x.DateTimeId, x.SeatId, x.DiscountId });
-
+            
             // ------------------- Criteria ---------------------------------------------------
 
             modelBuilder.Entity<Criterion>()
@@ -177,6 +178,17 @@ namespace CineplusDB.Models
                 .HasOne(m => m.Movie)
                 .WithMany(x => x.Likes)
                 .HasForeignKey(m => m.MovieId);
+            
+            //--------------------------Membership-----------------------------------------------------
+
+            modelBuilder.Entity<Membership>()
+            .HasKey(m => m.MembershipCode);
+
+            modelBuilder.Entity<Membership>()
+            .HasOne(m => m.Client)
+            .WithOne(c => c.Membership)
+            .HasForeignKey<Membership>(m => m.ClientID)
+            .IsRequired();
 
             SeedDataMovies(modelBuilder);
             SeedDataClients(modelBuilder);
