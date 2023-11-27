@@ -24,13 +24,16 @@ html {
 .custom-color {
   color: #febe03 !important;
   transition:  transform 0.1s ease-in-out;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   margin-right: 10px;
-  margin-left: 15px;
+  margin-left: 5px;
+  border-radius: 15px;
 }
 
 .custom-color:hover {
-  transform: scale(1.1);
+  text-decoration: underline;
+  border-radius: 15px;
+  cursor: pointer;
 }
 
 .custom-toggler {

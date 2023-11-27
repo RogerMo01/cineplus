@@ -1,6 +1,6 @@
 import React from "react";
 import "./AboutPage.css";
-import { Card, CardBody, CardGroup, CardImg, CardText, CardTitle, Col, Row } from "reactstrap";
+import { Card, CardBody, CardGroup, CardImg, CardText, CardTitle } from "reactstrap";
 
 interface Props { }
 

@@ -11,13 +11,16 @@ import {
 } from "reactstrap";
 import axios, { AxiosError } from "axios";
 import DniInput from "./DniInput";
+import fetch from "./Fetch";
 
 interface Props {
   header: string;
   endpoint: string;
+  setter?: React.Dispatch<React.SetStateAction<{member: boolean}>>;
+  setterEndpoint?: string;
 }
 
-function MemberSignUpForm({ header, endpoint }: Props) {
+function MemberSignUpForm({ header, endpoint, setter, setterEndpoint }: Props) {
   const [name, setName] = useState("");
   const [dni, setDni] = useState("");
 
@@ -84,6 +87,9 @@ function MemberSignUpForm({ header, endpoint }: Props) {
   function handleCloseCode(event: React.MouseEvent): void {
     toggle();
     setCode("");
+    if(setter && setterEndpoint){
+      fetch(setterEndpoint, setter);
+    }
   }
 
   return (
