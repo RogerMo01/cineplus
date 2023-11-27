@@ -7,21 +7,20 @@ namespace cineplus.GenreController;
 public class GenreController : CRDController<Genre> 
 {
     private readonly DataContext _context;
+    private readonly IMapper _mapper;
 
-    public GenreController(DataContext context) : base(context)
+    public GenreController(DataContext context, IMapper mapper) : base(context)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetGenres()
     {
         var genres = await base.GetAll()
-            .Select(g => new GenreDto
-            {
-                id = g.GenreId,
-                name = g.Name
-            }).ToListAsync();
+            .ProjectTo<GenreDto>(_mapper.ConfigurationProvider) 
+            .ToListAsync();
         
         return Ok(genres);
     }
@@ -34,7 +33,7 @@ public class GenreController : CRDController<Genre>
             return Conflict( new { Message = "Este criterio ya existe"});
         }
 
-        Genre new_genre = new Genre { Name = genre.name};
+        Genre new_genre = _mapper.Map<Genre>(genre);
         await base.Insert(new_genre); 
         return Ok();
     }
@@ -52,7 +51,7 @@ public class GenreController : CRDController<Genre>
         var gender = _context.Genres.FirstOrDefault(g => g.GenreId == id);
         if(gender == null) { return NotFound(); }
 
-        gender.Name = updateGender.name;
+        _mapper.Map(updateGender, gender);
 
         await _context.SaveChangesAsync();
         return Ok();

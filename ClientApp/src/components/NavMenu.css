@@ -17,8 +17,30 @@ html {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
+.custom-navbar {
+  background-color: #151736;
+}
+
+.custom-color {
+  color: #febe03 !important;
+  transition:  transform 0.1s ease-in-out;
+  font-size: 1.3rem;
+  margin-right: 10px;
+  margin-left: 15px;
+}
+
+.custom-color:hover {
+  transform: scale(1.1);
+}
+
+.custom-toggler {
+  background-color:#6d757d; /* Fondo transparente para el NavbarToggler */
+  color: #6d757d
+}
+
+
 .user-box {
-  margin-left: 0px;
+  margin-left: 15px;
 }
 
 .user-icon {
@@ -26,11 +48,13 @@ html {
 }
 
 .user-icon-container {
+  border-radius: 50%;
+  
 
   &:hover{
-    background-color: rgb(173, 173, 173);
-    border-radius: 10%;
-    transition:  0.5s ease;
+    cursor: pointer;
+    transition:  0.2s ease;
+    transform: scale(1.1);
   }
 }
 

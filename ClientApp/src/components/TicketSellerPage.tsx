@@ -14,11 +14,6 @@ interface Props {
 
 function TicketSellerPage({ pathHead }: Props) {
   // ~~~~~~~~~~~~~~~~~~~~~~ Configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~~~
-  const isLocalTesting = process.env.REACT_APP_LOCAL_TESTING;
-  const port = process.env.REACT_APP_PORT;
-  const networkIp = process.env.REACT_APP_NETWORK_IP;
-  
-  const home = (isLocalTesting === 'true') ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
   const scheduleEndpoint = '/api/movieprogramming';
   const discountsEndpoint = '/api/discount';
   const seatsEndponit = '/api/seats'
@@ -45,7 +40,7 @@ function TicketSellerPage({ pathHead }: Props) {
     <div className="SidebarPage">
         <SidebarMenu items={items} />
         <Routes>
-            <Route path="/" element={<SellTicketSeller scheduleEndpoint={scheduleEndpoint} seatEndpoint={seatsEndponit} discountEndpoint={discountsEndpoint} buyEndpoint={home + buyEndpoint} />} />
+            <Route path="/" element={<SellTicketSeller scheduleEndpoint={scheduleEndpoint} seatEndpoint={seatsEndponit} discountEndpoint={discountsEndpoint} buyEndpoint={buyEndpoint} />} />
             <Route path="/associate" element={<AssociateTicketSeller/>} />
         </Routes>
     </div>

@@ -11,5 +11,6 @@ namespace CineplusDB.Models
         public virtual Membership Membership { get; set; }
 
         public ICollection<OnlineSales> Sales { get; set; }
+        public ICollection<Likes> Likes { get; set; }
     }
 }

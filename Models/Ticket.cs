@@ -16,7 +16,7 @@ public class Ticket
 
     public double Price { get; set; }
     public int PricePoints { get; set; }
-    public int Code { get; set; }
+    public string Code { get; set; }
 
     public virtual MovieProgramming MovieProgramming { get; set; }
     public virtual Seat Seat { get; set; }
@@ -24,6 +24,6 @@ public class Ticket
 public class Ticket_Without_Selection
 {
     public string MovieProgId { get; set; }
-    public string Seat { get; set; }
+    public string SeatCode { get; set; }
     public int Discount { get; set; }
 }

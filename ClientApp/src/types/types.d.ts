@@ -1,4 +1,11 @@
 import { IconType } from "react-icons";
+import { JwtPayload } from "jwt-decode";
+
+interface AppRoute {
+  index?: boolean;
+  path?: string;
+  element: ReactElement;
+}
 
 export interface SidebarMenuItem {
   id: string;
@@ -47,6 +54,15 @@ export interface Schedule {
   points: number;
 }
 
+export interface MovieSchedule {
+  id: string;
+  movie: string;
+  room: string;
+  date: Date;
+  price: number;
+  points: number;
+}
+
 export interface NavLinkRoute {
   name: string;
   route: string;
@@ -69,4 +85,48 @@ export interface SingleTextModal {
 
 export interface Seat {
   code: string
+}
+
+export interface MovieCard {
+  id: string,
+  img: string,
+  title: string,
+  year: number,
+  genres: string[],
+  actors: string[]
+}
+
+export interface Criterion {
+  id: number,
+  name: string
+}
+
+
+export interface UserPayload extends JwtPayload {
+  'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': string;
+  'Nick': string;
+}
+
+export interface ShopItem {
+  id: string,
+  movie: string,
+  room: string,
+  date: Date,
+  datePurchase: Date,
+  seat: string,
+  payed: number
+}
+
+export interface Ticket {
+  id: string;
+  movie: string;
+  room: string;
+  date: Date;
+  datePurchase: Date;
+  seat: string;
+  payed: number;
+}
+
+export interface IsLiked {
+  active: boolean;
 }

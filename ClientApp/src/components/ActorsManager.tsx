@@ -4,7 +4,7 @@ import { RiDeleteBin2Line } from "react-icons/ri";
 import { FiEdit2 } from "react-icons/fi";
 import { ToastContainer } from "react-toastify";
 import { SingleTextModal } from "../types/types";
-import ActorsModalForm from "./SingleTextModalForm";
+import SingleTextModalForm from "./SingleTextModalForm";
 import Post from "./ProcessPost";
 import Delete from "./ProcessDelete";
 import Put from "./ProcessPut";
@@ -51,7 +51,7 @@ function ActorsManager({ name, endpoint, path }: Props) {
       <h2 className="header">{name}</h2>
 
       <div className="toolButtons">
-        <ActorsModalForm
+        <SingleTextModalForm
           type="new"
           clickHandler={handleAdd}
           namePh="Insertar nombre"
@@ -78,7 +78,7 @@ function ActorsManager({ name, endpoint, path }: Props) {
                 <td>{actor.name}</td>
                 <td className="editColumn">
                   <div className="modifyButtons">
-                    <ActorsModalForm
+                    <SingleTextModalForm
                       type="edit"
                       clickHandler={handleEdit}
                       namePh={actor.name}

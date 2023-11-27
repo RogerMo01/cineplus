@@ -17,7 +17,14 @@ const context = [
   '/api/genre',
   '/api/discount',
   '/api/seats',
-  '/api/sales'
+  '/api/sales',
+  '/api/criterion',
+  '/api/activecriterion',
+  '/api/availableprogramming',
+  '/api/shoppinghistory',
+  '/api/receipt',
+  '/api/poster',
+  '/api/like'
 ];
 
 const onError = (err, req, resp, target) => {

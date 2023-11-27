@@ -1,20 +1,25 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import "./SellTicketSeller.css";
 import Form from "react-bootstrap/Form";
-import { Discount, Schedule, Seat } from "../types/types";
+import { Discount, Schedule, Seat, UserPayload } from "../types/types";
 import fetch from "./Fetch";
 import parseDate from "./DateParser";
 import Post from "./ProcessPost";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 
 interface Props {
   scheduleEndpoint: string;
   seatEndpoint: string;
   discountEndpoint: string;
   buyEndpoint: string;
+  scheduledMovieId?: string;
+  scheduledMovie?: string;
+  scheduledRoom?: string;
+  scheduledDate?: Date;
 }
 
-function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buyEndpoint }: Props) {
+function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buyEndpoint, scheduledMovieId, scheduledMovie, scheduledRoom, scheduledDate }: Props) {
 
   const [schedule, setSchedule] = useState<Schedule[]>([]);
   const [seats, setSeats] = useState<Seat[]>([]);
@@ -35,7 +40,10 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   }, []);
 
   useEffect(() => {
-    if(schedule.length > 0) {setSelectedSchedule(schedule[0].id);}
+    if(schedule.length > 0) {
+      setSelectedSchedule(scheduledMovieId ? scheduledMovieId : schedule[0].id);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [schedule]);
   
   useEffect(() => {
@@ -68,7 +76,6 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   const handleChangeSelectedSchedule = (e: React.ChangeEvent) => {
     const newValue = (e.target as HTMLInputElement).value;
     setSelectedSchedule(newValue);
-    fetch(seatEndpoint + `/${selectedSchedule}`, setSeats);
   }
 
   const handleChangeSelectedSeat = (e: React.ChangeEvent) => {
@@ -85,20 +92,37 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   }
   
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
     const request = {
       MovieProgId: selectedSchedule,
-      Seat: selectedSeat,
+      SeatCode: selectedSeat,
       Discount: selectedDiscount
     }
 
-    Post(request, buyEndpoint, seatEndpoint + `/${selectedSchedule}`, setSeats);
+    const response = Post(request, buyEndpoint, seatEndpoint + `/${selectedSchedule}`, setSeats);
+    if(await response){
+
+      const token = localStorage.getItem('sessionToken');
+      if(token){
+        const decodedToken = jwtDecode<UserPayload>(token);
+        const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+
+        if(role === 'client'){
+          toast.info("Comprobante disponible en la página de compras", {
+            position: "bottom-right",
+            autoClose: 5000,
+          });
+        }
+      }
+
+    }
   }
 
+
   return (
-    <div className="full-container border rounded">
-      <h2 className="text-center form-element">Vender Ticket</h2>
+    <div className="fullts-container border rounded">
+      <h2 className="text-center form-element">Reservar Ticket</h2>
 
       <div className="form-container container">
         <form onSubmit={handleSubmit}>
@@ -108,8 +132,13 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
 
           <div className="form-element">
             <Form.Label>Seleccionar Programación</Form.Label>
-            <Form.Select onChange={handleChangeSelectedSchedule}>
-              {schedule.map(s => (
+            <Form.Select 
+              onChange={handleChangeSelectedSchedule}
+              disabled={scheduledMovieId ? true : false}
+              >
+              {scheduledMovieId 
+              ? <option key={scheduledMovieId} value={scheduledMovieId}>{parseDate(scheduledDate ? scheduledDate.toString() : new Date().toString()) + ' | ' + scheduledMovie + ' | ' + scheduledRoom}</option>
+              : schedule.map(s => (
                 <option key={s.id} value={s.id}>{parseDate(s.date.toString()) + ' | ' + s.movie + ' | ' + s.room}</option>
               ))}
             </Form.Select>

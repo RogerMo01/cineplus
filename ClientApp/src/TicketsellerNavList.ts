@@ -2,13 +2,9 @@ import { NavLinkRoute } from "./types/types";
 
 const TicketsellerNavList: NavLinkRoute[] = [
   {
-    name: "Home",
+    name: "Inicio",
     route: "/"
-  },
-  {
-    name: "Counter",
-    route: "/counter",
-  },
+  }
 ];
 
 export default TicketsellerNavList;

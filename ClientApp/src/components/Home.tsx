@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import './Home.css';
-import Footer from './Footer';
+import { useNavigate } from 'react-router-dom';
+import { scrollToTop } from './scrollToTop';
+
 
 function ReservaButton() {
-  const islocalTesting = process.env.REACT_APP_LOCAL_TESTING;
-  const port = process.env.REACT_APP_PORT;
-  const networkIp = process.env.REACT_APP_NETWORK_IP;
-
-  const home = (islocalTesting) ? `https://localhost:${port}` : `https://${networkIp}:${port}`;
+  const navigate = useNavigate();
 
   function handleClick() {
-    window.location.href = home + '/log-in';
+    navigate('/log-in');
+    scrollToTop();
   }
 
   return (
-    <button onClick={handleClick} className="btn btn-primary but btn-lg" style={{marginTop :'60px'}}>Reserva Ya</button>
+    <button onClick={handleClick} className="btn btn-primary but btn-lg">Reserva tu Ticket 🎟</button>
   );
 }
 
@@ -98,7 +97,6 @@ export class Home extends Component {
             <ReservaButton />
           </div>
         </div>
-        <Footer/>
       </div>
     );
   }
