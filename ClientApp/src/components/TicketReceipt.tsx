@@ -124,7 +124,8 @@ function TicketReceipt({ endpoint, code }: ReceiptProps) {
   return (
     <div>
       <Button color="success" onClick={generatePDF}>
-        <FaFileDownload />
+        <FaFileDownload className="me-1" />
+        Imprimir
       </Button>
     </div>
   );
