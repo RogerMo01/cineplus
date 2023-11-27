@@ -121,7 +121,7 @@ function MemberSignUpForm({ header, endpoint }: Props) {
             <label>Documento de identidad</label>
             <input
               className={`form-control ${dniTag}`}
-              placeholder="Ingrse el número de CI"
+              placeholder="Ingrese el número de CI"
               onChange={handleDniInputChange}
             />
             <div className="invalid-feedback">{dniInvalidFeedback}</div>
