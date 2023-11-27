@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Renci.SshNet.Messages;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace cineplus.MemberController;
 
@@ -50,7 +51,7 @@ public class AssociateMemberController : Controller
         
         if(_context.Memberships.Any(x => x.MemberDNI == input.DNI))
         {
-            return Ok(new { Message = "Documento de identidad asociado a una membresía existente." });
+            return Conflict(new { Message = "Documento de identidad asociado a una membresía existente." });
         }
 
         Membership member = _mapper.Map<Membership>(input);
@@ -67,16 +68,20 @@ public class AssociateMemberController : Controller
 
         member.MembershipCode = code;
 
-        (string, string) Jwt_data = _utility.GetDataJWT(HttpContext.Request);
+        string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+        var jwtSecurityToken = new JwtSecurityToken(token);
+        string role = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+        string id = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-        if(Jwt_data.Item2 == "seller") 
+        if(role == "seller") 
         {
+            
             _context.Memberships.Add(member);
             _context.SaveChanges();
         }
-        else if(Jwt_data.Item2 == "client")
+        else if(role == "client")
         {
-            int userId = int.Parse(Jwt_data.Item1);
+            int userId = int.Parse(id);
             int clientId = _context.Clients.FirstOrDefault(x => x.UserId == userId)!.ClientId;
 
             member.ClientId = clientId;
