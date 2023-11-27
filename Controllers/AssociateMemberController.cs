@@ -18,35 +18,25 @@ public class AssociateMemberController : Controller
         _utility = new UtilityClass();
     }
 
+    [HttpGet]
+    [Route("ismember")]
+    public async Task<IActionResult> IsMember()
+    {
+        (string, string) Jwt_data = _utility.GetDataJWT(HttpContext.Request);
+        int userId = int.Parse(Jwt_data.Item1);
+        int clientId = _context.Clients.FirstOrDefault(x => x.UserId == userId)!.ClientId;
+
+        bool member = false; 
+        if(_context.Memberships.Any(x => x.ClientId == clientId)) { return Ok(new { member = !member}); }
+
+        return Ok(new { member = member });
+
+    }
+
     //[Authorize]
     [HttpPost]
     public async Task<IActionResult> Associate([FromBody] MembershipInput input)
     {
-        //var identity = HttpContext.User.Identity as ClaimsIdentity;
-        //string id = ObtainJWT.GetDataJWT(identity).Item1;
-        //string role = ObtainJWT.GetDataJWT(identity).Item2;
-        /*if (role == "client")
-        {
-            Membership member = new Membership();
-            member.FullName = input.FullName;
-            member.MemberDNI = input.MemberDNI;
-            member.Points = input.Points;
-            //member.ClientID = int.Parse(id);
-            _context.Add(member);
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Usted ahora es nuestro socio" });
-        }*/
-        //else
-        //{
-        // Membership member = new Membership();
-        // member.FullName = input.FullName;
-        // member.MemberDNI = input.MemberDNI;
-        // member.Points = input.Points;
-        // _context.Add(member);
-        // await _context.SaveChangesAsync();
-        // return Ok(new { Message = "Su codigo es " + member.MembershipCode });
-        //}
-
         if (_context.Memberships.Any(x => x.MemberDNI == input.DNI))
         {
             return Conflict(new { Message = "Documento de identidad asociado a una membresía existente." });
@@ -134,6 +124,7 @@ public class AssociateMemberController : Controller
 
 
     [HttpGet("{dni}")]
+    [Route("dni")]
     public async Task<IActionResult> GetMembership(string dni)
     {
         var member = _context.Memberships.FirstOrDefault(x => x.MemberDNI == dni);
