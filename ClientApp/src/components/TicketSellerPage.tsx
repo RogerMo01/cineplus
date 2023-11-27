@@ -5,7 +5,7 @@ import "./ManagerPage.css";
 import SidebarMenu from "./SidebarMenu";
 import { Route, Routes } from "react-router-dom";
 import SellTicketSeller from "./SellTicketSeller";
-import AssociateTicketSeller from "./AssociateTicketSeller";
+import MemberSignUpForm from "./MemberSignUpForm";
 
 
 interface Props {
@@ -18,6 +18,7 @@ function TicketSellerPage({ pathHead }: Props) {
   const discountsEndpoint = '/api/discount';
   const seatsEndponit = '/api/seats'
   const buyEndpoint = '/api/sales'
+  const membersEndpoint = '/api/asociate'
   // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -41,7 +42,7 @@ function TicketSellerPage({ pathHead }: Props) {
         <SidebarMenu items={items} />
         <Routes>
             <Route path="/" element={<SellTicketSeller scheduleEndpoint={scheduleEndpoint} seatEndpoint={seatsEndponit} discountEndpoint={discountsEndpoint} buyEndpoint={buyEndpoint} />} />
-            <Route path="/associate" element={<AssociateTicketSeller/>} />
+            <Route path="/associate" element={<MemberSignUpForm header="Asociar cliente" endpoint={membersEndpoint}/>} />
         </Routes>
     </div>
   );
