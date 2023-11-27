@@ -140,7 +140,7 @@ public class AssociateMemberController : Controller
 
         if (member == null) { return Conflict(new { Message = "No hay miembro asociado con ese documento de identidad" }); }
 
-        return Ok(new { code = member.MembershipCode, points = member.Points });
+        return Ok(new { code = member.MembershipCode, name = member.FullName, points = member.Points });
     }
 
 }
