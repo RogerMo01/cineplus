@@ -18,7 +18,7 @@ function TicketSellerPage({ pathHead }: Props) {
   const discountsEndpoint = '/api/discount';
   const seatsEndponit = '/api/seats'
   const buyEndpoint = '/api/sales'
-  const membersEndpoint = '/api/asociate'
+  const membersEndpoint = '/api/associate'
   // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
 
 
