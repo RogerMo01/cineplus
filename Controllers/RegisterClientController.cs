@@ -30,12 +30,12 @@ public class RegisterClient : ControllerBase
         {
             return Conflict(new { Message = "El documento de identidad ya está asociado a otra cuenta" });
         }
-        
+
         // Hashe password
         string salt = BCryptNet.GenerateSalt();
         string hashed_pass = BCryptNet.HashPassword(input.Password, salt);
 
-        var newUser = new User 
+        var newUser = new User
         {
             Nick = input.Nick,
             Password = hashed_pass,
@@ -51,6 +51,10 @@ public class RegisterClient : ControllerBase
             UserId = newUser.UserId
         };
         _context.Clients.Add(newClient);
+
+        var member = _context.Memberships.FirstOrDefault(x => x.MemberDNI == input.DNI);
+        if (member != null) { member.ClientId = newClient.ClientId; }
+
         await _context.SaveChangesAsync();
 
         return Content("Valid Response.");
