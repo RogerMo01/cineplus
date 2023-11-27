@@ -25,6 +25,11 @@ const context = [
   '/api/receipt',
   '/api/poster',
   '/api/like'
+  "/api/statistic",
+  // '/api/criterion/recentlyadded',
+  // '/api/criterion/thisyear',
+  // '/api/criterion/recentlyprogramming',
+  // '/api/criterion/mostpopular'
 ];
 
 const onError = (err, req, resp, target) => {

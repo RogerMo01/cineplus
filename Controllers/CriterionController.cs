@@ -1,3 +1,9 @@
+using cineplus.CRDController;
+using Microsoft.AspNetCore.Mvc.Routing;
+using cineplus.MovieController;
+using System.Data.Entity.Core.Common.CommandTrees;
+using cineplus.Controllers;
+
 namespace cineplus.CriterionController;
 
 [Route("api/criterion")]
@@ -121,7 +127,6 @@ public class CriterionController : ControllerBase
                 .ThenInclude(g => g.Genre)
             .ToList();
                 
-        
         List<MovieGet> recently_programming = _mapper.Map<List<MovieGet>>(movies);
 
         if (recently_programming.Count() <= 20) { return Ok(recently_programming); }
@@ -143,7 +148,6 @@ public class CriterionController : ControllerBase
                              select group_movie.Key;
                            
         List<int> ids = popular_movies.ToList();
-
 
         var getMovies = (from item in _context.Movies
                         where ids.Contains(item.MovieId)
