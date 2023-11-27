@@ -24,6 +24,7 @@ function CatalogPage({modalContent, tokenSetter} : Props) {
   const thisyearMoviesEndpoint = '/api/criterion/thisyear';
   const recentlyprogrammingMoviesEndpoint = '/api/criterion/recentlyprogramming';
   const mostpopularMoviesEndpoint = '/api/criterion/mostpopular';
+  const mostlikedMoviesEndpoint = '/api/criterion/mostliked';
 
   const [criteria, setCriteria] = useState<Criterion[]>([]);
   const [activeCriteria, setActiveCriteria] = useState<{id: number}[]>([]);
@@ -32,6 +33,7 @@ function CatalogPage({modalContent, tokenSetter} : Props) {
   const [thisyearMovies, setThisyearMovies] = useState<Movie[]>([]);
   const [recentlyprogrammingMovies, setRecentlyprogrammingMovies] = useState<Movie[]>([]);
   const [mostpopularMovies, setMostpopularMovies] = useState<Movie[]>([]);
+  const [mostlikedMovies, setMostlikedMovies] = useState<Movie[]>([]);
 
   const [showedCriteria, setShowedCriteria] = useState<Criterion[]>([]);
   const [key, setKey] = useState("");
@@ -47,6 +49,7 @@ function CatalogPage({modalContent, tokenSetter} : Props) {
       fetch(thisyearMoviesEndpoint, setThisyearMovies),
       fetch(recentlyprogrammingMoviesEndpoint, setRecentlyprogrammingMovies),
       fetch(mostpopularMoviesEndpoint, setMostpopularMovies),
+      fetch(mostlikedMoviesEndpoint, setMostlikedMovies),
     ]).then(() => {
       setIsLoading(false);
     }).catch((e) => {
@@ -79,6 +82,8 @@ function CatalogPage({modalContent, tokenSetter} : Props) {
       return recentlyaddedMovies;
     } else if(criteria === 5){
       return thisyearMovies;
+    } else if(criteria === 6){
+      return mostlikedMovies;
     }
     else{
       throw new Error('No match in criterion selection');

@@ -154,6 +154,8 @@ public class CriterionController : ControllerBase
                             .ThenInclude(g => g.Genre)
                         .ToList();
 
+        getMovies = getMovies.OrderBy(item => ids.IndexOf(item.MovieId)).ToList();
+
         List<MovieGet> result = _mapper.Map<List<MovieGet>>(getMovies);
 
         if (popular_movies.Count() <= 20)
@@ -186,6 +188,8 @@ public class CriterionController : ControllerBase
                         .Include(p => p.GenresByFilms)
                             .ThenInclude(g => g.Genre)
                         .ToList();
+
+        getMovies = getMovies.OrderBy(item => ids.IndexOf(item.MovieId)).ToList();
 
         List<MovieGet> result = _mapper.Map<List<MovieGet>>(getMovies);
 
