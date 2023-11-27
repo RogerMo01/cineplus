@@ -1,9 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
-using Renci.SshNet.Messages;
-using System.Security.Claims;
 using System.Security.Cryptography;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.VisualBasic;
 
 namespace cineplus.MemberController;
 
@@ -50,8 +46,8 @@ public class AssociateMemberController : Controller
         // await _context.SaveChangesAsync();
         // return Ok(new { Message = "Su codigo es " + member.MembershipCode });
         //}
-        
-        if(_context.Memberships.Any(x => x.MemberDNI == input.DNI))
+
+        if (_context.Memberships.Any(x => x.MemberDNI == input.DNI))
         {
             return Conflict(new { Message = "Documento de identidad asociado a una membresía existente." });
         }
@@ -62,7 +58,7 @@ public class AssociateMemberController : Controller
         int saltLength = 15;
         string code = GenerateHash(data, saltLength);
 
-        while(_context.Memberships.Any(x => x.MembershipCode == code))
+        while (_context.Memberships.Any(x => x.MembershipCode == code))
         {
             saltLength++;
             code = GenerateHash(data, saltLength);
@@ -77,15 +73,15 @@ public class AssociateMemberController : Controller
 
         (string, string) Jwt_data = _utility.GetDataJWT(HttpContext.Request);
 
-        if(Jwt_data.Item2 == "seller") 
+        if (Jwt_data.Item2 == "seller")
         {
             var IsRegisteredId = _context.Clients.FirstOrDefault(x => x.DNI == input.DNI);
-            if(IsRegisteredId != null) { member.ClientId = IsRegisteredId.ClientId; }
+            if (IsRegisteredId != null) { member.ClientId = IsRegisteredId.ClientId; }
 
             _context.Memberships.Add(member);
             _context.SaveChanges();
         }
-        else if(Jwt_data.Item2 == "client")
+        else if (Jwt_data.Item2 == "client")
         {
             int userId = int.Parse(Jwt_data.Item1);
             int clientId = _context.Clients.FirstOrDefault(x => x.UserId == userId)!.ClientId;
@@ -95,7 +91,7 @@ public class AssociateMemberController : Controller
             _context.Memberships.Add(member);
         }
         else { throw new Exception("Role not found"); }
-        
+
         _context.SaveChanges();
 
         return Ok(new { code = code });
@@ -137,6 +133,14 @@ public class AssociateMemberController : Controller
     }
 
 
+    [HttpGet("{dni}")]
+    public async Task<IActionResult> GetMembership(string dni)
+    {
+        var member = _context.Memberships.FirstOrDefault(x => x.MemberDNI == dni);
 
+        if (member == null) { return Conflict(new { Message = "No hay miembro asociado con ese documento de identidad" }); }
+
+        return Ok(new { code = member.MembershipCode, points = member.Points });
+    }
 
 }
