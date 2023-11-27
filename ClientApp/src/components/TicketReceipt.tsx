@@ -4,7 +4,6 @@ import { Button } from "reactstrap";
 import { FaFileDownload } from "react-icons/fa";
 import { Ticket } from "../types/types";
 import fetch from "./Fetch";
-import ShoppingHistory from "./ShoppingHistory";
 import parseDate from "./DateParser";
 
 interface ReceiptProps {
