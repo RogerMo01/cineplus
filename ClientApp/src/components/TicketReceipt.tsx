@@ -4,7 +4,6 @@ import { Button } from "reactstrap";
 import { FaFileDownload } from "react-icons/fa";
 import { Ticket } from "../types/types";
 import fetch from "./Fetch";
-import ShoppingHistory from "./ShoppingHistory";
 import parseDate from "./DateParser";
 
 interface ReceiptProps {
@@ -124,7 +123,8 @@ function TicketReceipt({ endpoint, code }: ReceiptProps) {
   return (
     <div>
       <Button color="success" onClick={generatePDF}>
-        <FaFileDownload />
+        <FaFileDownload className="me-1" />
+        Imprimir
       </Button>
     </div>
   );

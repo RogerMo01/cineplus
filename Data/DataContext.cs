@@ -25,6 +25,7 @@ namespace CineplusDB.Models
         public DbSet<BoxOfficeSales> BoxOfficeSales { get; set; }
         public DbSet<Criterion> Criteria { get; set; }
         public DbSet<ActiveCriterion> ActiveCriteria { get; set; }
+        public DbSet<Likes> Likes { get; set; }
 
         protected readonly IConfiguration Configuration;
 
@@ -162,6 +163,21 @@ namespace CineplusDB.Models
                 .WithOne(c => c.ActiveCriterion)
                 .IsRequired();
 
+            //  ------------------- Likes ------------------------------------------------
+
+            modelBuilder.Entity<Likes>()
+                .HasKey(x => new { x.ClientId, x.MovieId });
+
+            modelBuilder.Entity<Likes>()
+                .HasOne(c => c.Client)
+                .WithMany(x => x.Likes)
+                .HasForeignKey(c => c.ClientId);
+
+            modelBuilder.Entity<Likes>()
+                .HasOne(m => m.Movie)
+                .WithMany(x => x.Likes)
+                .HasForeignKey(m => m.MovieId);
+
             SeedDataMovies(modelBuilder);
             SeedDataClients(modelBuilder);
             SeedDataDiscounts(modelBuilder);
@@ -196,8 +212,8 @@ namespace CineplusDB.Models
             var actor5 = new Actor { ActorId = 5, Name = "Christian Bale" };
             var actor6 = new Actor { ActorId = 6, Name = "Heath Ledger" };
             var actor7 = new Actor { ActorId = 7, Name = "Tom Hanks" };
-            var actor8 = new Actor { ActorId = 8, Name = "Anna Castillo"};
-            var actor9 = new Actor { ActorId = 9, Name = "Owen Wilson"};
+            var actor8 = new Actor { ActorId = 8, Name = "Anna Castillo" };
+            var actor9 = new Actor { ActorId = 9, Name = "Owen Wilson" };
 
             // Géneros
             var genre1 = new Genre { GenreId = 1, Name = "Ciencia Ficción" };
@@ -221,7 +237,7 @@ namespace CineplusDB.Models
             var actorByFilm9 = new ActorByFilm { ActorId = 8, MovieId = 5 };
             var actorByFilm10 = new ActorByFilm { ActorId = 9, MovieId = 6 };
             var actorByFilm11 = new ActorByFilm { ActorId = 9, MovieId = 7 };
-            
+
             // Relaciones Género - Película
             var genreByFilm1 = new GenreByFilm { GenreId = 1, MovieId = 1 };
             var genreByFilm2 = new GenreByFilm { GenreId = 2, MovieId = 2 };
@@ -298,7 +314,7 @@ namespace CineplusDB.Models
                     CreditCard = "0000000000000001",
                     UserId = 2
                 }
-                
+
             );
 
             modelBuilder.Entity<TicketSeller>().HasData(
@@ -472,24 +488,26 @@ namespace CineplusDB.Models
 
         private void SeedDataCriterion(ModelBuilder modelBuilder)
         {
-            var criterion1 = new Criterion{ CriterionId = 1, Name = "Aleatorio"};
-            var criterion2 = new Criterion{ CriterionId = 2, Name = "Populares en Cine+"};
-            var criterion3 = new Criterion{ CriterionId = 3, Name = "Programaciones de la semana"};
-            var criterion4 = new Criterion{ CriterionId = 4, Name = "Añadidas recientemente"};
-            var criterion5 = new Criterion{ CriterionId = 5, Name = "Estrenadas hace menos de un año"};
-            
-            modelBuilder.Entity<Criterion>().HasData(criterion1, criterion2, criterion3, criterion4, criterion5);
+            var criterion1 = new Criterion { CriterionId = 1, Name = "Aleatorio" };
+            var criterion2 = new Criterion { CriterionId = 2, Name = "Populares en Cine+" };
+            var criterion3 = new Criterion { CriterionId = 3, Name = "Programaciones de la semana" };
+            var criterion4 = new Criterion { CriterionId = 4, Name = "Añadidas recientemente" };
+            var criterion5 = new Criterion { CriterionId = 5, Name = "Estrenadas hace menos de un año" };
+            var criterion6 = new Criterion { CriterionId = 6, Name = "Aclamadas por nuestro público" };
+
+            modelBuilder.Entity<Criterion>().HasData(criterion1, criterion2, criterion3, criterion4, criterion5, criterion6);
         }
 
         private void SeedDataActiveCriterion(ModelBuilder modelBuilder)
         {
-            var activecriterion1 = new ActiveCriterion{ ActiveCriterionId = 1, CriterionId = 1};
-            var activecriterion2 = new ActiveCriterion{ ActiveCriterionId = 2, CriterionId = 2};
-            var activecriterion3 = new ActiveCriterion{ ActiveCriterionId = 3, CriterionId = 3};
-            var activecriterion4 = new ActiveCriterion{ ActiveCriterionId = 4, CriterionId = 4};
-            var activecriterion5 = new ActiveCriterion{ ActiveCriterionId = 5, CriterionId = 5};
-           
-            modelBuilder.Entity<ActiveCriterion>().HasData(activecriterion1, activecriterion2, activecriterion3, activecriterion4, activecriterion5);
+            var activecriterion1 = new ActiveCriterion { ActiveCriterionId = 1, CriterionId = 1 };
+            var activecriterion2 = new ActiveCriterion { ActiveCriterionId = 2, CriterionId = 2 };
+            var activecriterion3 = new ActiveCriterion { ActiveCriterionId = 3, CriterionId = 3 };
+            var activecriterion4 = new ActiveCriterion { ActiveCriterionId = 4, CriterionId = 4 };
+            var activecriterion5 = new ActiveCriterion { ActiveCriterionId = 5, CriterionId = 5 };
+            var activecriterion6 = new ActiveCriterion { ActiveCriterionId = 6, CriterionId = 6 };
+
+            modelBuilder.Entity<ActiveCriterion>().HasData(activecriterion1, activecriterion2, activecriterion3, activecriterion4, activecriterion5, activecriterion6);
         }
     }
 

@@ -154,6 +154,43 @@ public class CriterionController : ControllerBase
                             .ThenInclude(g => g.Genre)
                         .ToList();
 
+        getMovies = getMovies.OrderBy(item => ids.IndexOf(item.MovieId)).ToList();
+
+        List<MovieGet> result = _mapper.Map<List<MovieGet>>(getMovies);
+
+        if (popular_movies.Count() <= 20)
+        {
+            return Ok(result);
+        }
+        else
+        {
+            result = result.Take(20).ToList();
+            return Ok(result);
+        }
+    }
+
+    [HttpGet]
+    [Route("mostliked")]
+    public async Task<IActionResult> GetMostLikedMovies()
+    {
+        var popular_movies = from item in _context.Likes
+                             group item by item.MovieId into group_movie
+                             orderby group_movie.Count() descending
+                             select group_movie.Key;
+
+        List<int> ids = popular_movies.ToList();
+
+        var getMovies = (from item in _context.Movies
+                        where ids.Contains(item.MovieId)
+                        select item)
+                        .Include(p => p.ActorsByFilms)
+                            .ThenInclude(a => a.Actor)
+                        .Include(p => p.GenresByFilms)
+                            .ThenInclude(g => g.Genre)
+                        .ToList();
+
+        getMovies = getMovies.OrderBy(item => ids.IndexOf(item.MovieId)).ToList();
+
         List<MovieGet> result = _mapper.Map<List<MovieGet>>(getMovies);
 
         if (popular_movies.Count() <= 20)

@@ -2,12 +2,12 @@ import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import fetch from "./Fetch";
 
-async function Put(id: any, request: any, path: string, endpoint:string, setter: React.Dispatch<React.SetStateAction<any>>) {
+async function Put(id: any, request: any, path: string, endpoint:string, setter: React.Dispatch<React.SetStateAction<any>>, alertMessage?: boolean) {
   try {
     const response = axios.put(path + `/${id}`, request);
     const status = (await response).status;
 
-    if (status === 200 || status === 201 || status === 204) {
+    if (alertMessage && (status === 200 || status === 201 || status === 204)) {
       toast.success("Solicitud exitosa!", {
         position: "bottom-right",
         autoClose: 3000,
