@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Movie, MovieSchedule } from "../types/types";
+import { IsLiked, Movie, MovieSchedule } from "../types/types";
 import "./MovieCard.css";
 import {
   Button,
@@ -7,6 +7,7 @@ import {
   CardBody,
   CardImg,
   CardSubtitle,
+  CardText,
   CardTitle,
   Modal,
   ModalBody,
@@ -16,6 +17,9 @@ import {
 import MovieInfoModal from "./MovieInfoModal";
 import MoviesScheduledList from "./MovieScheduledList";
 import fetch from "./Fetch";
+import { PiHeartLight } from "react-icons/pi";
+import { FcLike } from "react-icons/fc";
+import Put from "./ProcessPut";
 
 interface Props {
   movie: Movie;
@@ -24,15 +28,18 @@ interface Props {
   scheduleEndpoint: string;
   modalContent?: React.ComponentType<any>;
   tokenSetter?: React.Dispatch<React.SetStateAction<string | null>>;
+  likeEndpoint: string;
 }
 
 function MovieCard(props: Props) {
+  const token = localStorage.getItem('sessionToken');
 
   const [modal, setModal] = useState(false);
   const [scheduledModal, setScheduledModal] = useState(false);
   const [redirectModal, setRedirectModal] = useState(false);
   const [schedule, setSchedule] = useState<MovieSchedule[]>([]);
-
+  const [like, setLike] = useState<IsLiked>();
+  
   const toggle = () => setModal(!modal);
   const toggle2 = () => setScheduledModal(!scheduledModal);
   const toggle3 = () => setRedirectModal(!redirectModal);
@@ -46,6 +53,11 @@ function MovieCard(props: Props) {
   };
 
   const [layout, setLayout] = useState('flex-row');
+
+  useEffect(() => {
+    fetch(props.likeEndpoint + `/${props.movie.id}`, setLike);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     handleResize();
@@ -82,21 +94,32 @@ function MovieCard(props: Props) {
   const [selectedScheduledRoom, setSelectedScheduledRoom] = useState('');
   const [selectedScheduledDate, setSelectedScheduledDate] = useState(new Date());
 
+
+  function handleLike(id: number): void {
+    Put(id, undefined, props.likeEndpoint, props.likeEndpoint + `/${props.movie.id}`, setLike, false);
+  }
+
   return (
     <li className="movie-card d-flex justify-content-center">
-      <Card className="tcard" onClick={toggle}>
+      <Card className="tcard">
         <CardImg
           width={150}
           height={220}
           src={props.route}
           alt={props.movie.title}
           className="movie-img"
+          onClick={toggle}
         />
         <CardBody>
           <CardTitle tag="h5">{props.movie.title}</CardTitle>
-          <CardSubtitle className="mb-2 text-muted" tag="h6">
-            {props.movie.year}
-          </CardSubtitle>
+          <div className="d-flex justify-content-between align-items-center">
+            <CardSubtitle className="mb-2 text-muted" tag="h6">
+              {props.movie.year}
+            </CardSubtitle>
+            {token && <CardText className="like-icon" onClick={()  => handleLike(props.movie.id)}>
+              {like ? <FcLike size={23} /> : <PiHeartLight size={23} />}
+            </CardText>}
+          </div>
         </CardBody>
       </Card>
 

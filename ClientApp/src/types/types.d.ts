@@ -126,3 +126,7 @@ export interface Ticket {
   seat: string;
   payed: number;
 }
+
+export interface IsLiked {
+  active: boolean;
+}

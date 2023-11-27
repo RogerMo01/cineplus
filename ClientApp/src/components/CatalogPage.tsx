@@ -16,6 +16,7 @@ function CatalogPage({modalContent, tokenSetter} : Props) {
   const criteriaEndpoint = '/api/criterion/all';
   const activeCriteriaEndpoint = '/api/activecriterion';
   const scheduleEndpoint = '/api/availableprogramming'
+  const likeEndpoint = '/api/like';
   
   // Criteria
   const randomMoviesEndpoint = '/api/criterion/random';
@@ -105,7 +106,7 @@ function CatalogPage({modalContent, tokenSetter} : Props) {
         {showedCriteria.map((c) => (
           <Tab key={c.id} eventKey={c.id} title={c.name}>
             <div className="topic-slider">
-              <TopicList topic={c.name} movies={getMovies(c.id)} scheduleEndpoint={scheduleEndpoint} modalContent={modalContent} tokenSetter={tokenSetter}/>
+              <TopicList topic={c.name} movies={getMovies(c.id)} likeEndpoint={likeEndpoint} scheduleEndpoint={scheduleEndpoint} modalContent={modalContent} tokenSetter={tokenSetter}/>
             </div>
           </Tab>
         ))}

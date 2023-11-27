@@ -24,7 +24,8 @@ const context = [
   '/api/availableprogramming',
   '/api/shoppinghistory',
   '/api/receipt',
-  '/api/poster'
+  '/api/poster',
+  '/api/like'
 ];
 
 const onError = (err, req, resp, target) => {

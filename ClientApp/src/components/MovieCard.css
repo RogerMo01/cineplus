@@ -13,11 +13,24 @@
 }
 .poster-card {
   max-width: 220px;
-  /* width: auto; */
   height: 360px;
 }
 
 .tcard:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
+}
+
+.movie-img:hover {
   cursor: pointer;
+}
+
+.like-icon {
+  transition: transform 0.1s ease-in-out;
+
+}
+
+.like-icon:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+
 }
