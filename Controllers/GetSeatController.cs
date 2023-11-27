@@ -12,7 +12,7 @@ public class GetSeat : Controller
 
     //------------------------  Obtener butacas disponibles -----------------------------------------
     [HttpGet("{id}")]
-    public IEnumerable<Seat> GetSeats(string id)
+    public IActionResult GetSeats(string id)
     {
         Guid IdG = new Guid(id);
         MovieProgramming movie = _context.ScheduledMovies.FirstOrDefault(m => m.Identifier == IdG)!;
@@ -22,8 +22,10 @@ public class GetSeat : Controller
             .Select(t => t.Seat.SeatId).ToList();
 
         var available = _context.Seats.Where(b => (!ocupated.Contains(b.SeatId)) && (b.RoomId == movie.RoomId)).ToList();
+
+        if (available == null) { return Ok(new { Message = "No hay butacas disponibles." }); }
         
-        return available;
+        return Ok(available);
     }
 
 }

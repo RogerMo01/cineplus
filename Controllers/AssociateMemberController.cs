@@ -1,0 +1,131 @@
+using Microsoft.AspNetCore.Authorization;
+using Renci.SshNet.Messages;
+using System.Security.Claims;
+using System.Security.Cryptography;
+
+namespace cineplus.MemberController;
+
+
+[Route("api/associate")]
+[ApiController]
+public class AssociateMemberController : Controller
+{
+    private readonly DataContext _context;
+    private readonly IMapper _mapper;
+    private readonly UtilityClass _utility;
+    public AssociateMemberController(DataContext context, IMapper mapper)
+    {
+        _context = context;
+        _mapper = mapper;
+    }
+
+    //[Authorize]
+    [HttpPost]
+    public async Task<IActionResult> Associate([FromBody] MembershipInput input)
+    {
+        //var identity = HttpContext.User.Identity as ClaimsIdentity;
+        //string id = ObtainJWT.GetDataJWT(identity).Item1;
+        //string role = ObtainJWT.GetDataJWT(identity).Item2;
+        /*if (role == "client")
+        {
+            Membership member = new Membership();
+            member.FullName = input.FullName;
+            member.MemberDNI = input.MemberDNI;
+            member.Points = input.Points;
+            //member.ClientID = int.Parse(id);
+            _context.Add(member);
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = "Usted ahora es nuestro socio" });
+        }*/
+        //else
+        //{
+        // Membership member = new Membership();
+        // member.FullName = input.FullName;
+        // member.MemberDNI = input.MemberDNI;
+        // member.Points = input.Points;
+        // _context.Add(member);
+        // await _context.SaveChangesAsync();
+        // return Ok(new { Message = "Su codigo es " + member.MembershipCode });
+        //}
+        
+        if(_context.Memberships.Any(x => x.MemberDNI == input.DNI))
+        {
+            return Ok(new { Message = "Documento de identidad asociado a una membresía existente." });
+        }
+
+        Membership member = _mapper.Map<Membership>(input);
+
+        string data = input.DNI + input.fullName;
+        int saltLength = 15;
+        string code = GenerateHash(data, saltLength);
+
+        while(_context.Memberships.Any(x => x.MembershipCode == code))
+        {
+            saltLength++;
+            code = GenerateHash(data, saltLength);
+        }
+
+        member.MembershipCode = code;
+
+        (string, string) Jwt_data = _utility.GetDataJWT(HttpContext.Request);
+
+        if(Jwt_data.Item2 == "seller") 
+        {
+            _context.Memberships.Add(member);
+            _context.SaveChanges();
+        }
+        else if(Jwt_data.Item2 == "client")
+        {
+            int userId = int.Parse(Jwt_data.Item1);
+            int clientId = _context.Clients.FirstOrDefault(x => x.UserId == userId)!.ClientId;
+
+            member.ClientId = clientId;
+
+            _context.Memberships.Add(member);
+        }
+        else { throw new Exception("Role not found"); }
+        
+        _context.SaveChanges();
+
+        return Ok(new { code = code });
+
+    }
+
+    private string GenerateHash(string data, int saltLength)
+    {
+        byte[] salt;
+
+        // Genera el salt aleatorio
+        using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
+        {
+            salt = new byte[saltLength];
+            rng.GetBytes(salt);
+        }
+
+        // Combina la data con el salt
+        byte[] dataWithSalt = CombineBytes(Encoding.UTF8.GetBytes(data), salt);
+
+        // Calcula el hash
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            byte[] hashedBytes = sha256.ComputeHash(dataWithSalt);
+            // Resto del código...
+            string hexHash = BitConverter.ToString(hashedBytes).Replace("-", "");
+
+            // Ajusta la longitud de la cadena al valor deseado
+            return hexHash.Substring(0, Math.Min(8, hexHash.Length));
+        }
+    }
+
+    byte[] CombineBytes(byte[] first, byte[] second)
+    {
+        byte[] combined = new byte[first.Length + second.Length];
+        Buffer.BlockCopy(first, 0, combined, 0, first.Length);
+        Buffer.BlockCopy(second, 0, combined, first.Length, second.Length);
+        return combined;
+    }
+
+
+
+
+}

@@ -182,13 +182,20 @@ namespace CineplusDB.Models
             //--------------------------Membership-----------------------------------------------------
 
             modelBuilder.Entity<Membership>()
-            .HasKey(m => m.MembershipCode);
+                .HasKey(m => m.MembershipCode);
 
             modelBuilder.Entity<Membership>()
-            .HasOne(m => m.Client)
-            .WithOne(c => c.Membership)
-            .HasForeignKey<Membership>(m => m.ClientID)
-            .IsRequired();
+                .HasOne(m => m.Client)
+                .WithOne(c => c.Membership)
+                .HasForeignKey<Client>(c => c.ClientId)
+                .IsRequired(false);
+
+            modelBuilder.Entity<Client>()
+                .HasOne(c => c.Membership)
+                .WithOne(m => m.Client)
+                .HasForeignKey<Membership>(m => m.ClientId)
+                .IsRequired(false); 
+
 
             SeedDataMovies(modelBuilder);
             SeedDataClients(modelBuilder);
