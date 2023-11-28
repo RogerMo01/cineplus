@@ -19,13 +19,17 @@ function MovieFilterForm(props: Props) {
   const [enable1, setEnable1] = useState(false);
   const [enable2, setEnable2] = useState(false);
   const [enable3, setEnable3] = useState(false);
-  const [selectedActor, setSelectedActor] = useState<SingleTextModal | string | null>(null);
-  const [selectedGenre, setSelectedGenre] = useState<SingleTextModal | string | null>(null);
-  const [selectedDateStart, setSelectedDateStart] = useState<Date | null>(null);
-  const [selectedDateEnd, setSelectedDateEnd] = useState<Date | null>(null);
+  const [selectedActor, setSelectedActor] = useState<string | null>(null);
+  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
+  const [selectedDateStart, setSelectedDateStart] = useState<Date | null>(new Date('1900'));
+  const [selectedDateEnd, setSelectedDateEnd] = useState<Date | null>(new Date());
 
   const toggle = () => {
     setShow(!show);
+    setEnable1(false)
+    setEnable2(false)
+    setEnable3(false)
+
   };
 
   const handleActorChange = (e: React.ChangeEvent) => {
@@ -39,28 +43,39 @@ function MovieFilterForm(props: Props) {
   };
 
   const handleDateStartChange = (date: Date) => {
-    setSelectedDateStart(date);
+    if (!date) {
+      setSelectedDateStart(date);
+    }
+    else setSelectedDateStart(new Date(1900))
   };
   const handleDateEndChange = (date: Date) => {
-    setSelectedDateEnd(date);
+    if (!date) {
+      setSelectedDateEnd(date);
+    }
+    else setSelectedDateEnd(new Date())
   };
 
   async function handleClick() {
     const request = {
-      actor: enable1 ? selectedActor : null,
-      genres: enable2 ? selectedGenre : null,
+      actor: enable1 ? (!selectedActor ? props.actorsList[0] : selectedActor) : null,
+      genres: enable2 ? (!selectedGenre ? props.genresList[0] : selectedGenre) : null,
       begin: enable3 ? selectedDateStart : null,
       end: enable3 ? selectedDateEnd : null
     };
+
+    console.log(selectedDateStart)
+    console.log(selectedDateEnd)
 
     fetchStats(props.statsEndpoint, props.setMovies, { params: request });
   }
 
   function handleClickE1() {
     setEnable1(!enable1);
+    setSelectedActor(props.actorsList[0].name)
   }
   function handleClickE2() {
     setEnable2(!enable2);
+    setSelectedGenre(props.genresList[0].name)
   }
   function handleClickE3() {
     setEnable3(!enable3);
@@ -77,8 +92,9 @@ function MovieFilterForm(props: Props) {
           {props.buttonConfig.content}
         </Button>
       </div>
+
       <Modal isOpen={show} toggle={toggle}>
-        <ModalHeader toggle={toggle}>
+        <ModalHeader>
           Filtros
         </ModalHeader>
         <ModalBody>
@@ -88,7 +104,7 @@ function MovieFilterForm(props: Props) {
               <div className="form-check form-switch">
                 <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onClick={handleClickE1} checked={enable1} />
               </div>
-              {enable1 && <Form.Select aria-label="Actor" onChange={handleActorChange} defaultValue={""}>
+              {enable1 && <Form.Select aria-label="Actor" onChange={handleActorChange} defaultValue="">
                 {props.actorsList.map((y) => (
                   <option key={y.id} value={y.name}>
                     {y.name}
@@ -102,7 +118,7 @@ function MovieFilterForm(props: Props) {
               <div className="form-check form-switch">
                 <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onClick={handleClickE2} checked={enable2} />
               </div>
-              {enable2 && <Form.Select aria-label="Género" onChange={handleGenreChange} defaultValue={""}>
+              {enable2 && <Form.Select aria-label="Género" onChange={handleGenreChange} defaultValue="">
                 {props.genresList.map((y) => (
                   <option key={y.id} value={y.name}>
                     {y.name}
@@ -124,10 +140,11 @@ function MovieFilterForm(props: Props) {
                       selected={selectedDateStart}
                       showTimeInput
                       timeInputLabel="Hora:"
-                      maxDate={selectedDateEnd}
+                      maxDate={selectedDateEnd ? selectedDateEnd : new Date()}
                       onChange={handleDateStartChange}
                       locale={es}
                       dateFormat="yyyy MMMM d"
+                      placeholderText='1899 diciembre 31'
                     />
                   </div>
                 </div>
@@ -144,6 +161,7 @@ function MovieFilterForm(props: Props) {
                       onChange={handleDateEndChange}
                       locale={es}
                       dateFormat="yyyy MMMM d"
+                      placeholderText={"Hoy"}
                     />
                   </div>
                 </div>
