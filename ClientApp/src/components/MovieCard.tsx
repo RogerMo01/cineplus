@@ -29,6 +29,7 @@ interface Props {
   modalContent?: React.ComponentType<any>;
   tokenSetter?: React.Dispatch<React.SetStateAction<string | null>>;
   likeEndpoint: string;
+  changeKey: string;
 }
 
 function MovieCard(props: Props) {
@@ -57,7 +58,7 @@ function MovieCard(props: Props) {
   useEffect(() => {
     fetch(props.likeEndpoint + `/${props.movie.id}`, setLike);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.changeKey]);
 
   useEffect(() => {
     handleResize();

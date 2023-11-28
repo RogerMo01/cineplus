@@ -11,6 +11,7 @@ interface Props {
   modalContent?: React.ComponentType<any>;
   tokenSetter?: React.Dispatch<React.SetStateAction<string | null>>;
   likeEndpoint: string;
+  changeKey: string;
 }
 
 const TopicList = (props: Props) => {
@@ -18,7 +19,7 @@ const TopicList = (props: Props) => {
     <div>
       <ul className="ul-group">
         {props.movies.map(m => (
-          <MovieCard key={m.id} movie={m} likeEndpoint={props.likeEndpoint} route={`posters/${m.title}.jpg`} redirect='/log-in' scheduleEndpoint={props.scheduleEndpoint} modalContent={props.modalContent} tokenSetter={props.tokenSetter} />
+          <MovieCard key={m.id} movie={m} likeEndpoint={props.likeEndpoint} route={`posters/${m.title}.jpg`} redirect='/log-in' scheduleEndpoint={props.scheduleEndpoint} modalContent={props.modalContent} tokenSetter={props.tokenSetter} changeKey={props.changeKey} />
         ))}
       </ul>
     </div>
