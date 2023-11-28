@@ -134,4 +134,18 @@ public class AssociateMemberController : Controller
         return Ok(new { code = member.MembershipCode, name = member.FullName, points = member.Points });
     }
 
+    [HttpGet]
+    [Route("info")]
+    public async Task<IActionResult> MemberInfo()
+    {
+        (string, string) Jwt_data = _utility.GetDataJWT(HttpContext.Request);
+        int userId = int.Parse(Jwt_data.Item1);
+        int clientId = _context.Clients.FirstOrDefault(x => x.UserId == userId)!.ClientId;
+
+        var member = _context.Memberships.FirstOrDefault(x => x.ClientId == clientId);
+        
+        if(member == null) { return Conflict(new { Message = "Cliente no asociado al Club Cine+" }); }
+
+        return Ok(new {code = member.MembershipCode, points = member.Points });
+    }
 }

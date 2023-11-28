@@ -51,6 +51,7 @@ public class RegisterClient : ControllerBase
             UserId = newUser.UserId
         };
         _context.Clients.Add(newClient);
+        await _context.SaveChangesAsync();
 
         var member = _context.Memberships.FirstOrDefault(x => x.MemberDNI == input.DNI);
         if (member != null) { member.ClientId = newClient.ClientId; }
