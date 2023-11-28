@@ -5,6 +5,7 @@ import './NavMenu.css';
 import { NavLinkRoute, UserData } from '../types/types';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import MemberClient from './MemberClient';
 
 
 interface Props {

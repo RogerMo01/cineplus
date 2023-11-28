@@ -1,6 +1,5 @@
 import { IconType } from "react-icons";
 import { JwtPayload } from "jwt-decode";
-import React, { ReactNode } from "react";
 
 interface AppRoute {
   index?: boolean;

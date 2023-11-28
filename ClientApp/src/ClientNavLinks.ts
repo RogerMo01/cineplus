@@ -1,6 +1,4 @@
-import React from "react";
 import { NavLinkRoute } from "./types/types";
-import { IoDiamond } from "react-icons/io5";
 
 
 const ClientNavLinks: NavLinkRoute[] = [

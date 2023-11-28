@@ -80,10 +80,17 @@ function SearchMember({endpoint} : Props) {
 
 
   return (
-    <div className="fullts-container border rounded search-member">
+    <div className="fullts-container border rounded search-member d-flex flex-column align-items-center">
       <h2 className="text-center form-element">Buscar Miembros</h2>
+      <img
+        className="img-fluid"
+        width={300}
+        height={60}
+        src="club_diamond.png"
+        alt="club_diamond"
+      />
 
-      <div className="form-container border rounded custom-padding container">
+      <div className="form-container rounded custom-padding container">
         <form onSubmit={handleSubmit} className="">
           
           <DniInput dni={dni} setDni={setDni} />

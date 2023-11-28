@@ -7,9 +7,10 @@ import { Spinner } from "reactstrap";
 interface Props {
   ismemberEndpoint: string;
   signUpEndpoint: string;
+  infoEndpoint: string;
 }
 
-function MemberClient({ ismemberEndpoint, signUpEndpoint }: Props) {
+function MemberClient({ ismemberEndpoint, signUpEndpoint, infoEndpoint }: Props) {
   const [member, setMember] = useState({ member: false });
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +32,7 @@ function MemberClient({ ismemberEndpoint, signUpEndpoint }: Props) {
       )}
       {!loading &&
         (member.member ? (
-          <IsMemberView />
+          <IsMemberView endpoint={infoEndpoint} />
         ) : (
           <IsNotMemberView
             signUpEndpoint={signUpEndpoint}

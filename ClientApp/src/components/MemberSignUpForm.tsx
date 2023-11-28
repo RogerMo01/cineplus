@@ -93,10 +93,17 @@ function MemberSignUpForm({ header, endpoint, setter, setterEndpoint }: Props) {
   }
 
   return (
-    <div className="fullts-container border rounded">
+    <div className="fullts-container border rounded d-flex flex-column align-items-center">
       <h2 className="text-center form-element">{header}</h2>
+      <img
+        className="img-fluid"
+        width={300}
+        height={60}
+        src="club_diamond.png"
+        alt="club_diamond"
+      />
 
-      <div className="form-container border rounded custom-padding container">
+      <div className="form-container rounded custom-padding container">
         <form onSubmit={handleSubmit}>
           <TextInput
             name="Nombre completo"

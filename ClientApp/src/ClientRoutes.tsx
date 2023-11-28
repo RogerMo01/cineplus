@@ -5,6 +5,7 @@ import ShoppingHistory from './components/ShoppingHistory';
 import MemberClient from './components/MemberClient';
 
 const ismemberEndpoint = '/api/associate/ismember'
+const infoEndpoint = '/api/associate/info'
 const signUpEndpoint = '/api/associate'
 
 const ClientRoutes = () : AppRoute[] => [
@@ -18,7 +19,7 @@ const ClientRoutes = () : AppRoute[] => [
   },
   {
     path: '/club',
-    element: <MemberClient signUpEndpoint={signUpEndpoint} ismemberEndpoint={ismemberEndpoint} />
+    element: <MemberClient signUpEndpoint={signUpEndpoint} ismemberEndpoint={ismemberEndpoint} infoEndpoint={infoEndpoint} />
   }
 ];
 
