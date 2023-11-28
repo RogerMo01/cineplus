@@ -1,3 +1,4 @@
+using cineplus.Data.UtilityClass;
 namespace cineplus.LikesController;
 
 [Route("api/like")]
@@ -9,7 +10,7 @@ public class LikesController : ControllerBase
     public LikesController(DataContext context)
     {
         _context = context;
-        _utility = new UtilityClass();
+        _utility = new UtilityClass(_context);
     }
 
     [HttpGet("{id}")]

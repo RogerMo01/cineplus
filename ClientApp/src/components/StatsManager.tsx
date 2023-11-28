@@ -19,7 +19,7 @@ function StatsManager({moviesEndpoint, actorsEndpoint, genresEndpoint, statsEndp
     useEffect(() => {
         fetch(actorsEndpoint, setActors);
         fetch(genresEndpoint, setGenres);
-        fetch(moviesEndpoint, setMovies);
+        fetch(statsEndpoint, setMovies);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

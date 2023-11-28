@@ -1,8 +1,11 @@
+namespace cineplus.Data.UtilityClass;
+
 using System.Security.Claims;
 
 public class UtilityClass
 {
-    public UtilityClass() { }
+    private readonly DataContext _context;
+    public UtilityClass(DataContext context) { _context = context; }
 
 
         //----------------- Obtener Token desde la solicitud http -------------------------------
@@ -20,5 +23,193 @@ public class UtilityClass
         return (null, null);
     }
 
+    // -------------- Obtener peliculas mas vendidas -----------------------------
+    public List<Movie> GetMostPopularMovies()
+    {
+        var popular_movies = from item in _context.Tickets
+                             group item by item.MovieId into group_movie
+                             orderby group_movie.Count() descending
+                             select group_movie.Key;
+
+        List<int> ids = popular_movies.ToList();
+
+        var getMovies = (from item in _context.Movies
+                         where ids.Contains(item.MovieId)
+                         select item)
+                        .Include(p => p.ActorsByFilms)
+                            .ThenInclude(a => a.Actor)
+                        .Include(p => p.GenresByFilms)
+                            .ThenInclude(g => g.Genre)
+                        .ToList();
+
+        return getMovies;
+    }
+
+    //------------------------Obtener Peliculas dado un filtro----------------------------------
+
+    public class FromInput
+    {
+        public DateTime? begin { get; set; }
+        public DateTime? end { get; set; }
+        public string actor { get; set; }
+        public string genres { get; set; }
+
+    }
+
+    public List<Movie> GetMovieByFilter(string actor,string genre,DateTime? begin,DateTime? end, bool actor_bool, bool genres_bool, bool date_bool)
+    {
+        FromInput input = new FromInput(){
+            actor = actor,
+            genres = genre,
+            begin = begin,
+            end = end};
+
+
+        ActorByFilm actors = _context.ActorsByFilms.Include(ab => ab.Actor).FirstOrDefault(a => a.Actor.Name == input.actor)!;
+        GenreByFilm genres = _context.GenresByFilms.Include(gb => gb.Genre).FirstOrDefault(a => a.Genre.Name == input.genres)!;
+
+        if (actor_bool && genres_bool && date_bool)
+        {
+            var movies = _context.Tickets
+            .Include(t => t.MovieProgramming)
+            .Include(mp => mp.MovieProgramming.Movie)
+            .Where(m => m.MovieProgramming.Movie.MovieId == actors.MovieId &&
+                        m.MovieProgramming.Movie.MovieId == genres.MovieId &&
+                        m.DateTimeId >= input.begin && m.DateTimeId <= input.end)
+            .GroupBy(t => t.MovieId)
+            .Select(g => new
+            {
+                movieId = g.Key,
+                count = g.Count()
+            })
+            .OrderByDescending(x => x.count)
+            .Select(x => x.movieId)
+            .Take(10)
+            .ToList();
+            List<Movie> statistic = _context.Movies.Where(m => movies.Contains(m.MovieId)).ToList();
+            return statistic;
+        }
+        else if (actor_bool && date_bool)
+        {
+            var movies = _context.Tickets
+            .Include(t => t.MovieProgramming)
+            .Include(mp => mp.MovieProgramming.Movie)
+            .Where(m => m.MovieProgramming.Movie.MovieId == actors.MovieId &&
+                        m.DateTimeId >= input.begin && m.DateTimeId <= input.end)
+            .GroupBy(t => t.MovieId)
+            .Select(g => new
+            {
+                movieId = g.Key,
+                count = g.Count()
+            })
+            .OrderByDescending(x => x.count)
+            .Select(x => x.movieId)
+            .Take(10)
+            .ToList();
+            List<Movie> statistic = _context.Movies.Where(m => movies.Contains(m.MovieId)).ToList();
+            
+            return statistic;
+        }
+        else if (actor_bool && genres_bool)
+        {
+            var movies = _context.Tickets
+            .Include(t => t.MovieProgramming)
+            .Include(mp => mp.MovieProgramming.Movie)
+            .Where(m => m.MovieProgramming.Movie.MovieId == actors.MovieId &&
+                        m.MovieProgramming.Movie.MovieId == genres.MovieId)
+            .GroupBy(t => t.MovieId)
+            .Select(g => new
+            {
+                movieId = g.Key,
+                count = g.Count()
+            })
+            .OrderByDescending(x => x.count)
+            .Select(x => x.movieId)
+            .Take(10)
+            .ToList();
+            List<Movie> statistic = _context.Movies.Where(m => movies.Contains(m.MovieId)).ToList();
+            return statistic;
+        }
+        else if (genres_bool && date_bool)
+        {
+            var movies = _context.Tickets
+            .Include(t => t.MovieProgramming)
+            .Include(mp => mp.MovieProgramming.Movie)
+            .Where(m => m.MovieProgramming.Movie.MovieId == genres.MovieId &&
+                        m.DateTimeId >= input.begin && m.DateTimeId <= input.end)
+            .GroupBy(t => t.MovieId)
+            .Select(g => new
+            {
+                movieId = g.Key,
+                count = g.Count()
+            })
+            .OrderByDescending(x => x.count)
+            .Select(x => x.movieId)
+            .Take(10)
+            .ToList();
+            List<Movie> statistic = _context.Movies.Where(m => movies.Contains(m.MovieId)).ToList();
+            return statistic;
+        }
+        else if (actor_bool)
+        {
+            var movies = _context.Tickets
+            .Include(t => t.MovieProgramming)
+            .Include(mp => mp.MovieProgramming.Movie)
+            .Where(m => m.MovieProgramming.Movie.MovieId == actors.MovieId)
+            .GroupBy(t => t.MovieId)
+            .Select(g => new
+            {
+                movieId = g.Key,
+                count = g.Count()
+            })
+            .OrderByDescending(x => x.count)
+            .Select(x => x.movieId)
+            .Take(10)
+            .ToList();
+            List<Movie> statistic = _context.Movies.Where(m => movies.Contains(m.MovieId)).ToList();
+            return statistic;
+        }
+        else if (genres_bool)
+        {
+            var movies = _context.Tickets
+            .Include(t => t.MovieProgramming)
+            .Include(mp => mp.MovieProgramming.Movie)
+            .Where(m => m.MovieProgramming.Movie.MovieId == genres.MovieId)
+            .GroupBy(t => t.MovieId)
+            .Select(g => new
+            {
+                movieId = g.Key,
+                count = g.Count()
+            })
+            .OrderByDescending(x => x.count)
+            .Select(x => x.movieId)
+            .Take(10)
+            .ToList();
+            List<Movie> statistic = _context.Movies.Where(m => movies.Contains(m.MovieId)).ToList();
+            return statistic;
+        }
+        else
+        {
+            var movies = _context.Tickets
+            .Include(t => t.MovieProgramming)
+            .Include(mp => mp.MovieProgramming.Movie)
+            .Where(m => m.DateTimeId >= input.begin && m.DateTimeId <= input.end)
+            .GroupBy(t => t.MovieId)
+            .Select(g => new
+            {
+                movieId = g.Key,
+                count = g.Count()
+            })
+            .OrderByDescending(x => x.count)
+            .Select(x => x.movieId)
+            .Take(10)
+            .ToList();
+            List<Movie> statistic = _context.Movies.Where(m => movies.Contains(m.MovieId)).ToList();
+            return statistic;
+        }
+
+    }
+
 }
+
 

@@ -1,3 +1,4 @@
+using cineplus.Data.UtilityClass;
 namespace cineplus.ShoppingHistoryController;
 
 [Route("api/shoppinghistory")]
@@ -11,7 +12,7 @@ public class ShoppingHistoryController : Controller
     {
         _context = context;
         _mapper = mapper;
-        _utility = new UtilityClass();
+        _utility = new UtilityClass(_context);
     }
 
     [HttpGet]

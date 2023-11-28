@@ -11,18 +11,18 @@ interface Props {
   actorsList: SingleTextModal[];
   genresList: SingleTextModal[];
   buttonConfig: ButtonConfig;
-  statsEndpoint:string
+  statsEndpoint: string
 }
 
 function MovieFilterForm(props: Props) {
   const [show, setShow] = useState(false);
-  const [enable1,setEnable1] =useState(false); 
-  const [enable2,setEnable2] =useState(false); 
-  const [enable3,setEnable3] =useState(false); 
-  const [selectedActor, setSelectedActor] = useState<SingleTextModal|string|null>(props.actorsList.length>0?props.actorsList[0]:null);
-  const [selectedGenre, setSelectedGenre] = useState<SingleTextModal|string|null>(props.genresList.length>0?props.genresList[0]:null);
-  const [selectedDateStart, setSelectedDateStart] = useState(new Date(1900));
-  const [selectedDateEnd, setSelectedDateEnd] = useState(new Date());
+  const [enable1, setEnable1] = useState(false);
+  const [enable2, setEnable2] = useState(false);
+  const [enable3, setEnable3] = useState(false);
+  const [selectedActor, setSelectedActor] = useState<SingleTextModal | string | null>(null);
+  const [selectedGenre, setSelectedGenre] = useState<SingleTextModal | string | null>(null);
+  const [selectedDateStart, setSelectedDateStart] = useState<Date | null>(null);
+  const [selectedDateEnd, setSelectedDateEnd] = useState<Date | null>(null);
 
   const toggle = () => {
     setShow(!show);
@@ -47,22 +47,22 @@ function MovieFilterForm(props: Props) {
 
   async function handleClick() {
     const request = {
-      actor:enable1?selectedActor:null,
-      genres:enable2?selectedGenre:null,
-      begin:enable3?selectedDateStart:null,
-      end:enable3?selectedDateEnd:null
+      actor: enable1 ? selectedActor : null,
+      genres: enable2 ? selectedGenre : null,
+      begin: enable3 ? selectedDateStart : null,
+      end: enable3 ? selectedDateEnd : null
     };
 
-    fetchStats(props.statsEndpoint,props.setMovies,{params:request});
+    fetchStats(props.statsEndpoint, props.setMovies, { params: request });
   }
 
-  function handleClickE1(){
+  function handleClickE1() {
     setEnable1(!enable1);
   }
-  function handleClickE2(){
+  function handleClickE2() {
     setEnable2(!enable2);
   }
-  function handleClickE3(){
+  function handleClickE3() {
     setEnable3(!enable3);
   }
 
@@ -86,7 +86,7 @@ function MovieFilterForm(props: Props) {
             <div className="form-group formgroup">
               <label>Actor</label>
               <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onClick={handleClickE1} checked={enable1}/>
+                <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onClick={handleClickE1} checked={enable1} />
               </div>
               {enable1 && <Form.Select aria-label="Actor" onChange={handleActorChange} defaultValue={""}>
                 {props.actorsList.map((y) => (
@@ -100,9 +100,9 @@ function MovieFilterForm(props: Props) {
             <div className="form-group formgroup">
               <label>Género</label>
               <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onClick={handleClickE2} checked={enable2}/>
+                <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onClick={handleClickE2} checked={enable2} />
               </div>
-              {enable2&&<Form.Select aria-label="Género" onChange={handleGenreChange} defaultValue={""}>
+              {enable2 && <Form.Select aria-label="Género" onChange={handleGenreChange} defaultValue={""}>
                 {props.genresList.map((y) => (
                   <option key={y.id} value={y.name}>
                     {y.name}
@@ -113,9 +113,9 @@ function MovieFilterForm(props: Props) {
             <div className='form-group formgroup'>
               <label>Rango de Fecha</label>
               <div className="form-check form-switch">
-                <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onClick={handleClickE3} checked={enable3}/>
+                <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" onClick={handleClickE3} checked={enable3} />
               </div>
-              {enable3&&<div className="row">
+              {enable3 && <div className="row">
                 <div className='col'>
                   <label>Desde</label>
                   <div>
