@@ -37,6 +37,8 @@ function ManagerPage({pathHead}: Props) {
   const criteriaEndpoint = '/api/criterion/all';
   const activecriteriaEndpoint = '/api/activecriterion';
   const posterEndpoint = '/api/poster'
+  const pieEndpoint = '/api/statistic/pie'
+  const topclientsEndpoint = 'api/statistic/topclients'
   // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -98,7 +100,7 @@ function ManagerPage({pathHead}: Props) {
         <SidebarMenu items={items} />
       </div>
       <Routes>
-        <Route path="/" element={<StatsManager moviesEndpoint={moviesEndpoint} actorsEndpoint={actorsEndpoint} genresEndpoint={genresEndpoint} statsEndpoint={statsEndpoint}/>}/>
+        <Route path="/" element={<StatsManager moviesEndpoint={moviesEndpoint} actorsEndpoint={actorsEndpoint} genresEndpoint={genresEndpoint} statsEndpoint={statsEndpoint} pieEndpoint={pieEndpoint} topclientsEndpoint={topclientsEndpoint}/>}/>
         <Route path="/movies" element={<MovieManager name="Películas" moviesEndpoint={moviesEndpoint} actorsEndpoint={actorsEndpoint} genresEndpoint={genresEndpoint} path={moviesEndpoint} posterEndpoint={posterEndpoint} />} />
         <Route path="/schedule" element={<ScheduleManager name="Programaciones" scheduleEndpoint={scheduleEndpoint} moviesEndpoint={moviesEndpoint} roomsEndpoint={roomsEndpoint} path={scheduleEndpoint}/>}/>
         <Route path="/rooms" element={<RoomManager name="Salas" endpoint={roomsEndpoint} path={roomsEndpoint} />}/>

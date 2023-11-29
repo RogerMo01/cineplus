@@ -50,4 +50,40 @@ public class StatisticController : Controller
             return Ok(movies);
         }
     }
+
+    [HttpGet]
+    [Route("pie")]
+    public async Task<IActionResult> CubanVsForeigner()
+    {
+        int count_cubanMovies = _context.Tickets
+            .Include(mp => mp.MovieProgramming)
+                .ThenInclude(m => m.Movie)
+            .Where(ticket => ticket.MovieProgramming.Movie.Country == "Cuba")
+            .Count();
+
+        int count_internationalMovies = _context.Tickets.Count() - count_cubanMovies;
+
+        return Ok(new { national = count_cubanMovies, international = count_internationalMovies });
+    }
+
+    [HttpGet]
+    [Route("topclients")]
+    public async Task<IActionResult> TopClients()
+    {
+        var topClients = _context.OnlineSales
+            .Include(c => c.Client)
+                .ThenInclude(u => u.User)
+            .GroupBy(sale => sale.Client.User)
+            .Select(group => new
+            {
+                nick = group.Key.Nick,
+                TotalSales = group.Count()
+            })
+            .OrderByDescending(result => result.TotalSales)
+            .Take(3)
+            .ToList();
+
+        return Ok(topClients);
+    }
+
 }
