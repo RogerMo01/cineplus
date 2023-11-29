@@ -7,19 +7,23 @@ import parseDate from "./DateParser";
 import Post from "./ProcessPost";
 import { ToastContainer, toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
+import MemberCodeInput from "./MemberCodeInput";
 
 interface Props {
   scheduleEndpoint: string;
   seatEndpoint: string;
   discountEndpoint: string;
   buyEndpoint: string;
+  membersEndpoint: string;
   scheduledMovieId?: string;
   scheduledMovie?: string;
   scheduledRoom?: string;
   scheduledDate?: Date;
 }
 
-function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buyEndpoint, scheduledMovieId, scheduledMovie, scheduledRoom, scheduledDate }: Props) {
+function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buyEndpoint, membersEndpoint, scheduledMovieId, scheduledMovie, scheduledRoom, scheduledDate }: Props) {
+
+  const [role, setRole] = useState('');
 
   const [schedule, setSchedule] = useState<Schedule[]>([]);
   const [seats, setSeats] = useState<Seat[]>([]);
@@ -33,9 +37,18 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   const [price, setPrice] = useState(0);
   const [points, setPoints] = useState(0);
 
+  const [code, setCode] = useState("");
+
   useEffect(() => {
     fetch(scheduleEndpoint, setSchedule);
     fetch(discountEndpoint, setDiscounts);
+
+
+    const token = localStorage.getItem('sessionToken');
+    if(token){
+      const decodedToken = jwtDecode<UserPayload>(token);
+      setRole(decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -94,30 +107,30 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
+
     const request = {
       MovieProgId: selectedSchedule,
       SeatCode: selectedSeat,
-      Discount: selectedDiscount
+      Discount: selectedDiscount,
+      PointsPayment: code.length === 8,
+      Code: code.length === 8 ? code : null
     }
+
+    // console.log('compra realizada');
+    // console.log('codigo: ' + request.Code);
 
     const response = Post(request, buyEndpoint, seatEndpoint + `/${selectedSchedule}`, setSeats);
     if(await response){
-
-      const token = localStorage.getItem('sessionToken');
-      if(token){
-        const decodedToken = jwtDecode<UserPayload>(token);
-        const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-
-        if(role === 'client'){
-          toast.info("Comprobante disponible en la página de compras", {
-            position: "bottom-right",
-            autoClose: 5000,
-          });
-        }
+      if(role === 'client'){
+        toast.info("Comprobante disponible en la página de compras", {
+          position: "bottom-right",
+          autoClose: 5000,
+        });
       }
-
     }
   }
+
+  const [disabledButton, setDisabledButton] = useState(false);
 
 
   return (
@@ -165,9 +178,16 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
             </div>
           </div>
           
-          <button className="btn btn-primary float-end" type="submit" disabled={seats.length === 0 ? true : false}>
-            Reservar Ticket
-          </button>
+          <div className="form-element club-input">
+            <Form.Label>Código de miembro</Form.Label>
+            <MemberCodeInput setDisabledButton={setDisabledButton} pointsEndpoint={membersEndpoint} pointsPrice={points} code={code} setCode={setCode} />
+          </div>
+          
+          <div className="d-flex justify-content-end">
+            <button className="btn btn-primary" type="submit" disabled={seats.length === 0 || disabledButton ? true : false}>
+              Reservar Ticket
+            </button>
+          </div>
         </form>
         
 
