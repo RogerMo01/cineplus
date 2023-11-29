@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Renci.SshNet.Messages;
 using System.Security.Cryptography;
 
 namespace cineplus.MemberController;
@@ -147,5 +148,15 @@ public class AssociateMemberController : Controller
         if(member == null) { return Conflict(new { Message = "Cliente no asociado al Club Cine+" }); }
 
         return Ok(new {code = member.MembershipCode, points = member.Points });
+    }
+    
+    [HttpGet("{code}")]
+    [Route("points")]
+    public async Task<IActionResult> PointsAvailable(string code)
+    {
+        var member = _context.Memberships.FirstOrDefault(x => x.MembershipCode == code);
+        if(member == null) { return Conflict(new {Message = "Código Inválido"}); }
+        
+        return Ok(new {points = member.Points}); 
     }
 }
