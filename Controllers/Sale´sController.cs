@@ -105,6 +105,7 @@ public class SalesController : Controller
                 RoomId = reserve.RoomId,
                 SeatId = reserve.SeatId,
                 DiscountId = discount!.DiscountId,
+                DateOfPurchase = now_date,
                 FinalPrice = (input.PointsPayment) ? (reserve.PricePoints - (discount.Percent) * reserve.PricePoints) : (reserve.Price - (discount.Percent) * reserve.Price),
                 Cash = !input.PointsPayment,
                 MemberCode = (input.Code != null) ? input.Code : null
@@ -117,7 +118,7 @@ public class SalesController : Controller
         {
             if (member != null && input.PointsPayment)
             {
-                member.Points = member.Points - reserve.PricePoints;
+                member.Points = member.Points - reserve.PricePoints + 5;
             }
 
             await _context.SaveChangesAsync();
