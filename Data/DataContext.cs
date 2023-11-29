@@ -196,6 +196,13 @@ namespace CineplusDB.Models
                 .HasForeignKey<Membership>(m => m.ClientId)
                 .IsRequired(false); 
 
+            // ---------------- Relacion uno muchos opcional e/ venta en taquilla y socios ---------------------
+            
+            modelBuilder.Entity<BoxOfficeSales>()
+                .HasOne(m => m.Membership)
+                .WithMany(x => x.BoxOfficeSales)
+                .HasForeignKey(m => m.MemberCode)
+                .IsRequired(false);
 
             SeedDataMovies(modelBuilder);
             SeedDataClients(modelBuilder);

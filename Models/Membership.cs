@@ -10,9 +10,10 @@ public class Membership
     public int Points { get; set; }
     public string FullName { get; set; }
     public int? ClientId { get; set; }
-
     public virtual Client Client { get; set; }
+    public virtual ICollection<BoxOfficeSales> BoxOfficeSales { get; set; }
 }
+
 public class MembershipData
 {
     public int MembershipCode { get; set; }
