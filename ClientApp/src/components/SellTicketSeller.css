@@ -36,3 +36,8 @@
   flex-grow: 1;
   margin-left: 15px;
 }
+
+.club-input {
+  width: 20%;
+  min-width: 140px;
+}

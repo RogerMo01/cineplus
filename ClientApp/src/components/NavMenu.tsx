@@ -5,7 +5,6 @@ import './NavMenu.css';
 import { NavLinkRoute, UserData } from '../types/types';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import MemberClient from './MemberClient';
 
 
 interface Props {
@@ -14,11 +13,6 @@ interface Props {
   userData?: UserData;
   setToken?: React.Dispatch<React.SetStateAction<string | null>>;
 }
-
-interface NavMenuState {
-  collapsed: boolean;
-}
-
 
 
 const NavMenu: React.FC<Props> = (props) => {

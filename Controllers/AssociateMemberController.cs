@@ -124,8 +124,8 @@ public class AssociateMemberController : Controller
     }
 
 
-    [HttpGet("{dni}")]
-    [Route("dni")]
+    [HttpGet("dni/{dni}")]
+    // [Route("dni")]
     public async Task<IActionResult> GetMembership(string dni)
     {
         var member = _context.Memberships.FirstOrDefault(x => x.MemberDNI == dni);
@@ -150,8 +150,8 @@ public class AssociateMemberController : Controller
         return Ok(new {code = member.MembershipCode, points = member.Points });
     }
     
-    [HttpGet("{code}")]
-    [Route("points")]
+    [HttpGet("points/{code}")]
+    // [Route("points")]
     public async Task<IActionResult> PointsAvailable(string code)
     {
         var member = _context.Memberships.FirstOrDefault(x => x.MembershipCode == code);

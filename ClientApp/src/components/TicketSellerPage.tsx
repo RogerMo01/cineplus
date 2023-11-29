@@ -20,6 +20,7 @@ function TicketSellerPage({ pathHead }: Props) {
   const seatsEndponit = '/api/seats'
   const buyEndpoint = '/api/sales'
   const membersEndpoint = '/api/associate'
+  // const memberPointsEndpoint = '/api/associate/points'
   // ~~~~~~~~~~~~~~~~~~~~~~ End configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -48,7 +49,7 @@ function TicketSellerPage({ pathHead }: Props) {
     <div className="SidebarPage">
         <SidebarMenu items={items} />
         <Routes>
-            <Route path="/" element={<SellTicketSeller scheduleEndpoint={scheduleEndpoint} seatEndpoint={seatsEndponit} discountEndpoint={discountsEndpoint} buyEndpoint={buyEndpoint} />} />
+            <Route path="/" element={<SellTicketSeller scheduleEndpoint={scheduleEndpoint} seatEndpoint={seatsEndponit} discountEndpoint={discountsEndpoint} buyEndpoint={buyEndpoint} membersEndpoint={membersEndpoint} />} />
             <Route path="/associate" element={<MemberSignUpForm header="Asociar cliente" endpoint={membersEndpoint}/>} />
             <Route path="/search-member" element={<SearchMember endpoint={membersEndpoint} />} />
         </Routes>

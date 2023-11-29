@@ -29,7 +29,7 @@ function SearchMember({endpoint} : Props) {
     if(!validateInputs()) return;
 
     axios
-      .get(`${endpoint}/${dni}`)
+      .get(`${endpoint}/dni/${dni}`)
       .then((response) => {
         const codeS = response.data.code;
         const pointsS = response.data.points;
