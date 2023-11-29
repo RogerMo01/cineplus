@@ -77,8 +77,11 @@ function SignUpForm({endpoint} : {endpoint: string}) {
 
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~ Submmit Handler ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setIsButtonDisabled(true);
 
     // ~~~~~~ Validate data ~~~~~~~
     if (username.length > 20 || username.length < 6) {
@@ -129,6 +132,7 @@ function SignUpForm({endpoint} : {endpoint: string}) {
       }, 3000);}
     }
 
+    setIsButtonDisabled(false);
   };
   // ~~~~~~~~~~~~~~~ END Submmit Handler ~~~~~~~~~~~~~~~~~~
   
@@ -191,7 +195,7 @@ function SignUpForm({endpoint} : {endpoint: string}) {
               </label>
             )}
           </div>
-          <button type="submit" className="btn btn-primary align-right">
+          <button type="submit" className="btn btn-primary align-right" disabled={isButtonDisabled}>
             Registrarse
           </button>
         </form>
