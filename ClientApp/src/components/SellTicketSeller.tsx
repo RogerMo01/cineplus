@@ -25,6 +25,7 @@ interface Props {
 function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buyEndpoint, membersEndpoint, scheduledMovieId, scheduledMovie, scheduledRoom, scheduledDate }: Props) {
 
   const [role, setRole] = useState('');
+  const [isMember, setIsMember] = useState<{member: boolean}>({member: false})
 
   const [schedule, setSchedule] = useState<Schedule[]>([]);
   const [seats, setSeats] = useState<Seat[]>([]);
@@ -47,7 +48,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   useEffect(() => {
     fetch(scheduleEndpoint, setSchedule);
     fetch(discountEndpoint, setDiscounts);
-
+    fetch(membersEndpoint + '/ismember', setIsMember);
 
     const token = localStorage.getItem('sessionToken');
     if(token){
@@ -145,12 +146,8 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
     }
   }
 
+  
   const [disabledButton, setDisabledButton] = useState(false);
-
-
-  function handleSwitch(event: React.MouseEvent<HTMLInputElement, MouseEvent>): void {
-    setPointsPaymentClient(!pointsPaymentClient);
-  }
 
   return (
     <div className="fullts-container border rounded">
@@ -207,7 +204,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
                 <input disabled={false} className="form-check-input" type="checkbox" role="switch" onClick={handleSwitch}></input>
                 <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Pagar con puntos</label>
               </div> */}
-              <MemberClientSwitch memberEndpoint={membersEndpoint} pointsPrice={points} pointsPayment={pointsPaymentClient} pointsPaymentSetter={setPointsPaymentClient} codeSetter={setCode} pointsRefresh={pointsRefresh}  disableBtn={setDisabledButton}/>
+              {isMember.member && <MemberClientSwitch memberEndpoint={membersEndpoint} pointsPrice={points} pointsPayment={pointsPaymentClient} pointsPaymentSetter={setPointsPaymentClient} codeSetter={setCode} pointsRefresh={pointsRefresh}  disableBtn={setDisabledButton}/>}
             </div>
           }
           

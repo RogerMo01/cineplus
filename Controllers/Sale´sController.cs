@@ -88,7 +88,7 @@ public class SalesController : Controller
                 DiscountId = discount!.DiscountId,
                 DateOfPurchase = now_date,
                 Transfer = !input.PointsPayment,
-                FinalPrice = (input.PointsPayment) ? (reserve.PricePoints - (int)Math.Ceiling(discount.Percent * reserve.PricePoints)) : (reserve.Price - (int)Math.Ceiling(discount.Percent * reserve.Price)),
+                FinalPrice = (input.PointsPayment) ? (reserve.PricePoints - (int)Math.Ceiling(discount.Percent * reserve.PricePoints)) : (reserve.Price - (discount.Percent * reserve.Price)),
                 SaleIdentifier = Guid.NewGuid()
             };
 
@@ -109,7 +109,7 @@ public class SalesController : Controller
                 SeatId = reserve.SeatId,
                 DiscountId = discount!.DiscountId,
                 DateOfPurchase = now_date,
-                FinalPrice = (input.PointsPayment) ? (reserve.PricePoints - (int)Math.Ceiling(discount.Percent * reserve.PricePoints)) : (reserve.Price - (int)Math.Ceiling(discount.Percent * reserve.Price)),
+                FinalPrice = (input.PointsPayment) ? (reserve.PricePoints - (int)Math.Ceiling(discount.Percent * reserve.PricePoints)) : (reserve.Price - (discount.Percent * reserve.Price)),
                 Cash = !input.PointsPayment,
                 MemberCode = (input.Code != null) ? input.Code : null
             };
