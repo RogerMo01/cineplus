@@ -53,7 +53,7 @@ function StatsManager({ moviesEndpoint, actorsEndpoint, genresEndpoint, statsEnd
                         <div style={{ textAlign: 'center', marginTop: '5px' }}>
                             <h3>Cine Cubano vs. Cine Extranjero</h3>
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <div style={{ width: '180px', height: '200px', marginTop: '5px' }} className="img-fluid">
+                                <div style={{ width: '130px', height: '150px', marginTop: '5px' }} className="img-fluid">
                                     <PieChart
                                         data={[
                                             { title: '', value: count!.national, color: maxColor },
@@ -82,7 +82,7 @@ function StatsManager({ moviesEndpoint, actorsEndpoint, genresEndpoint, statsEnd
                         <div style={{ textAlign: 'center', marginTop: '5px' }}>
                             <h3>Clientes con más compras</h3>
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <div style={{ width: '180px', height: '200px', marginTop: '5px' }} className="img-fluid">
+                                <div style={{ width: '130px', height: '150px', marginTop: '5px' }} className="img-fluid">
                                     <PieChart
                                         data={topClients.map((x, index) => ({ title: x.nick, value: x.totalSales, color: colorPalette[index % colorPalette.length] }))}
                                     />
