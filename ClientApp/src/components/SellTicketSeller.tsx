@@ -8,6 +8,7 @@ import Post from "./ProcessPost";
 import { ToastContainer, toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 import MemberCodeInput from "./MemberCodeInput";
+import MemberClientSwitch from "./MemberClientSwitch";
 
 interface Props {
   scheduleEndpoint: string;
@@ -40,6 +41,8 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   const [code, setCode] = useState("");
   const [pointsPayment, setPointsPayment] = useState(false);
   const [pointsRefresh, setPointsRefresh] = useState(false);
+
+  const [pointsPaymentClient, setPointsPaymentClient] = useState(false);
 
   useEffect(() => {
     fetch(scheduleEndpoint, setSchedule);
@@ -110,11 +113,19 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
 
-    const request = {
+    const request = role === 'seller' 
+    ? {
       MovieProgId: selectedSchedule,
       SeatCode: selectedSeat,
       Discount: selectedDiscount,
       PointsPayment: pointsPayment,
+      Code: code.length === 8 ? code : null
+    }
+    : {
+      MovieProgId: selectedSchedule,
+      SeatCode: selectedSeat,
+      Discount: selectedDiscount,
+      PointsPayment: pointsPaymentClient,
       Code: code.length === 8 ? code : null
     }
 
@@ -136,6 +147,10 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
 
   const [disabledButton, setDisabledButton] = useState(false);
 
+
+  function handleSwitch(event: React.MouseEvent<HTMLInputElement, MouseEvent>): void {
+    setPointsPaymentClient(!pointsPaymentClient);
+  }
 
   return (
     <div className="fullts-container border rounded">
@@ -182,13 +197,22 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
             </div>
           </div>
           
-          <div className="form-element club-input">
+          {role === 'seller' 
+          ? <div className="form-element club-input">
             <Form.Label>Código de miembro</Form.Label>
             <MemberCodeInput setDisabledButton={setDisabledButton} pointsEndpoint={membersEndpoint} pointsPrice={points} code={code} setCode={setCode} pointsPaymentSetter={setPointsPayment} pointsPayment={pointsPayment} pointsRefresh={pointsRefresh} />
           </div>
+          : <div>
+              {/* <div className="form-check form-switch">
+                <input disabled={false} className="form-check-input" type="checkbox" role="switch" onClick={handleSwitch}></input>
+                <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Pagar con puntos</label>
+              </div> */}
+              <MemberClientSwitch memberEndpoint={membersEndpoint} pointsPrice={points} pointsPayment={pointsPaymentClient} pointsPaymentSetter={setPointsPaymentClient} codeSetter={setCode} pointsRefresh={pointsRefresh}  disableBtn={setDisabledButton}/>
+            </div>
+          }
           
           <div className="d-flex justify-content-end">
-            <button className="btn btn-primary" type="submit" disabled={seats.length === 0 || disabledButton ? true : false}>
+            <button className="btn btn-primary" type="submit" disabled={seats.length === 0 || disabledButton}>
               Reservar Ticket
             </button>
           </div>

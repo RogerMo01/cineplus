@@ -39,7 +39,9 @@ public class SalesController : Controller
         
         if (member == null && input.PointsPayment) { return BadRequest("Invalid Data, no member code provided"); }
 
-        if (member != null && input.PointsPayment && member.Points < programming.PricePoints) { return Conflict(new { Message = "Cantidad de puntos insuficientes" }); }
+        var discount = _context.Discounts.Where(d => d.DiscountId == input.Discount).FirstOrDefault();
+
+        if (member != null && input.PointsPayment && member.Points < (int)Math.Ceiling((double)(programming.PricePoints * (1 - discount.Percent)))) { return Conflict(new { Message = "Cantidad de puntos insuficientes" }); }
 
         // Verificar si el asiento esta verdaderamente libre 
         if (_context.Tickets.Any(x => x.DateTimeId == programming.DateTimeId && x.RoomId == programming.RoomId && x.Code == input.SeatCode))
@@ -59,8 +61,6 @@ public class SalesController : Controller
         //     return Conflict(new { Message = "Sala sin capacidad" });
         // }
 
-        //falta incluir la tarjeta
-        var discount = _context.Discounts.Where(d => d.DiscountId == input.Discount).FirstOrDefault();
         Seat seat_Id = _context.Seats.FirstOrDefault(s => (s.Code == input.SeatCode) && (s.RoomId == programming.RoomId))!;
 
         //Añadir el ticket reservado a la tabla
@@ -88,7 +88,7 @@ public class SalesController : Controller
                 DiscountId = discount!.DiscountId,
                 DateOfPurchase = now_date,
                 Transfer = !input.PointsPayment,
-                FinalPrice = (input.PointsPayment) ? (reserve.PricePoints - (discount.Percent) * reserve.PricePoints) : (reserve.Price - (discount.Percent) * reserve.Price),
+                FinalPrice = (input.PointsPayment) ? (reserve.PricePoints - (int)Math.Ceiling(discount.Percent * reserve.PricePoints)) : (reserve.Price - (int)Math.Ceiling(discount.Percent * reserve.Price)),
                 SaleIdentifier = Guid.NewGuid()
             };
 
@@ -109,7 +109,7 @@ public class SalesController : Controller
                 SeatId = reserve.SeatId,
                 DiscountId = discount!.DiscountId,
                 DateOfPurchase = now_date,
-                FinalPrice = (input.PointsPayment) ? (reserve.PricePoints - (discount.Percent) * reserve.PricePoints) : (reserve.Price - (discount.Percent) * reserve.Price),
+                FinalPrice = (input.PointsPayment) ? (reserve.PricePoints - (int)Math.Ceiling(discount.Percent * reserve.PricePoints)) : (reserve.Price - (int)Math.Ceiling(discount.Percent * reserve.Price)),
                 Cash = !input.PointsPayment,
                 MemberCode = (input.Code != null) ? input.Code : null
             };
@@ -121,7 +121,7 @@ public class SalesController : Controller
         {
             if (member != null && input.PointsPayment)
             {
-                member.Points = member.Points - reserve.PricePoints;
+                member.Points = member.Points - (int)Math.Ceiling((1 - discount.Percent) * reserve.PricePoints);
             }
 
             if(member != null) {member.Points += 5; }
