@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, PopoverBody, PopoverHeader, UncontrolledPopover } from 'reactstrap';
+import { Button, Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, Offcanvas, OffcanvasBody, OffcanvasHeader, PopoverBody, PopoverHeader, UncontrolledPopover } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import './NavMenu.css';
 import { NavLinkRoute, UserData } from '../types/types';
@@ -44,6 +44,8 @@ const NavMenu: React.FC<Props> = (props) => {
 
 
     const { navLinkItems } = props;
+    const [offCanvas, setOffCanvas] = useState(false);
+    const toggle = () => setOffCanvas(!offCanvas);
 
     return (
       <header>
@@ -66,27 +68,8 @@ const NavMenu: React.FC<Props> = (props) => {
                 <div className='user-box'>
 
                   <div className='user-icon-container'>
-                    <img src='user.png' width={45} height={45} alt='user' id='Popover' />
+                    <img src='user-lg.png' width={43} height={43} alt='user' onClick={toggle} />
                   </div>
-
-
-                  <UncontrolledPopover
-                    placement="bottom"
-                    target="Popover"
-                    trigger="legacy"
-                  >
-                    <PopoverHeader>
-                      {"👋Hola, " + props.userData?.nick}
-                    </PopoverHeader>
-                    <PopoverBody>
-                      <div className='vertical-container'>
-                        ¿Qué deseas hacer?
-                        <Button className='btn mt-2 btn-danger btn-sm' onClick={handleLogoutClick}>
-                          Cerrar sesión
-                        </Button>
-                      </div>
-                    </PopoverBody>
-                  </UncontrolledPopover>
 
                 </div>
               </NavItem>}
@@ -94,6 +77,56 @@ const NavMenu: React.FC<Props> = (props) => {
             </ul>
           </Collapse>
         </Navbar>
+
+        <Offcanvas
+          direction="end"
+          toggle={toggle}
+          isOpen={offCanvas}
+        >
+          <OffcanvasHeader toggle={toggle}>
+            👋Hola, bienvenid@ de nuevo
+          </OffcanvasHeader>
+          <OffcanvasBody>
+            <div className='vertical-container d-flex flex-column align-items-center mt-4 border pt-4 pb-4 me-5 ms-5 rounded'>
+              <img src='user-lg.png' width={90} height={90} alt='user' />
+
+              <strong>
+                {props.userData?.nick}
+              </strong>
+              <hr/>
+              <strong>
+                ¿Qué deseas hacer?
+              </strong>
+              {/* <div>¿Qué deseas hacer?</div> */}
+              <div>
+                <Button className='btn mt-2 btn-danger ' onClick={handleLogoutClick}>
+                  Cerrar sesión
+                </Button>
+              </div>
+            </div>
+          </OffcanvasBody>
+        </Offcanvas>
+        {/* <UncontrolledPopover
+          placement="bottom"
+          target="Popover"
+          trigger="legacy"
+        >
+          <PopoverHeader>
+            {"👋Hola, " + props.userData?.nick}
+          </PopoverHeader>
+          <PopoverBody>
+            <div className='vertical-container'>
+              ¿Qué deseas hacer?
+              <Button className='btn mt-2 btn-danger btn-sm' onClick={handleLogoutClick}>
+                Cerrar sesión
+              </Button>
+            </div>
+          </PopoverBody>
+        </UncontrolledPopover> */}
+
+
+
+
         <ToastContainer />
       </header>
     );

@@ -73,7 +73,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
     const price = getPriceById(selectedSchedule, schedule) * (1 - selectedDiscountValue)
     setPrice(parseFloat(price.toFixed(2)))
     const points = getPointsById(selectedSchedule, schedule) * (1 - selectedDiscountValue)
-    setPoints(parseInt(points.toFixed(0)))
+    setPoints(Math.floor(points))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDiscountValue, selectedSchedule]);
 
