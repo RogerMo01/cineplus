@@ -1,7 +1,7 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import "./SellTicketSeller.css";
 import Form from "react-bootstrap/Form";
-import { Discount, Schedule, Seat, UserPayload } from "../types/types";
+import { Discount, MovieSchedule, Schedule, Seat, UserPayload } from "../types/types";
 import fetch from "./Fetch";
 import parseDate from "./DateParser";
 import Post from "./ProcessPost";
@@ -27,12 +27,12 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   const [role, setRole] = useState('');
   const [isMember, setIsMember] = useState<{member: boolean}>({member: false})
 
-  const [schedule, setSchedule] = useState<Schedule[]>([]);
+  const [schedule, setSchedule] = useState<MovieSchedule[]>([]);
   const [seats, setSeats] = useState<Seat[]>([]);
   const [discounts, setDiscounts] = useState<Discount[]>([]);
 
   const [selectedSchedule, setSelectedSchedule] = useState('');
-  const [selectedSeat, setSelectedSeat] = useState('');
+  const [selectedSeat, setSelectedSeat] = useState(seats.length > 0 ? seats[0].code : '');
   const [selectedDiscountValue, setSelectedDiscountValue] = useState(0);
   const [selectedDiscount, setSelectedDiscount] = useState(1);
 
@@ -83,11 +83,11 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   }, [selectedSchedule]);
 
 
-  function getPriceById(id: string, schedules: Schedule[]): number {
+  function getPriceById(id: string, schedules: MovieSchedule[]): number {
     const schedule = schedules.find(schedule => schedule.id === id);
     return schedule ? schedule.price : 0;
   }
-  function getPointsById(id: string, schedules: Schedule[]): number {
+  function getPointsById(id: string, schedules: MovieSchedule[]): number {
     const schedule = schedules.find(schedule => schedule.id === id);
     return schedule ? schedule.points : 0;
   }
@@ -168,7 +168,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
               {scheduledMovieId 
               ? <option key={scheduledMovieId} value={scheduledMovieId}>{parseDate(scheduledDate ? scheduledDate.toString() : new Date().toString()) + ' | ' + scheduledMovie + ' | ' + scheduledRoom}</option>
               : schedule.map(s => (
-                <option key={s.id} value={s.id}>{parseDate(s.date.toString()) + ' | ' + s.movie + ' | ' + s.room}</option>
+                <option key={s.id} value={s.id}>{parseDate(s.date.toString()) + ' | ' + s.movieTitle + ' | ' + s.roomName}</option>
               ))}
             </Form.Select>
           </div>
@@ -176,7 +176,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
           <div className="inline-container">
             <div className="form-element">
               <Form.Label>Seleccionar Butaca</Form.Label>
-              <Form.Select onChange={handleChangeSelectedSeat} disabled={seats.length === 0 ? true : false}>
+              <Form.Select value={selectedSeat} onChange={handleChangeSelectedSeat} disabled={seats.length === 0 ? true : false}>
                 {seats.map(s => (
                   <option key={s.code} value={s.code}>{s.code}</option>
                 ))}

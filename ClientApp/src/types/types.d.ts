@@ -56,8 +56,9 @@ export interface Schedule {
 
 export interface MovieSchedule {
   id: string;
-  movie: string;
-  room: string;
+  movieTitle: string;
+  movieId: string;
+  roomName: string;
   date: Date;
   price: number;
   points: number;

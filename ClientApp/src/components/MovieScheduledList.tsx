@@ -36,7 +36,7 @@ function MoviesScheduledList({
     <Modal size="lg" isOpen={showModal} toggle={toggle}>
       <ModalHeader toggle={toggle}>📅 Programaciones Disponibles para: {name}</ModalHeader>
       <ModalBody>
-        {schedule.filter(x => parseInt(x.movie) === movieId).length === 0
+        {schedule.filter(x => parseInt(x.movieId) === movieId).length === 0
           ? movieNotScheduled
           : <Card>
             <CardBody>
@@ -52,9 +52,9 @@ function MoviesScheduledList({
                     </tr>
                   </thead>
                   <tbody>
-                    {schedule.filter(x => parseInt(x.movie) === movieId).map((s) => (
+                    {schedule.filter(x => parseInt(x.movieId) === movieId).map((s) => (
                       <tr key={s.id}>
-                        <td>{s.room}</td>
+                        <td>{s.roomName}</td>
                         <td>{parseDate(s.date.toString())}</td>
                         <td>$ {s.price}</td>
                         <td>{s.points} ptos</td>
@@ -62,7 +62,7 @@ function MoviesScheduledList({
                           <div className="modifyButtons">
                             <button
                               className="btn btn-success modifyButton"
-                              onClick={() => handleBuy(s.id, s.room, s.date)}
+                              onClick={() => handleBuy(s.id, s.roomName, s.date)}
                             >
                               Comprar
                             </button>
