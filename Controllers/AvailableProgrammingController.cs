@@ -26,16 +26,14 @@ public class AvailableProgrammingController : ControllerBase
         
         foreach (var item in programming)
         {
-            int movieId = _context.Movies.FirstOrDefault(m => m.Title == item.Movie)!.MovieId;
-            Room room = _context.Rooms.FirstOrDefault(r => r.Name == item.Room)!;
+            Room room = _context.Rooms.FirstOrDefault(r => r.Name == item.RoomName)!;
 
             int ocupated_seat = _context.Tickets
             .Include(t => t.MovieProgramming)
-            .Count(t => (t.MovieProgramming.MovieId == movieId) && (t.MovieProgramming.RoomId == room.RoomId) && (t.MovieProgramming.DateTimeId == item.Date));
+            .Count(t => (t.MovieProgramming.MovieId == item.MovieId) && (t.MovieProgramming.RoomId == room.RoomId) && (t.MovieProgramming.DateTimeId == item.Date));
 
             if(ocupated_seat < room.SeatsCount) 
             { 
-                item.Movie = movieId.ToString();
                 availableProgramming.Add(item); 
             }
         }
