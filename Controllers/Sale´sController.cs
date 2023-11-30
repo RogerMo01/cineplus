@@ -33,7 +33,10 @@ public class SalesController : Controller
         Guid guid = new Guid(input.MovieProgId);
         MovieProgramming programming = _context.ScheduledMovies.FirstOrDefault(mp => mp.Identifier == guid)!;
 
+        if(input.Code != null & !_context.Memberships.Any(x => x.MembershipCode == input.Code)) { return Conflict(new { Message = "Código Inválido"}); }
+        
         var member = (input.Code != null) ? _context.Memberships.FirstOrDefault(x => x.MembershipCode == input.Code) : null;
+        
         if (member == null && input.PointsPayment) { return BadRequest("Invalid Data, no member code provided"); }
 
         if (member != null && input.PointsPayment && member.Points < programming.PricePoints) { return Conflict(new { Message = "Cantidad de puntos insuficientes" }); }
@@ -118,9 +121,10 @@ public class SalesController : Controller
         {
             if (member != null && input.PointsPayment)
             {
-                member.Points = member.Points - reserve.PricePoints + 5;
+                member.Points = member.Points - reserve.PricePoints;
             }
 
+            if(member != null) {member.Points += 5; }
             await _context.SaveChangesAsync();
 
         }
