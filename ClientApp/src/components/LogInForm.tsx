@@ -32,8 +32,13 @@ function LogInForm({tokenSetter: setToken}: {tokenSetter: React.Dispatch<React.S
   const onPasswordChange = (value: string) => {
     setPassword(value);
   };
+
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setIsButtonDisabled(true);
 
     if (username.length === 0 || password.length === 0) {
       toast.error("Hay campos vacíos", {
@@ -87,7 +92,6 @@ function LogInForm({tokenSetter: setToken}: {tokenSetter: React.Dispatch<React.S
           setToken(token);
           navigate('/');
         }, 3000);
-
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -110,6 +114,7 @@ function LogInForm({tokenSetter: setToken}: {tokenSetter: React.Dispatch<React.S
         });
       }
     }
+    setIsButtonDisabled(false);
   };
 
   return (
@@ -133,7 +138,7 @@ function LogInForm({tokenSetter: setToken}: {tokenSetter: React.Dispatch<React.S
               onPasswordChange={onPasswordChange}
             />
           </div>
-          <button type="submit" className="btn btn-primary align-right">
+          <button type="submit" disabled={isButtonDisabled} className="btn btn-primary align-right">
             Iniciar sesión
           </button>
         </form>
