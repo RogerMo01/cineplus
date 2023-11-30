@@ -39,6 +39,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
 
   const [code, setCode] = useState("");
   const [pointsPayment, setPointsPayment] = useState(false);
+  const [pointsRefresh, setPointsRefresh] = useState(false);
 
   useEffect(() => {
     fetch(scheduleEndpoint, setSchedule);
@@ -121,6 +122,8 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
     // console.log('codigo: ' + request.Code);
 
     const response = Post(request, buyEndpoint, seatEndpoint + `/${selectedSchedule}`, setSeats);
+    setPointsRefresh(!pointsRefresh);
+
     if(await response){
       if(role === 'client'){
         toast.info("Comprobante disponible en la página de compras", {
@@ -181,7 +184,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
           
           <div className="form-element club-input">
             <Form.Label>Código de miembro</Form.Label>
-            <MemberCodeInput setDisabledButton={setDisabledButton} pointsEndpoint={membersEndpoint} pointsPrice={points} code={code} setCode={setCode} pointsPaymentSetter={setPointsPayment} pointsPayment={pointsPayment} />
+            <MemberCodeInput setDisabledButton={setDisabledButton} pointsEndpoint={membersEndpoint} pointsPrice={points} code={code} setCode={setCode} pointsPaymentSetter={setPointsPayment} pointsPayment={pointsPayment} pointsRefresh={pointsRefresh} />
           </div>
           
           <div className="d-flex justify-content-end">

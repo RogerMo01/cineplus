@@ -11,9 +11,10 @@ interface Props {
     setCode: React.Dispatch<React.SetStateAction<string>>;
     pointsPaymentSetter: React.Dispatch<React.SetStateAction<boolean>>;
     pointsPayment: boolean;
+    pointsRefresh: boolean;
 }
 
-function MemberCodeInput({setDisabledButton, pointsEndpoint, pointsPrice, code, setCode, pointsPaymentSetter, pointsPayment} : Props) {
+function MemberCodeInput({setDisabledButton, pointsEndpoint, pointsPrice, code, setCode, pointsPaymentSetter, pointsPayment, pointsRefresh} : Props) {
   const [searching, setSearching] = useState(false);
   const [showPoints, setShowPoints] = useState(false);
   const [points, setPoints] = useState<{points: number}>({points: 0});
@@ -54,7 +55,12 @@ function MemberCodeInput({setDisabledButton, pointsEndpoint, pointsPrice, code, 
         setError(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [code, pointsPrice, pointsPayment])
+  }, [code, pointsPrice, pointsPayment, pointsRefresh])
+
+  useEffect(() =>{
+    fetch(pointsEndpoint + `/points/${code}`, setPoints);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pointsRefresh])
 
   useEffect(() => {
     if(pointsPayment && code.length === 8){
