@@ -9,9 +9,11 @@ interface Props {
     pointsPrice: number;
     code: string;
     setCode: React.Dispatch<React.SetStateAction<string>>;
+    pointsPaymentSetter: React.Dispatch<React.SetStateAction<boolean>>;
+    pointsPayment: boolean;
 }
 
-function MemberCodeInput({setDisabledButton, pointsEndpoint, pointsPrice, code, setCode} : Props) {
+function MemberCodeInput({setDisabledButton, pointsEndpoint, pointsPrice, code, setCode, pointsPaymentSetter, pointsPayment} : Props) {
   const [searching, setSearching] = useState(false);
   const [showPoints, setShowPoints] = useState(false);
   const [points, setPoints] = useState<{points: number}>({points: 0});
@@ -35,8 +37,8 @@ function MemberCodeInput({setDisabledButton, pointsEndpoint, pointsPrice, code, 
             setSearching(false);
             setShowPoints(true);
 
-            if(pointsPrice > points.points){
-                setDisabledButton(true);
+            if(pointsPayment && pointsPrice > points.points){
+              setDisabledButton(true);
             }
         })
         .catch((e) => {
@@ -52,13 +54,16 @@ function MemberCodeInput({setDisabledButton, pointsEndpoint, pointsPrice, code, 
         setError(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [code, pointsPrice])
+  }, [code, pointsPrice, pointsPayment])
 
   useEffect(() => {
-    if(code.length === 8 && pointsPrice <= points.points){
+    if(pointsPayment && code.length === 8){
+      if(pointsPrice <= points.points){
         setDisabledButton(false);
-    }else if (code.length === 8){
+      }
+      else{
         setDisabledButton(true);
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [points])
@@ -79,16 +84,22 @@ function MemberCodeInput({setDisabledButton, pointsEndpoint, pointsPrice, code, 
     setCode(normalizedCode);
   }
 
+  function handleSwitch(event: React.MouseEvent): void {
+    pointsPaymentSetter(!pointsPayment);
+  }
+
   return (
     <div>
         <div className="">
           <Input onChange={handleChange} placeholder="XXXXXXXX" type="text"></Input>
+          <div className="form-check form-switch">
+            <input disabled={code.length !== 8 || error || searching} className="form-check-input" type="checkbox" role="switch" onClick={handleSwitch}></input>
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Pagar con puntos</label>
+          </div>
           {searching && <Alert className="d-flex align-items-center" color="warning"><Spinner className="me-3" size={6}></Spinner> Buscando </Alert>}
           {showPoints && <Alert className="d-flex align-items-center" color="info">Puntos disponibles: {points.points}</Alert>}
           {error && <Alert className="d-flex align-items-center" color="danger">{errorMessage}</Alert>}
         </div>
-        <span>*En código de miembro determina la compra con puntos</span>
-
     </div>
   );
 }

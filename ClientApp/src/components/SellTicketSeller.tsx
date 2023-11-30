@@ -38,6 +38,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   const [points, setPoints] = useState(0);
 
   const [code, setCode] = useState("");
+  const [pointsPayment, setPointsPayment] = useState(false);
 
   useEffect(() => {
     fetch(scheduleEndpoint, setSchedule);
@@ -112,7 +113,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
       MovieProgId: selectedSchedule,
       SeatCode: selectedSeat,
       Discount: selectedDiscount,
-      PointsPayment: code.length === 8,
+      PointsPayment: pointsPayment,
       Code: code.length === 8 ? code : null
     }
 
@@ -180,7 +181,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
           
           <div className="form-element club-input">
             <Form.Label>Código de miembro</Form.Label>
-            <MemberCodeInput setDisabledButton={setDisabledButton} pointsEndpoint={membersEndpoint} pointsPrice={points} code={code} setCode={setCode} />
+            <MemberCodeInput setDisabledButton={setDisabledButton} pointsEndpoint={membersEndpoint} pointsPrice={points} code={code} setCode={setCode} pointsPaymentSetter={setPointsPayment} pointsPayment={pointsPayment} />
           </div>
           
           <div className="d-flex justify-content-end">
