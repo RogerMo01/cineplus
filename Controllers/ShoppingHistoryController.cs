@@ -50,12 +50,15 @@ public class ShoppingHistoryController : Controller
 
         if (difference.TotalHours < 2) { return Conflict(new { Message = "No es posible cancelar la compra con menos de dos horas de antelación" }); }
         
+        var member = _context.Memberships.FirstOrDefault(x => x.ClientId == item.ClientId);
+
         if(!item.Transfer)
         {
-            int pricePoints = item.Ticket.MovieProgramming.PricePoints;
-            var member = _context.Memberships.FirstOrDefault(x => x.ClientId == item.ClientId);
-            member.Points += pricePoints;
+            member.Points += (int)(item.FinalPrice);
         }
+
+        if(member != null) { member.Points -= 5; } 
+
         _context.OnlineSales.Remove(item);
 
         var ticket = _context.Tickets.FirstOrDefault(x => x.MovieId == item.MovieId && x.RoomId == item.RoomId && x.DateTimeId == item.DateTimeId && x.SeatId == item.SeatId);

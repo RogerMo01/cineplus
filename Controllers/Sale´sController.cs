@@ -33,10 +33,10 @@ public class SalesController : Controller
         Guid guid = new Guid(input.MovieProgId);
         MovieProgramming programming = _context.ScheduledMovies.FirstOrDefault(mp => mp.Identifier == guid)!;
 
-        if(input.Code != null & !_context.Memberships.Any(x => x.MembershipCode == input.Code)) { return Conflict(new { Message = "Código Inválido"}); }
-        
+        if (input.Code != null & !_context.Memberships.Any(x => x.MembershipCode == input.Code)) { return Conflict(new { Message = "Código Inválido" }); }
+
         var member = (input.Code != null) ? _context.Memberships.FirstOrDefault(x => x.MembershipCode == input.Code) : null;
-        
+
         if (member == null && input.PointsPayment) { return BadRequest("Invalid Data, no member code provided"); }
 
         var discount = _context.Discounts.Where(d => d.DiscountId == input.Discount).FirstOrDefault();
@@ -88,7 +88,7 @@ public class SalesController : Controller
                 DiscountId = discount!.DiscountId,
                 DateOfPurchase = now_date,
                 Transfer = !input.PointsPayment,
-                FinalPrice = (input.PointsPayment) ? (reserve.PricePoints - (int)Math.Ceiling(discount.Percent * reserve.PricePoints)) : (reserve.Price - (discount.Percent * reserve.Price)),
+                FinalPrice = (input.PointsPayment) ? Math.Floor(reserve.PricePoints - (discount.Percent * reserve.PricePoints)) : Convert.ToDouble((reserve.Price - (discount.Percent * reserve.Price)).ToString("0.00")),
                 SaleIdentifier = Guid.NewGuid()
             };
 
@@ -109,7 +109,7 @@ public class SalesController : Controller
                 SeatId = reserve.SeatId,
                 DiscountId = discount!.DiscountId,
                 DateOfPurchase = now_date,
-                FinalPrice = (input.PointsPayment) ? (reserve.PricePoints - (int)Math.Ceiling(discount.Percent * reserve.PricePoints)) : (reserve.Price - (discount.Percent * reserve.Price)),
+                FinalPrice = (input.PointsPayment) ? Math.Floor(reserve.PricePoints - (discount.Percent * reserve.PricePoints)) : Convert.ToDouble((reserve.Price - (discount.Percent * reserve.Price)).ToString("0.00")),
                 Cash = !input.PointsPayment,
                 MemberCode = (input.Code != null) ? input.Code : null
             };
@@ -121,10 +121,10 @@ public class SalesController : Controller
         {
             if (member != null && input.PointsPayment)
             {
-                member.Points = member.Points - (int)Math.Ceiling((1 - discount.Percent) * reserve.PricePoints);
+                member.Points = (member.Points - (int)Math.Floor((1 - discount.Percent) * reserve.PricePoints));
             }
 
-            if(member != null) {member.Points += 5; }
+            if (member != null) { member.Points += 5; }
             await _context.SaveChangesAsync();
 
         }
