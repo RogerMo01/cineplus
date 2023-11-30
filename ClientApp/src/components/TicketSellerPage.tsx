@@ -15,7 +15,7 @@ interface Props {
 
 function TicketSellerPage({ pathHead }: Props) {
   // ~~~~~~~~~~~~~~~~~~~~~~ Configure endpoints ~~~~~~~~~~~~~~~~~~~~~~~~~~
-  const scheduleEndpoint = '/api/movieprogramming';
+  const scheduleEndpoint = '/api/availableprogramming';
   const discountsEndpoint = '/api/discount';
   const seatsEndponit = '/api/seats'
   const buyEndpoint = '/api/sales'
