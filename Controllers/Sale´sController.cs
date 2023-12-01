@@ -1,6 +1,6 @@
+using cineplus.Data.UtilityClass;
 using AutoMapper.Execution;
 using Renci.SshNet.Messages;
-
 namespace cineplus.SalesControler;
 
 [Route("api/sales")]
@@ -13,7 +13,7 @@ public class SalesController : Controller
     public SalesController(DataContext context, IMapper mapper)
     {
         _context = context;
-        _utility = new UtilityClass();
+        _utility = new UtilityClass(_context);
         _mapper = mapper;
     }
 
