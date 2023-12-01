@@ -1,4 +1,4 @@
-import { NavLinkRoute } from "./types/types";
+import { NavLinkRoute } from "../types/types";
 
 const UnknownNavLinks: NavLinkRoute[] = [
   {

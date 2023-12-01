@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./MovieManager.css";
 import { ToastContainer } from "react-toastify";
 import { SingleTextModal } from "../types/types";
-import fetch from "./Fetch";
-import Put from "./ProcessPut";
+import fetch from "../utils/Fetch";
+import Put from "../utils/ProcessPut";
 
 interface Props {
   name: string;

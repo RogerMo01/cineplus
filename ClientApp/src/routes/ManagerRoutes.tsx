@@ -1,6 +1,6 @@
 import React from 'react';
-import ManagerPage from './components/ManagerPage';
-import { AppRoute } from './types/types';
+import ManagerPage from '../components/ManagerPage';
+import { AppRoute } from '../types/types';
 
 
 const ManagerRoutes: AppRoute[] = [

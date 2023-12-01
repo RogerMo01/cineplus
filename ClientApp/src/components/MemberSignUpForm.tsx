@@ -11,7 +11,7 @@ import {
 } from "reactstrap";
 import axios, { AxiosError } from "axios";
 import DniInput from "./DniInput";
-import fetch from "./Fetch";
+import fetch from "../utils/Fetch";
 
 interface Props {
   header: string;

@@ -4,7 +4,7 @@ import { Criterion, Movie } from "../types/types";
 import "./CatalogPage.css";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import fetch from "./Fetch";
+import fetch from "../utils/Fetch";
 import Spinner from 'react-bootstrap/Spinner';
 
 interface Props {

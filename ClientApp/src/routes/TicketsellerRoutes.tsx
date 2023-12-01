@@ -1,5 +1,5 @@
 import React from 'react';
-import TicketSellerPage from './components/TicketSellerPage';
+import TicketSellerPage from '../components/TicketSellerPage';
 
 
 const TicketsellerRoutes = () => {

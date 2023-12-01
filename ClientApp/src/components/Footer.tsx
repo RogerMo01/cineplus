@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "reactstrap";
 import { Link } from "react-router-dom";
-import { scrollToTop } from "./scrollToTop";
+import { scrollToTop } from "../utils/scrollToTop";
 import './Footer.css'
 
 function Footer() {

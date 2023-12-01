@@ -1,11 +1,11 @@
 import React from 'react';
-import { Home } from './components/Home';
-import SignUpPage from './components/SignUpPage';
-import LogInPage from './components/LogInPage';
-import AboutPage from './components/AboutPage';
-import ContactPage from './components/ContactPage';
-import CatalogPage from './components/CatalogPage';
-import LogInForm from './components/LogInForm';
+import { Home } from '../components/Home';
+import SignUpPage from '../components/SignUpPage';
+import LogInPage from '../components/LogInPage';
+import AboutPage from '../components/AboutPage';
+import ContactPage from '../components/ContactPage';
+import CatalogPage from '../components/CatalogPage';
+import LogInForm from '../components/LogInForm';
 
 
 const UnknownUserRoutes = (tokenSetter: React.Dispatch<React.SetStateAction<string | null>>) => [

@@ -3,7 +3,7 @@ import PasswordInput from "./PasswordInput";
 import UsernameInput from "./UsernameInput";
 import "./SignUpForm.css";
 import { ToastContainer } from 'react-toastify';
-import Post from "./ProcessPost";
+import Post from "../utils/ProcessPost";
 
 function SignUpForm({endpoint} : {endpoint: string}) {
   // ~~~~~~~~~~~~~ Main states ~~~~~~~~~~~~~~~~

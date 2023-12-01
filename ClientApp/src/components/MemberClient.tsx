@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import fetch from "./Fetch";
+import fetch from "../utils/Fetch";
 import IsMemberView from "./IsMemberView";
 import IsNotMemberView from "./IsNotMemberView";
 import { Spinner } from "reactstrap";

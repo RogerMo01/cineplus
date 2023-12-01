@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import fetch from "./Fetch";
+import fetch from "../utils/Fetch";
 import { Alert } from "reactstrap";
 
 interface Props {

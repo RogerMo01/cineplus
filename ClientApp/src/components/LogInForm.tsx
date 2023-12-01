@@ -4,7 +4,7 @@ import PasswordInput from "./PasswordInput";
 import { ToastContainer, toast } from "react-toastify";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./SignUpForm.css";
-import { scrollToTop } from "./scrollToTop";
+import { scrollToTop } from "../utils/scrollToTop";
 import axios, { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
 import { UserPayload } from "../types/types";

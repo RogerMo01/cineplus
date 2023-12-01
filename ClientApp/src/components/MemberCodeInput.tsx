@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Input, Spinner } from "reactstrap";
-import fetch from "./Fetch";
+import fetch from "../utils/Fetch";
 import { AxiosError } from "axios";
 
 interface Props {

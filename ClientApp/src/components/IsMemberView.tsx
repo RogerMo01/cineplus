@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./IsMemberView.css";
-import fetch from "./Fetch";
+import fetch from "../utils/Fetch";
 
 // const code = "H6E3DC8";
 // const points = 70;

@@ -16,10 +16,10 @@ import {
 } from "reactstrap";
 import MovieInfoModal from "./MovieInfoModal";
 import MoviesScheduledList from "./MovieScheduledList";
-import fetch from "./Fetch";
+import fetch from "../utils/Fetch";
 import { PiHeartLight } from "react-icons/pi";
 import { FcLike } from "react-icons/fc";
-import Put from "./ProcessPut";
+import Put from "../utils/ProcessPut";
 
 interface Props {
   movie: Movie;

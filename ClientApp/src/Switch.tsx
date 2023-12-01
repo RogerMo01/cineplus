@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import UnknownUserRoutes from "./UnknownUserRoutes";
-import ManagerRoutes from "./ManagerRoutes";
+import UnknownUserRoutes from "./routes/UnknownUserRoutes";
+import ManagerRoutes from "./routes/ManagerRoutes";
 import { Layout } from "./components/Layout";
-import ManagerNavLinks from "./ManagerNavLinks";
-import UnknownNavLinks from "./UnknownNavLinks";
+import ManagerNavLinks from "./NavLinks/ManagerNavLinks";
+import UnknownNavLinks from "./NavLinks/UnknownNavLinks";
 import { UserData, UserPayload } from "./types/types";
-import TicketsellerNavList from "./TicketsellerNavList";
-import TicketsellerRoutes from "./TicketsellerRoutes";
-import ClientNavLinks from "./ClientNavLinks";
-import ClientRoutes from "./ClientRoutes";
+import TicketsellerNavList from "./NavLinks/TicketsellerNavList";
+import TicketsellerRoutes from "./routes/TicketsellerRoutes";
+import ClientNavLinks from "./NavLinks/ClientNavLinks";
+import ClientRoutes from "./routes/ClientRoutes";
 import Footer from "./components/Footer";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import { ValidateSession } from "./components/ValidateSession";
+import { ValidateSession } from "./utils/ValidateSession";
 
 
 function Switch() {

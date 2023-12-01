@@ -5,7 +5,7 @@ import {
 } from "reactstrap";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { MovieSchedule } from "../types/types";
-import parseDate from "./DateParser";
+import parseDate from "../utils/DateParser";
 import "./MovieManager.css";
 
 interface Props {

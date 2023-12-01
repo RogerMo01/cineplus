@@ -6,11 +6,11 @@ import ScheduleModalForm from "./ScheduleModalForm";
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { ToastContainer } from "react-toastify";
-import Post from "./ProcessPost";
-import Delete from "./ProcessDelete";
-import Put from "./ProcessPut";
-import fetch from "./Fetch";
-import parseDate from "./DateParser";
+import Post from "../utils/ProcessPost";
+import Delete from "../utils/ProcessDelete";
+import Put from "../utils/ProcessPut";
+import fetch from "../utils/Fetch";
+import parseDate from "../utils/DateParser";
 
 interface Props {
   name: string;
