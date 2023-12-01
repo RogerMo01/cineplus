@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Renci.SshNet.Messages;
 using System.Security.Cryptography;
+using cineplus.Data.UtilityClass;
 
 namespace cineplus.MemberController;
 
@@ -16,7 +17,7 @@ public class AssociateMemberController : Controller
     {
         _context = context;
         _mapper = mapper;
-        _utility = new UtilityClass();
+        _utility = new UtilityClass(_context);
     }
 
     [HttpGet]

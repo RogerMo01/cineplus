@@ -1,3 +1,5 @@
+using cineplus.Data.UtilityClass;
+using Microsoft.IdentityModel.Tokens;
 namespace cineplus.CriterionController;
 
 [Route("api/criterion")]
@@ -6,11 +8,13 @@ public class CriterionController : ControllerBase
 {
     private readonly DataContext _context;
     private readonly IMapper _mapper;
+    private readonly UtilityClass _utility;
 
     public CriterionController(DataContext context, IMapper mapper) 
     {
         _context = context;
         _mapper = mapper;
+        _utility = new UtilityClass(_context);
     }
 
     [HttpGet]
@@ -137,28 +141,11 @@ public class CriterionController : ControllerBase
     [Route("mostpopular")]
     public async Task<IActionResult> GetMostPopularMovies()
     {
-        var popular_movies = from item in _context.Tickets
-                             group item by item.MovieId into group_movie
-                             orderby group_movie.Count() descending
-                             select group_movie.Key;
-                           
-        List<int> ids = popular_movies.ToList();
-
-
-        var getMovies = (from item in _context.Movies
-                        where ids.Contains(item.MovieId)
-                        select item)
-                        .Include(p => p.ActorsByFilms)
-                            .ThenInclude(a => a.Actor)
-                        .Include(p => p.GenresByFilms)
-                            .ThenInclude(g => g.Genre)
-                        .ToList();
-
-        getMovies = getMovies.OrderBy(item => ids.IndexOf(item.MovieId)).ToList();
+        List<Movie> getMovies = _utility.GetMostPopularMovies();
 
         List<MovieGet> result = _mapper.Map<List<MovieGet>>(getMovies);
 
-        if (popular_movies.Count() <= 20)
+        if (getMovies.Count() <= 20)
         {
             return Ok(result);
         }

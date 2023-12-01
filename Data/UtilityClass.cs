@@ -42,7 +42,9 @@ public class UtilityClass
                         .Include(p => p.GenresByFilms)
                             .ThenInclude(g => g.Genre)
                         .ToList();
-
+       
+        getMovies = getMovies.OrderBy(item => ids.IndexOf(item.MovieId)).ToList();
+        
         return getMovies;
     }
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./MovieManager.css";
 import { Movie, SingleTextModal } from "../types/types";
 import MovieFilterForm from "./MovieFilterForm";
-import fetch from "./Fetch";
+import fetch from "../utils/Fetch";
 import { PieChart } from 'react-minimal-pie-chart';
 
 
