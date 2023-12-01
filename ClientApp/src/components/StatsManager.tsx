@@ -155,15 +155,6 @@ function StatsManager({ moviesEndpoint, actorsEndpoint, genresEndpoint, statsEnd
                     </tbody>
                 </table>
             </div>
-            {/* <div className="chart-container" style={{ width: '20%', height: '20%' }}>
-            <PieChart
-                data={[
-                    { title: 'Nacionales', value: count!.national, color: '#FEBE03' },
-                    { title: 'Extranjeras', value: count!.international, color: '#356DFF' },
-                ]}
-            />;
-        </div> */}
-
         </div >
     );
 }

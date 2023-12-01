@@ -43,13 +43,13 @@ function MovieFilterForm(props: Props) {
   };
 
   const handleDateStartChange = (date: Date) => {
-    if (!date) {
+    if (date) {
       setSelectedDateStart(date);
     }
     else setSelectedDateStart(new Date(1900))
   };
   const handleDateEndChange = (date: Date) => {
-    if (!date) {
+    if (date) {
       setSelectedDateEnd(date);
     }
     else setSelectedDateEnd(new Date())
