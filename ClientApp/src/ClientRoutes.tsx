@@ -8,19 +8,20 @@ const ismemberEndpoint = '/api/associate/ismember'
 const infoEndpoint = '/api/associate/info'
 const signUpEndpoint = '/api/associate'
 
-const ClientRoutes = () : AppRoute[] => [
+const ClientRoutes = () : AppRoute[] => {
+  return [
   {
     index: true,
-    element: <ClientPage />
+    element: <ClientPage  />
   },
   {
     path: '/shopping-history',
-    element: <ShoppingHistory />
+    element: <ShoppingHistory  />
   },
   {
     path: '/club',
     element: <MemberClient signUpEndpoint={signUpEndpoint} ismemberEndpoint={ismemberEndpoint} infoEndpoint={infoEndpoint} />
   }
-];
+];}
 
 export default ClientRoutes;

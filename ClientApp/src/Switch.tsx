@@ -13,6 +13,7 @@ import ClientRoutes from "./ClientRoutes";
 import Footer from "./components/Footer";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import { ValidateSession } from "./components/ValidateSession";
 
 
 function Switch() {
@@ -29,9 +30,16 @@ function Switch() {
       const decodedToken = jwtDecode<UserPayload>(token);
       const newRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
       const newNick = decodedToken['Nick'];
+      const expTime = decodedToken.exp ? new Date(decodedToken.exp * 1000) : null
 
-      setRole(newRole);
-      setNick(newNick);
+      if(expTime && expTime < new Date()){
+        setRole('unknown');
+        setNick('unknown');
+      }
+      else{
+        setRole(newRole);
+        setNick(newNick);
+      }
     }
     else{
       setRole('unknown');
@@ -41,6 +49,8 @@ function Switch() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
   
+  // Checks for token expiration
+  ValidateSession(setToken);
 
   const userData: UserData = {
     nick: nick
@@ -73,7 +83,7 @@ function Switch() {
       {role === "seller" && (
         <Layout navLinks={TicketsellerNavList} userData={userData} tokenSetter={setToken}>
           <Routes>
-            {TicketsellerRoutes.map((route, index) => {
+            {TicketsellerRoutes().map((route, index) => {
               const { element, ...rest } = route;
               return <Route key={index} {...rest} element={element} />;
             })}

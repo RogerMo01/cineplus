@@ -1,7 +1,7 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import "./SellTicketSeller.css";
 import Form from "react-bootstrap/Form";
-import { Discount, MovieSchedule, Schedule, Seat, UserPayload } from "../types/types";
+import { Discount, MovieSchedule, Seat, UserPayload } from "../types/types";
 import fetch from "./Fetch";
 import parseDate from "./DateParser";
 import Post from "./ProcessPost";
