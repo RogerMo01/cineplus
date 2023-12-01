@@ -21,7 +21,9 @@ public class BoxOfficeSales
     public DateTime DateOfPurchase { get; set; }
     public bool Cash { get; set; }
     public double FinalPrice { get; set; }
-
+    [ForeignKey("MemberCode")]
+    public virtual Membership Membership { get; set; }
+    public string? MemberCode { get; set; }
     public virtual TicketSeller TicketSeller { get; set; }
     public virtual Ticket Ticket { get; set; }
     public virtual Discount Discount { get; set; }

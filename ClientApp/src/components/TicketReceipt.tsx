@@ -3,8 +3,8 @@ import { jsPDF } from "jspdf";
 import { Button } from "reactstrap";
 import { FaFileDownload } from "react-icons/fa";
 import { Ticket } from "../types/types";
-import fetch from "./Fetch";
-import parseDate from "./DateParser";
+import fetch from "../utils/Fetch";
+import parseDate from "../utils/DateParser";
 
 interface ReceiptProps {
   endpoint: string;

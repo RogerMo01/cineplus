@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { ShopItem } from "../types/types";
-import fetch from "./Fetch";
-import parseDate from "./DateParser";
-import Delete from "./ProcessDelete";
+import fetch from "../utils/Fetch";
+import parseDate from "../utils/DateParser";
+import Delete from "../utils/ProcessDelete";
 import TicketReceipt from "./TicketReceipt";
 
 const shopListEndpoint = '/api/shoppinghistory';

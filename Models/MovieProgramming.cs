@@ -30,8 +30,9 @@ public class MovieProgramming
 public class ProgrammingData
 {
     public string Id { get; set; } = "";
-    public string Movie { get; set; }
-    public string Room { get; set; }
+    public int MovieId { get; set; }
+    public string MovieTitle { get; set; }
+    public string RoomName { get; set; }
     public DateTime Date { get; set; }
     public double Price { get; set; }
     public int Points { get; set; }

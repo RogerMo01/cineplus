@@ -1,14 +1,14 @@
 import React from 'react';
-import TicketSellerPage from './components/TicketSellerPage';
-import { AppRoute } from './types/types';
+import TicketSellerPage from '../components/TicketSellerPage';
 
 
-const TicketsellerRoutes: AppRoute[] = [
+const TicketsellerRoutes = () => {
+  return [
   {
     index: true,
     path: '/*',
     element: <TicketSellerPage pathHead='' />
   }
-];
+];}
 
 export default TicketsellerRoutes;

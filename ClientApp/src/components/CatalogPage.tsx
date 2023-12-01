@@ -4,7 +4,7 @@ import { Criterion, Movie } from "../types/types";
 import "./CatalogPage.css";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import fetch from "./Fetch";
+import fetch from "../utils/Fetch";
 import Spinner from 'react-bootstrap/Spinner';
 
 interface Props {
@@ -111,7 +111,7 @@ function CatalogPage({modalContent, tokenSetter} : Props) {
         {showedCriteria.map((c) => (
           <Tab key={c.id} eventKey={c.id} title={c.name}>
             <div className="topic-slider">
-              <TopicList topic={c.name} movies={getMovies(c.id)} likeEndpoint={likeEndpoint} scheduleEndpoint={scheduleEndpoint} modalContent={modalContent} tokenSetter={tokenSetter}/>
+              <TopicList topic={c.name} movies={getMovies(c.id)} likeEndpoint={likeEndpoint} scheduleEndpoint={scheduleEndpoint} modalContent={modalContent} tokenSetter={tokenSetter} changeKey={key} />
             </div>
           </Tab>
         ))}

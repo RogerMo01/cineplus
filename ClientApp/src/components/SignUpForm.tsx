@@ -3,7 +3,7 @@ import PasswordInput from "./PasswordInput";
 import UsernameInput from "./UsernameInput";
 import "./SignUpForm.css";
 import { ToastContainer } from 'react-toastify';
-import Post from "./ProcessPost";
+import Post from "../utils/ProcessPost";
 
 function SignUpForm({endpoint} : {endpoint: string}) {
   // ~~~~~~~~~~~~~ Main states ~~~~~~~~~~~~~~~~
@@ -77,8 +77,11 @@ function SignUpForm({endpoint} : {endpoint: string}) {
 
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~ Submmit Handler ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setIsButtonDisabled(true);
 
     // ~~~~~~ Validate data ~~~~~~~
     if (username.length > 20 || username.length < 6) {
@@ -129,6 +132,7 @@ function SignUpForm({endpoint} : {endpoint: string}) {
       }, 3000);}
     }
 
+    setIsButtonDisabled(false);
   };
   // ~~~~~~~~~~~~~~~ END Submmit Handler ~~~~~~~~~~~~~~~~~~
   
@@ -191,7 +195,7 @@ function SignUpForm({endpoint} : {endpoint: string}) {
               </label>
             )}
           </div>
-          <button type="submit" className="btn btn-primary align-right">
+          <button type="submit" className="btn btn-primary align-right" disabled={isButtonDisabled}>
             Registrarse
           </button>
         </form>

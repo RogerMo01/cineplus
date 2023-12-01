@@ -5,10 +5,10 @@ import { RiDeleteBin2Line } from "react-icons/ri";
 import DiscountModalForm from "./DiscountModalForm";
 import { ToastContainer } from "react-toastify";
 import { FiEdit2 } from "react-icons/fi";
-import Post from "./ProcessPost";
-import Delete from "./ProcessDelete";
-import Put from "./ProcessPut";
-import fetch from "./Fetch";
+import Post from "../utils/ProcessPost";
+import Delete from "../utils/ProcessDelete";
+import Put from "../utils/ProcessPut";
+import fetch from "../utils/Fetch";
 
 interface Props {
   name: string;

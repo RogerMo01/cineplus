@@ -2,6 +2,8 @@
   width: 90%;
   margin: 10px auto;
   padding: 40px 20px;
+  max-height: 95vh;
+  overflow-y: scroll;
 }
 
 @media (max-width: 500px) {
@@ -35,4 +37,9 @@
 .inline-item {
   flex-grow: 1;
   margin-left: 15px;
+}
+
+.club-input {
+  width: 20%;
+  min-width: 140px;
 }

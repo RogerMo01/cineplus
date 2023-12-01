@@ -88,7 +88,7 @@ public class Authentication : ControllerBase
 
         var token = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(2), // Define la expiración del token
+            expires: DateTime.UtcNow.AddHours(24), // Define la expiración del token
             signingCredentials: credentials
         );
 

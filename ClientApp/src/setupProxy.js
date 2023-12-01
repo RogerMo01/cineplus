@@ -24,7 +24,10 @@ const context = [
   '/api/shoppinghistory',
   '/api/receipt',
   '/api/poster',
-  '/api/like'
+  '/api/like',
+  '/api/associate',
+  '/api/associate/dni',
+  '/api/associate/points',
 ];
 
 const onError = (err, req, resp, target) => {

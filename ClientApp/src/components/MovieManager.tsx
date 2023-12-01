@@ -5,11 +5,11 @@ import { RiDeleteBin2Line } from "react-icons/ri";
 import { FiEdit2 } from "react-icons/fi";
 import { ToastContainer } from "react-toastify";
 import MovieModalForm from "./MovieModalForm";
-import Post from "./ProcessPost";
-import Delete from "./ProcessDelete";
-import Put from "./ProcessPut";
-import fetch from "./Fetch";
-import { postPoster, putPoster } from "./ProcessPoster";
+import Post from "../utils/ProcessPost";
+import Delete from "../utils/ProcessDelete";
+import Put from "../utils/ProcessPut";
+import fetch from "../utils/Fetch";
+import { postPoster, putPoster } from "../utils/ProcessPoster";
 
 interface Props {
   name: string;

@@ -1,6 +1,6 @@
 import React from "react";
-import "./AboutPage.css"; 
-import { Card, CardBody, CardGroup, CardImg, CardText, CardTitle, Col, Row } from "reactstrap";
+import "./AboutPage.css";
+import { Card, CardBody, CardGroup, CardImg, CardText, CardTitle } from "reactstrap";
 
 interface Props { }
 
@@ -43,6 +43,7 @@ function AboutPage(props: Props) {
                 En Cine+ te brindamos desde los estrenos más emocionantes hasta
                 las películas más taquilleras. Cada película es una historia que
                 merece ser contada, y nosotros estamos aquí para hacer que disfrutes de cada momento.
+                Nos esforzamos por crear un espacio donde tu pasión por el cine se encuentre con la excelencia.
               </CardText>
             </CardBody>
           </Card>
@@ -52,9 +53,9 @@ function AboutPage(props: Props) {
             <CardBody>
               <CardTitle className="text-center" tag="h4"> Innovación en la Venta de Entradas</CardTitle>
               <CardText className="text-justify">
-                ¿Quieres reservar tu entrada? Pues olvídate de las largas colas y las esperas. Con Cine+ puedes asegurar tu entrada 
-                con solo unos clics y acceder a información detallada sobre horarios y películas. Cada entrada es una oportunidad 
-                para ahorrar, nuestro programa de descuentos te brinda ofertas personalizadas que hacen que cada experiencia sea más 
+                ¿Quieres reservar tu entrada? Pues olvídate de las largas colas y las esperas. Con Cine+ puedes asegurar tu entrada
+                con solo unos clics y acceder a información detallada sobre horarios y películas. Cada entrada es una oportunidad
+                para ahorrar, nuestro programa de descuentos te brinda ofertas personalizadas que hacen que cada experiencia sea más
                 asequible y gratificante.
               </CardText>
             </CardBody>
@@ -65,9 +66,10 @@ function AboutPage(props: Props) {
             <CardBody>
               <CardTitle className="text-center" tag="h4"> Más que Entradas, Una Experiencia Exclusiva</CardTitle>
               <CardText className="text-justify">
-                Conviértete en Socio Cinéfilo y descubre un mundo de privilegios. Obtén acceso exclusivo a proyecciones especiales,
-                eventos de preestreno y descuentos adicionales. Además, acumula puntos con cada compra para disfrutar de entradas
-                gratuitas y beneficios adicionales.
+                Conviértete en Socio Cinéfilo y descubre un mundo de privilegios. Obtén acceso exclusivo a eventos de preestreno y
+                descuentos adicionales. Además, acumula puntos con cada compra para disfrutar de entradas
+                gratuitas. Pero eso no es todo, ¡queremos premiarte desde el principio! Al asociarte,
+                te obsequiamos automáticamente 20 puntos que podrás canjear más adelante.
               </CardText>
             </CardBody>
           </Card>
