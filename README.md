@@ -2,7 +2,7 @@
 
 ![]()
 <div align="center">
-  <img src="https://github.com/RogerMo01/cineplus/blob/feat/asociate-clients/%2347/home_logo.jpg" alt="Cine+_Home" width="100%">
+  <img src="https://github.com/RogerMo01/cineplus/blob/main/home_logo.jpg" alt="Cine+_Home" width="100%">
 </div>
 
 ![Static Badge](https://img.shields.io/badge/Build_status:-In_progress-yellow)
