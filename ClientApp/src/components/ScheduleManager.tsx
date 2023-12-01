@@ -6,11 +6,11 @@ import ScheduleModalForm from "./ScheduleModalForm";
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { ToastContainer } from "react-toastify";
-import Post from "./ProcessPost";
-import Delete from "./ProcessDelete";
-import Put from "./ProcessPut";
-import fetch from "./Fetch";
-import parseDate from "./DateParser";
+import Post from "../utils/ProcessPost";
+import Delete from "../utils/ProcessDelete";
+import Put from "../utils/ProcessPut";
+import fetch from "../utils/Fetch";
+import parseDate from "../utils/DateParser";
 
 interface Props {
   name: string;
@@ -105,8 +105,8 @@ function ScheduleManager({ name, scheduleEndpoint, moviesEndpoint, roomsEndpoint
           <tbody>
             {schedule.map((s) => (
               <tr key={s.id}>
-                <td>{s.movie}</td>
-                <td>{s.room}</td>
+                <td>{s.movieTitle}</td>
+                <td>{s.roomName}</td>
                 <td>{parseDate(s.date.toString())}</td>
                 <td>$ {s.price}</td>
                 <td>{s.points} ptos</td>
@@ -115,8 +115,8 @@ function ScheduleManager({ name, scheduleEndpoint, moviesEndpoint, roomsEndpoint
                     <ScheduleModalForm
                       type="edit"
                       clickHandler={handleEditSchedule}
-                      moviePh={s.movie}
-                      roomPh={s.room}
+                      moviePh={s.movieTitle}
+                      roomPh={s.roomName}
                       datePh={new Date(s.date)}
                       pricePh={s.price}
                       pointsPricePh={s.points}

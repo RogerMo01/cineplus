@@ -1,0 +1,15 @@
+.club-container {
+    padding-left: 5%;
+    padding-right: 5%;
+    margin: 0% 10%;
+    margin-top: 10px;
+}
+
+.club-label {
+    font-size: 1.4rem;
+}
+
+.club-p {
+    font-size: 1.5rem;
+    font-weight: bold;
+}

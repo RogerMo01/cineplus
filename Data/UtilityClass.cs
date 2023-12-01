@@ -1,6 +1,7 @@
 namespace cineplus.Data.UtilityClass;
 
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 public class UtilityClass
 {

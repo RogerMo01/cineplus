@@ -1,4 +1,6 @@
 using cineplus.Data.UtilityClass;
+using AutoMapper.Execution;
+using Renci.SshNet.Messages;
 namespace cineplus.SalesControler;
 
 [Route("api/sales")]
@@ -7,7 +9,7 @@ public class SalesController : Controller
 {
     private readonly DataContext _context;
     private readonly UtilityClass _utility;
-    private readonly IMapper _mapper; 
+    private readonly IMapper _mapper;
     public SalesController(DataContext context, IMapper mapper)
     {
         _context = context;
@@ -31,10 +33,20 @@ public class SalesController : Controller
         Guid guid = new Guid(input.MovieProgId);
         MovieProgramming programming = _context.ScheduledMovies.FirstOrDefault(mp => mp.Identifier == guid)!;
 
+        if (input.Code != null & !_context.Memberships.Any(x => x.MembershipCode == input.Code)) { return Conflict(new { Message = "Código Inválido" }); }
+
+        var member = (input.Code != null) ? _context.Memberships.FirstOrDefault(x => x.MembershipCode == input.Code) : null;
+
+        if (member == null && input.PointsPayment) { return BadRequest("Invalid Data, no member code provided"); }
+
+        var discount = _context.Discounts.Where(d => d.DiscountId == input.Discount).FirstOrDefault();
+
+        if (member != null && input.PointsPayment && member.Points < (int)Math.Ceiling((double)(programming.PricePoints * (1 - discount.Percent)))) { return Conflict(new { Message = "Cantidad de puntos insuficientes" }); }
+
         // Verificar si el asiento esta verdaderamente libre 
         if (_context.Tickets.Any(x => x.DateTimeId == programming.DateTimeId && x.RoomId == programming.RoomId && x.Code == input.SeatCode))
         {
-            return Conflict(new { Message = "Lo sentimos, la butaca " + input.SeatCode +  " ya no está disponible. Seleccione una nueva butaca para realizar su compra."});
+            return Conflict(new { Message = "Lo sentimos, la butaca " + input.SeatCode + " ya no está disponible. Seleccione una nueva butaca para realizar su compra." });
         }
 
         //Verificar si tienen capacidad las salas
@@ -49,8 +61,6 @@ public class SalesController : Controller
         //     return Conflict(new { Message = "Sala sin capacidad" });
         // }
 
-        //falta incluir la tarjeta
-        var discount = _context.Discounts.Where(d => d.DiscountId == input.Discount).FirstOrDefault();
         Seat seat_Id = _context.Seats.FirstOrDefault(s => (s.Code == input.SeatCode) && (s.RoomId == programming.RoomId))!;
 
         //Añadir el ticket reservado a la tabla
@@ -59,7 +69,7 @@ public class SalesController : Controller
         _mapper.Map(programming, reserve);
         reserve.SeatId = seat_Id.SeatId;
         reserve.Code = input.SeatCode;
-        
+
         _context.Tickets.Add(reserve);
 
         //añadir la compra a la Base de Datos dependiendo del rol
@@ -70,15 +80,15 @@ public class SalesController : Controller
 
             OnlineSales ticket_client = new OnlineSales
             {
-                ClientId = client.ClientId,
+                ClientId = client!.ClientId,
                 RoomId = reserve.RoomId,
                 MovieId = reserve.MovieId,
                 DateTimeId = reserve.DateTimeId,
                 SeatId = reserve.SeatId,
-                DiscountId = discount.DiscountId,
+                DiscountId = discount!.DiscountId,
                 DateOfPurchase = now_date,
-                Transfer = true,
-                FinalPrice = reserve.Price - (discount.Percent) * reserve.Price,
+                Transfer = !input.PointsPayment,
+                FinalPrice = (input.PointsPayment) ? Math.Floor(reserve.PricePoints - (discount.Percent * reserve.PricePoints)) : Convert.ToDouble((reserve.Price - (discount.Percent * reserve.Price)).ToString("0.00")),
                 SaleIdentifier = Guid.NewGuid()
             };
 
@@ -92,14 +102,16 @@ public class SalesController : Controller
 
             BoxOfficeSales ticket_client = new BoxOfficeSales
             {
-                TicketSellerId = seller.TicketSellerId,
+                TicketSellerId = seller!.TicketSellerId,
                 DateTimeId = reserve.DateTimeId,
                 MovieId = reserve.MovieId,
                 RoomId = reserve.RoomId,
                 SeatId = reserve.SeatId,
-                DiscountId = discount.DiscountId,
-                FinalPrice = reserve.Price - (discount.Percent) * reserve.Price,
-                Cash = true
+                DiscountId = discount!.DiscountId,
+                DateOfPurchase = now_date,
+                FinalPrice = (input.PointsPayment) ? Math.Floor(reserve.PricePoints - (discount.Percent * reserve.PricePoints)) : Convert.ToDouble((reserve.Price - (discount.Percent * reserve.Price)).ToString("0.00")),
+                Cash = !input.PointsPayment,
+                MemberCode = (input.Code != null) ? input.Code : null
             };
 
             _context.BoxOfficeSales.Add(ticket_client);
@@ -107,6 +119,12 @@ public class SalesController : Controller
         }
         try
         {
+            if (member != null && input.PointsPayment)
+            {
+                member.Points = (member.Points - (int)Math.Floor((1 - discount.Percent) * reserve.PricePoints));
+            }
+
+            if (member != null) { member.Points += 5; }
             await _context.SaveChangesAsync();
 
         }

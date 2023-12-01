@@ -37,7 +37,7 @@ public class MovieProgrammingController : ControllerBase
 
 
         // Sala a proyectar la pelicula
-        var room = _context.Rooms.FirstOrDefault(r => r.Name == data.Room);
+        var room = _context.Rooms.FirstOrDefault(r => r.Name == data.RoomName);
 
         DateTime new_Date = new DateTime(cubaDate.Year, cubaDate.Month, cubaDate.Day, cubaDate.Hour, cubaDate.Minute, 0);
         bool sameDate = false;
@@ -55,7 +55,7 @@ public class MovieProgrammingController : ControllerBase
         }
 
         // Pelicula a programar
-        var movie_toSchedule = _context.Movies.FirstOrDefault(m => m.Title == data.Movie);
+        var movie_toSchedule = _context.Movies.FirstOrDefault(m => m.MovieId == data.MovieId);
 
         // Hora valida para que comience la proxima pelicula segun la pelicula que queremos programar 
         var next_time = cubaDate.TimeOfDay + new TimeSpan(0, movie_toSchedule.Duration, 0) + new TimeSpan(0, 30, 0);

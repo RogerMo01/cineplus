@@ -26,4 +26,6 @@ public class Ticket_Without_Selection
     public string MovieProgId { get; set; }
     public string SeatCode { get; set; }
     public int Discount { get; set; }
+    public string? Code { get; set;}
+    public bool PointsPayment { get; set; }
 }

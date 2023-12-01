@@ -1,41 +1,60 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import "./SellTicketSeller.css";
 import Form from "react-bootstrap/Form";
-import { Discount, Schedule, Seat, UserPayload } from "../types/types";
-import fetch from "./Fetch";
-import parseDate from "./DateParser";
-import Post from "./ProcessPost";
+import { Discount, MovieSchedule, Seat, UserPayload } from "../types/types";
+import fetch from "../utils/Fetch";
+import parseDate from "../utils/DateParser";
+import Post from "../utils/ProcessPost";
 import { ToastContainer, toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
+import MemberCodeInput from "./MemberCodeInput";
+import MemberClientSwitch from "./MemberClientSwitch";
 
 interface Props {
   scheduleEndpoint: string;
   seatEndpoint: string;
   discountEndpoint: string;
   buyEndpoint: string;
+  membersEndpoint: string;
   scheduledMovieId?: string;
   scheduledMovie?: string;
   scheduledRoom?: string;
   scheduledDate?: Date;
 }
 
-function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buyEndpoint, scheduledMovieId, scheduledMovie, scheduledRoom, scheduledDate }: Props) {
+function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buyEndpoint, membersEndpoint, scheduledMovieId, scheduledMovie, scheduledRoom, scheduledDate }: Props) {
 
-  const [schedule, setSchedule] = useState<Schedule[]>([]);
+  const [role, setRole] = useState('');
+  const [isMember, setIsMember] = useState<{member: boolean}>({member: false})
+
+  const [schedule, setSchedule] = useState<MovieSchedule[]>([]);
   const [seats, setSeats] = useState<Seat[]>([]);
   const [discounts, setDiscounts] = useState<Discount[]>([]);
 
   const [selectedSchedule, setSelectedSchedule] = useState('');
-  const [selectedSeat, setSelectedSeat] = useState('');
+  const [selectedSeat, setSelectedSeat] = useState(seats.length > 0 ? seats[0].code : '');
   const [selectedDiscountValue, setSelectedDiscountValue] = useState(0);
   const [selectedDiscount, setSelectedDiscount] = useState(1);
 
   const [price, setPrice] = useState(0);
   const [points, setPoints] = useState(0);
 
+  const [code, setCode] = useState("");
+  const [pointsPayment, setPointsPayment] = useState(false);
+  const [pointsRefresh, setPointsRefresh] = useState(false);
+
+  const [pointsPaymentClient, setPointsPaymentClient] = useState(false);
+
   useEffect(() => {
     fetch(scheduleEndpoint, setSchedule);
     fetch(discountEndpoint, setDiscounts);
+    fetch(membersEndpoint + '/ismember', setIsMember);
+
+    const token = localStorage.getItem('sessionToken');
+    if(token){
+      const decodedToken = jwtDecode<UserPayload>(token);
+      setRole(decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -54,7 +73,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
     const price = getPriceById(selectedSchedule, schedule) * (1 - selectedDiscountValue)
     setPrice(parseFloat(price.toFixed(2)))
     const points = getPointsById(selectedSchedule, schedule) * (1 - selectedDiscountValue)
-    setPoints(parseInt(points.toFixed(0)))
+    setPoints(Math.floor(points))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDiscountValue, selectedSchedule]);
 
@@ -64,11 +83,11 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
   }, [selectedSchedule]);
 
 
-  function getPriceById(id: string, schedules: Schedule[]): number {
+  function getPriceById(id: string, schedules: MovieSchedule[]): number {
     const schedule = schedules.find(schedule => schedule.id === id);
     return schedule ? schedule.price : 0;
   }
-  function getPointsById(id: string, schedules: Schedule[]): number {
+  function getPointsById(id: string, schedules: MovieSchedule[]): number {
     const schedule = schedules.find(schedule => schedule.id === id);
     return schedule ? schedule.points : 0;
   }
@@ -94,31 +113,41 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
-    const request = {
+
+    const request = role === 'seller' 
+    ? {
       MovieProgId: selectedSchedule,
       SeatCode: selectedSeat,
-      Discount: selectedDiscount
+      Discount: selectedDiscount,
+      PointsPayment: pointsPayment,
+      Code: code.length === 8 ? code : null
+    }
+    : {
+      MovieProgId: selectedSchedule,
+      SeatCode: selectedSeat,
+      Discount: selectedDiscount,
+      PointsPayment: pointsPaymentClient,
+      Code: code.length === 8 ? code : null
     }
 
+    // console.log('compra realizada');
+    // console.log('codigo: ' + request.Code);
+
     const response = Post(request, buyEndpoint, seatEndpoint + `/${selectedSchedule}`, setSeats);
+    setPointsRefresh(!pointsRefresh);
+
     if(await response){
-
-      const token = localStorage.getItem('sessionToken');
-      if(token){
-        const decodedToken = jwtDecode<UserPayload>(token);
-        const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-
-        if(role === 'client'){
-          toast.info("Comprobante disponible en la página de compras", {
-            position: "bottom-right",
-            autoClose: 5000,
-          });
-        }
+      if(role === 'client'){
+        toast.info("Comprobante disponible en la página de compras", {
+          position: "bottom-right",
+          autoClose: 5000,
+        });
       }
-
     }
   }
 
+  
+  const [disabledButton, setDisabledButton] = useState(false);
 
   return (
     <div className="fullts-container border rounded">
@@ -139,7 +168,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
               {scheduledMovieId 
               ? <option key={scheduledMovieId} value={scheduledMovieId}>{parseDate(scheduledDate ? scheduledDate.toString() : new Date().toString()) + ' | ' + scheduledMovie + ' | ' + scheduledRoom}</option>
               : schedule.map(s => (
-                <option key={s.id} value={s.id}>{parseDate(s.date.toString()) + ' | ' + s.movie + ' | ' + s.room}</option>
+                <option key={s.id} value={s.id}>{parseDate(s.date.toString()) + ' | ' + s.movieTitle + ' | ' + s.roomName}</option>
               ))}
             </Form.Select>
           </div>
@@ -147,7 +176,7 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
           <div className="inline-container">
             <div className="form-element">
               <Form.Label>Seleccionar Butaca</Form.Label>
-              <Form.Select onChange={handleChangeSelectedSeat} disabled={seats.length === 0 ? true : false}>
+              <Form.Select value={selectedSeat} onChange={handleChangeSelectedSeat} disabled={seats.length === 0 ? true : false}>
                 {seats.map(s => (
                   <option key={s.code} value={s.code}>{s.code}</option>
                 ))}
@@ -165,9 +194,25 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
             </div>
           </div>
           
-          <button className="btn btn-primary float-end" type="submit" disabled={seats.length === 0 ? true : false}>
-            Reservar Ticket
-          </button>
+          {role === 'seller' 
+          ? <div className="form-element club-input">
+            <Form.Label>Código de miembro</Form.Label>
+            <MemberCodeInput setDisabledButton={setDisabledButton} pointsEndpoint={membersEndpoint} pointsPrice={points} code={code} setCode={setCode} pointsPaymentSetter={setPointsPayment} pointsPayment={pointsPayment} pointsRefresh={pointsRefresh} />
+          </div>
+          : <div>
+              {/* <div className="form-check form-switch">
+                <input disabled={false} className="form-check-input" type="checkbox" role="switch" onClick={handleSwitch}></input>
+                <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Pagar con puntos</label>
+              </div> */}
+              {isMember.member && <MemberClientSwitch memberEndpoint={membersEndpoint} pointsPrice={points} pointsPayment={pointsPaymentClient} pointsPaymentSetter={setPointsPaymentClient} codeSetter={setCode} pointsRefresh={pointsRefresh}  disableBtn={setDisabledButton}/>}
+            </div>
+          }
+          
+          <div className="d-flex justify-content-end">
+            <button className="btn btn-primary" type="submit" disabled={seats.length === 0 || disabledButton}>
+              Reservar Ticket
+            </button>
+          </div>
         </form>
         
 

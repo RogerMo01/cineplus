@@ -14,8 +14,9 @@ public class MappingMovieProgramming : Profile
 
         CreateMap<MovieProgramming, ProgrammingData>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Identifier))
-            .ForMember(dest => dest.Movie, opt => opt.MapFrom(src => src.Movie.Title))
-            .ForMember(dest => dest.Room, opt => opt.MapFrom(src => src.Room.Name))
+            .ForMember(dest => dest.MovieId, opt => opt.MapFrom(src => src.MovieId))
+            .ForMember(dest => dest.MovieTitle, opt => opt.MapFrom(src => src.Movie.Title))
+            .ForMember(dest => dest.RoomName, opt => opt.MapFrom(src => src.Room.Name))
             .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.DateTimeId))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
             .ForMember(dest => dest.Points, opt => opt.MapFrom(src => src.PricePoints));

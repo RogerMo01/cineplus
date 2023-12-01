@@ -16,10 +16,10 @@ import {
 } from "reactstrap";
 import MovieInfoModal from "./MovieInfoModal";
 import MoviesScheduledList from "./MovieScheduledList";
-import fetch from "./Fetch";
+import fetch from "../utils/Fetch";
 import { PiHeartLight } from "react-icons/pi";
 import { FcLike } from "react-icons/fc";
-import Put from "./ProcessPut";
+import Put from "../utils/ProcessPut";
 
 interface Props {
   movie: Movie;
@@ -29,6 +29,7 @@ interface Props {
   modalContent?: React.ComponentType<any>;
   tokenSetter?: React.Dispatch<React.SetStateAction<string | null>>;
   likeEndpoint: string;
+  changeKey: string;
 }
 
 function MovieCard(props: Props) {
@@ -57,7 +58,7 @@ function MovieCard(props: Props) {
   useEffect(() => {
     fetch(props.likeEndpoint + `/${props.movie.id}`, setLike);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.changeKey]);
 
   useEffect(() => {
     handleResize();

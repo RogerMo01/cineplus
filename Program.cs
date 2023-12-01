@@ -38,6 +38,7 @@ var mappingConfig = new MapperConfiguration(cfg =>
     cfg.AddProfile<MappingMovie>();
     cfg.AddProfile<MappingCriterion>();
     cfg.AddProfile<MappingSale>();
+    cfg.AddProfile<MappingMembership>();
 });
 
 var mapper = mappingConfig.CreateMapper();

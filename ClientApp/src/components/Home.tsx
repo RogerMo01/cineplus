@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Home.css';
 import { useNavigate } from 'react-router-dom';
-import { scrollToTop } from './scrollToTop';
+import { scrollToTop } from '../utils/scrollToTop';
 
 
 function ReservaButton() {
