@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, Offcanvas, OffcanvasBody, OffcanvasHeader, PopoverBody, PopoverHeader, UncontrolledPopover } from 'reactstrap';
+import { Button, Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, Offcanvas, OffcanvasBody, OffcanvasHeader } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import './NavMenu.css';
 import { NavLinkRoute, UserData } from '../types/types';
@@ -48,35 +48,34 @@ const NavMenu: React.FC<Props> = (props) => {
     const toggle = () => setOffCanvas(!offCanvas);
 
     return (
-      <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow custom-navbar" container light>
-          <NavbarBrand tag={Link} to="/" onClick={closeNavbar}><img src="Logo.png" width={41} height={40} alt="logo" /></NavbarBrand>
-          <NavbarToggler onClick={toggleNavbar} className=" mr-2 custom-toggler"/>
-          <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
-            <ul className="navbar-nav flex-grow">
-              {
-                navLinkItems.map((item) => {
+      <div className='d-flex align'>
+        <Navbar className='navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow custom-navbar light'>
+          <NavbarBrand className='ms-3' tag={Link} to="/" onClick={closeNavbar}><img src="Logo.png" width={41} height={40} alt="logo" /></NavbarBrand>
 
-                  return (
-                    <NavItem>
-                      <NavLink tag={Link} className="custom-color" to={item.route} onClick={closeNavbar} >{item.name}</NavLink>
-                    </NavItem>);
-                })
-              }
+          <NavbarToggler onClick={toggleNavbar} className="mr-2 custom-toggler" />
 
-              {props.userLogued && <NavItem>
-                <div className='user-box'>
+          <Collapse isOpen={!collapsed} className='justify-content-end' navbar>
+            <Nav navbar>
+              {navLinkItems.map((item) => (
+                <NavItem className='navbar-nav flex-grow'>
+                  <NavLink tag={Link} className="custom-color" to={item.route} onClick={closeNavbar} >{item.name}</NavLink>
+                </NavItem>
+              ))}
+            </Nav>
 
-                  <div className='user-icon-container'>
-                    <img src='user-lg.png' width={43} height={43} alt='user' onClick={toggle} />
-                  </div>
-
-                </div>
-              </NavItem>}
-
-            </ul>
           </Collapse>
         </Navbar>
+        
+        <div className='navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow light user-navbar-part'>
+          {props.userLogued &&
+            <div className='user-box'>
+              <div className='user-icon-container'>
+                <img src='user-lg.png' width={43} height={43} alt='user' onClick={toggle} />
+              </div>
+            </div>
+          }
+        </div>
+
 
         <Offcanvas
           direction="end"
@@ -97,7 +96,6 @@ const NavMenu: React.FC<Props> = (props) => {
               <strong>
                 ¿Qué deseas hacer?
               </strong>
-              {/* <div>¿Qué deseas hacer?</div> */}
               <div>
                 <Button className='btn mt-2 btn-danger ' onClick={handleLogoutClick}>
                   Cerrar sesión
@@ -106,29 +104,9 @@ const NavMenu: React.FC<Props> = (props) => {
             </div>
           </OffcanvasBody>
         </Offcanvas>
-        {/* <UncontrolledPopover
-          placement="bottom"
-          target="Popover"
-          trigger="legacy"
-        >
-          <PopoverHeader>
-            {"👋Hola, " + props.userData?.nick}
-          </PopoverHeader>
-          <PopoverBody>
-            <div className='vertical-container'>
-              ¿Qué deseas hacer?
-              <Button className='btn mt-2 btn-danger btn-sm' onClick={handleLogoutClick}>
-                Cerrar sesión
-              </Button>
-            </div>
-          </PopoverBody>
-        </UncontrolledPopover> */}
-
-
-
 
         <ToastContainer />
-      </header>
+      </div>
     );
 }
 

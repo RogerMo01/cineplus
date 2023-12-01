@@ -19,6 +19,7 @@ html {
 
 .custom-navbar {
   background-color: #151736;
+  flex-grow: 1;
 }
 
 .custom-color {
@@ -42,8 +43,13 @@ html {
 }
 
 
+.user-navbar-part {
+  background-color: #151736;
+  justify-content: center;
+  align-items: center;
+}
 .user-box {
-  margin-left: 15px;
+  margin: 10px;
 }
 
 .user-icon {
