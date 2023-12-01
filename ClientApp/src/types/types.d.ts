@@ -47,8 +47,8 @@ export interface ButtonConfig {
 
 export interface Schedule {
   id: string;
-  movie: string;
-  room: string;
+  movieTitle: string;
+  roomName: string;
   date: Date;
   price: number;
   points: number;

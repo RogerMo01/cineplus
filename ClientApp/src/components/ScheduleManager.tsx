@@ -105,8 +105,8 @@ function ScheduleManager({ name, scheduleEndpoint, moviesEndpoint, roomsEndpoint
           <tbody>
             {schedule.map((s) => (
               <tr key={s.id}>
-                <td>{s.movie}</td>
-                <td>{s.room}</td>
+                <td>{s.movieTitle}</td>
+                <td>{s.roomName}</td>
                 <td>{parseDate(s.date.toString())}</td>
                 <td>$ {s.price}</td>
                 <td>{s.points} ptos</td>
@@ -115,8 +115,8 @@ function ScheduleManager({ name, scheduleEndpoint, moviesEndpoint, roomsEndpoint
                     <ScheduleModalForm
                       type="edit"
                       clickHandler={handleEditSchedule}
-                      moviePh={s.movie}
-                      roomPh={s.room}
+                      moviePh={s.movieTitle}
+                      roomPh={s.roomName}
                       datePh={new Date(s.date)}
                       pricePh={s.price}
                       pointsPricePh={s.points}
