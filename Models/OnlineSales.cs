@@ -38,5 +38,6 @@ public class CustomerPurchases
     public string seat { get; set; }
     public decimal payed { get; set; }
     public DateTime datePurchase { get; set; }
+    public bool pointsPayed { get; set; }
 }
 
