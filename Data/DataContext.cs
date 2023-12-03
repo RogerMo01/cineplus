@@ -229,6 +229,19 @@ namespace CineplusDB.Models
             var movie5 = new Movie { MovieId = 5, Title = "Nowhere", Year = 2023, Country = "España", Director = "Albert Pintó", Duration = 129 };
             var movie6 = new Movie { MovieId = 6, Title = "Cars", Year = 2006, Country = "USA", Director = "John Lasseter", Duration = 116 };
             var movie7 = new Movie { MovieId = 7, Title = "Cars 2", Year = 2011, Country = "USA", Director = "John Lasseter", Duration = 107 };
+            var movie8 = new Movie { MovieId = 8, Title = "Fresa y Chocolate", Year = 1993, Country = "Cuba", Director = "Tomás Gutiérrez Alea", Duration = 108 };
+            var movie9 = new Movie { MovieId = 9, Title = "Juan de los muertos", Year = 2011, Country = "Cuba", Director = "Alejandro Brugués", Duration = 100 };
+            var movie10 = new Movie { MovieId = 10, Title = "Conducta", Year = 2014, Country = "Cuba", Director = "Ernesto Daranas", Duration = 108 };
+            var movie11 = new Movie { MovieId = 11, Title = "Lista de espera", Year = 2000, Country = "Cuba", Director = "Juan Carlos Tabío", Duration = 110 };
+            var movie12 = new Movie { MovieId = 12, Title = "Oppenheimer", Year = 2023, Country = "USA", Director = "Christopher Nolan", Duration = 180 };
+            var movie13 = new Movie { MovieId = 13, Title = "Leo", Year = 2023, Country = "USA", Director = "Robert Marianetti", Duration = 102 };
+            var movie14 = new Movie { MovieId = 14, Title = "Blended", Year = 2014, Country = "USA", Director = "Frank Coraci", Duration = 117 };
+            var movie15 = new Movie { MovieId = 15, Title = "E.T.", Year = 1982, Country = "USA", Director = "Steven Spielberg", Duration = 114 };
+            var movie16 = new Movie { MovieId = 16, Title = "Jurassic Park", Year = 1993, Country = "USA", Director = "Steven Spielberg", Duration = 127 };
+            var movie17 = new Movie { MovieId = 17, Title = "Harry Potter and the Chamber of Secrets", Year = 2002, Country = "UK", Director = "Chris Columbus", Duration = 161 };
+            var movie18 = new Movie { MovieId = 18, Title = "8 Mile", Year = 2002, Country = "USA", Director = "Curtis Hanson", Duration = 111 };
+            var movie19 = new Movie { MovieId = 19, Title = "Jungle", Year = 2017, Country = "Australia", Director = "Greg McLean", Duration = 115 };
+            var movie20 = new Movie { MovieId = 20, Title = "Hacksaw Ridge", Year = 2016, Country = "USA", Director = "Mel Gibson", Duration = 139 };
 
             // Actores
             var actor1 = new Actor { ActorId = 1, Name = "Leonardo DiCaprio" };
@@ -240,6 +253,21 @@ namespace CineplusDB.Models
             var actor7 = new Actor { ActorId = 7, Name = "Tom Hanks" };
             var actor8 = new Actor { ActorId = 8, Name = "Anna Castillo" };
             var actor9 = new Actor { ActorId = 9, Name = "Owen Wilson" };
+            var actor10 = new Actor { ActorId = 10, Name = "Jorge Perugorría" };
+            var actor11 = new Actor { ActorId = 11, Name = "Vladimir Cruz" };
+            var actor12 = new Actor { ActorId = 12, Name = "Alexis Díaz de Villegas" };
+            var actor13 = new Actor { ActorId = 13, Name = "Armando Valdés Freire" };
+            var actor14 = new Actor { ActorId = 14, Name = "Alina Rodríguez" };
+            var actor15 = new Actor { ActorId = 15, Name = "Cillian Murphy" };
+            var actor16 = new Actor { ActorId = 16, Name = "Adam Sandler" };
+            var actor17 = new Actor { ActorId = 17, Name = "Drew Barrymore" };
+            var actor18 = new Actor { ActorId = 18, Name = "Sam Neill" };
+            var actor19 = new Actor { ActorId = 19, Name = "Laura Dern" };
+            var actor20 = new Actor { ActorId = 20, Name = "Daniel Radcliffe" };
+            var actor21 = new Actor { ActorId = 21, Name = "Emma Watson" };
+            var actor22 = new Actor { ActorId = 22, Name = "Rupert Grint" };
+            var actor23 = new Actor { ActorId = 23, Name = "Eminem" };
+            var actor24 = new Actor { ActorId = 24, Name = "Andrew Garfield" };
 
             // Géneros
             var genre1 = new Genre { GenreId = 1, Name = "Ciencia Ficción" };
@@ -250,6 +278,10 @@ namespace CineplusDB.Models
             var genre6 = new Genre { GenreId = 6, Name = "Aventura" };
             var genre7 = new Genre { GenreId = 7, Name = "Suspenso" };
             var genre8 = new Genre { GenreId = 8, Name = "Animado" };
+            var genre9 = new Genre { GenreId = 9, Name = "Terror" };
+            var genre10 = new Genre { GenreId = 10, Name = "Biográfico" };
+            var genre11 = new Genre { GenreId = 11, Name = "Fantástico" };
+            var genre12 = new Genre { GenreId = 12, Name = "Bélico" };
 
             // Relaciones Actor - Película
             var actorByFilm1 = new ActorByFilm { ActorId = 1, MovieId = 1 };
@@ -263,6 +295,26 @@ namespace CineplusDB.Models
             var actorByFilm9 = new ActorByFilm { ActorId = 8, MovieId = 5 };
             var actorByFilm10 = new ActorByFilm { ActorId = 9, MovieId = 6 };
             var actorByFilm11 = new ActorByFilm { ActorId = 9, MovieId = 7 };
+            var actorByFilm12 = new ActorByFilm { ActorId = 10, MovieId = 8 };
+            var actorByFilm13 = new ActorByFilm { ActorId = 11, MovieId = 8 };
+            var actorByFilm14 = new ActorByFilm { ActorId = 12, MovieId = 9 };
+            var actorByFilm15 = new ActorByFilm { ActorId = 13, MovieId = 10 };
+            var actorByFilm16 = new ActorByFilm { ActorId = 14, MovieId = 10 };
+            var actorByFilm17 = new ActorByFilm { ActorId = 11, MovieId = 11 };
+            var actorByFilm18 = new ActorByFilm { ActorId = 10, MovieId = 11 };
+            var actorByFilm19 = new ActorByFilm { ActorId = 15, MovieId = 12 };
+            var actorByFilm20 = new ActorByFilm { ActorId = 16, MovieId = 13 };
+            var actorByFilm21 = new ActorByFilm { ActorId = 16, MovieId = 14 };
+            var actorByFilm22 = new ActorByFilm { ActorId = 17, MovieId = 14 };
+            var actorByFilm23 = new ActorByFilm { ActorId = 17, MovieId = 15 };
+            var actorByFilm24 = new ActorByFilm { ActorId = 18, MovieId = 16 };
+            var actorByFilm25 = new ActorByFilm { ActorId = 19, MovieId = 16 };
+            var actorByFilm26 = new ActorByFilm { ActorId = 20, MovieId = 17 };
+            var actorByFilm27 = new ActorByFilm { ActorId = 21, MovieId = 17 };
+            var actorByFilm28 = new ActorByFilm { ActorId = 22, MovieId = 17 };
+            var actorByFilm29 = new ActorByFilm { ActorId = 23, MovieId = 18 };
+            var actorByFilm30 = new ActorByFilm { ActorId = 20, MovieId = 19 };
+            var actorByFilm31 = new ActorByFilm { ActorId = 24, MovieId = 20 };
 
             // Relaciones Género - Película
             var genreByFilm1 = new GenreByFilm { GenreId = 1, MovieId = 1 };
@@ -276,12 +328,43 @@ namespace CineplusDB.Models
             var genreByFilm9 = new GenreByFilm { GenreId = 6, MovieId = 6 };
             var genreByFilm10 = new GenreByFilm { GenreId = 8, MovieId = 7 };
             var genreByFilm11 = new GenreByFilm { GenreId = 6, MovieId = 7 };
+            var genreByFilm12 = new GenreByFilm { GenreId = 2, MovieId = 8 };
+            var genreByFilm13 = new GenreByFilm { GenreId = 9, MovieId = 9 };
+            var genreByFilm14 = new GenreByFilm { GenreId = 2, MovieId = 10 };
+            var genreByFilm15 = new GenreByFilm { GenreId = 3, MovieId = 11 };
+            var genreByFilm16 = new GenreByFilm { GenreId = 10, MovieId = 12 };
+            var genreByFilm17 = new GenreByFilm { GenreId = 7, MovieId = 12 };
+            var genreByFilm18 = new GenreByFilm { GenreId = 8, MovieId = 13 };
+            var genreByFilm19 = new GenreByFilm { GenreId = 3, MovieId = 14 };
+            var genreByFilm20 = new GenreByFilm { GenreId = 1, MovieId = 15 };
+            var genreByFilm21 = new GenreByFilm { GenreId = 1, MovieId = 16 };
+            var genreByFilm22 = new GenreByFilm { GenreId = 11, MovieId = 17 };
+            var genreByFilm23 = new GenreByFilm { GenreId = 10, MovieId = 18 };
+            var genreByFilm24 = new GenreByFilm { GenreId = 6, MovieId = 19 };
+            var genreByFilm25 = new GenreByFilm { GenreId = 2, MovieId = 19 };
+            var genreByFilm26 = new GenreByFilm { GenreId = 12, MovieId = 20 };
+            var genreByFilm27 = new GenreByFilm { GenreId = 10, MovieId = 20 };
 
-            modelBuilder.Entity<Movie>().HasData(movie1, movie2, movie3, movie4, movie5, movie6, movie7);
-            modelBuilder.Entity<Actor>().HasData(actor1, actor2, actor3, actor4, actor5, actor6, actor7, actor8, actor9);
-            modelBuilder.Entity<Genre>().HasData(genre1, genre2, genre3, genre4, genre5, genre6, genre7, genre8);
-            modelBuilder.Entity<ActorByFilm>().HasData(actorByFilm1, actorByFilm2, actorByFilm3, actorByFilm4, actorByFilm5, actorByFilm6, actorByFilm7, actorByFilm8, actorByFilm9, actorByFilm10, actorByFilm11);
-            modelBuilder.Entity<GenreByFilm>().HasData(genreByFilm1, genreByFilm2, genreByFilm3, genreByFilm4, genreByFilm5, genreByFilm6, genreByFilm7, genreByFilm8, genreByFilm9, genreByFilm10, genreByFilm11);
+            modelBuilder.Entity<Movie>().HasData(movie1, movie2, movie3, movie4, movie5, movie6,
+             movie7, movie8, movie9, movie10, movie11, movie12, movie13, movie14, movie15, movie16,
+             movie17, movie18, movie19, movie20);
+
+            modelBuilder.Entity<Actor>().HasData(actor1, actor2, actor3, actor4, actor5, actor6,
+             actor7, actor8, actor9, actor10, actor11, actor12, actor13, actor14, actor15, actor16,
+             actor17, actor18, actor19, actor20, actor21, actor22, actor23, actor24);
+             
+            modelBuilder.Entity<Genre>().HasData(genre1, genre2, genre3, genre4, genre5, genre6,
+             genre7, genre8, genre9, genre10, genre11, genre12);
+
+            modelBuilder.Entity<ActorByFilm>().HasData(actorByFilm1, actorByFilm2, actorByFilm3, actorByFilm4, actorByFilm5, actorByFilm6,
+             actorByFilm7, actorByFilm8, actorByFilm9, actorByFilm10, actorByFilm11, actorByFilm12, actorByFilm13, actorByFilm14, actorByFilm15,
+             actorByFilm16, actorByFilm17, actorByFilm18, actorByFilm19, actorByFilm20, actorByFilm21, actorByFilm22, actorByFilm23, actorByFilm24,
+             actorByFilm25, actorByFilm26, actorByFilm27, actorByFilm28, actorByFilm29, actorByFilm30, actorByFilm31);
+
+            modelBuilder.Entity<GenreByFilm>().HasData(genreByFilm1, genreByFilm2, genreByFilm3, genreByFilm4, genreByFilm5, genreByFilm6,
+             genreByFilm7, genreByFilm8, genreByFilm9, genreByFilm10, genreByFilm11, genreByFilm12, genreByFilm13, genreByFilm14, genreByFilm15,
+             genreByFilm16, genreByFilm17, genreByFilm18, genreByFilm19, genreByFilm20, genreByFilm21, genreByFilm22, genreByFilm23, genreByFilm24,
+             genreByFilm25, genreByFilm26, genreByFilm27);
         }
 
         private void SeedDataClients(ModelBuilder modelBuilder)
@@ -290,7 +373,6 @@ namespace CineplusDB.Models
             string salt2 = BCryptNet.GenerateSalt();
             string salt3 = BCryptNet.GenerateSalt();
             string salt4 = BCryptNet.GenerateSalt();
-            string salt5 = BCryptNet.GenerateSalt();
 
             modelBuilder.Entity<User>().HasData(
 
@@ -301,34 +383,26 @@ namespace CineplusDB.Models
                     Password = BCryptNet.HashPassword("secretpass", salt1),
                     Salt = salt1
                 },
-
                 new User
                 {
                     UserId = 2,
                     Nick = "Jane Doe",
-                    Password = BCryptNet.HashPassword("secretpass2", salt2),
+                    Password = BCryptNet.HashPassword("secretpass", salt2),
                     Salt = salt2
                 },
                 new User
                 {
                     UserId = 3,
-                    Nick = "mario_taquilleroCinemas",
-                    Password = BCryptNet.HashPassword("scretpass3", salt3),
+                    Nick = "Taquillero",
+                    Password = BCryptNet.HashPassword("secretpass", salt3),
                     Salt = salt3
                 },
                 new User
                 {
                     UserId = 4,
-                    Nick = "gerenteCine+",
-                    Password = BCryptNet.HashPassword("secretpass4", salt4),
+                    Nick = "Gerente",
+                    Password = BCryptNet.HashPassword("secretpass", salt4),
                     Salt = salt4
-                },
-                new User
-                {
-                    UserId = 5,
-                    Nick = "claalvarez",
-                    Password = BCryptNet.HashPassword("claudia", salt5),
-                    Salt = salt5
                 }
             );
 
@@ -347,13 +421,6 @@ namespace CineplusDB.Models
                     DNI = "00000000001",
                     CreditCard = "0000000000000001",
                     UserId = 2
-                },
-                new Client
-                {
-                    ClientId = 3,
-                    DNI = "01040368594",
-                    CreditCard = "0000000000000002",
-                    UserId = 5
                 }
 
             );
@@ -381,7 +448,7 @@ namespace CineplusDB.Models
             {
                 DiscountId = 1,
                 Concept = "Ninguno",
-                Percent = 0 // 10%
+                Percent = 0 // 0%
             };
             var discount1 = new Discount
             {
@@ -401,7 +468,7 @@ namespace CineplusDB.Models
             {
                 DiscountId = 4,
                 Concept = "Descuento a la Tercera Edad",
-                Percent = 0.40f // 10%
+                Percent = 0.40f // 40%
             };
 
             var discount4 = new Discount
@@ -415,7 +482,7 @@ namespace CineplusDB.Models
             {
                 DiscountId = 6,
                 Concept = "Descuento a niños (aplicable solo hasta 12 años)",
-                Percent = 0.25f // 15%
+                Percent = 0.25f // 25%
             };
 
             modelBuilder.Entity<Discount>().HasData(discount0, discount1, discount2, discount3, discount4, discount5);
@@ -427,14 +494,14 @@ namespace CineplusDB.Models
                  new Room
                  {
                      RoomId = 1,
-                     Name = "Sala A",
+                     Name = "Sala Plus+",
                      SeatsCount = 1
                  },
 
                  new Room
                  {
                      RoomId = 2,
-                     Name = "Sala B",
+                     Name = "Sala Clásica",
                      SeatsCount = 1
                  },
 
@@ -461,14 +528,14 @@ namespace CineplusDB.Models
                 {
                     SeatId = 1,
                     RoomId = 1,
-                    Code = "A-1"
+                    Code = "PLUS-1"
                 },
 
                 new Seat
                 {
                     SeatId = 2,
                     RoomId = 2,
-                    Code = "B-1"
+                    Code = "CLAS-1"
                 },
 
                 new Seat
@@ -493,23 +560,164 @@ namespace CineplusDB.Models
             {
                 Identifier = Guid.NewGuid(),
                 RoomId = 2,
-                MovieId = 1,
-                DateTimeId = DateTime.Parse("2023-12-5 18:30:00"),
+                MovieId = 4,
+                DateTimeId = DateTime.Parse("2023-12-10 18:00:00"),
                 Price = 4.99,
-                PricePoints = 20
+                PricePoints = 25
             };
 
             var movieProgramming2 = new MovieProgramming
             {
                 Identifier = Guid.NewGuid(),
-                RoomId = 1,
-                MovieId = 2,
-                DateTimeId = DateTime.Parse("2023-12-5 21:30:00"),
-                Price = 3.00,
+                RoomId = 2,
+                MovieId = 15,
+                DateTimeId = DateTime.Parse("2023-12-10 21:00:00"),
+                Price = 4.00,
+                PricePoints = 20
+            };
+
+            var movieProgramming3 = new MovieProgramming
+            {
+                Identifier = Guid.NewGuid(),
+                RoomId = 2,
+                MovieId = 16,
+                DateTimeId = DateTime.Parse("2023-12-11 18:00:00"),
+                Price = 4.00,
+                PricePoints = 20
+            };
+
+            var movieProgramming4 = new MovieProgramming
+            {
+                Identifier = Guid.NewGuid(),
+                RoomId = 2,
+                MovieId = 8,
+                DateTimeId = DateTime.Parse("2023-12-11 21:00:00"),
+                Price = 2.00,
                 PricePoints = 15
             };
 
-            modelBuilder.Entity<MovieProgramming>().HasData(movieProgramming1, movieProgramming2);
+            var movieProgramming5 = new MovieProgramming
+            {
+                Identifier = Guid.NewGuid(),
+                RoomId = 1,
+                MovieId = 10,
+                DateTimeId = DateTime.Parse("2023-12-8 18:00:00"),
+                Price = 2.00,
+                PricePoints = 15
+            };
+
+            var movieProgramming6 = new MovieProgramming
+            {
+                Identifier = Guid.NewGuid(),
+                RoomId = 1,
+                MovieId = 1,
+                DateTimeId = DateTime.Parse("2023-12-8 21:00:00"),
+                Price = 4.00,
+                PricePoints = 25
+            };
+
+            var movieProgramming7 = new MovieProgramming
+            {
+                Identifier = Guid.NewGuid(),
+                RoomId = 1,
+                MovieId = 13,
+                DateTimeId = DateTime.Parse("2023-12-9 18:00:00"),
+                Price = 2.00,
+                PricePoints = 15
+            };
+
+            var movieProgramming8 = new MovieProgramming
+            {
+                Identifier = Guid.NewGuid(),
+                RoomId = 1,
+                MovieId = 9,
+                DateTimeId = DateTime.Parse("2023-12-9 21:00:00"),
+                Price = 4.00,
+                PricePoints = 25
+            };
+
+            var movieProgramming9 = new MovieProgramming
+            {
+                Identifier = Guid.NewGuid(),
+                RoomId = 3,
+                MovieId = 5,
+                DateTimeId = DateTime.Parse("2023-12-8 18:00:00"),
+                Price = 5.00,
+                PricePoints = 30
+            };
+
+            var movieProgramming10 = new MovieProgramming
+            {
+                Identifier = Guid.NewGuid(),
+                RoomId = 3,
+                MovieId = 12,
+                DateTimeId = DateTime.Parse("2023-12-8 21:00:00"),
+                Price = 6.00,
+                PricePoints = 35
+            };
+
+            var movieProgramming11 = new MovieProgramming
+            {
+                Identifier = Guid.NewGuid(),
+                RoomId = 3,
+                MovieId = 19,
+                DateTimeId = DateTime.Parse("2023-12-9 18:00:00"),
+                Price = 5.00,
+                PricePoints = 30
+            };
+
+            var movieProgramming12 = new MovieProgramming
+            {
+                Identifier = Guid.NewGuid(),
+                RoomId = 3,
+                MovieId = 20,
+                DateTimeId = DateTime.Parse("2023-12-9 21:00:00"),
+                Price = 6.00,
+                PricePoints = 35
+            };
+
+            var movieProgramming13 = new MovieProgramming
+            {
+                Identifier = Guid.NewGuid(),
+                RoomId = 4,
+                MovieId = 6,
+                DateTimeId = DateTime.Parse("2023-12-8 18:00:00"),
+                Price = 5.00,
+                PricePoints = 30
+            };
+
+            var movieProgramming14 = new MovieProgramming
+            {
+                Identifier = Guid.NewGuid(),
+                RoomId = 3,
+                MovieId = 16,
+                DateTimeId = DateTime.Parse("2023-12-8 21:00:00"),
+                Price = 6.00,
+                PricePoints = 35
+            };
+
+            var movieProgramming15 = new MovieProgramming
+            {
+                Identifier = Guid.NewGuid(),
+                RoomId = 3,
+                MovieId = 7,
+                DateTimeId = DateTime.Parse("2023-12-9 18:00:00"),
+                Price = 5.00,
+                PricePoints = 30
+            };
+
+            var movieProgramming16 = new MovieProgramming
+            {
+                Identifier = Guid.NewGuid(),
+                RoomId = 3,
+                MovieId = 3,
+                DateTimeId = DateTime.Parse("2023-12-9 21:00:00"),
+                Price = 6.00,
+                PricePoints = 35
+            };
+
+
+            modelBuilder.Entity<MovieProgramming>().HasData(movieProgramming1, movieProgramming2, movieProgramming3, movieProgramming4, movieProgramming5, movieProgramming6, movieProgramming7, movieProgramming8, movieProgramming9, movieProgramming10, movieProgramming11, movieProgramming12, movieProgramming13, movieProgramming14, movieProgramming15, movieProgramming16);
         }
 
         private void SeedDataSchedule(ModelBuilder modelBuilder)

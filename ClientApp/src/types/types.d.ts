@@ -126,6 +126,7 @@ export interface Ticket {
   datePurchase: Date;
   seat: string;
   payed: number;
+  pointsPayed: boolean;
 }
 
 export interface IsLiked {
