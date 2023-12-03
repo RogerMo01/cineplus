@@ -99,7 +99,12 @@ function TicketReceipt({ endpoint, code }: ReceiptProps) {
 
       doc.setFontSize(15);
       doc.setFont("helvetica");
-      doc.text(`Total pagado : $${Number(receiptData.payed.toFixed(2))}`, 140, 120);
+      if(receiptData.pointsPayed){
+        doc.text(`Total pagado : ${Number(receiptData.payed.toFixed(2))} ptos`, 140, 120)
+      }
+      else{
+        doc.text(`Total pagado : $${Number(receiptData.payed.toFixed(2))}`, 140, 120);
+      }
 
       doc.addImage(
         "FooterLogo.png",
