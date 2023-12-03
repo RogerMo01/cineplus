@@ -10,7 +10,7 @@ public class CriterionController : ControllerBase
     private readonly IMapper _mapper;
     private readonly UtilityClass _utility;
 
-    public CriterionController(DataContext context, IMapper mapper) 
+    public CriterionController(DataContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
@@ -26,19 +26,20 @@ public class CriterionController : ControllerBase
         List<CriterionDto> result = new List<CriterionDto>();
 
         _mapper.Map(criteria, result);
-        
+
         return Ok(result);
     }
-    
+
 
     [HttpGet]
     [Route("random")]
     public async Task<IActionResult> GetRandomMovies()
     {
         var allmovies = _context.Movies
+            .Where(m => !m.IsDeleted)
             .Include(p => p.ActorsByFilms)
                 .ThenInclude(a => a.Actor)
-            .Include(p => p.GenresByFilms)  
+            .Include(p => p.GenresByFilms)
                 .ThenInclude(g => g.Genre)
             .ToList();
 
@@ -54,14 +55,15 @@ public class CriterionController : ControllerBase
         }
     }
 
-    
+
     [HttpGet]
     [Route("recentlyadded")]
     public async Task<IActionResult> GetRecentlyAddedMovies()
     {
         var recently_added_movies = (from item in _context.Movies
-                                    orderby item.MovieId descending
-                                    select item)
+                                     where (!item.IsDeleted)
+                                     orderby item.MovieId descending
+                                     select item)
                                     .Include(p => p.ActorsByFilms)
                                         .ThenInclude(a => a.Actor)
                                     .Include(p => p.GenresByFilms)
@@ -86,7 +88,7 @@ public class CriterionController : ControllerBase
         DateTime date = DateTime.Now;
 
         var movies = _context.Movies
-            .Where(m => m.Year == date.Year)
+            .Where(m => m.Year == date.Year && !m.IsDeleted)
             .Include(p => p.ActorsByFilms)
                 .ThenInclude(a => a.Actor)
             .Include(p => p.GenresByFilms)
@@ -112,7 +114,7 @@ public class CriterionController : ControllerBase
         DateTime next_date = now_date.AddDays(7);
 
         var movie_programmingIds = _context.ScheduledMovies
-            .Where(m => m.DateTimeId >= now_date && m.DateTimeId <= next_date)
+            .Where(m => m.DateTimeId >= now_date && m.DateTimeId <= next_date && !m.IsDeleted)
             .Select(m => m.MovieId)
             .Distinct()
             .ToList();
@@ -124,8 +126,8 @@ public class CriterionController : ControllerBase
             .Include(p => p.GenresByFilms)
                 .ThenInclude(g => g.Genre)
             .ToList();
-                
-        
+
+
         List<MovieGet> recently_programming = _mapper.Map<List<MovieGet>>(movies);
 
         if (recently_programming.Count() <= 20) { return Ok(recently_programming); }
@@ -142,6 +144,8 @@ public class CriterionController : ControllerBase
     public async Task<IActionResult> GetMostPopularMovies()
     {
         List<Movie> getMovies = _utility.GetMostPopularMovies();
+
+        getMovies = getMovies.Where(m => !m.IsDeleted).ToList();
 
         List<MovieGet> result = _mapper.Map<List<MovieGet>>(getMovies);
 
@@ -168,8 +172,8 @@ public class CriterionController : ControllerBase
         List<int> ids = popular_movies.ToList();
 
         var getMovies = (from item in _context.Movies
-                        where ids.Contains(item.MovieId)
-                        select item)
+                         where (ids.Contains(item.MovieId) && !item.IsDeleted)
+                         select item)
                         .Include(p => p.ActorsByFilms)
                             .ThenInclude(a => a.Actor)
                         .Include(p => p.GenresByFilms)

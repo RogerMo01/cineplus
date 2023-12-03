@@ -20,7 +20,7 @@ public class AvailableProgrammingController : ControllerBase
         DateTime time = DateTime.Now;
 
         var programming = await _context.ScheduledMovies
-            .Where(p => p.DateTimeId > time)
+            .Where(p => p.DateTimeId > time && !p.IsDeleted)
             .ProjectTo<ProgrammingData>(_mapper.ConfigurationProvider)
             .ToListAsync();
         

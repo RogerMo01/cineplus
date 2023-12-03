@@ -19,9 +19,10 @@ public class MovieController : CRDController<Movie>
     public async Task<IActionResult> GetMovies()
     {
         var getMovies = _context.Movies
+            .Where(m => !m.IsDeleted)
             .Include(p => p.ActorsByFilms)
                 .ThenInclude(a => a.Actor)
-            .Include(p => p.GenresByFilms)  
+            .Include(p => p.GenresByFilms)
                 .ThenInclude(g => g.Genre)
             .ToList();
 
@@ -34,7 +35,7 @@ public class MovieController : CRDController<Movie>
     [HttpPost]
     public async Task<IActionResult> InsertMovie([FromBody] MovieInput movieDto)
     {
-        if (_context.Movies.Any(m => m.Title == movieDto.title))
+        if (_context.Movies.Any(m => (m.Title == movieDto.title && !m.IsDeleted)))
         {
             return Conflict(new { Message = "Este título ya existe" });
         }
@@ -51,8 +52,22 @@ public class MovieController : CRDController<Movie>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteMovie(int id)
     {
-        await base.Delete(id);
-        return Ok();
+        var movie = _context.ScheduledMovies
+            .Where(x => x.MovieId == id)
+            .Select(x => x.Movie)
+            .FirstOrDefault();
+
+        if (!movie.IsDeleted)
+        {
+            movie.IsDeleted = true;
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+        else
+        {
+            await base.Delete(id);
+            return Ok();
+        }
     }
 
     [HttpPut("{id}")]

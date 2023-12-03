@@ -21,6 +21,7 @@ public class MovieProgramming
 
     public double Price { get; set; }
     public int PricePoints { get; set; }
+    public bool IsDeleted { get; set; } = false;
 
     public virtual Room Room { get; set; }
     public virtual Movie Movie { get; set; }
