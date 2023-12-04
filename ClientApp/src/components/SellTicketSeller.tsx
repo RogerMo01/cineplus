@@ -193,6 +193,9 @@ function SellTicketSeller({scheduleEndpoint, seatEndpoint, discountEndpoint, buy
               </Form.Select>
             </div>
           </div>
+
+          <div className="alert alert-info mb-3">Los asientos de menor numeración están más cerca de la pantalla</div>
+
           
           {role === 'seller' 
           ? <div className="form-element club-input">
