@@ -17,6 +17,7 @@ public class GetSeat : Controller
         Guid IdG = new Guid(id);
         MovieProgramming movie = _context.ScheduledMovies.FirstOrDefault(m => m.Identifier == IdG)!;
 
+        if(movie.IsDeleted) { return Conflict(new { Message = "Programación no disponible"}); }
         var ocupated = _context.Tickets
             .Where(t => (t.RoomId == movie.RoomId) && (t.MovieId == movie.MovieId) && (t.DateTimeId == movie.DateTimeId))
             .Select(t => t.Seat.SeatId).ToList();

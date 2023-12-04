@@ -18,7 +18,7 @@ public class MovieProgrammingController : ControllerBase
         DateTime time = DateTime.Now;
 
         var programming = await _context.ScheduledMovies
-            .Where(p => p.DateTimeId > time)
+            .Where(p => p.DateTimeId > time && !p.IsDeleted)
              .ProjectTo<ProgrammingData>(_mapper.ConfigurationProvider)
             .ToListAsync();
 
@@ -41,21 +41,26 @@ public class MovieProgrammingController : ControllerBase
 
         DateTime new_Date = new DateTime(cubaDate.Year, cubaDate.Month, cubaDate.Day, cubaDate.Hour, cubaDate.Minute, 0);
         bool sameDate = false;
+        MovieProgramming mp = new MovieProgramming();
         foreach (var item in _context.ScheduledMovies)
         {
             DateTime itemDate = item.DateTimeId;
             DateTime new_itemDate = new DateTime(itemDate.Year, itemDate.Month, itemDate.Day, itemDate.Hour, itemDate.Minute, 0);
             sameDate = ((new_Date == new_itemDate) && (item.RoomId == room.RoomId));
-            if (sameDate) { break; }
+            if (sameDate) { mp = item; break; }
         }
 
         if (sameDate)
         {
-            return Conflict(new { Message = "Ya existe una pelicula programada con esa sala y horario" });
+            if (!mp.IsDeleted)
+            {
+
+                { return Conflict(new { Message = "Ya existe una pelicula programada con esa sala y horario" }); }
+            }
         }
 
         // Pelicula a programar
-        var movie_toSchedule = _context.Movies.FirstOrDefault(m => m.MovieId == data.MovieId);
+        var movie_toSchedule = _context.Movies.FirstOrDefault(m => m.Title == data.MovieTitle && !m.IsDeleted);
 
         // Hora valida para que comience la proxima pelicula segun la pelicula que queremos programar 
         var next_time = cubaDate.TimeOfDay + new TimeSpan(0, movie_toSchedule.Duration, 0) + new TimeSpan(0, 30, 0);
@@ -90,6 +95,14 @@ public class MovieProgrammingController : ControllerBase
         Guid guidIdentifer = new Guid(id);
         var toDelete = _context.ScheduledMovies.FirstOrDefault(p => p.Identifier == guidIdentifer);
         if (toDelete == null) { return NotFound(); }
+
+        if (_context.Tickets.Any(m => m.MovieId == toDelete.MovieId && m.RoomId == toDelete.RoomId && m.DateTimeId == toDelete.DateTimeId))
+        {
+            toDelete.IsDeleted = true;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
 
         _context.ScheduledMovies.Remove(toDelete);
         await _context.SaveChangesAsync();

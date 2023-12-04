@@ -33,6 +33,8 @@ public class SalesController : Controller
         Guid guid = new Guid(input.MovieProgId);
         MovieProgramming programming = _context.ScheduledMovies.FirstOrDefault(mp => mp.Identifier == guid)!;
 
+        if(programming.IsDeleted) { return Conflict(new { Message = "Programación no disponible"}); }
+        
         if (input.Code != null & !_context.Memberships.Any(x => x.MembershipCode == input.Code)) { return Conflict(new { Message = "Código Inválido" }); }
 
         var member = (input.Code != null) ? _context.Memberships.FirstOrDefault(x => x.MembershipCode == input.Code) : null;

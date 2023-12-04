@@ -25,20 +25,22 @@ function ScheduleManager({ name, scheduleEndpoint, moviesEndpoint, roomsEndpoint
   const [schedule, setSchedule] = useState<Schedule[]>([]);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [rooms, setRooms] = useState<Room[]>([]);
-  
+
   useEffect(() => {
     fetch(moviesEndpoint, setMovies);
     fetch(roomsEndpoint, setRooms);
     fetch(scheduleEndpoint, setSchedule);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ~~~~~~~~~~~~~~~ ADD Handler ~~~~~~~~~~~~~~~~~
   async function handleAddSchedule(id: string, movie: string, room: string, date: Date, price: number, points: number) {
 
     const request = {
-      Movie: movie,
-      Room: room,
+      Id: '',
+      MovieId: 0,
+      MovieTitle: movie,
+      RoomName: room,
       Date: date,
       Price: price,
       Points: points,
@@ -51,8 +53,10 @@ function ScheduleManager({ name, scheduleEndpoint, moviesEndpoint, roomsEndpoint
   async function handleEditSchedule(id: string, movie: string, room: string, date: Date, price: number, points: number) {
 
     const request = {
-      Movie: movie,
-      Room: room,
+      Id: '',
+      MovieId: 0,
+      MovieTitle: movie,
+      RoomName: room,
       Date: date,
       Price: price,
       Points: points,

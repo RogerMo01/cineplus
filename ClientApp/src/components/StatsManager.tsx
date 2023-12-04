@@ -46,7 +46,7 @@ function StatsManager({ moviesEndpoint, actorsEndpoint, genresEndpoint, statsEnd
     const maxColor = count!.national > count!.international ? '#356DFF' : '#FEBE03';
     const colorPalette = ['#FEBE03', '#356DFF', '#6D757D', '#ff5733', '#33ff57'];
     return (
-        <div className="full-container">
+        <div className="full-container border rounded" style={{overflowY: 'scroll', maxHeight: '78vh'}}>
             <div className="container">
                 <div className='row mb-4'>
                     <div className='col-md-6 col-sm-12'>

@@ -19,16 +19,19 @@ public class DiscountController : CRDController<Discount>
     public async Task<IActionResult> GetDiscounts()
     {
         var discounts = await base.GetAll()
-            .ProjectTo<DiscountDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
 
-        return Ok(discounts);
+        discounts = discounts.Where(d => !d.IsDeleted).ToList();
+
+        List<DiscountDto> discountsDto = _mapper.Map<List<DiscountDto>>(discounts);
+
+        return Ok(discountsDto);
     }
 
     [HttpPost]
     public async Task<IActionResult> InsertDiscount([FromBody] DiscountDto discount)
     {
-        if (_context.Discounts.Any(d => d.Concept == discount.concept))
+        if (_context.Discounts.Any(d => d.Concept == discount.concept && !d.IsDeleted))
         {
             return Conflict(new { Message = "Este concepto ya existe" });
         }
@@ -41,7 +44,26 @@ public class DiscountController : CRDController<Discount>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteDiscount(int id)
     {
-        await base.Delete(id);
+        var sale = (from item1 in _context.OnlineSales
+                    join item2 in _context.BoxOfficeSales on item1.DiscountId equals item2.DiscountId
+                    where item1.DiscountId == id && item2.DiscountId == id
+                    select new { OnlineSales = item1, BoxOfficeSales = item2 })
+                    .FirstOrDefault();
+
+        if(sale == null)
+        {
+            await base.Delete(id);
+        }
+        else
+        {
+            var discount = _context.Discounts.FirstOrDefault(x => x.DiscountId == id);
+            if(!discount.IsDeleted) 
+            { 
+                discount.IsDeleted = true;
+                await _context.SaveChangesAsync();
+            }
+        }
+
         return Ok();
     }
 

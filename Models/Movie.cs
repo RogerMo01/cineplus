@@ -14,6 +14,7 @@ namespace CineplusDB.Models
         public string Country { get; set; }
         public string Director { get; set; }
         public int Duration { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         public ICollection<ActorByFilm> ActorsByFilms { get; set; }
         public ICollection<GenreByFilm> GenresByFilms { get; set; }

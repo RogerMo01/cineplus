@@ -151,13 +151,13 @@ function MovieModalForm(props: Props) {
 
         <ModalBody>
           <form>
-            <TextInput
+            {props.type === 'new' && <TextInput
               name="Título"
               value={title}
               setValue={setTitle}
               placeholder={props.titlePh}
-              defaultValue={props.type === "edit" ? props.titlePh : ""}
-            />
+              defaultValue={""}
+            />}
 
             <div className="form-group formgroup">
               <label>Portada</label>

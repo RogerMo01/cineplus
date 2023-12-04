@@ -13,6 +13,7 @@ public class MappingMovie : Profile
             .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.duration))
             .ForMember(dest => dest.ActorsByFilms, opt => opt.Ignore())  // Ignora las propiedades de navegación
             .ForMember(dest => dest.GenresByFilms, opt => opt.Ignore()) // Ignora las propiedades de navegación
+            .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
             .AfterMap((src, dest) =>
             {
                 // Asigna los actores usando los IDs proporcionados en MovieInput

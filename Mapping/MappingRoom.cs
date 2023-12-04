@@ -5,7 +5,8 @@ public class MappingRoom : Profile
         CreateMap<RoomDto, Room>()
             .ForMember(room => room.RoomId, opt => opt.Ignore())  
             .ForMember(room => room.Name, opt => opt.MapFrom(src => src.name))
-            .ForMember(room => room.SeatsCount, opt => opt.MapFrom(src => src.seats));
+            .ForMember(room => room.SeatsCount, opt => opt.MapFrom(src => src.seats))
+            .ForMember(room => room.IsDeleted, opt => opt.Ignore());
 
         CreateMap<Room, RoomDto>()
             .ForMember(room => room.id, opt => opt.MapFrom(src => src.RoomId))

@@ -76,13 +76,13 @@ function RoomModalForm(props: Props) {
 
         <ModalBody>
           <form>
-            <TextInput
+            {props.type === "new" && <TextInput
               name="Nombre"
               value={name}
               setValue={setName}
               placeholder={props.namePh}
-              defaultValue={props.type === "edit" ? props.namePh : ""}
-            />
+              defaultValue={""}
+            />}
             <div className="form-group formgroup">
               <label htmlFor="minutesInput">Cantidad de butacas</label>
               <input

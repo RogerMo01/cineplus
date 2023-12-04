@@ -17,9 +17,12 @@ public class RoomController : CRDController<Room>
     [HttpGet]
     public async Task<IActionResult> GetRooms()
     {
-        var roomsDto = await base.GetAll()
-            .ProjectTo<RoomDto>(_mapper.ConfigurationProvider) 
+        var rooms = await base.GetAll()
             .ToListAsync();
+
+        rooms = rooms.Where(r => !r.IsDeleted).ToList();
+
+        List<RoomDto> roomsDto = _mapper.Map<List<RoomDto>>(rooms);
 
         return Ok(roomsDto);
     }
@@ -28,7 +31,7 @@ public class RoomController : CRDController<Room>
     [HttpPost]
     public async Task<IActionResult> InsertRoom([FromBody] RoomDto room)
     {
-        if (_context.Rooms.Any(r => r.Name == room.name))
+        if (_context.Rooms.Any(r => r.Name == room.name && !r.IsDeleted))
         {
             return Conflict(new { Message = "Este nombre ya existe" });
         }
@@ -43,7 +46,7 @@ public class RoomController : CRDController<Room>
         new_room.SeatsByRoom = seats;
 
         _context.Seats.AddRange(seats);
-        
+
         await _context.SaveChangesAsync();
 
         return Ok();
@@ -53,10 +56,27 @@ public class RoomController : CRDController<Room>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteRoom(int id)
     {
-        await base.Delete(id);
-        await deleteSeats(id);
+        var room = _context.ScheduledMovies
+            .Where(x => x.RoomId == id)
+            .Select(x => x.Room)
+            .FirstOrDefault();
+
+        if (room == null)
+        {
+            await base.Delete(id);
+            await deleteSeats(id);
+
+        }
+
+        else if (!room.IsDeleted)
+        {
+            room.IsDeleted = true;
+            await _context.SaveChangesAsync();
+        }
 
         return Ok();
+
+
     }
 
 
