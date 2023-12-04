@@ -92,13 +92,13 @@ function DiscountModalForm(props: Props) {
         </ModalHeader>
         <ModalBody>
           <form>
-            <TextInput
+            {props.type === "new" && <TextInput
               name="Concepto"
               value={concept}
               setValue={setConcept}
               placeholder={props.conceptPh}
-              defaultValue={props.type === "edit" ? props.conceptPh : ""}
-            />
+              defaultValue={""}
+            />}
 
             <div className="form-group formgroup">
               <label htmlFor="percentInput">Descuento(%)</label>
