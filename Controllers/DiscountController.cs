@@ -25,7 +25,7 @@ public class DiscountController : CRDController<Discount>
 
         List<DiscountDto> discountsDto = _mapper.Map<List<DiscountDto>>(discounts);
 
-        return Ok(discounts);
+        return Ok(discountsDto);
     }
 
     [HttpPost]
