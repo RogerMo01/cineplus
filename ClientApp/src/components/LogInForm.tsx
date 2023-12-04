@@ -45,6 +45,7 @@ function LogInForm({tokenSetter: setToken}: {tokenSetter: React.Dispatch<React.S
         position: "bottom-right",
         autoClose: 3000,
       });
+      setIsButtonDisabled(false);
       return;
     }
     if (password.length < 6 || password.length > 20) {
@@ -52,6 +53,7 @@ function LogInForm({tokenSetter: setToken}: {tokenSetter: React.Dispatch<React.S
         position: "bottom-right",
         autoClose: 3000,
       });
+      setIsButtonDisabled(false);
       return;
     }
 
