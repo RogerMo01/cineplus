@@ -57,17 +57,18 @@ public class MovieController : CRDController<Movie>
             .Select(x => x.Movie)
             .FirstOrDefault();
 
+        if(movie == null)
+        {
+            await base.Delete(id);
+        }
+
         if (!movie.IsDeleted)
         {
             movie.IsDeleted = true;
             await _context.SaveChangesAsync();
-            return Ok();
         }
-        else
-        {
-            await base.Delete(id);
-            return Ok();
-        }
+
+        return Ok();
     }
 
     [HttpPut("{id}")]

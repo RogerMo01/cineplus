@@ -61,17 +61,22 @@ public class RoomController : CRDController<Room>
             .Select(x => x.Room)
             .FirstOrDefault();
 
+        if(room == null)
+        {
+            await base.Delete(id);
+            await deleteSeats(id);
+
+        }
+
         if (!room.IsDeleted)
         {
             room.IsDeleted = true;
             await _context.SaveChangesAsync();
-            return Ok();
         }
-
-        await base.Delete(id);
-        await deleteSeats(id);
-
+        
         return Ok();
+
+
     }
 
 

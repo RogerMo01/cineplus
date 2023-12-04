@@ -5,7 +5,8 @@ public class MappingDiscount : Profile
         CreateMap<DiscountDto, Discount>()
             .ForMember(discount => discount.DiscountId, opt => opt.Ignore())
             .ForMember(discount => discount.Concept, opt => opt.MapFrom(src => src.concept))
-            .ForMember(discount => discount.Percent, opt => opt.MapFrom(src => src.percent));
+            .ForMember(discount => discount.Percent, opt => opt.MapFrom(src => src.percent))
+            .ForMember(discount => discount.IsDeleted, opt => opt.Ignore());
 
         CreateMap<Discount, DiscountDto>()
             .ForMember(discount => discount.id, opt => opt.MapFrom(src => src.DiscountId))
