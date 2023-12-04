@@ -46,7 +46,7 @@ public class RoomController : CRDController<Room>
         new_room.SeatsByRoom = seats;
 
         _context.Seats.AddRange(seats);
-        
+
         await _context.SaveChangesAsync();
 
         return Ok();
@@ -61,19 +61,19 @@ public class RoomController : CRDController<Room>
             .Select(x => x.Room)
             .FirstOrDefault();
 
-        if(room == null)
+        if (room == null)
         {
             await base.Delete(id);
             await deleteSeats(id);
 
         }
 
-        if (!room.IsDeleted)
+        else if (!room.IsDeleted)
         {
             room.IsDeleted = true;
             await _context.SaveChangesAsync();
         }
-        
+
         return Ok();
 
 

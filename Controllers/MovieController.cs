@@ -62,7 +62,7 @@ public class MovieController : CRDController<Movie>
             await base.Delete(id);
         }
 
-        if (!movie.IsDeleted)
+        else if (!movie.IsDeleted)
         {
             movie.IsDeleted = true;
             await _context.SaveChangesAsync();
